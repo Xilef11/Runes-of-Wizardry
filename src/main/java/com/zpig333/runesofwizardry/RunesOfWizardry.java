@@ -17,7 +17,7 @@ public class RunesOfWizardry {
 
     @Mod.EventHandler
     public static void preInit(FMLPreInitializationEvent event){
-        ModLogger.logInfo("Here we go!");
+        WizardryRegistry.initBlocks();
         WizardryRegistry.initItems();
         WizardryRegistry.initCrafting();
     }

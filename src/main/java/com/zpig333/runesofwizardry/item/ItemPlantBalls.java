@@ -19,8 +19,6 @@ import java.util.List;
 public class ItemPlantBalls extends Item {
 
     private IIcon[] icons;
-
-
     public ItemPlantBalls(){
         super();
         this.setCreativeTab(CreativeTabs.tabMaterials);
