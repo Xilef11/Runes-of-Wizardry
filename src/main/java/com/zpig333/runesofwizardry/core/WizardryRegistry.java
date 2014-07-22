@@ -2,6 +2,7 @@ package com.zpig333.runesofwizardry.core;
 
 import com.zpig333.runesofwizardry.block.BlockDustBlocks;
 import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
+import com.zpig333.runesofwizardry.item.ItemDustPieces;
 import com.zpig333.runesofwizardry.item.ItemPestle;
 import com.zpig333.runesofwizardry.item.ItemPlantBalls;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -25,6 +26,8 @@ public class WizardryRegistry {
 
     public static Item pestle;
     public static Item plant_balls;
+    //dust chunks
+    public static Item dust_chunks;
 
     public static void initBlocks(){
         dust_blocks = new BlockDustBlocks(Material.clay).setBlockName("dust_storage");
@@ -39,12 +42,14 @@ public class WizardryRegistry {
 
         plant_balls = new ItemPlantBalls().setUnlocalizedName("plant_balls");
         GameRegistry.registerItem(plant_balls, "plant_balls");
+        
+        dust_chunks = new ItemDustPieces().setUnlocalizedName("dust_pieces");
+        GameRegistry.registerItem(dust_chunks, "dust_pieces");
     }
 
     public static void initCrafting(){
 
         //Allows plants to be mashed down into a plantball.  Each plant goes for 1 plantball
-        GameRegistry.addShapelessRecipe(new ItemStack(plant_balls, 1, 1), new ItemStack(Blocks.red_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
         GameRegistry.addShapelessRecipe(new ItemStack(plant_balls, 1, 1), new ItemStack(Blocks.red_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
         GameRegistry.addShapelessRecipe(new ItemStack(plant_balls, 1, 1), new ItemStack(Blocks.yellow_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
 
@@ -58,5 +63,15 @@ public class WizardryRegistry {
                 "XXX", "XXX", "XXX", 'X', new ItemStack(plant_balls, 1, 1)
         });
 
+        //a way to craft dust chunks and blocks
+        //TODO update with the other dust types
+        GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks, 1, 0), new ItemStack(Items.clay_ball, 1), new ItemStack(Items.bone, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        GameRegistry.addRecipe(new ItemStack(dust_blocks, 1, 0), new Object[]{
+            "XXX", "XXX", "XXX", 'X', new ItemStack(dust_chunks, 1, 0)
+        });
+        //craft the pestle
+        GameRegistry.addRecipe(new ItemStack(pestle,1,0), new Object[]{
+            " Y ", "X X", " X ", 'X',new ItemStack(Blocks.stone),'Y',new ItemStack(Items.bone)
+        });
     }
 }

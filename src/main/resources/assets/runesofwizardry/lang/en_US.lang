@@ -8,4 +8,6 @@ tile.dust_storage.ender.name=Ender Infused Dust Block
 item.plant_balls.0.name=Plant Ball
 item.plant_balls.1.name=Small Plant Ball
 
+item.dust_pieces.0.name=Dust Piece
+
 item.pestle_wizardry.name=Pestle

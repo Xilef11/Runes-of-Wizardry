@@ -8,46 +8,36 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-
-import java.util.List;
-
 /**
- * Created by zombiepig333 on 17-07-14.
- * <p/>
- * Licensed under the GPLv3
+ * the dust "chunks" used to craft the blocks.
+ * @author Xilef11
  */
-public class ItemPlantBalls extends Item {
-
+public class ItemDustPieces extends Item{
     private IIcon[] icons;
-    public ItemPlantBalls(){
+    //just the inert dust for now
+    public ItemDustPieces(){
         super();
         this.setCreativeTab(CreativeTabs.tabMaterials);
         this.setHasSubtypes(true);
     }
-
+    @Override
+    public IIcon getIconFromDamage(int meta){
+        return icons[meta];
+    }
+    
     @Override
     public String getUnlocalizedName(ItemStack itemStack){
         int meta = itemStack.getItemDamage();
         return super.getUnlocalizedName() + "." + meta;
     }
-
-    @Override
-    public IIcon getIconFromDamage(int meta){
-        return icons[meta];
-    }
-
-    @Override
-    public void getSubItems(Item item, CreativeTabs tabs, List list){
-        list.add(new ItemStack(item, 1, 0));
-        list.add(new ItemStack(item, 1, 1));
-    }
     
     @SideOnly(Side.CLIENT)
+    @Override
     public void registerIcons(IIconRegister ireg){
-        icons = new IIcon[2];
-        icons[0] = ireg.registerIcon(References.texture_path + "plantball");
-        icons[1] = ireg.registerIcon(References.texture_path + "plantball_small");
+        //just the plain one for now
+        icons = new IIcon[1];
+        for(int i = 0; i < icons.length; ++i){
+            icons[i] = ireg.registerIcon(References.texture_path + "dust_" + References.dust_types[i]);
+        }
     }
-
-
 }
