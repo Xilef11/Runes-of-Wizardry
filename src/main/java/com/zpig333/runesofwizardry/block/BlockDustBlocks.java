@@ -59,5 +59,4 @@ public class BlockDustBlocks extends Block {
             icons[i] = ireg.registerIcon(References.texture_path + "dust_storage_" + References.dust_types[i]);
         }
     }
-
 }

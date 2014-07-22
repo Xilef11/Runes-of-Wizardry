@@ -67,7 +67,7 @@ public class WizardryRegistry {
         //TODO update with the other dust types
         GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks, 1, 0), new ItemStack(Items.clay_ball, 1), new ItemStack(Items.bone, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
         GameRegistry.addRecipe(new ItemStack(dust_blocks, 1, 0), new Object[]{
-            "XXX", "XXX", "XXX", 'X', new ItemStack(dust_chunks, 1, 0)
+            "XX", "XX", 'X', new ItemStack(dust_chunks, 1, 0)
         });
         //craft the pestle
         GameRegistry.addRecipe(new ItemStack(pestle,1,0), new Object[]{
