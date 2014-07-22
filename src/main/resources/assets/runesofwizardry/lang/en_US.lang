@@ -1,4 +1,4 @@
-tile.dust_storage.plain.name=Dust Block
+tile.dust_storage.inert.name=Dust Block
 tile.dust_storage.plant.name=Plant Infused Dust Block
 tile.dust_storage.flame.name=Flame Infused Dust Block
 tile.dust_storage.aqua.name=Water Infused Dust Block
@@ -9,5 +9,10 @@ item.plant_balls.0.name=Plant Ball
 item.plant_balls.1.name=Small Plant Ball
 
 item.dust_pieces.0.name=Dust Piece
+item.dust_pieces.1.name=Plant Infused Dust
+item.dust_pieces.2.name=Flame Infused Dust
+item.dust_pieces.3.name=Water Infused Dust
+item.dust_pieces.4.name=Glowstone Infused Dust
+item.dust_pieces.5.name=Ender Infused Dust
 
 item.pestle_wizardry.name=Pestle

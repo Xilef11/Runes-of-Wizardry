@@ -41,13 +41,12 @@ public class ItemPlantBalls extends Item {
         list.add(new ItemStack(item, 1, 0));
         list.add(new ItemStack(item, 1, 1));
     }
-    
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister ireg){
         icons = new IIcon[2];
         icons[0] = ireg.registerIcon(References.texture_path + "plantball");
         icons[1] = ireg.registerIcon(References.texture_path + "plantball_small");
     }
-
-
 }
