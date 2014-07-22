@@ -1,5 +1,6 @@
 package com.zpig333.runesofwizardry.core;
 
+import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.block.BlockDustBlocks;
 import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
 import com.zpig333.runesofwizardry.item.ItemDustPieces;
@@ -23,6 +24,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class WizardryRegistry {
 
     public static Block dust_blocks;
+    public static Block dust_block;
 
     public static Item pestle;
     public static Item plant_balls;
@@ -30,6 +32,10 @@ public class WizardryRegistry {
     public static Item dust_chunks;
 
     public static void initBlocks(){
+
+        dust_block = new BlockDust().setBlockName("dust_placed");
+        GameRegistry.registerBlock(dust_block, "dust_placed");
+
         dust_blocks = new BlockDustBlocks(Material.clay).setBlockName("dust_storage");
         GameRegistry.registerBlock(dust_blocks, ItemBlockDustBlocks.class, "dust_storage");
     }

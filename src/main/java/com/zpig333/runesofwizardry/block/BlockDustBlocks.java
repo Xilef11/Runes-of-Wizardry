@@ -24,9 +24,10 @@ public class BlockDustBlocks extends Block {
 
     public BlockDustBlocks(Material material) {
         super(material);
-        this.setHardness(1.5F);
+        this.setHardness(0.5F);
         this.setCreativeTab(CreativeTabs.tabBlock);
         this.setStepSound(Block.soundTypeSand);
+        this.setHarvestLevel("shovel", 0);
     }
 
     @Override
