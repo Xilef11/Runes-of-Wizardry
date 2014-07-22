@@ -36,7 +36,7 @@ public class ItemDustPieces extends Item{
     public void registerIcons(IIconRegister ireg){
         //just the plain one for now
         icons = new IIcon[1];
-        for(int i = 0; i < icons.length; ++i){
+        for(int i = 0; i < icons.length; i++){
             icons[i] = ireg.registerIcon(References.texture_path + "dust_" + References.dust_types[i]);
         }
     }
