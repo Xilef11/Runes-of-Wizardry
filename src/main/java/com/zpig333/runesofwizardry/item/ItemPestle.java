@@ -1,5 +1,6 @@
 package com.zpig333.runesofwizardry.item;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,7 +18,7 @@ public class ItemPestle extends Item {
 
     public ItemPestle(){
         super();
-        this.setCreativeTab(CreativeTabs.tabTools);
+        this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setMaxDamage(63);
         this.setMaxStackSize(1);
         this.setNoRepair();

@@ -6,6 +6,7 @@ import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
 import com.zpig333.runesofwizardry.item.ItemDustPieces;
 import com.zpig333.runesofwizardry.item.ItemPestle;
 import com.zpig333.runesofwizardry.item.ItemPlantBalls;
+import com.zpig333.runesofwizardry.item.ItemWizardryDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -24,17 +25,18 @@ import net.minecraftforge.oredict.OreDictionary;
 public class WizardryRegistry {
 
     public static Block dust_blocks;
-    public static Block dust_block;
+    public static Block dust_placed;
 
     public static Item pestle;
     public static Item plant_balls;
+    public static Item wizardry_dictionary;
     //dust chunks
     public static Item dust_chunks;
 
     public static void initBlocks(){
 
-        dust_block = new BlockDust().setBlockName("dust_placed");
-        GameRegistry.registerBlock(dust_block, "dust_placed");
+        dust_placed = new BlockDust().setBlockName("dust_placed");
+        GameRegistry.registerBlock(dust_placed, "dust_placed");
 
         dust_blocks = new BlockDustBlocks(Material.clay).setBlockName("dust_storage");
         GameRegistry.registerBlock(dust_blocks, ItemBlockDustBlocks.class, "dust_storage");
@@ -51,6 +53,9 @@ public class WizardryRegistry {
         
         dust_chunks = new ItemDustPieces().setUnlocalizedName("dust_pieces");
         GameRegistry.registerItem(dust_chunks, "dust_pieces");
+
+        wizardry_dictionary = new ItemWizardryDictionary().setUnlocalizedName("wizardry_dictionary");
+        GameRegistry.registerItem(wizardry_dictionary, "wizardry_dictionary");
     }
 
     public static void initCrafting(){

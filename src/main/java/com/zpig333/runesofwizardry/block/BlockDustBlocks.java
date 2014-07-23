@@ -1,5 +1,6 @@
 package com.zpig333.runesofwizardry.block;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,7 +26,7 @@ public class BlockDustBlocks extends Block {
     public BlockDustBlocks(Material material) {
         super(material);
         this.setHardness(0.5F);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setStepSound(Block.soundTypeSand);
         this.setHarvestLevel("shovel", 0);
     }

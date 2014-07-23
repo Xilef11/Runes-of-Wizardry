@@ -1,5 +1,6 @@
 package com.zpig333.runesofwizardry.item;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,7 +22,7 @@ public class ItemPlantBalls extends Item {
     private IIcon[] icons;
     public ItemPlantBalls(){
         super();
-        this.setCreativeTab(CreativeTabs.tabMaterials);
+        this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setHasSubtypes(true);
     }
 

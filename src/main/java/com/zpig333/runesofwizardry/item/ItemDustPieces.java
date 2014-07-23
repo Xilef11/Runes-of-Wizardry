@@ -1,13 +1,19 @@
 package com.zpig333.runesofwizardry.item;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -20,7 +26,7 @@ public class ItemDustPieces extends Item{
     //just the inert dust for now
     public ItemDustPieces(){
         super();
-        this.setCreativeTab(CreativeTabs.tabMaterials);
+        this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setHasSubtypes(true);
     }
     @Override
@@ -39,6 +45,17 @@ public class ItemDustPieces extends Item{
         for(int i = 0; i < References.dust_types.length; ++i){
             list.add(new ItemStack(item, 1, i));
         }
+    }
+
+    @Override
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int xPos, int yPos, int zPos, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_){
+
+        Block block = world.getBlock(xPos, yPos, zPos);
+        if(block == Blocks.vine || block == Blocks.tallgrass || block == Blocks.deadbush || block == WizardryRegistry.dust_placed || block == Blocks.snow_layer){
+            return false;
+        }
+        world.setBlock(xPos, yPos + 1, zPos, WizardryRegistry.dust_placed);
+        return true;
     }
 
     @SideOnly(Side.CLIENT)

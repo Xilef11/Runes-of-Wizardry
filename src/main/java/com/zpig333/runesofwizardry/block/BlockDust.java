@@ -1,5 +1,6 @@
 package com.zpig333.runesofwizardry.block;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,7 +22,8 @@ public class BlockDust extends Block {
 
     public BlockDust(){
         super(Material.circuits);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        this.setCreativeTab(RunesOfWizardry.wizardry_tab);
+        this.setStepSound(Block.soundTypeGrass);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
     }
 
@@ -50,7 +52,7 @@ public class BlockDust extends Block {
     @SideOnly(Side.CLIENT)
     public int colorMultiplier(IBlockAccess p_149720_1_, int p_149720_2_, int p_149720_3_, int p_149720_4_)
     {
-        return 65535;
+        return 4033390;
     }
 
     @Override
