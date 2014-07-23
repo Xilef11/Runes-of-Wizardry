@@ -71,7 +71,7 @@ public class WizardryRegistry {
 
         //a way to craft dust chunks and blocks
         //TODO update with the other dust types
-        GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks, 1, 0), new ItemStack(Items.clay_ball, 1), new ItemStack(Items.bone, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks, 1, 0), new ItemStack(Items.clay_ball, 1), new ItemStack(Items.bone,1), new ItemStack(pestle, 1));
         GameRegistry.addRecipe(new ItemStack(dust_blocks, 1, 0), new Object[]{
             "XX", "XX", 'X', new ItemStack(dust_chunks, 1, 0)
         });
