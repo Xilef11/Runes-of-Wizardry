@@ -76,10 +76,18 @@ public class WizardryRegistry {
 
         //a way to craft dust chunks and blocks
         //TODO update with the other dust types
-        GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks, 1, 0), new ItemStack(Items.clay_ball, 1), new ItemStack(Items.bone,1), new ItemStack(pestle, 1));
-        GameRegistry.addRecipe(new ItemStack(dust_blocks, 1, 0), new Object[]{
-            "XX", "XX", 'X', new ItemStack(dust_chunks, 1, 0)
+        //the only way I could find to get bonemeal
+        ItemStack bonemealStack = new ItemStack(Items.dye,1);
+        bonemealStack.setItemDamage(15);
+        GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks, 1, 0), new ItemStack(Items.clay_ball, 1), bonemealStack, new ItemStack(pestle, 1));
+        //all dusts - temporary I guess
+        for(int i=0;i<6;i++){
+            GameRegistry.addRecipe(new ItemStack(dust_blocks, 1, i), new Object[]{
+            "XXX", "XXX","XXX", 'X', new ItemStack(dust_chunks, 1, i)
         });
+        GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks,9,i), new ItemStack(dust_blocks, 1, i));
+        }
+        
         //craft the pestle
         GameRegistry.addRecipe(new ItemStack(pestle,1,0), new Object[]{
             " Y ", "X X", " X ", 'X',new ItemStack(Blocks.stone),'Y',new ItemStack(Items.bone)
