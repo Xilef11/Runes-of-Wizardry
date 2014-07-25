@@ -17,7 +17,9 @@ issue, please be sure to include...
 
 Contributing
 -------------
-Runes of Wizardry is open-source under the GPL v3 license.  As a result, you may contribute to the development of the mod via pull requests.  
+Runes of Wizardry is open-source under the GPL v3 license.  As a result, you may contribute to the development of the mod via pull requests.
+If you plan to contribute, it might be helpful to let others know what you are working on by writing an issue (use the "contribution" tag)
+
 To set up the mod as to allow you to make changes, do the following:
 
 1. Keep in mind these setup instructions are for IntelliJ IDEA ONLY, not Eclipse.
@@ -28,5 +30,14 @@ To set up the mod as to allow you to make changes, do the following:
 6. Open IntelliJ and point to either the project folder or the build.gradle file.
 7. After opening the project in IntelliJ, run 'gradlew genIntellijRuns' in the command terminal you opened earlier.
 8. You now have a functional local copy of Runes of Wizardry, ready to develop on.
+
+Instructions for Netbeans IDE
+1. Install the gradle plugin for NetBeans
+2. Go to Tools->Settings->Misc->gradle and change "build script evaluation" to "Idea based [...]"
+3. follow steps 2-4 above (It might not hurt to run gradlew setupdecompworkspace --refresh-dependencies)
+4. open the project folder in NetBeans
+5. in project properties, go to "manage built-in tasks"
+6. In the "run" task, uncheck inherited and change run to runCLient
+7. done!
 
 MAKE SURE TO UPDATE YOUR FORK BEFORE MAKING A PULL REQUEST.
