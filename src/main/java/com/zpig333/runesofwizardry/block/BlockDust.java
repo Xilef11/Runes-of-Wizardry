@@ -23,7 +23,7 @@ public class BlockDust extends Block {
     public BlockDust(){
         super(Material.circuits);
         this.setCreativeTab(RunesOfWizardry.wizardry_tab);
-        this.setStepSound(Block.soundTypeGrass);
+        this.setStepSound(Block.soundTypeSand);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
     }
 

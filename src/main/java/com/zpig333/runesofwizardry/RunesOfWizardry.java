@@ -17,6 +17,9 @@ import net.minecraft.item.Item;
 
 public class RunesOfWizardry {
 
+    @Mod.Instance(References.modid)
+    public static RunesOfWizardry instance = new RunesOfWizardry();
+
     @Mod.EventHandler
     public static void preInit(FMLPreInitializationEvent event){
         WizardryRegistry.initBlocks();
@@ -24,7 +27,7 @@ public class RunesOfWizardry {
         WizardryRegistry.initCrafting();
     }
 
-    public static CreativeTabs wizardry_tab = new CreativeTabs("wizardry_tab"){
+    public static CreativeTabs wizardry_tab = new CreativeTabs("wizardry"){
         @Override
         public Item getTabIconItem() {
             return WizardryRegistry.wizardry_dictionary;

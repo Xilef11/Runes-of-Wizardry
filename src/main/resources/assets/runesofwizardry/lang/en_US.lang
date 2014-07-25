@@ -15,4 +15,8 @@ item.dust_pieces.3.name=Water Infused Dust
 item.dust_pieces.4.name=Glowstone Infused Dust
 item.dust_pieces.5.name=Ender Infused Dust
 
-item.pestle_wizardry.name=Pestle
+item.pestle_wizardry.name=Mortar and Pestle
+item.wizardry_dictionary.name=Wizard's Dictionary
+item.wizards_staff.name=Wizard's Staff
+
+itemGroup.wizardry=Runes of Wizardry

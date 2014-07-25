@@ -50,12 +50,18 @@ public class ItemDustPieces extends Item{
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int xPos, int yPos, int zPos, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_){
 
-        Block block = world.getBlock(xPos, yPos, zPos);
-        if(block == Blocks.vine || block == Blocks.tallgrass || block == Blocks.deadbush || block == WizardryRegistry.dust_placed || block == Blocks.snow_layer){
-            return false;
+        if(world.isRemote){
+            return true;
         }
-        world.setBlock(xPos, yPos + 1, zPos, WizardryRegistry.dust_placed);
-        return true;
+        else {
+            Block block = world.getBlock(xPos, yPos, zPos);
+            if (block == Blocks.vine || block == Blocks.tallgrass || block == Blocks.deadbush || block == WizardryRegistry.dust_placed || block == Blocks.snow_layer) {
+                return false;
+            }
+            world.setBlock(xPos, yPos + 1, zPos, WizardryRegistry.dust_placed);
+            world.playSoundEffect((double)((float)xPos + 0.5F), (double)((float)yPos + 0.5F), (double)((float)zPos + 0.5F), Block.soundTypeSand.func_150496_b(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getPitch() * 0.8F);
+            return true;
+        }
     }
 
     @SideOnly(Side.CLIENT)

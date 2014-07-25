@@ -3,10 +3,7 @@ package com.zpig333.runesofwizardry.core;
 import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.block.BlockDustBlocks;
 import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
-import com.zpig333.runesofwizardry.item.ItemDustPieces;
-import com.zpig333.runesofwizardry.item.ItemPestle;
-import com.zpig333.runesofwizardry.item.ItemPlantBalls;
-import com.zpig333.runesofwizardry.item.ItemWizardryDictionary;
+import com.zpig333.runesofwizardry.item.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -30,6 +27,7 @@ public class WizardryRegistry {
     public static Item pestle;
     public static Item plant_balls;
     public static Item wizardry_dictionary;
+    public static Item wizards_staff;
     //dust chunks
     public static Item dust_chunks;
 
@@ -56,6 +54,9 @@ public class WizardryRegistry {
 
         wizardry_dictionary = new ItemWizardryDictionary().setUnlocalizedName("wizardry_dictionary");
         GameRegistry.registerItem(wizardry_dictionary, "wizardry_dictionary");
+
+        wizards_staff = new ItemWizardsStaff().setUnlocalizedName("wizards_staff");
+        GameRegistry.registerItem(wizards_staff, "wizards_staff");
     }
 
     public static void initCrafting(){
@@ -75,12 +76,8 @@ public class WizardryRegistry {
         });
 
         //a way to craft dust chunks and blocks
-        //TODO update with the other dust types
-        //the only way I could find to get bonemeal
-        ItemStack bonemealStack = new ItemStack(Items.dye,1);
-        bonemealStack.setItemDamage(15);
-        GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks, 1, 0), new ItemStack(Items.clay_ball, 1), bonemealStack, new ItemStack(pestle, 1));
-        //all dusts - temporary I guess
+        GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks, 1, 0), new ItemStack(Items.clay_ball, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        //TODO- all dusts - temporary I guess
         for(int i=0;i<6;i++){
             GameRegistry.addRecipe(new ItemStack(dust_blocks, 1, i), new Object[]{
             "XXX", "XXX","XXX", 'X', new ItemStack(dust_chunks, 1, i)
