@@ -5,4 +5,7 @@ pestle from http://openclipart.org/detail/17714/mortar-and-pestle-by-johnpwarren
 public domain
 used to make pestle.png
 
-others made by Xilef11, public domain
+Books from http://opengameart.org/content/magic-books public domain
+
+some textures are modifications of vanilla minecraft textures
+others made by Xilef11, GPL v3
