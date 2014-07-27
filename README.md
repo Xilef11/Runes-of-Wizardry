@@ -29,8 +29,10 @@ To set up the mod as to allow you to make changes, do the following:
 4. Run the command 'gradlew setupDecompWorkspace'.
 5. Then, run 'gradlew idea'.
 6. Open IntelliJ and point to either the project folder or the build.gradle file.
-7. After opening the project in IntelliJ, run 'gradlew genIntellijRuns' in the command terminal you opened earlier.
-8. You now have a functional local copy of Runes of Wizardry, ready to develop on.
+7. If you are updating forge, run 'gradlew build' to finish updating.  If you are setting up 
+for this first time, keep going on to 8 and 9.
+8. After opening the project in IntelliJ, run 'gradlew genIntellijRuns' in the command terminal you opened earlier.
+9. You now have a functional local copy of Runes of Wizardry, ready to develop on.
 
 Instructions for Netbeans IDE
 
