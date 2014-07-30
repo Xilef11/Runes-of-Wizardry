@@ -4,6 +4,7 @@ import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.block.BlockDustBlocks;
 import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
 import com.zpig333.runesofwizardry.item.*;
+import com.zpig333.runesofwizardry.renderer.RenderStaff;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -12,6 +13,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
 
 /**
@@ -89,5 +91,9 @@ public class WizardryRegistry {
         GameRegistry.addRecipe(new ItemStack(pestle,1,0), new Object[]{
             " Y ", "X X", " X ", 'X',new ItemStack(Blocks.stone),'Y',new ItemStack(Items.bone)
         });
+    }
+    
+    public static void initRenderer(){
+        MinecraftForgeClient.registerItemRenderer(wizards_staff, new RenderStaff());
     }
 }

@@ -25,6 +25,7 @@ public class RunesOfWizardry {
         WizardryRegistry.initBlocks();
         WizardryRegistry.initItems();
         WizardryRegistry.initCrafting();
+        WizardryRegistry.initRenderer();
     }
 
     public static CreativeTabs wizardry_tab = new CreativeTabs("wizardry"){
