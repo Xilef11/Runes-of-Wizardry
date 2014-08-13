@@ -50,8 +50,8 @@ public class RenderStaff implements IItemRenderer {
 
                 GL11.glPushMatrix();
                // float Scale = 1F;
-
-                GL11.glRotatef(110F,1F, 0.1F, -0.3F);
+                GL11.glEnable(GL11.GL_CULL_FACE);
+                GL11.glRotatef(110F,1.2F, 0.1F, -0.3F);
                 GL11.glTranslatef(0.4F, -0.9F, -0.5F);
                 GL11.glScalef(1F, 1.5F, 1F);
 /*

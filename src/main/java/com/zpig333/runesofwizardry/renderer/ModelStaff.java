@@ -29,7 +29,7 @@ public class ModelStaff extends ModelBase
       Shape1.addBox(0F, -13F, 0F, 1, 32, 1);
       Shape1.setRotationPoint(0F, 5F, 0F);
       Shape1.setTextureSize(16, 32);
-      Shape1.mirror = true;
+      Shape1.mirror = false;
       setRotation(Shape1, 0F, 0F, 0F);
       Shape2 = new ModelRenderer(this, 10, 3);
       Shape2.addBox(0F, 0F, 0F, 2, 1, 1);
