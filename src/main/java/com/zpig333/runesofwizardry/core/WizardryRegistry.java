@@ -1,10 +1,14 @@
 package com.zpig333.runesofwizardry.core;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.block.BlockDustBlocks;
+import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
 import com.zpig333.runesofwizardry.item.*;
 import com.zpig333.runesofwizardry.renderer.RenderStaff;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -79,7 +83,7 @@ public class WizardryRegistry {
 
         //a way to craft dust chunks and blocks
         GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks, 1, 0), new ItemStack(Items.clay_ball, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-        //TODO- all dusts - temporary I guess
+        //all dusts
         for(int i=0;i<6;i++){
             GameRegistry.addRecipe(new ItemStack(dust_blocks, 1, i), new Object[]{
             "XXX", "XXX","XXX", 'X', new ItemStack(dust_chunks, 1, i)
@@ -95,5 +99,12 @@ public class WizardryRegistry {
     
     public static void initRenderer(){
         MinecraftForgeClient.registerItemRenderer(wizards_staff, new RenderStaff());
+    }
+    //TODO temporary to avoid messing up existing methods
+    public static void initDec(){
+        Block dust_dye = new BlockDustDye(Material.rock).setBlockName("dust_dye_block");
+        GameRegistry.registerBlock(dust_dye, "dust_dye_block");
+        GameRegistry.registerTileEntity(TileEntityDustDye.class, "te_Dust_Dye");
+        NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance, new GuiHandler());
     }
 }

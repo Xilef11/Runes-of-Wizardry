@@ -1,10 +1,12 @@
 package com.zpig333.runesofwizardry;
 
+import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.ModLogger;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
@@ -24,6 +26,7 @@ public class RunesOfWizardry {
     public static void preInit(FMLPreInitializationEvent event){
         WizardryRegistry.initBlocks();
         WizardryRegistry.initItems();
+        WizardryRegistry.initDec();
         WizardryRegistry.initCrafting();
         WizardryRegistry.initRenderer();
     }
