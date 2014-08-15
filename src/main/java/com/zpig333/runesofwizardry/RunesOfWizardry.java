@@ -4,9 +4,12 @@ import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.ModLogger;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.gui.DustDyeButtonPacket;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
@@ -21,9 +24,12 @@ public class RunesOfWizardry {
 
     @Mod.Instance(References.modid)
     public static RunesOfWizardry instance = new RunesOfWizardry();
-
+    //packet handler thingy
+    public static SimpleNetworkWrapper networkWrapper;
     @Mod.EventHandler
     public static void preInit(FMLPreInitializationEvent event){
+        networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(References.modid);
+        networkWrapper.registerMessage(DustDyeButtonPacket.Handler.class, DustDyeButtonPacket.class, 0, Side.SERVER);
         WizardryRegistry.initBlocks();
         WizardryRegistry.initItems();
         WizardryRegistry.initDec();
