@@ -21,10 +21,12 @@ import org.lwjgl.input.Keyboard;
 public class GuiDustDye extends GuiContainer {
 
     public static final int GUI_ID = 1;
+    public static final int GUI_DYE_BUTTON=0;
+    
+    private static final int textureX = 175,
+    						 textureY = 166;
     
     private GuiTextField textColor;
-    //TODO the "dye" button
-    private GuiButton goButton;
     public GuiDustDye(InventoryPlayer inventoryPlayer,
             TileEntityDustDye tileEntity) {
         //the container is instanciated and passed to the superclass for handling
@@ -35,16 +37,24 @@ public class GuiDustDye extends GuiContainer {
     public void initGui(){
       super.initGui();
       Keyboard.enableRepeatEvents(true);
+      //posX, posY defines the top left pixel of the gui display
+      int posX = (this.width - textureX) /2;
+      int posY = (this.height - textureY) /2;
       //GuiTextField(fontrenderer, x, y, sizeX, sizeY)
-      textColor = new GuiTextField(this.fontRendererObj, 100, 10, 50, 12);
-      textColor.setTextColor(0);
-      textColor.setDisabledTextColour(0);
-      textColor.setEnableBackgroundDrawing(true);
+      textColor = new GuiTextField(this.fontRendererObj, posX+82, posY+6, 89, 20);
       textColor.setMaxStringLength(7);
+      textColor.setEnableBackgroundDrawing(true);
+      textColor.setVisible(true);
+      textColor.setTextColor(16777215);
+      textColor.setText("Colour");
+      
+      textColor.setFocused(true);
+      //textColor.setDisabledTextColour(16777215);
+      //textColor.setCursorPositionEnd();
+      
      //id, x, y, width, height, text
-      goButton = new GuiButton(0, 100, 55, 50,12,"Dye");
-      //FIXME this makes the button work. but draws it in the top left corner
-      buttonList.add(goButton);
+      //note: height seems to need to be 20 to display full button texture
+      buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+100,posY+55,50,20,"Dye"));
       
       
     }
@@ -61,6 +71,7 @@ public class GuiDustDye extends GuiContainer {
      */
     @Override
     protected void keyTyped(char par1, int par2){
+    	super.keyTyped(par1, par2);
         if(textColor.textboxKeyTyped(par1, par2)){
             //FIXME figure this part for 1.7
 //            mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", textColor.getText().getBytes()));
@@ -71,18 +82,17 @@ public class GuiDustDye extends GuiContainer {
     @Override
     protected void mouseClicked(int par1, int par2, int par3){
         super.mouseClicked(par1, par2, par3);
-        textColor.mouseClicked(par1, par2, par3);
+        //textColor.mouseClicked(par1, par2, par3);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int param1, int param2) {
         //draw text and stuff here
         //the parameters for drawString are: string, x, y, color
-        fontRendererObj.drawString("Tiny", 8, 6, 4210752);
+        //fontRendererObj.drawString("Tiny", 8, 6, 4210752);
         //draws "Inventory" or your regional equivalent
         fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
-        textColor.drawTextBox();
-        goButton.drawButton(mc, param1, param2);
+       // textColor.drawTextBox();
     }
 
     @Override
@@ -97,9 +107,15 @@ public class GuiDustDye extends GuiContainer {
     }
     
     protected void actionPerformed(GuiButton button){
-    	if(button.id == goButton.id){
+    	switch(button.id){
+    	case GUI_DYE_BUTTON: 
     		//send the selected colour to the server
     		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeButtonPacket(textColor.getText()));
+    		break;
+    	default: System.out.println("Button clicked "+button.displayString+" "+button.id);
+    		break;
     	}
+    		
+    	
     }
 }
