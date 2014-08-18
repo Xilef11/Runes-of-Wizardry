@@ -8,7 +8,7 @@ This repo has a wiki with a pretty good explanation of what I am trying to accom
 Development Team/Credits
 -------------------------
 
-zombiepig333- Project Founder/Coder
+zombiepig333- Project Founder/Coder<br/>
 Xilef11- Coder/Textures
 
 Issue Reporting
