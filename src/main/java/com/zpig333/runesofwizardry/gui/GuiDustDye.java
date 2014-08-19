@@ -1,8 +1,12 @@
 package com.zpig333.runesofwizardry.gui;
 
+//TODO maybe the lwjgl color should be used?
+import java.awt.Color;
+
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.client.container.ContainerDustDye;
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.ModLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -10,27 +14,35 @@ import net.minecraft.entity.player.InventoryPlayer;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
-
+/*TODO major cleanup required, 
+ * this is a mashup from many different examples/tutorials
+ * there is probably a lot of useless code
+ */
 public class GuiDustDye extends GuiContainer {
 
     public static final int GUI_ID = 1;
     public static final int GUI_DYE_BUTTON=0;
     
     private static final int textureX = 175,
-    						 textureY = 166;
+                             textureY = 166;
+
+    private String colorString;
+    private Color color;
+    private boolean validColor=false;
     
     private GuiTextField textColor;
+    
     public GuiDustDye(InventoryPlayer inventoryPlayer,
             TileEntityDustDye tileEntity) {
         //the container is instanciated and passed to the superclass for handling
         super(new ContainerDustDye(inventoryPlayer, tileEntity));
+
     }
     
     @Override
@@ -40,8 +52,10 @@ public class GuiDustDye extends GuiContainer {
       //posX, posY defines the top left pixel of the gui display
       int posX = (this.width - textureX) /2;
       int posY = (this.height - textureY) /2;
+     
       //GuiTextField(fontrenderer, x, y, sizeX, sizeY)
-      textColor = new GuiTextField(this.fontRendererObj, posX+82, posY+6, 89, 20);
+      //here, 0,0 is the top left of the texture...
+      textColor = new GuiTextField(this.fontRendererObj, 105, 10, 45, 12);
       textColor.setMaxStringLength(7);
       textColor.setEnableBackgroundDrawing(true);
       textColor.setVisible(true);
@@ -49,6 +63,7 @@ public class GuiDustDye extends GuiContainer {
       textColor.setText("Colour");
       
       textColor.setFocused(true);
+      textColor.setCanLoseFocus(true);
       //textColor.setDisabledTextColour(16777215);
       //textColor.setCursorPositionEnd();
       
@@ -59,6 +74,10 @@ public class GuiDustDye extends GuiContainer {
       
     }
     
+    @Override
+    public void updateScreen(){
+        textColor.updateCursorCounter();
+    }
     @Override
     public void onGuiClosed(){
       super.onGuiClosed();
@@ -72,17 +91,52 @@ public class GuiDustDye extends GuiContainer {
     @Override
     protected void keyTyped(char par1, int par2){
     	super.keyTyped(par1, par2);
+        if(textColor.isFocused()){
+            textColor.textboxKeyTyped(par1, par2);
+            colorString = textColor.getText();
+            try{
+            	color = new Color(Integer.parseInt(colorString));
+                validColor=true;
+                //TODO draw a sample of the selected color
+            }catch(NumberFormatException e){
+                //this might spam a bit...
+                ModLogger.logDebug("GuiDustDye could not parse colorString to Integer");
+                validColor=false;
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+             
+            
+        }
+        /*
         if(textColor.textboxKeyTyped(par1, par2)){
             //FIXME figure this part for 1.7
-//            mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", textColor.getText().getBytes()));
+//           mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", textColor.getText().getBytes()));
         }else{
             super.keyTyped(par1, par2);
         }
+        */
     }
     @Override
     protected void mouseClicked(int par1, int par2, int par3){
-        super.mouseClicked(par1, par2, par3);
-        //textColor.mouseClicked(par1, par2, par3);
+    	//posX, posY defines the top left pixel of the gui display
+        int posX = (this.width - textureX) /2;
+        int posY = (this.height - textureY) /2;
+    	//DEBUG flag used by textColor.mouseClicked
+        /*
+    	boolean flag = par1 >= textColor.xPosition && par1 < textColor.xPosition + textColor.width && par2 >= textColor.yPosition && par2 < textColor.yPosition + textColor.height;
+    	System.out.println(flag+": par1="+par1+" par2="+par2+
+    			"\nx="+textColor.xPosition+" y="+textColor.yPosition+
+    			"\nwidth="+textColor.width+" height="+textColor.height+
+    			"\npassed: "+(par1-posX)+", "+(par2-posY));
+                        */
+    	/*Well, it seems the click is located relative to the window, 
+    	 * while the text field position depends on the texture
+    	 * WTF Minecraft?
+    	 * anyways, compensating...
+    	 */
+    	textColor.mouseClicked(par1-posX, par2-posY, par3);
+    	super.mouseClicked(par1, par2, par3);
     }
 
     @Override
@@ -92,7 +146,12 @@ public class GuiDustDye extends GuiContainer {
         //fontRendererObj.drawString("Tiny", 8, 6, 4210752);
         //draws "Inventory" or your regional equivalent
         fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
-       // textColor.drawTextBox();
+        textColor.drawTextBox();
+        if(!validColor){
+        	//TODO this is slightly small
+        	fontRendererObj.drawString("!", 100, 13, 0xFF0000);
+        }
+        //super.drawGuiContainerForegroundLayer(param1, param2);
     }
 
     @Override
