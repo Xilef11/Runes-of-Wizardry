@@ -2,12 +2,12 @@ package com.zpig333.runesofwizardry.gui;
 
 //TODO maybe the lwjgl color should be used?
 import java.awt.Color;
-
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.client.container.ContainerDustDye;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.ModLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
+import net.minecraft.client.gui.FontRenderer;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -34,6 +34,7 @@ public class GuiDustDye extends GuiContainer {
 
     private String colorString;
     private Color color;
+    private int colorInt=0;
     private boolean validColor=false;
     
     private GuiTextField textColor;
@@ -42,9 +43,10 @@ public class GuiDustDye extends GuiContainer {
             TileEntityDustDye tileEntity) {
         //the container is instanciated and passed to the superclass for handling
         super(new ContainerDustDye(inventoryPlayer, tileEntity));
-
     }
-    
+    /** runs once every time the GUI is opened
+     * 
+     */
     @Override
     public void initGui(){
       super.initGui();
@@ -56,7 +58,7 @@ public class GuiDustDye extends GuiContainer {
       //GuiTextField(fontrenderer, x, y, sizeX, sizeY)
       //here, 0,0 is the top left of the texture...
       textColor = new GuiTextField(this.fontRendererObj, 105, 10, 45, 12);
-      textColor.setMaxStringLength(7);
+      textColor.setMaxStringLength(6);
       textColor.setEnableBackgroundDrawing(true);
       textColor.setVisible(true);
       textColor.setTextColor(16777215);
@@ -95,9 +97,10 @@ public class GuiDustDye extends GuiContainer {
             textColor.textboxKeyTyped(par1, par2);
             colorString = textColor.getText();
             try{
-            	color = new Color(Integer.parseInt(colorString));
+                //parsing in hexadecimal allows for a more natural, html-style color input
+                colorInt=Integer.parseInt(colorString,16);
+            	color = new Color(colorInt);
                 validColor=true;
-                //TODO draw a sample of the selected color
             }catch(NumberFormatException e){
                 //this might spam a bit...
                 ModLogger.logDebug("GuiDustDye could not parse colorString to Integer");
@@ -139,6 +142,11 @@ public class GuiDustDye extends GuiContainer {
     	super.mouseClicked(par1, par2, par3);
     }
 
+    /** runs while the GUI is open
+     * 
+     * @param param1
+     * @param param2 
+     */
     @Override
     protected void drawGuiContainerForegroundLayer(int param1, int param2) {
         //draw text and stuff here
@@ -151,6 +159,12 @@ public class GuiDustDye extends GuiContainer {
         	//TODO this is slightly small
         	fontRendererObj.drawString("!", 100, 13, 0xFF0000);
         }
+        //FIXME this is not doing anything
+        // x1, y1, x2, y2, color
+        drawRect(0, 0, 100, 100, 0xff0000);
+        //this.drawGradientRect(50, 50, 100, 100, 0xff0000, 0xff0000);
+        //this should be a rectangle, but I can't get it to work
+        fontRendererObj.drawString("##", 0, 0, colorInt);
         //super.drawGuiContainerForegroundLayer(param1, param2);
     }
 
@@ -164,7 +178,10 @@ public class GuiDustDye extends GuiContainer {
         int y = (height - ySize) / 2;
         this.drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
     }
-    
+    /** called when a button is clicked
+     * 
+     * @param button the button that was clicked (?)
+     */
     protected void actionPerformed(GuiButton button){
     	switch(button.id){
     	case GUI_DYE_BUTTON: 
