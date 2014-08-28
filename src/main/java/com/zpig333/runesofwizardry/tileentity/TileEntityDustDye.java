@@ -11,7 +11,27 @@ import net.minecraft.tileentity.TileEntity;
 public class TileEntityDustDye extends TileEntity implements IInventory{
     //only 1 slot for now, might change if dyes are required as input
     private ItemStack[] contents = new ItemStack[1];
+    //the currently selected color
+    private String colorString;
     
+    public TileEntityDustDye(){
+        super();
+        colorString="Color";
+    }
+    /**
+     * 
+     * @return the currently selected Color of this block as a String
+     */
+    public String getColor(){
+        return colorString;
+    }
+    /**
+     * 
+     * @param color the selected color
+     */
+    public void setColor(String color){
+        colorString=color;
+    }
     @Override
     public int getSizeInventory() {
         return contents.length;
@@ -131,8 +151,9 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
                                 contents[slot] = ItemStack.loadItemStackFromNBT(tag);
                         }
                 }
+                this.colorString=tagCompound.getString("Color");
         }
-
+        //FIXME fsr, the color string does not save between game sessions
         @Override
         public void writeToNBT(NBTTagCompound tagCompound) {
                 super.writeToNBT(tagCompound);
@@ -148,6 +169,8 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
                         }
                 }
                 tagCompound.setTag("Inventory", itemList);
+                tagCompound.setString("Color", colorString);
+                
         }
 
 }
