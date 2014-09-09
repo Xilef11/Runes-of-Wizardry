@@ -17,6 +17,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -36,6 +37,9 @@ public class WizardryRegistry {
     public static Item wizards_staff;
     //dust chunks
     public static Item dust_chunks;
+    
+    //dyed dust
+    public static Item dyed_dust;
 
     public static void initBlocks(){
 
@@ -106,5 +110,16 @@ public class WizardryRegistry {
         GameRegistry.registerBlock(dust_dye, "dust_dye_block");
         GameRegistry.registerTileEntity(TileEntityDustDye.class, "te_Dust_Dye");
         NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance, new GuiHandler());
+        
+        dyed_dust = new ItemDyedDust();
+        GameRegistry.registerItem(dyed_dust, "dyed_dust");
+        
+        //the dyed dusts
+        //initialise the itemstack with nbt data
+        ItemStack dyedDustStack = new ItemStack(dyed_dust,32);
+        //dyedDustStack.setTagCompound(new NBTTagCompound());
+        //default color is white
+        //dyedDustStack.stackTagCompound.setInteger("color", 0xffffff);
+        GameRegistry.addShapelessRecipe(dyedDustStack, new ItemStack(Items.brick, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1));
     }
 }

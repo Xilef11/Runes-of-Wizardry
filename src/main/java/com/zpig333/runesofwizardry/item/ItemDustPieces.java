@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * the dust "chunks" used to craft the blocks.
- * @author Xilef11
+ * 
  */
 public class ItemDustPieces extends Item{
     private IIcon[] icons;

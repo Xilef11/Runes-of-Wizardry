@@ -12,7 +12,7 @@ import java.awt.Color;
 public class DustDyeButtonPacket implements IMessage {
 
     private String text;
-    private Color color;
+    private int color;
 
     public DustDyeButtonPacket() {
     }
@@ -20,7 +20,7 @@ public class DustDyeButtonPacket implements IMessage {
     public DustDyeButtonPacket(String text) {
         this.text = text;
     }
-    public DustDyeButtonPacket(Color color){
+    public DustDyeButtonPacket(int color){
         this.color = color;
     }
 
@@ -40,6 +40,7 @@ public class DustDyeButtonPacket implements IMessage {
         public IMessage onMessage(DustDyeButtonPacket message, MessageContext ctx) {
             //TODO what to do when the button is clicked
             System.out.println(String.format("Received %s from %s", message.text, ctx.getServerHandler().playerEntity.getDisplayName()));
+            
             return null; // no response in this case
         }
     }
