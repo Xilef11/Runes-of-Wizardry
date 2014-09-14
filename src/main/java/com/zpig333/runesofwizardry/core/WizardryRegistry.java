@@ -39,7 +39,7 @@ public class WizardryRegistry {
     public static Item dust_chunks;
     
     //dyed dust
-    public static Item dyed_dust;
+    public static Item dust_dyed;
 
     public static void initBlocks(){
 
@@ -111,15 +111,10 @@ public class WizardryRegistry {
         GameRegistry.registerTileEntity(TileEntityDustDye.class, "te_Dust_Dye");
         NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance, new GuiHandler());
         
-        dyed_dust = new ItemDyedDust();
-        GameRegistry.registerItem(dyed_dust, "dyed_dust");
+        dust_dyed = new ItemDyedDust();
+        GameRegistry.registerItem(dust_dyed, "dust_dyed");
         
         //the dyed dusts
-        //initialise the itemstack with nbt data
-        ItemStack dyedDustStack = new ItemStack(dyed_dust,32);
-        //dyedDustStack.setTagCompound(new NBTTagCompound());
-        //default color is white
-        //dyedDustStack.stackTagCompound.setInteger("color", 0xffffff);
-        GameRegistry.addShapelessRecipe(dyedDustStack, new ItemStack(Items.brick, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1));
+        GameRegistry.addShapelessRecipe(new ItemStack(dust_dyed,32), new ItemStack(Items.brick, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1));
     }
 }

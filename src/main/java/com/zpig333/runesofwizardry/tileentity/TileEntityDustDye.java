@@ -1,5 +1,6 @@
 package com.zpig333.runesofwizardry.tileentity;
 
+import com.zpig333.runesofwizardry.item.ItemDyedDust;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -125,9 +126,11 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     }
 
     @Override
-    public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
+    public boolean isItemValidForSlot(int p_94041_1_, ItemStack stack) {
+        //only allow dyed dust in the dyer
+        return stack.getItem() instanceof ItemDyedDust;
         //TODO auto-generated method: isItemValidForSlot
-        throw new UnsupportedOperationException("Not supported yet: isItemValidForSlot");
+        //throw new UnsupportedOperationException("Not supported yet: isItemValidForSlot");
     }
     @Override
     public int getInventoryStackLimit() {

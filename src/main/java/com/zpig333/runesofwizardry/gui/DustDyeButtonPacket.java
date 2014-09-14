@@ -1,11 +1,12 @@
 package com.zpig333.runesofwizardry.gui;
 
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import java.awt.Color;
+import net.minecraft.item.ItemStack;
 /**@see http://www.minecraftforge.net/forum/index.php/topic,20135.0.html
  * 
  */
@@ -22,6 +23,11 @@ public class DustDyeButtonPacket implements IMessage {
     }
     public DustDyeButtonPacket(int color){
         this.color = color;
+    }
+    public DustDyeButtonPacket(int color, TileEntityDustDye source){
+        this.color=color;
+        ItemStack stack=source.getStackInSlot(0);
+        stack.getTagCompound().setInteger("color", color);
     }
 
     @Override

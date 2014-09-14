@@ -199,10 +199,10 @@ public class GuiDustDye extends GuiContainer {
     	switch(button.id){
     	case GUI_DYE_BUTTON: 
     		//send the selected colour to the server
-    		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeButtonPacket(colorInt));
+    		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeButtonPacket(colorInt,PARENT));
                 //Hopefully this will work
                 //FIXME nope, reset when it leaves GUI
-                PARENT.getStackInSlot(0).getTagCompound().setInteger("color", colorInt);
+                //PARENT.getStackInSlot(0).getTagCompound().setInteger("color", colorInt);
     		break;
     	default: System.out.println("Button clicked "+button.displayString+" "+button.id);
     		break;
