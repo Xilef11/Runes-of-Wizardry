@@ -15,7 +15,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-//Might extend ItemDustPieces instead...
 public class ItemDyedDust extends Item{
     public IIcon icon;
     public ItemDyedDust(){
@@ -23,7 +22,7 @@ public class ItemDyedDust extends Item{
         this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setUnlocalizedName("dust_dyed");
     }
-    
+    //add tooltip
     public void addInformation(ItemStack stack, EntityPlayer player, List data, boolean bool){
         //if the stack has no tag compound, create one and set the color to white
         if(stack.getTagCompound()==null){
@@ -38,7 +37,11 @@ public class ItemDyedDust extends Item{
     @SideOnly(Side.CLIENT)
     @Override
     public int getColorFromItemStack(ItemStack stack, int par2){
-        return stack.getTagCompound().getInteger("color");
+        NBTTagCompound tag=stack.getTagCompound();
+        if(tag==null){
+            return 0xffffff;
+        }
+        return tag.getInteger("color");
     }
     @SideOnly(Side.CLIENT)
     @Override

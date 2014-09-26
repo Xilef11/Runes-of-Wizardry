@@ -46,6 +46,8 @@ public class GuiDustDye extends GuiContainer {
         super(new ContainerDustDye(inventoryPlayer, tileEntity));
         //sets the parent entity
         PARENT=tileEntity;
+        colorString=PARENT.getColor();
+        //if(colorString==null)colorString="Color";
     }
     /** runs once every time the GUI is opened
      * 
@@ -65,8 +67,8 @@ public class GuiDustDye extends GuiContainer {
       textColor.setEnableBackgroundDrawing(false);
       textColor.setVisible(true);
       textColor.setTextColor(16777215);
-      textColor.setText(PARENT.getColor());
-      
+      textColor.setText(colorString);
+      updateColor();
       textColor.setFocused(true);
       textColor.setCanLoseFocus(true);
       //textColor.setDisabledTextColour(16777215);
@@ -119,7 +121,17 @@ public class GuiDustDye extends GuiContainer {
         if(textColor.textboxKeyTyped(par1, par2)){
             colorString = textColor.getText();
             PARENT.setColor(colorString);
-            try{
+            RunesOfWizardry.networkWrapper.sendToServer(new DustDyeTextPacket(colorString, PARENT.xCoord, PARENT.yCoord, PARENT.zCoord));
+            updateColor();
+        }else{
+            super.keyTyped(par1, par2);
+        }
+    }
+    /** updates the color to the text
+     * 
+     */
+    private void updateColor(){
+        try{
                 //parsing in hexadecimal allows for a more natural, html-style color input
                 //that is, 2 (hex) digits per color (RGB)
                 colorInt=Integer.parseInt(colorString,16);
@@ -132,9 +144,6 @@ public class GuiDustDye extends GuiContainer {
             }catch(Exception e){
                 e.printStackTrace();
             }
-        }else{
-            super.keyTyped(par1, par2);
-        }
     }
     @Override
     protected void mouseClicked(int par1, int par2, int par3){
@@ -199,11 +208,12 @@ public class GuiDustDye extends GuiContainer {
     	switch(button.id){
     	case GUI_DYE_BUTTON: 
     		//send the selected colour to the server
-    		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeButtonPacket(colorInt,PARENT));
+    		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeButtonPacket(colorInt,PARENT.getStackInSlot(0)));
+                //PARENT.getStackInSlot(0).getTagCompound().setInteger("color", colorInt);
                 //Hopefully this will work
                 //FIXME nope, reset when it leaves GUI
                 //PARENT.getStackInSlot(0).getTagCompound().setInteger("color", colorInt);
-    		break;
+    		//break;
     	default: System.out.println("Button clicked "+button.displayString+" "+button.id);
     		break;
     	}

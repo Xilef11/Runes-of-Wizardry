@@ -1,6 +1,7 @@
 package com.zpig333.runesofwizardry.tileentity;
 
 import com.zpig333.runesofwizardry.item.ItemDyedDust;
+import java.io.Serializable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,10 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     public TileEntityDustDye(){
         super();
         colorString="Color";
+    }
+    public void dye(int color){
+        contents[0].getTagCompound().setInteger("color", color);
+        setColor(Integer.toHexString(color));
     }
     /**
      * 
@@ -82,11 +87,13 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
      */
     @Override
      public void setInventorySlotContents(int slot, ItemStack stack) {
-                contents[slot] = stack;
-                if (stack != null && stack.stackSize > getInventoryStackLimit()) {
+        contents[slot]=stack;
+        contents[slot] = stack;
+        /*        if (stack != null && stack.stackSize > getInventoryStackLimit()) {
                         stack.stackSize = getInventoryStackLimit();
                 }              
-        }
+        */
+    }
 
     @Override
     /**
@@ -126,9 +133,12 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     }
 
     @Override
-    public boolean isItemValidForSlot(int p_94041_1_, ItemStack stack) {
+    public boolean isItemValidForSlot(int slot, ItemStack stack) {
+        
         //only allow dyed dust in the dyer
-        return stack.getItem() instanceof ItemDyedDust;
+        return slot==0 ? stack.getItem() instanceof ItemDyedDust : false;
+        //from tileentityBrewingStand
+        //return p_94041_1_ == 3 ? p_94041_2_.getItem().isPotionIngredient(p_94041_2_) : p_94041_2_.getItem() instanceof ItemPotion || p_94041_2_.getItem() == Items.glass_bottle;
         //TODO auto-generated method: isItemValidForSlot
         //throw new UnsupportedOperationException("Not supported yet: isItemValidForSlot");
     }
