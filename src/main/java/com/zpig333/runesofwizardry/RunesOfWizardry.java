@@ -3,7 +3,9 @@ package com.zpig333.runesofwizardry;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.gui.DustDyeButtonPacket;
+import com.zpig333.runesofwizardry.gui.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.gui.DustDyeTextPacket;
+import com.zpig333.runesofwizardry.gui.DustDyeUpdatePacket;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -30,6 +32,8 @@ public class RunesOfWizardry {
         networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(References.modid);
         networkWrapper.registerMessage(DustDyeButtonPacket.Handler.class, DustDyeButtonPacket.class, 0, Side.SERVER);
         networkWrapper.registerMessage(DustDyeTextPacket.Handler.class, DustDyeTextPacket.class, 0, Side.SERVER);
+        networkWrapper.registerMessage(DustDyeRequestUpdatePacket.Handler.class, DustDyeRequestUpdatePacket.class, 0, Side.SERVER);
+        networkWrapper.registerMessage(DustDyeUpdatePacket.Handler.class, DustDyeUpdatePacket.class, 0, Side.CLIENT);
         WizardryRegistry.initBlocks();
         WizardryRegistry.initItems();
         WizardryRegistry.initDec();

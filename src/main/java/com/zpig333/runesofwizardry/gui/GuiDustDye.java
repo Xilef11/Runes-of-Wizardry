@@ -55,6 +55,7 @@ public class GuiDustDye extends GuiContainer {
     @Override
     public void initGui(){
       super.initGui();
+      RunesOfWizardry.networkWrapper.sendToServer(new DustDyeRequestUpdatePacket(PARENT.xCoord, PARENT.yCoord, PARENT.zCoord));
       Keyboard.enableRepeatEvents(true);
       //posX, posY defines the top left pixel of the gui display
       int posX = (this.width - textureX) /2;
@@ -67,7 +68,7 @@ public class GuiDustDye extends GuiContainer {
       textColor.setEnableBackgroundDrawing(false);
       textColor.setVisible(true);
       textColor.setTextColor(16777215);
-      textColor.setText(colorString);
+      textColor.setText(PARENT.getColor());
       updateColor();
       textColor.setFocused(true);
       textColor.setCanLoseFocus(true);
