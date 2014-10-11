@@ -31,9 +31,9 @@ public class RunesOfWizardry {
     public static void preInit(FMLPreInitializationEvent event){
         networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(References.modid);
         networkWrapper.registerMessage(DustDyeButtonPacket.Handler.class, DustDyeButtonPacket.class, 0, Side.SERVER);
-        networkWrapper.registerMessage(DustDyeTextPacket.Handler.class, DustDyeTextPacket.class, 0, Side.SERVER);
-        networkWrapper.registerMessage(DustDyeRequestUpdatePacket.Handler.class, DustDyeRequestUpdatePacket.class, 0, Side.SERVER);
-        networkWrapper.registerMessage(DustDyeUpdatePacket.Handler.class, DustDyeUpdatePacket.class, 0, Side.CLIENT);
+        networkWrapper.registerMessage(DustDyeTextPacket.Handler.class, DustDyeTextPacket.class, 1, Side.SERVER);
+        networkWrapper.registerMessage(DustDyeRequestUpdatePacket.Handler.class, DustDyeRequestUpdatePacket.class, 2, Side.SERVER);
+        networkWrapper.registerMessage(DustDyeUpdatePacket.Handler.class, DustDyeUpdatePacket.class, 3, Side.SERVER);
         WizardryRegistry.initBlocks();
         WizardryRegistry.initItems();
         WizardryRegistry.initDec();
