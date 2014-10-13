@@ -81,7 +81,9 @@ public class GuiDustDye extends GuiContainer {
       
       
     }
-    
+    public TileEntityDustDye getParent(){
+        return PARENT;
+    }
     @Override
     public void updateScreen(){
         textColor.updateCursorCounter();
