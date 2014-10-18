@@ -22,7 +22,7 @@ group= "com.zpig333.runesofwizardry" // http://maven.apache.org/guides/mini/guid
 archivesBaseName = project.name
 
 minecraft {
-    version = "1.7.10-10.13.2.1230"
+    version = "1.7.10-10.13.2.1231"
     runDir = "minecraft"
 }
 
