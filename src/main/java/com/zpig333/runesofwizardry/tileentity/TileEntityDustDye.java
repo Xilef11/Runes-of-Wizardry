@@ -137,10 +137,6 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
         
         //only allow dyed dust in the dyer
         return slot==0 ? stack.getItem() instanceof ItemDyedDust : false;
-        //from tileentityBrewingStand
-        //return p_94041_1_ == 3 ? p_94041_2_.getItem().isPotionIngredient(p_94041_2_) : p_94041_2_.getItem() instanceof ItemPotion || p_94041_2_.getItem() == Items.glass_bottle;
-        //TODO auto-generated method: isItemValidForSlot
-        //throw new UnsupportedOperationException("Not supported yet: isItemValidForSlot");
     }
     @Override
     public int getInventoryStackLimit() {
@@ -166,8 +162,8 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
                 }
                 this.colorString=tagCompound.getString("Color");
         }
-        //FIXME fsr, the color string does not save between game sessions
-        @Override
+
+    @Override
         public void writeToNBT(NBTTagCompound tagCompound) {
                 super.writeToNBT(tagCompound);
                                

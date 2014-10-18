@@ -19,4 +19,7 @@ item.pestle_wizardry.name=Mortar and Pestle
 item.wizardry_dictionary.name=Runic Dictionary
 item.wizards_staff.name=Runic Staff
 
+item.dust_dyed.name=Chalk dust
+tile.dust_dye_block.name=Arcane Dye
+
 itemGroup.wizardry=Runes of Wizardry
