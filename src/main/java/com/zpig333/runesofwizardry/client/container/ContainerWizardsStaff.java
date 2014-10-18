@@ -10,11 +10,6 @@ import net.minecraft.item.ItemStack;
 
 import java.util.zip.CheckedOutputStream;
 
-/**
- * Created by zombiepig333 on 24-07-14.
- * <p/>
- * Licensed under the GPLv3
- */
 public class ContainerWizardsStaff extends Container {
 
     private ItemStack staff_open;

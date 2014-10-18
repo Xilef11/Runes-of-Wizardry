@@ -14,11 +14,6 @@ import net.minecraft.util.IIcon;
 
 import java.util.List;
 
-/**
- * Created by zombiepig333 on 15-07-14.
- * <p/>
- * Licensed under the GPLv3
- */
 public class BlockDustBlocks extends Block {
 
     private IIcon[] icons;

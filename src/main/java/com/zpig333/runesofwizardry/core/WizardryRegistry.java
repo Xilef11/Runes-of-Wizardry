@@ -1,12 +1,13 @@
 package com.zpig333.runesofwizardry.core;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.block.BlockDustBlocks;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
 import com.zpig333.runesofwizardry.item.*;
-import com.zpig333.runesofwizardry.renderer.RenderStaff;
+import com.zpig333.runesofwizardry.client.render.RenderStaff;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -15,17 +16,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
 
-/**
- * Created by zombiepig333 on 17-07-14.
- * <p/>
- * Licensed under the GPLv3
- */
 public class WizardryRegistry {
 
     public static Block dust_blocks;
@@ -35,8 +29,6 @@ public class WizardryRegistry {
     public static Item plant_balls;
     public static Item wizardry_dictionary;
     public static Item wizards_staff;
-    //dust chunks
-    public static Item dust_chunks;
     
     //dyed dust
     public static Item dust_dyed;
@@ -59,8 +51,8 @@ public class WizardryRegistry {
         plant_balls = new ItemPlantBalls().setUnlocalizedName("plant_balls");
         GameRegistry.registerItem(plant_balls, "plant_balls");
         
-        dust_chunks = new ItemDustPieces().setUnlocalizedName("dust_pieces");
-        GameRegistry.registerItem(dust_chunks, "dust_pieces");
+        DustRegistry.dust_item = new ItemDustPieces().setUnlocalizedName("dust_item");
+        GameRegistry.registerItem(DustRegistry.dust_item, "dust_item");
 
         wizardry_dictionary = new ItemWizardryDictionary().setUnlocalizedName("wizardry_dictionary");
         GameRegistry.registerItem(wizardry_dictionary, "wizardry_dictionary");
@@ -86,13 +78,13 @@ public class WizardryRegistry {
         });
 
         //a way to craft dust chunks and blocks
-        GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks, 1, 0), new ItemStack(Items.clay_ball, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        GameRegistry.addShapelessRecipe(new ItemStack(DustRegistry.dust_item, 1, 0), new ItemStack(Items.clay_ball, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
         //all dusts
         for(int i=0;i<6;i++){
             GameRegistry.addRecipe(new ItemStack(dust_blocks, 1, i), new Object[]{
-            "XXX", "XXX","XXX", 'X', new ItemStack(dust_chunks, 1, i)
+            "XXX", "XXX","XXX", 'X', new ItemStack(DustRegistry.dust_item, 1, i)
         });
-        GameRegistry.addShapelessRecipe(new ItemStack(dust_chunks,9,i), new ItemStack(dust_blocks, 1, i));
+        GameRegistry.addShapelessRecipe(new ItemStack(DustRegistry.dust_item,9,i), new ItemStack(dust_blocks, 1, i));
         }
         
         //craft the pestle

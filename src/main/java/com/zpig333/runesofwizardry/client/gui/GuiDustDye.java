@@ -1,4 +1,4 @@
-package com.zpig333.runesofwizardry.gui;
+package com.zpig333.runesofwizardry.client.gui;
 
 //TODO maybe the lwjgl color should be used?
 import java.awt.Color;
@@ -7,7 +7,6 @@ import com.zpig333.runesofwizardry.client.container.ContainerDustDye;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.ModLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-import net.minecraft.client.gui.FontRenderer;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;

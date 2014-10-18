@@ -1,4 +1,4 @@
-package com.zpig333.runesofwizardry.gui;
+package com.zpig333.runesofwizardry.client.gui;
 
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import cpw.mods.fml.common.network.ByteBufUtils;

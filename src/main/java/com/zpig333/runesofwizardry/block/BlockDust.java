@@ -10,11 +10,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.world.IBlockAccess;
 
-/**
- * Created by zombiepig333 on 22-07-14.
- * <p/>
- * Licensed under the GPLv3
- */
 public class BlockDust extends Block {
 
     //@SideOnly(Side.CLIENT)
