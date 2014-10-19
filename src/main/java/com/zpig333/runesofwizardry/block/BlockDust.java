@@ -51,7 +51,7 @@ public class BlockDust extends Block {
     @SideOnly(Side.CLIENT)
     public int colorMultiplier(IBlockAccess access, int x, int y, int z)
     {
-        int[] colors = DustRegistry.getFloorColorRGB();
+        int[] colors = DustRegistry.getFloorColorRGB(1);
         return new Color(colors[0], colors[1], colors[2]).getRGB();
     }
 

@@ -97,10 +97,6 @@ public class WizardryRegistry {
             " Y ", "X X", " X ", 'X',new ItemStack(Blocks.stone),'Y',new ItemStack(Items.bone)
         });
     }
-    
-    public static void initRenderer(){
-        MinecraftForgeClient.registerItemRenderer(wizards_staff, new RenderStaff());
-    }
 
     //TODO temporary to avoid messing up existing methods
     public static void initDec(){

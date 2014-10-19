@@ -1,6 +1,6 @@
 package com.zpig333.runesofwizardry;
 
-import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.core.CommonProxy;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.client.gui.DustDyeButtonPacket;
@@ -8,6 +8,7 @@ import com.zpig333.runesofwizardry.client.gui.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.client.gui.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.client.gui.DustDyeUpdatePacket;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -16,8 +17,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
 @Mod(modid = References.modid, name = "Runes of Wizardry", version = "@MOD_VERSION@")
-
 public class RunesOfWizardry {
+
+    @SidedProxy(clientSide = "com.zpig333.runesofwizardry.client.ClientProxy", serverSide = "com.zpig333.runesofwizardry.core.CommonProxy")
+    public static CommonProxy proxy;
 
     @Mod.Instance(References.modid)
     public static RunesOfWizardry instance = new RunesOfWizardry();
@@ -31,8 +34,7 @@ public class RunesOfWizardry {
         WizardryRegistry.initItems();
         WizardryRegistry.initDusts();
         WizardryRegistry.initCrafting();
-        WizardryRegistry.initRenderer();
-
+        proxy.registerRenderers();
         //Decorative dusts- dust of any color wip
         WizardryRegistry.initDec();
         initNetwork();
