@@ -17,10 +17,16 @@ public class DustRegistry {
     public static int[] ids = new int[1000];
 
     public static void registerDustType(String name, int dustID, int primary, int secondary, int placed){
-        if(colors[dustID] != null){
+        if(names[dustID] != null){
             ModLogger.logFatal("You have registered two dust types with the same id.  This WILL cause problems.");
-            throw new IllegalArgumentException("Dust value " + dustID + " for " + name + " already taken!!");
+            throw new IllegalArgumentException("Dust value " + dustID + " already taken by " + names[dustID] + " when trying to add " + name + ".");
         }
+        //Wipes arrays because of some weird thing
+        colors = new DustColor[1000];
+        names = new String[1000];
+        ids = new int[1000];
+
+        //NOW throw dust stuff in the new arrays
         colors[dustID] = new DustColor(primary, secondary, placed);
         names[dustID] = name;
         ids[dustID] = dustID;

@@ -29,12 +29,13 @@ public class RunesOfWizardry {
 
         WizardryRegistry.initBlocks();
         WizardryRegistry.initItems();
-        WizardryRegistry.initDec();
+        WizardryRegistry.initDusts();
         WizardryRegistry.initCrafting();
         WizardryRegistry.initRenderer();
-        initNetwork();
 
-        DustRegistry.registerDustType("Testing", 0, 0xCC4C4C, 0xCC4C4C, 0xFF0000);
+        //Decorative dusts- dust of any color wip
+        WizardryRegistry.initDec();
+        initNetwork();
     }
 
     public static void initNetwork(){

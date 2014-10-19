@@ -61,6 +61,11 @@ public class WizardryRegistry {
         GameRegistry.registerItem(wizards_staff, "wizards_staff");
     }
 
+    public static void initDusts(){
+
+        DustRegistry.registerDustType("plant", 1, 0x068F08, 0x045C05, 0x068F08);
+    }
+
     public static void initCrafting(){
 
         //Allows plants to be mashed down into a plantball.  Each plant goes for 1 plantball
@@ -96,6 +101,7 @@ public class WizardryRegistry {
     public static void initRenderer(){
         MinecraftForgeClient.registerItemRenderer(wizards_staff, new RenderStaff());
     }
+
     //TODO temporary to avoid messing up existing methods
     public static void initDec(){
         Block dust_dye = new BlockDustDye(Material.rock).setBlockName("dust_dye_block");
