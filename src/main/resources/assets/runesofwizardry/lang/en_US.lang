@@ -20,3 +20,6 @@ item.wizardry_dictionary.name=Runic Dictionary
 item.wizards_staff.name=Runic Staff
 
 itemGroup.wizardry=Runes of Wizardry
+
+item.nether_paste.name=Blazing Netherrack paste
+item.lavastone.name=Lavastone

@@ -28,6 +28,7 @@ public class WizardryRegistry {
 
     public static Item pestle;
     public static Item plant_balls;
+    public static Item nether_paste, lavastone;
     public static Item wizardry_dictionary;
     public static Item wizards_staff;
     //dust chunks
@@ -50,6 +51,12 @@ public class WizardryRegistry {
 
         plant_balls = new ItemPlantBalls().setUnlocalizedName("plant_balls");
         GameRegistry.registerItem(plant_balls, "plant_balls");
+        
+        nether_paste=new ItemNetherPaste();
+        GameRegistry.registerItem(nether_paste, "nether_paste");
+        
+        lavastone=new ItemLavastone();
+        GameRegistry.registerItem(lavastone, "lavastone");
         
         dust_chunks = new ItemDustPieces().setUnlocalizedName("dust_pieces");
         GameRegistry.registerItem(dust_chunks, "dust_pieces");
@@ -91,6 +98,11 @@ public class WizardryRegistry {
         GameRegistry.addRecipe(new ItemStack(pestle,1,0), new Object[]{
             " Y ", "X X", " X ", 'X',new ItemStack(Blocks.stone),'Y',new ItemStack(Items.bone)
         });
+        
+        //lavastone
+        GameRegistry.addShapelessRecipe(new ItemStack(nether_paste,1),
+                new ItemStack(Blocks.netherrack),new ItemStack(pestle),new ItemStack(Items.blaze_powder));
+        GameRegistry.addSmelting(nether_paste, new ItemStack(lavastone,1), 0.2F);
     }
     
     public static void initRenderer(){
