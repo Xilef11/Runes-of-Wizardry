@@ -1,5 +1,9 @@
 package com.zpig333.runesofwizardry.api;
 
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +17,15 @@ public class RunesOfWizardryAPI {
     public static void registerDust(int id, IDust dustclass){
         dusts.add(id, dustclass);
         //TODO- craftability and whatnot
+    }
+
+    public static boolean isDust(Block block){
+        if(block == WizardryRegistry.dust_placed){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public static int getPrimaryColor(int value) {
@@ -59,7 +72,7 @@ public class RunesOfWizardryAPI {
         return rtn;
     }
 
-    public static class DustColor{
+    /*public static class DustColor{
 
         public static int primary_color;
         public static int secondary_color;
@@ -70,7 +83,7 @@ public class RunesOfWizardryAPI {
             this.secondary_color = secondary;
             this.placed_color = placed;
         }
-    }
+    }*/
 }
 
 

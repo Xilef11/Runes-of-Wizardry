@@ -8,6 +8,7 @@ import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
 import com.zpig333.runesofwizardry.dusts.*;
 import com.zpig333.runesofwizardry.item.*;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -39,6 +40,7 @@ public class WizardryRegistry {
 
         dust_placed = new BlockDust().setBlockName("dust_placed");
         GameRegistry.registerBlock(dust_placed, "dust_placed");
+        GameRegistry.registerTileEntity(TileEntityDust.class, "dust_placed");
 
         dust_blocks = new BlockDustBlocks(Material.clay).setBlockName("dust_storage");
         GameRegistry.registerBlock(dust_blocks, ItemBlockDustBlocks.class, "dust_storage");
