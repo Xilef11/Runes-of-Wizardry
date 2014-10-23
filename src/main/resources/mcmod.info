@@ -1,6 +1,6 @@
 [
 {
-  "modid": "RunesWiz",
+  "modid": "RunesWizardry",
   "name": "Runes of Wizardry",
   "description": "Magic.  Runes.  And dust.  Lots of dusts.",
   "version": "Dev",
@@ -8,7 +8,7 @@
   "url": "http://zombiepig333.com",
   "updateUrl": "https://github.com/LightningPig333/Runes-of-Wizardry",
   "authorList": ["LightningPig333", "Xilef11"],
-  "credits": "billythegoat101 for the original concept.2",
+  "credits": "billythegoat101 for the original concept.",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
