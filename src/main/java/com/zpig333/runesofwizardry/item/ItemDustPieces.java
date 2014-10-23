@@ -1,6 +1,8 @@
 package com.zpig333.runesofwizardry.item;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.RunesOfWizardryAPI;
+import com.zpig333.runesofwizardry.core.ModLogger;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -19,32 +21,30 @@ import java.util.List;
 
 /**
  * the dust "chunks" used to craft the blocks.
- * @author Xilef11
+ * 
  */
 public class ItemDustPieces extends Item{
-    private IIcon[] icons;
-    //just the inert dust for now
+    private IIcon icon_foreground;
+    private IIcon icon_background;
+
     public ItemDustPieces(){
         super();
-        this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setHasSubtypes(true);
     }
+
     @Override
-    public IIcon getIconFromDamage(int meta){
-        return icons[meta];
+    public IIcon getIconFromDamageForRenderPass(int meta, int pass){
+        if(pass == 0){
+            return icon_foreground;
+        }else {
+            return icon_background;
+        }
     }
     
     @Override
     public String getUnlocalizedName(ItemStack itemStack){
         int meta = itemStack.getItemDamage();
-        return super.getUnlocalizedName() + "." + meta;
-    }
-
-    @Override
-    public void getSubItems(Item item, CreativeTabs tabs, List list){
-        for(int i = 0; i < References.dust_types.length; ++i){
-            list.add(new ItemStack(item, 1, i));
-        }
+        return super.getUnlocalizedName() + "_" + RunesOfWizardryAPI.dusts.get(meta).getDustName();
     }
 
     @Override
@@ -65,12 +65,34 @@ public class ItemDustPieces extends Item{
     }
 
     @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses()
+    {
+        return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(Item item, CreativeTabs tabs, List list){
+        for(int i = 0; i < RunesOfWizardryAPI.dusts.size(); i++){
+            if(RunesOfWizardryAPI.dusts.get(i) != null) {
+                list.add(new ItemStack(item, 1, i));
+                item.setCreativeTab(RunesOfWizardry.wizardry_tab);
+            }
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack stack, int pass)
+    {
+        int meta = stack.getItemDamage();
+        return pass == 0 ? RunesOfWizardryAPI.getPrimaryColor(meta) : RunesOfWizardryAPI.getSecondaryColor(meta);
+    }
+
+    @SideOnly(Side.CLIENT)
     @Override
     public void registerIcons(IIconRegister ireg){
         //just the plain one for now
-        icons = new IIcon[6];
-        for(int i = 0; i < icons.length; ++i){
-            icons[i] = ireg.registerIcon(References.texture_path + "dust_" + References.dust_types[i]);
-        }
+        icon_foreground = ireg.registerIcon(References.texture_path + "dust_item_fore");
+        icon_background = ireg.registerIcon(References.texture_path + "dust_item_sub");
     }
 }

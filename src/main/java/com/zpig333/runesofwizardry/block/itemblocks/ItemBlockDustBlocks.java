@@ -5,11 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-/**
- * Created by zombiepig333 on 21-07-14.
- * <p/>
- * Licensed under the GPLv3
- */
+
 public class ItemBlockDustBlocks extends ItemBlock {
 
     public ItemBlockDustBlocks(Block block) {

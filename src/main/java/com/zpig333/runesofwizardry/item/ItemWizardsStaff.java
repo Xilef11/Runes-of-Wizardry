@@ -8,11 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-/**
- * Created by zombiepig333 on 24-07-14.
- * <p/>
- * Licensed under the GPLv3
- */
 public class ItemWizardsStaff extends Item {
 
     public ItemWizardsStaff(){

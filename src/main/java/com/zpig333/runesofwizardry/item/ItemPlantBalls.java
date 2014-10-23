@@ -12,11 +12,6 @@ import net.minecraft.util.IIcon;
 
 import java.util.List;
 
-/**
- * Created by zombiepig333 on 17-07-14.
- * <p/>
- * Licensed under the GPLv3
- */
 public class ItemPlantBalls extends Item {
 
     private IIcon[] icons;

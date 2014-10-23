@@ -3,11 +3,6 @@ package com.zpig333.runesofwizardry.core;
 import cpw.mods.fml.common.FMLLog;
 import org.apache.logging.log4j.Level;
 
-/**
- * Created by zombiepig333 on 15-07-14.
- * <p/>
- * Licensed under the GPLv3
- */
 public class ModLogger {
 
     public static void log(Level level, Object obj){

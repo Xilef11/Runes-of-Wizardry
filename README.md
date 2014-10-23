@@ -1,9 +1,15 @@
 Runes-of-Wizardry
 =================
 
-This is a repository where I am slowly developing a magic mod for the game of Minecraft.
+This is a repository where a team is slowly developing a magic mod for the game of Minecraft.
 
 This repo has a wiki with a pretty good explanation of what I am trying to accomplish- check it for more detailed info for what the mod does/will do.
+
+Development Team/Credits
+-------------------------
+
+zombiepig333- Project Founder/Coder<br/>
+Xilef11- Coder/Textures
 
 Issue Reporting
 ----------------

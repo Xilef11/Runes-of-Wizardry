@@ -5,7 +5,7 @@
 // - ZeuX
 
 
-package com.zpig333.runesofwizardry.renderer;
+package com.zpig333.runesofwizardry.client.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

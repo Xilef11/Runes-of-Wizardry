@@ -9,11 +9,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-/**
- * Created by zombiepig333 on 17-07-14.
- * <p/>
- * Licensed under the GPLv3
- */
 public class ItemPestle extends Item {
 
     public ItemPestle(){

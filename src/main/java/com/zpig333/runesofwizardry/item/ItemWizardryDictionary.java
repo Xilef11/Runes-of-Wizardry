@@ -5,11 +5,6 @@ import com.zpig333.runesofwizardry.core.References;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 
-/**
- * Created by zombiepig333 on 23-07-14.
- * <p/>
- * Licensed under the GPLv3
- */
 public class ItemWizardryDictionary extends Item {
 
     public ItemWizardryDictionary(){
