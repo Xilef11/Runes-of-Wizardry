@@ -120,7 +120,7 @@ public class WizardryRegistry {
 
     //TODO temporary to avoid messing up existing methods
     public static void initDec(){
-        Block dust_dye = new BlockDustDye(Material.rock).setBlockName("dust_dye_block");
+        Block dust_dye = new BlockDustDye().setBlockName("dust_dye_block");
         GameRegistry.registerBlock(dust_dye, "dust_dye_block");
         GameRegistry.registerTileEntity(TileEntityDustDye.class, "te_Dust_Dye");
         NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance, new GuiHandler());

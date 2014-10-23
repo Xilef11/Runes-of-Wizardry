@@ -32,3 +32,6 @@ itemGroup.wizardry=Runes of Wizardry
 
 item.nether_paste.name=Blazing Netherrack paste
 item.lavastone.name=Lavastone
+item.dust_dyed.name=Chalk dust
+tile.dust_dye_block.name=Arcane Dye
+

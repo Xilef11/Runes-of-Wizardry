@@ -48,11 +48,10 @@ public class ItemDyedDust extends Item{
     public void registerIcons(IIconRegister ireg){
         itemIcon = ireg.registerIcon(References.texture_path + "dust_dyed");
     }
-    //DEBUG
-    static Random rand = new Random();
+
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int xPos, int yPos, int zPos, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_){
-        stack.getTagCompound().setInteger("color", rand.nextInt(0xffffff));
+        //TODO place the dust
         return true;
     }
 }

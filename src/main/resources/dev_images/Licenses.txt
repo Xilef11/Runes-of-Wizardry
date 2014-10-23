@@ -7,5 +7,12 @@ used to make pestle.png
 
 Books from http://opengameart.org/content/magic-books public domain
 
+dust_dye_block.png=TextureRainbow.png is based on tEXTURE aND lIGHT 2 by Mirrormere (DeviantArt user)
+http://www.deviantart.com/art/tEXTURE-aND-lIGHT-2-31393687
+"If you decide to use any of my works as a stock photo or desktop 
+(and I hope you do :D), please credit me 
+in the comments section of your submission. ;-) 
+If you don't you're just a prat! :x"
+
 some textures are modifications of vanilla minecraft textures
 others made by Xilef11, GPL v3
