@@ -15,7 +15,6 @@ public class ItemLavastone extends Item{
     }
      @Override
     public void registerIcons(IIconRegister ireg){
-         //TODO draw the icon...
         this.itemIcon=ireg.registerIcon(References.texture_path+"lavastone");
     }
 

@@ -16,7 +16,6 @@ public class ItemNetherPaste extends Item{
     }
     @Override
     public void registerIcons(IIconRegister ireg){
-        //TODO make the image
         this.itemIcon=ireg.registerIcon(References.texture_path+"nether_paste");
     }
     
