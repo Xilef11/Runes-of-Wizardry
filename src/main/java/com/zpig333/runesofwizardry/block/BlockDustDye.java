@@ -2,11 +2,13 @@ package com.zpig333.runesofwizardry.block;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,10 +20,20 @@ public class BlockDustDye extends BlockContainer {
 
     private Random random = new Random();
 
-    public BlockDustDye(Material mat) {
-        super(mat);
+    public BlockDustDye() {
+        super(Material.rock);
         setCreativeTab(RunesOfWizardry.wizardry_tab);
         setHarvestLevel("pickaxe", 0);
+        setHardness(2);
+    }
+    
+    @Override
+    public boolean canHarvestBlock(EntityPlayer player, int meta){
+        return true;
+    }
+    
+    public void registerBlockIcons(IIconRegister ireg){
+        this.blockIcon=ireg.registerIcon(References.texture_path+"dust_dye_block");
     }
 
     @Override
@@ -65,21 +77,20 @@ public class BlockDustDye extends BlockContainer {
             }
 
             p_149749_1_.func_147453_f(p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_);
-            //FIXME crappy workaround?
-            tileentityDustDye.invalidate();
         }
+        super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
 
     }
     
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z,
                         EntityPlayer player, int metadata, float what, float these, float are){
-       /* if (world.isRemote)
+        if (world.isRemote)
         {
             return true;
         }
         else
-        { */
+        { 
             TileEntityDustDye tileentityDD = (TileEntityDustDye)world.getTileEntity(x,y,z);
             
             if (tileentityDD == null || player.isSneaking()) {
@@ -89,4 +100,5 @@ public class BlockDustDye extends BlockContainer {
             return true;
         }
     }
+}
 

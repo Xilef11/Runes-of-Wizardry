@@ -1,6 +1,5 @@
 package com.zpig333.runesofwizardry.client.gui;
 
-//TODO maybe the lwjgl color should be used?
 import java.awt.Color;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.client.container.ContainerDustDye;
@@ -19,10 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.input.Keyboard;
-/*TODO major cleanup required, 
- * this is a mashup from many different examples/tutorials
- * there is probably a lot of useless code
- */
+
 public class GuiDustDye extends GuiContainer {
 
     public static final int GUI_ID = 1;
@@ -46,7 +42,6 @@ public class GuiDustDye extends GuiContainer {
         //sets the parent entity
         PARENT=tileEntity;
         colorString=PARENT.getColor();
-        //if(colorString==null)colorString="Color";
     }
     /** runs once every time the GUI is opened
      * 
@@ -71,9 +66,6 @@ public class GuiDustDye extends GuiContainer {
       updateColor();
       textColor.setFocused(true);
       textColor.setCanLoseFocus(true);
-      //textColor.setDisabledTextColour(16777215);
-      //textColor.setCursorPositionEnd();
-      
      //id, x, y, width, height, text
       //note: height seems to need to be 20 to display full button texture
       buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+99,posY+55,50,20,"Dye"));
@@ -85,6 +77,8 @@ public class GuiDustDye extends GuiContainer {
     }
     @Override
     public void updateScreen(){
+        super.updateScreen();
+        //makes the cursor blink
         textColor.updateCursorCounter();
     }
     @Override
@@ -99,27 +93,6 @@ public class GuiDustDye extends GuiContainer {
      */
     @Override
     protected void keyTyped(char par1, int par2){
-       /* if(textColor.isFocused()){
-            textColor.textboxKeyTyped(par1, par2);
-            colorString = textColor.getText();
-            PARENT.setColor(colorString);
-            try{
-                //parsing in hexadecimal allows for a more natural, html-style color input
-                colorInt=Integer.parseInt(colorString,16);
-            	color = new Color(colorInt);
-                validColor=true;
-            }catch(NumberFormatException e){
-                //this might spam a bit...
-                ModLogger.logDebug("GuiDustDye could not parse colorString to Integer");
-                validColor=false;
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-        if(!textColor.isFocused()||par2 == '27'){
-        super.keyTyped(par1, par2);
-    }*/
-        
         if(textColor.textboxKeyTyped(par1, par2)){
             colorString = textColor.getText();
             PARENT.setColor(colorString);
@@ -137,6 +110,7 @@ public class GuiDustDye extends GuiContainer {
                 //parsing in hexadecimal allows for a more natural, html-style color input
                 //that is, 2 (hex) digits per color (RGB)
                 colorInt=Integer.parseInt(colorString,16);
+                //XXX is this even necessary?
             	color = new Color(colorInt);
                 validColor=true;
             }catch(NumberFormatException e){
@@ -152,14 +126,6 @@ public class GuiDustDye extends GuiContainer {
     	//posX, posY defines the top left pixel of the gui display
         int posX = (this.width - textureX) /2;
         int posY = (this.height - textureY) /2;
-    	//DEBUG flag used by textColor.mouseClicked
-        /*
-    	boolean flag = par1 >= textColor.xPosition && par1 < textColor.xPosition + textColor.width && par2 >= textColor.yPosition && par2 < textColor.yPosition + textColor.height;
-    	System.out.println(flag+": par1="+par1+" par2="+par2+
-    			"\nx="+textColor.xPosition+" y="+textColor.yPosition+
-    			"\nwidth="+textColor.width+" height="+textColor.height+
-    			"\npassed: "+(par1-posX)+", "+(par2-posY));
-                        */
     	/*Well, it seems the click is located relative to the window, 
     	 * while the text field position depends on the texture
     	 * WTF Minecraft?
@@ -178,7 +144,7 @@ public class GuiDustDye extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int param1, int param2) {
         //draw text and stuff here
         //the parameters for drawString are: string, x, y, color
-        fontRendererObj.drawString("Dust Dye", 8, 6, 4210752);
+        fontRendererObj.drawString("Arcane Dye", 8, 6, 4210752);
         //draws "Inventory" or your regional equivalent
         fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
         textColor.drawTextBox();
@@ -188,8 +154,6 @@ public class GuiDustDye extends GuiContainer {
         }
         // x1, y1, x2, y2, color (NOTE: first byte (2 char) of color is alpha)
         drawRect(77, 59, 92, 71, 0xff000000+colorInt);
-        //fontRendererObj.drawString("##", 0, 0, colorInt);
-        //super.drawGuiContainerForegroundLayer(param1, param2);
     }
 
     @Override
