@@ -1,9 +1,18 @@
+#Dust storage blocks
 tile.dust_storage.inert.name=Dust Block
 tile.dust_storage.plant.name=Plant Infused Dust Block
 tile.dust_storage.flame.name=Flame Infused Dust Block
 tile.dust_storage.aqua.name=Water Infused Dust Block
 tile.dust_storage.glowstone.name=Glowstone Infused Dust Block
 tile.dust_storage.ender.name=Ender Infused Dust Block
+
+item.dust_inert.name=Inert Runic Dust
+item.dust_plant.name=Plant Runic Dust
+item.dust_aqua.name=Aqua Runic Dust
+item.dust_fire.name=Blaze Runic Dust
+item.dust_glowstone.name=Glowstone Runic Dust
+item.dust_ender.name=Ender Runic Dust
+
 
 item.plant_balls.0.name=Plant Ball
 item.plant_balls.1.name=Small Plant Ball

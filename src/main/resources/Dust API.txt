@@ -1,0 +1,15 @@
+###############################
+#Dust API - Methods to Include#
+###############################
+
+getName() - Returns a string with the name of the requested dust.
+
+setName(String name) - Sets the name of the dust to the given string.
+
+getPrimaryColor() - Returns the primary color registered for the dust.
+
+getSecondaryColor() - Returns the secondary color registered for the dust.
+
+getPlacedColor() - Returns the color of the dust placed on the ground.
+
+setColor(DustColor color) - Sets the colors of a dust.

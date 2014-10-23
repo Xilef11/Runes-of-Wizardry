@@ -1,14 +1,13 @@
 package com.zpig333.runesofwizardry.block;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.RunesOfWizardryAPI;
 import com.zpig333.runesofwizardry.core.References;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
@@ -51,7 +50,7 @@ public class BlockDust extends Block {
     @SideOnly(Side.CLIENT)
     public int colorMultiplier(IBlockAccess access, int x, int y, int z)
     {
-        int[] colors = DustRegistry.getFloorColorRGB(1);
+        int[] colors = RunesOfWizardryAPI.getFloorColorRGB(0);
         return new Color(colors[0], colors[1], colors[2]).getRGB();
     }
 

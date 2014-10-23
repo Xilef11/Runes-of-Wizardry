@@ -1,7 +1,8 @@
 package com.zpig333.runesofwizardry.item;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.RunesOfWizardryAPI;
+import com.zpig333.runesofwizardry.core.ModLogger;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -28,7 +29,6 @@ public class ItemDustPieces extends Item{
 
     public ItemDustPieces(){
         super();
-        this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setHasSubtypes(true);
     }
 
@@ -44,7 +44,7 @@ public class ItemDustPieces extends Item{
     @Override
     public String getUnlocalizedName(ItemStack itemStack){
         int meta = itemStack.getItemDamage();
-        return super.getUnlocalizedName() + "_" + DustRegistry.names[meta];
+        return super.getUnlocalizedName() + "_" + RunesOfWizardryAPI.dusts.get(meta).getDustName();
     }
 
     @Override
@@ -70,11 +70,12 @@ public class ItemDustPieces extends Item{
         return true;
     }
 
-    @Override
+    @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List list){
-        for(int i = 0; i < DustRegistry.ids.length; i++){
-            if(DustRegistry.colors[i] != null) {
+        for(int i = 0; i < RunesOfWizardryAPI.dusts.size(); i++){
+            if(RunesOfWizardryAPI.dusts.get(i) != null) {
                 list.add(new ItemStack(item, 1, i));
+                item.setCreativeTab(RunesOfWizardry.wizardry_tab);
             }
         }
     }
@@ -84,7 +85,7 @@ public class ItemDustPieces extends Item{
     public int getColorFromItemStack(ItemStack stack, int pass)
     {
         int meta = stack.getItemDamage();
-        return pass == 0 ? DustRegistry.getPrimaryColor(meta) : DustRegistry.getSecondaryColor(meta);
+        return pass == 0 ? RunesOfWizardryAPI.getPrimaryColor(meta) : RunesOfWizardryAPI.getSecondaryColor(meta);
     }
 
     @SideOnly(Side.CLIENT)

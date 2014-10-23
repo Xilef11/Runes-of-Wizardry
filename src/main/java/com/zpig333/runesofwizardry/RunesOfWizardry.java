@@ -35,6 +35,8 @@ public class RunesOfWizardry {
         WizardryRegistry.initDusts();
         WizardryRegistry.initCrafting();
         proxy.registerRenderers();
+
+
         //Decorative dusts- dust of any color wip
         WizardryRegistry.initDec();
         initNetwork();
