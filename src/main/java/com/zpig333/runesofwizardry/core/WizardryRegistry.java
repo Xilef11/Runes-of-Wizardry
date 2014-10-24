@@ -75,12 +75,12 @@ public class WizardryRegistry {
     public static void initDusts(){
 
         RWDusts instance = new RWDusts();
-        RunesOfWizardryAPI.registerDust(0, instance.new DustInert());
-        RunesOfWizardryAPI.registerDust(1, instance.new DustPlant());
-        RunesOfWizardryAPI.registerDust(2, instance.new DustAqua());
-        RunesOfWizardryAPI.registerDust(3, instance.new DustBlaze());
-        RunesOfWizardryAPI.registerDust(4, instance.new DustGlowstone());
-        RunesOfWizardryAPI.registerDust(5, instance.new DustEnder());
+        RunesOfWizardryAPI.registerDust(instance.new DustInert());
+        RunesOfWizardryAPI.registerDust(instance.new DustPlant());
+        RunesOfWizardryAPI.registerDust(instance.new DustAqua());
+        RunesOfWizardryAPI.registerDust(instance.new DustBlaze());
+        RunesOfWizardryAPI.registerDust(instance.new DustGlowstone());
+        RunesOfWizardryAPI.registerDust(instance.new DustEnder());
     }
 
     public static void initCrafting(){
