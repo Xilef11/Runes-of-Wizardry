@@ -119,12 +119,11 @@ public class WizardryRegistry {
         GameRegistry.addSmelting(nether_paste, new ItemStack(lavastone,1), 0.2F);
     }
 
-    //TODO temporary to avoid messing up existing methods
+    //a separate method will allow for easier disabling/enabling via config
     public static void initDec(){
         Block dust_dye = new BlockDustDye().setBlockName("dust_dye_block");
         GameRegistry.registerBlock(dust_dye, "dust_dye_block");
         GameRegistry.registerTileEntity(TileEntityDustDye.class, "te_Dust_Dye");
-        NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance, new GuiHandler());
         
         dust_dyed = new ItemDyedDust();
         GameRegistry.registerItem(dust_dyed, "dust_dyed");

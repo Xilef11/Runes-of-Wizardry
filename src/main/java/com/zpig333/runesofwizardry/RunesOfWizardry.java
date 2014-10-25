@@ -7,6 +7,7 @@ import com.zpig333.runesofwizardry.client.gui.DustDyeButtonPacket;
 import com.zpig333.runesofwizardry.client.gui.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.client.gui.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.client.gui.DustDyeUpdatePacket;
+import com.zpig333.runesofwizardry.core.GuiHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -40,6 +41,8 @@ public class RunesOfWizardry {
         //Decorative dusts- dust of any color wip
         WizardryRegistry.initDec();
         initNetwork();
+        //the GUI handler
+        NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance, new GuiHandler());
     }
 
     public static void initNetwork(){
