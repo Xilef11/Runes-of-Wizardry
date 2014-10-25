@@ -55,7 +55,7 @@ public class WizardryRegistry {
         plant_balls = new ItemPlantBalls().setUnlocalizedName("plant_balls");
         GameRegistry.registerItem(plant_balls, "plant_balls");
         
-        dust_item = new ItemDustPieces().setUnlocalizedName("dust").setCreativeTab(RunesOfWizardry.wizardry_tab);;
+        dust_item = new ItemDustPieces(dust_placed).setUnlocalizedName("dust").setCreativeTab(RunesOfWizardry.wizardry_tab);;
         GameRegistry.registerItem(dust_item, "dust");
 
         nether_paste = new Item().setUnlocalizedName("nether_paste").setCreativeTab(RunesOfWizardry.wizardry_tab).setTextureName(References.texture_path + "nether_paste");
