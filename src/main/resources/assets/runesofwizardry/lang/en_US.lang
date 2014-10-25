@@ -1,3 +1,6 @@
+#Creative tab
+itemGroup.wizardry=Runes of Wizardry
+
 #Dust storage blocks
 tile.dust_storage.inert.name=Dust Block
 tile.dust_storage.plant.name=Plant Infused Dust Block
@@ -6,6 +9,7 @@ tile.dust_storage.aqua.name=Water Infused Dust Block
 tile.dust_storage.glowstone.name=Glowstone Infused Dust Block
 tile.dust_storage.ender.name=Ender Infused Dust Block
 
+#Dust item names
 item.dust_inert.name=Inert Runic Dust
 item.dust_plant.name=Plant Runic Dust
 item.dust_aqua.name=Aqua Runic Dust
@@ -13,25 +17,16 @@ item.dust_fire.name=Blaze Runic Dust
 item.dust_glowstone.name=Glowstone Runic Dust
 item.dust_ender.name=Ender Runic Dust
 
-
-item.plant_balls.0.name=Plant Ball
-item.plant_balls.1.name=Small Plant Ball
-
-item.dust_pieces.0.name=Dust Piece
-item.dust_pieces.1.name=Plant Infused Dust
-item.dust_pieces.2.name=Flame Infused Dust
-item.dust_pieces.3.name=Water Infused Dust
-item.dust_pieces.4.name=Glowstone Infused Dust
-item.dust_pieces.5.name=Ender Infused Dust
-
-item.pestle_wizardry.name=Mortar and Pestle
+#Items
 item.wizardry_dictionary.name=Runic Dictionary
 item.wizards_staff.name=Runic Staff
 
-itemGroup.wizardry=Runes of Wizardry
 
-item.nether_paste.name=Blazing Netherrack paste
+#Misc crafting items
+item.plant_balls.0.name=Plant Ball
+item.plant_balls.1.name=Small Plant Ball
+item.pestle_wizardry.name=Mortar and Pestle
+item.nether_paste.name=Netherrack Paste
 item.lavastone.name=Lavastone
-item.dust_dyed.name=Chalk dust
+item.dust_dyed.name=Chalk Dust
 tile.dust_dye_block.name=Arcane Dye
-

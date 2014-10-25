@@ -58,12 +58,11 @@ public class WizardryRegistry {
         dust_item = new ItemDustPieces().setUnlocalizedName("dust").setCreativeTab(RunesOfWizardry.wizardry_tab);;
         GameRegistry.registerItem(dust_item, "dust");
 
-        nether_paste=new ItemNetherPaste();
+        nether_paste = new Item().setUnlocalizedName("nether_paste").setCreativeTab(RunesOfWizardry.wizardry_tab).setTextureName(References.texture_path + "nether_paste");
         GameRegistry.registerItem(nether_paste, "nether_paste");
         
-        lavastone=new ItemLavastone();
+        lavastone=new Item().setUnlocalizedName("lavastone").setCreativeTab(RunesOfWizardry.wizardry_tab).setTextureName(References.texture_path + "lavastone");
         GameRegistry.registerItem(lavastone, "lavastone");
-
 
         wizardry_dictionary = new ItemWizardryDictionary().setUnlocalizedName("wizardry_dictionary");
         GameRegistry.registerItem(wizardry_dictionary, "wizardry_dictionary");

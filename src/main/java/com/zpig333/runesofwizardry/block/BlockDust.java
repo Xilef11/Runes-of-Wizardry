@@ -23,10 +23,11 @@ public class BlockDust extends BlockContainer {
 
     @SideOnly(Side.CLIENT)
     private IIcon icon_side;
+    @SideOnly(Side.CLIENT)
+    private IIcon icon_top;
 
     public BlockDust(){
         super(Material.circuits);
-        this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setStepSound(Block.soundTypeSand);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
         this.setHardness(0.2F);
@@ -35,7 +36,7 @@ public class BlockDust extends BlockContainer {
 
     @Override
     public IIcon getIcon(int side, int meta){
-        return side == 0 ? icon_side : this.blockIcon;
+        return side == 1 ? icon_top : icon_side;
     }
 
     /**
@@ -87,7 +88,7 @@ public class BlockDust extends BlockContainer {
     @Override
     public void registerBlockIcons(IIconRegister ireg){
 
-        this.blockIcon = ireg.registerIcon(References.texture_path + "dust_top");
+        icon_top = ireg.registerIcon(References.texture_path + "dust_top");
         icon_side = ireg.registerIcon(References.texture_path + "dust_side");
     }
 
