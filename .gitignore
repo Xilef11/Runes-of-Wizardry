@@ -1,7 +1,15 @@
-.idea
+#gradle things
 gradle
 .gradle
 minecraft
+#intelliJ things
+.idea
 Runes-of-Wizardry.iws
 Runes-of-Wizardry.iml
 Runes-of-Wizardry.ipr
+#NetBeans things
+.nb*
+#eclipse things
+.classpath
+.project
+.settings
