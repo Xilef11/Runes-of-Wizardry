@@ -1,6 +1,7 @@
 package com.zpig333.runesofwizardry.api;
 
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
@@ -15,13 +16,14 @@ public class RunesOfWizardryAPI {
 
     /**
      * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
-     * <br/>Note: you still have to register it as an Item in the GameRegistry.
+     * <br/>Note: also registers it as an Item in the GameRegistry.
      */ 
     public static void registerDust(IDust dustclass){
         //get the last avaliable ID
         int nextId=dusts.size();
         dustclass.setId(nextId);
         dusts.add(nextId, dustclass);
+        GameRegistry.registerItem(dustclass, dustclass.getUnlocalizedName());
         //TODO- craftability and whatnot
     }
 
