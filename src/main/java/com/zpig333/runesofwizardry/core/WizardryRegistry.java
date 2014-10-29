@@ -1,17 +1,5 @@
 package com.zpig333.runesofwizardry.core;
 
-import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.api.RunesOfWizardryAPI;
-import com.zpig333.runesofwizardry.block.BlockDust;
-import com.zpig333.runesofwizardry.block.BlockDustBlocks;
-import com.zpig333.runesofwizardry.block.BlockDustDye;
-import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
-import com.zpig333.runesofwizardry.dusts.*;
-import com.zpig333.runesofwizardry.item.*;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -20,11 +8,30 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.RunesOfWizardryAPI;
+import com.zpig333.runesofwizardry.block.BlockDust;
+import com.zpig333.runesofwizardry.block.BlockDustBlocks;
+import com.zpig333.runesofwizardry.block.BlockDustDye;
+import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
+import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
+import com.zpig333.runesofwizardry.dusts.RWDusts;
+import com.zpig333.runesofwizardry.item.ItemDustPieces;
+import com.zpig333.runesofwizardry.item.ItemDyedDust;
+import com.zpig333.runesofwizardry.item.ItemPestle;
+import com.zpig333.runesofwizardry.item.ItemPlantBalls;
+import com.zpig333.runesofwizardry.item.ItemWizardryDictionary;
+import com.zpig333.runesofwizardry.item.ItemWizardsStaff;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+
 public class WizardryRegistry {
 
     public static Block dust_blocks;
     public static Block dust_placed;
-
+    public static Block lavastone_bricks;
     /** The item which all dust pieces are registered under.**/
     public static Item dust_item;
     public static Item pestle;
@@ -44,6 +51,9 @@ public class WizardryRegistry {
 
         dust_blocks = new BlockDustBlocks(Material.clay).setBlockName("dust_storage");
         GameRegistry.registerBlock(dust_blocks, ItemBlockDustBlocks.class, "dust_storage");
+        
+        lavastone_bricks = new BlockLavastone_bricks(Material.rock);
+        GameRegistry.registerBlock(lavastone_bricks, "lavastone_bricks");
     }
 
 
@@ -117,6 +127,9 @@ public class WizardryRegistry {
         GameRegistry.addShapelessRecipe(new ItemStack(nether_paste,1),
                 new ItemStack(Blocks.netherrack),new ItemStack(pestle),new ItemStack(Items.blaze_powder));
         GameRegistry.addSmelting(nether_paste, new ItemStack(lavastone,1), 0.2F);
+        GameRegistry.addRecipe(new ItemStack(lavastone_bricks,4),new Object[]{
+        	"XX","XX",'X',new ItemStack(lavastone,1)
+        });
     }
 
     //a separate method will allow for easier disabling/enabling via config
