@@ -64,9 +64,9 @@ public class WizardryRegistry {
 
         plant_balls = new ItemPlantBalls().setUnlocalizedName("plant_balls");
         GameRegistry.registerItem(plant_balls, "plant_balls");
-        
-        dust_item = new ItemDustPieces(dust_placed).setUnlocalizedName("dust").setCreativeTab(RunesOfWizardry.wizardry_tab);;
-        GameRegistry.registerItem(dust_item, "dust");
+		
+//        dust_item = new ItemDustPieces().setUnlocalizedName("dust").setCreativeTab(RunesOfWizardry.wizardry_tab);;
+//        GameRegistry.registerItem(dust_item, "dust");
 
         nether_paste = new Item().setUnlocalizedName("nether_paste").setCreativeTab(RunesOfWizardry.wizardry_tab).setTextureName(References.texture_path + "nether_paste");
         GameRegistry.registerItem(nether_paste, "nether_paste");
@@ -84,12 +84,12 @@ public class WizardryRegistry {
     public static void initDusts(){
 
         RWDusts instance = new RWDusts();
-        RunesOfWizardryAPI.registerDust(0, instance.new DustInert());
-        RunesOfWizardryAPI.registerDust(1, instance.new DustPlant());
-        RunesOfWizardryAPI.registerDust(2, instance.new DustAqua());
-        RunesOfWizardryAPI.registerDust(3, instance.new DustBlaze());
-        RunesOfWizardryAPI.registerDust(4, instance.new DustGlowstone());
-        RunesOfWizardryAPI.registerDust(5, instance.new DustEnder());
+        RunesOfWizardryAPI.registerDust(instance.new DustInert());
+        RunesOfWizardryAPI.registerDust(instance.new DustPlant());
+        RunesOfWizardryAPI.registerDust(instance.new DustAqua());
+        RunesOfWizardryAPI.registerDust(instance.new DustBlaze());
+        RunesOfWizardryAPI.registerDust(instance.new DustGlowstone());
+        RunesOfWizardryAPI.registerDust(instance.new DustEnder());
     }
 
     public static void initCrafting(){
