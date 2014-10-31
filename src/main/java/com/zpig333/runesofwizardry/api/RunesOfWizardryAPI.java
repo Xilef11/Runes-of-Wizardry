@@ -73,28 +73,13 @@ public class RunesOfWizardryAPI {
             return new int[] { 0, 0, 0 };
 
         int[] rtn = new int[3];
-
         int col = dusts.get(value).getPlacedColor();
-
         rtn[0] = (col & 0xFF0000) >> 16;
         rtn[1] = (col & 0xFF00) >> 8;
         rtn[2] = (col & 0xFF);
 
         return rtn;
     }
-
-    /*public static class DustColor{
-
-        public static int primary_color;
-        public static int secondary_color;
-        public static int placed_color;
-
-        public DustColor(int primary, int secondary, int placed){
-            this.primary_color = primary;
-            this.secondary_color = secondary;
-            this.placed_color = placed;
-        }
-    }*/
 }
 
 

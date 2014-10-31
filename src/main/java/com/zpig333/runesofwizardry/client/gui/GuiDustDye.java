@@ -6,6 +6,7 @@ import com.zpig333.runesofwizardry.client.container.ContainerDustDye;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.ModLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
+import net.minecraft.client.gui.FontRenderer;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -149,8 +150,10 @@ public class GuiDustDye extends GuiContainer {
         fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
         textColor.drawTextBox();
         if(!validColor){
-        	//TODO this is slightly small
-        	fontRendererObj.drawString("!", 98, 15, 0xFF0000);
+        	GL11.glPushMatrix();//GL stuff to make it bigger
+        	GL11.glScalef(1.6F, 1.55F, 1.5F);
+        	fontRendererObj.drawString("!", 61, 8, 0xFF0000);
+        	GL11.glPopMatrix();
         }
         // x1, y1, x2, y2, color (NOTE: first byte (2 char) of color is alpha)
         drawRect(77, 59, 92, 71, 0xff000000+colorInt);

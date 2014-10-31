@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/main/java/com/zpig333/runesofwizardry/item/ItemDustPieces.java.old
 package com.zpig333.runesofwizardry.item;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
@@ -95,4 +96,3 @@ public class ItemDustPieces extends Item{
         icon_foreground = ireg.registerIcon(References.texture_path + "dust_item_fore");
         icon_background = ireg.registerIcon(References.texture_path + "dust_item_sub");
     }
-}

@@ -1,6 +1,7 @@
 package com.zpig333.runesofwizardry.client.render;
 
 import com.zpig333.runesofwizardry.api.RunesOfWizardryAPI;
+import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
@@ -11,6 +12,11 @@ import net.minecraft.world.IBlockAccess;
 public class RenderBlockDust implements ISimpleBlockRenderingHandler {
 
     public static int dust_modelid;
+    public int current_renderer;
+
+    public RenderBlockDust(int modelID){
+        this.current_renderer = modelID;
+    }
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
@@ -19,11 +25,14 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-        if(modelId == dust_modelid){
+        if(current_renderer == dust_modelid){
             renderDust(renderer, world, x, y, z, block);
+            return true;
+        }
+        else{
+            return false;
         }
 
-        return false;
     }
 
 
@@ -50,29 +59,23 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
 
         float highlightHeight = 0.125f;
 
-        for (int x = 0; x < size + 1; x++)
-        {
-            for (int z = 0; z < size + 1; z++)
-            {
+        for (int x = 0; x < size + 1; x++) {
+            for (int z = 0; z < size + 1; z++) {
                 float ox = x * cellWidth;
                 float oz = z * (cellWidth);
 
-                if (midArray[x][z] != 0)
-                {
+                if (midArray[x][z] != 0) {
 
                     col = RunesOfWizardryAPI.getFloorColorRGB(midArray[x][z]);
                     r = (float) col[0];
                     g = (float) col[1];
                     b = (float) col[2];
 
-                    //TODO Active, dead states of dust. nyi
-                    /*if (meta == BlockDust.ACTIVE_DUST || meta == BlockDust.ACTIVATING_DUST)
-                    {
+                    if (meta == BlockDust.DUST_ACTIVE || meta == BlockDust.DUST_ACTIVATING) {
                         r = 255f;
                         g = 0f;
                         b = 0f;
-                    } else if (meta == BlockDust.DEAD_DUST)
-                    {
+                    } else if (meta == BlockDust.DUST_DEAD) {
                         r = 178f;
                         g = 178f;
                         b = 178f;
@@ -92,44 +95,36 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
                     renderblocks.renderStandardBlockWithColorMultiplier(block,
                             i, j, k, r, g, b);
 
-                    if (drawHightlight)
-                    {
-                        if (meta == BlockDust.ACTIVATING_DUST)
-                        {
+                    if (drawHightlight) {
+                        if (meta == BlockDust.DUST_ACTIVATING) {
                             tes.setColorOpaque_F(1, 1, 1);
                             block.setBlockBounds(bx, t, bz, bx + bw,
                                     highlightHeight, bz + bl);
-                        } else
-                        {
+                        } else {
                             tes.setColorOpaque_F(1, 0.68f, 0.68f);
                             block.setBlockBounds(bx, t, bz, bx + bw, t + h, bz
                                     + bl);
                         }
                         tes.setBrightness(15728880);
-                        this.renderGlowPoint(renderblocks, block, i, j, k, x,
-                                z, midArray[x][z], horizArray, vertArray);
-                    }*/
+                    }
                 }
 
-                if (horizArray[x][z] != 0)
-                {
+                if (horizArray[x][z] != 0) {
 
                     col = RunesOfWizardryAPI.getFloorColorRGB(horizArray[x][z]);
                     r = (float) col[0];
                     g = (float) col[1];
                     b = (float) col[2];
 
-                    /*if (meta == 0 /*ActiveDust or Activating)
-                    {
+                    if (meta == BlockDust.DUST_ACTIVE || meta == BlockDust.DUST_ACTIVATING) {
                         r = 255f;
                         g = 0f;
                         b = 0f;
-                    }/*else if (meta == BlockDust.DEAD_DUST)
-                    {
+                    } else if (meta == BlockDust.DUST_DEAD) {
                         r = 178f;
                         g = 178f;
                         b = 178f;
-                    }*/
+                    }
 
                     r = r / 255;
                     g = g / 255;
@@ -140,14 +135,12 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
                     bw = 2 * px;
                     bl = 2 * px;
 
-                    if (z == 0)
-                    {
+                    if (z == 0) {
                         bz = 0;
                         bl = px;
                     }
 
-                    if (z == size)
-                    {
+                    if (z == size) {
                         bl = px;
                     }
 
@@ -157,41 +150,32 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
                     renderblocks.renderStandardBlockWithColorMultiplier(block,
                             i, j, k, r, g, b);
 
-                    if (drawHightlight)
-                    {
-                        /*if (meta == BlockDust.ACTIVATING_DUST)
-                        {
+                    if (drawHightlight) {
+                        if (meta == BlockDust.DUST_ACTIVATING) {
                             tes.setColorOpaque_F(1, 1, 1);
                             block.setBlockBounds(bx, t, bz, bx + bw,
                                     highlightHeight, bz + bl);
-                        } else
-                        {
+                        } else {
                             tes.setColorOpaque_F(1, 0.68f, 0.68f);
                             block.setBlockBounds(bx, t, bz, bx + bw, t + h, bz
                                     + bl);
                         }
                         tes.setBrightness(15728880);
-                        this.renderGlowIgnoreSide(renderblocks, block, i, j, k,
-                                new boolean[] { true, true, false, false });*/
                     }
                 }
 
-                if (vertArray[x][z] != 0)
-                {
+                if (vertArray[x][z] != 0) {
 
                     col = RunesOfWizardryAPI.getFloorColorRGB(vertArray[x][z]);
                     r = (float) col[0];
                     g = (float) col[1];
                     b = (float) col[2];
 
-                    /*if (meta == BlockDust.ACTIVE_DUST
-                            || meta == BlockDust.ACTIVATING_DUST)
-                    {
+                    if (meta == BlockDust.DUST_ACTIVE || meta == BlockDust.DUST_ACTIVATING) {
                         r = 255f;
                         g = 0f;
                         b = 0f;
-                    } else if (meta == BlockDust.DEAD_DUST)
-                    {
+                    } else if (meta == BlockDust.DUST_DEAD) {
                         r = 178f;
                         g = 178f;
                         b = 178f;
@@ -206,14 +190,12 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
                     bw = 2 * px;
                     bl = 2 * px;
 
-                    if (x == 0)
-                    {
+                    if (x == 0) {
                         bx = 0;
                         bw = px;
                     }
 
-                    if (x == size)
-                    {
+                    if (x == size) {
                         bw = px;
                     }
 
@@ -223,26 +205,21 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
                     renderblocks.renderStandardBlockWithColorMultiplier(block,
                             i, j, k, r, g, b);
 
-                    if (drawHightlight)
-                    {
-                        if (meta == 3)
-                        {
+                    if (drawHightlight) {
+                        if (meta == 3) {
                             tes.setColorOpaque_F(1, 1, 1);
                             block.setBlockBounds(bx, t, bz, bx + bw,
                                     highlightHeight, bz + bl);
-                        } else
-                        {
+                        } else {
                             tes.setColorOpaque_F(1, 0.68f, 0.68f);
                             block.setBlockBounds(bx, t, bz, bx + bw, t + h, bz
                                     + bl);
                         }
                         tes.setBrightness(15728880);
-                        this.renderGlowIgnoreSide(renderblocks, block, i, j, k,
-                                new boolean[] { false, false, true, true });*/
                     }
                 }
             }
-
+        }
         block.setBlockBounds(0, 0, 0, 0, 0, 0);
         renderblocks.setRenderBoundsFromBlock(block);
         renderblocks.renderStandardBlockWithColorMultiplier(block, i, j, k, 1, 1, 1);
@@ -258,6 +235,6 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
 
     @Override
     public int getRenderId() {
-        return 0;
+        return current_renderer;
     }
 }

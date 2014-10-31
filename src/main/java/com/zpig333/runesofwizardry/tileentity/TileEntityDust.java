@@ -3,6 +3,7 @@ package com.zpig333.runesofwizardry.tileentity;
 import com.zpig333.runesofwizardry.api.RunesOfWizardryAPI;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,14 +12,54 @@ import net.minecraft.tileentity.TileEntity;
 public class TileEntityDust extends TileEntity implements IInventory{
 
     public static final int size = 4;
+    //Defines the current grid on the ground
     private int[][] pattern;
 
+    public TileEntityDust(){
+        //The grid is a 4x4 grid
+        pattern = new int[size][size];
+    }
+
+    //Returns the coordinates of a dust piece in int[][] form
     public int getDust(int i, int j)
     {
         int rtn = pattern[i][j];
         return rtn;
     }
 
+    //Sets a piece of dust
+    public void setDust(EntityPlayer p, int i, int j, int dust)
+    {
+        if (p != null && !worldObj.canMineBlock(p, this.xCoord, this.yCoord, this.zCoord))
+            return;
+        int last = getDust(i, j);
+        pattern[i][j] = dust;
+
+        if (dust != 0 && last != dust)
+        {
+            int[] color = RunesOfWizardryAPI.getFloorColorRGB(dust);
+            java.awt.Color c = new java.awt.Color(color[0], color[1], color[2]);
+            c = c.darker();
+            float r = (float) c.getRed() / 255F;
+            float g = (float) c.getGreen() / 255F;
+            float b = (float) c.getBlue() / 255F;
+            if (r == 0)
+                r -= 1;
+
+            if (Math.random() < 0.75)
+                for (int d = 0; d < Math.random() * 3; d++)
+                {
+                    worldObj.spawnParticle("reddust", xCoord + (double) i / 4D
+                            + Math.random() * 0.15, yCoord, zCoord + (double) j
+                            / 4D + Math.random() * 0.15, r, g, b);
+                }
+        }
+        worldObj.notifyBlockChange(xCoord, yCoord, zCoord, Blocks.air);
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+
+    //Render arrays for the dust.
     public int[][][] getRendArrays()
     {
         int[][][] rtn = new int[3][size + 1][size + 1];
@@ -96,7 +137,6 @@ public class TileEntityDust extends TileEntity implements IInventory{
                 }
             }
         }
-
         return rtn;
     }
 
