@@ -1,9 +1,7 @@
 package com.zpig333.runesofwizardry.block;
 
-import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.api.RunesOfWizardryAPI;
+import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -91,7 +89,7 @@ public class BlockDust extends BlockContainer {
     @SideOnly(Side.CLIENT)
     public int colorMultiplier(IBlockAccess access, int x, int y, int z)
     {
-        int[] colors = RunesOfWizardryAPI.getFloorColorRGB(3);
+        int[] colors = DustRegistry.getFloorColorRGB(3);
         return new Color(colors[0], colors[1], colors[2]).getRGB();
     }
 

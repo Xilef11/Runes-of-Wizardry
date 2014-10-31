@@ -1,6 +1,6 @@
 package com.zpig333.runesofwizardry.tileentity;
 
-import com.zpig333.runesofwizardry.api.RunesOfWizardryAPI;
+import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -37,7 +37,7 @@ public class TileEntityDust extends TileEntity implements IInventory{
 
         if (dust != 0 && last != dust)
         {
-            int[] color = RunesOfWizardryAPI.getFloorColorRGB(dust);
+            int[] color = DustRegistry.getFloorColorRGB(dust);
             java.awt.Color c = new java.awt.Color(color[0], color[1], color[2]);
             c = c.darker();
             float r = (float) c.getRed() / 255F;
@@ -74,7 +74,7 @@ public class TileEntityDust extends TileEntity implements IInventory{
             }
         }
 
-        if (RunesOfWizardryAPI.isDust(worldObj.getBlock(xCoord - 1, yCoord, zCoord)))
+        if (DustRegistry.isDust(worldObj.getBlock(xCoord - 1, yCoord, zCoord)))
         {
             TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
 
@@ -84,7 +84,7 @@ public class TileEntityDust extends TileEntity implements IInventory{
             }
         }
 
-        if (RunesOfWizardryAPI.isDust(worldObj.getBlock(xCoord + 1, yCoord, zCoord)))
+        if (DustRegistry.isDust(worldObj.getBlock(xCoord + 1, yCoord, zCoord)))
         {
             TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
 
@@ -94,7 +94,7 @@ public class TileEntityDust extends TileEntity implements IInventory{
             }
         }
 
-        if (RunesOfWizardryAPI.isDust(worldObj.getBlock(xCoord, yCoord, zCoord - 1)))
+        if (DustRegistry.isDust(worldObj.getBlock(xCoord, yCoord, zCoord - 1)))
         {
             TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
 
@@ -104,7 +104,7 @@ public class TileEntityDust extends TileEntity implements IInventory{
             }
         }
 
-        if (RunesOfWizardryAPI.isDust(worldObj.getBlock(xCoord, yCoord, zCoord + 1)))
+        if (DustRegistry.isDust(worldObj.getBlock(xCoord, yCoord, zCoord + 1)))
         {
             TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
 

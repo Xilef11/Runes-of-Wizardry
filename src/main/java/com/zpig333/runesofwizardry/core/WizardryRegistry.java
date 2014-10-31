@@ -1,5 +1,6 @@
 package com.zpig333.runesofwizardry.core;
 
+import com.zpig333.runesofwizardry.api.DustRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -9,14 +10,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.api.RunesOfWizardryAPI;
 import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.block.BlockDustBlocks;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
 import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
 import com.zpig333.runesofwizardry.dusts.RWDusts;
-import com.zpig333.runesofwizardry.item.ItemDustPieces;
 import com.zpig333.runesofwizardry.item.ItemDyedDust;
 import com.zpig333.runesofwizardry.item.ItemPestle;
 import com.zpig333.runesofwizardry.item.ItemPlantBalls;
@@ -84,12 +83,12 @@ public class WizardryRegistry {
     public static void initDusts(){
 
         RWDusts instance = new RWDusts();
-        RunesOfWizardryAPI.registerDust(instance.new DustInert());
-        RunesOfWizardryAPI.registerDust(instance.new DustPlant());
-        RunesOfWizardryAPI.registerDust(instance.new DustAqua());
-        RunesOfWizardryAPI.registerDust(instance.new DustBlaze());
-        RunesOfWizardryAPI.registerDust(instance.new DustGlowstone());
-        RunesOfWizardryAPI.registerDust(instance.new DustEnder());
+        DustRegistry.registerDust(instance.new DustInert());
+        DustRegistry.registerDust(instance.new DustPlant());
+        DustRegistry.registerDust(instance.new DustAqua());
+        DustRegistry.registerDust(instance.new DustBlaze());
+        DustRegistry.registerDust(instance.new DustGlowstone());
+        DustRegistry.registerDust(instance.new DustEnder());
     }
 
     public static void initCrafting(){

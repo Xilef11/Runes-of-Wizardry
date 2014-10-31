@@ -1,6 +1,6 @@
 package com.zpig333.runesofwizardry.client.render;
 
-import com.zpig333.runesofwizardry.api.RunesOfWizardryAPI;
+import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -66,7 +66,7 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
 
                 if (midArray[x][z] != 0) {
 
-                    col = RunesOfWizardryAPI.getFloorColorRGB(midArray[x][z]);
+                    col = DustRegistry.getFloorColorRGB(midArray[x][z]);
                     r = (float) col[0];
                     g = (float) col[1];
                     b = (float) col[2];
@@ -111,7 +111,7 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
 
                 if (horizArray[x][z] != 0) {
 
-                    col = RunesOfWizardryAPI.getFloorColorRGB(horizArray[x][z]);
+                    col = DustRegistry.getFloorColorRGB(horizArray[x][z]);
                     r = (float) col[0];
                     g = (float) col[1];
                     b = (float) col[2];
@@ -166,7 +166,7 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
 
                 if (vertArray[x][z] != 0) {
 
-                    col = RunesOfWizardryAPI.getFloorColorRGB(vertArray[x][z]);
+                    col = DustRegistry.getFloorColorRGB(vertArray[x][z]);
                     r = (float) col[0];
                     g = (float) col[1];
                     b = (float) col[2];

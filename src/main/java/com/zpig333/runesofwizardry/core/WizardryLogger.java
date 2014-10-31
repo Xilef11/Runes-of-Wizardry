@@ -3,7 +3,7 @@ package com.zpig333.runesofwizardry.core;
 import cpw.mods.fml.common.FMLLog;
 import org.apache.logging.log4j.Level;
 
-public class ModLogger {
+public class WizardryLogger {
 
     public static void log(Level level, Object obj){
         FMLLog.log(References.modid, level, String.valueOf(obj));

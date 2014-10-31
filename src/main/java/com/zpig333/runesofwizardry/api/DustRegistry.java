@@ -7,9 +7,8 @@ import net.minecraft.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
-//XXX DustRegistry was a better name IMO
 /** Dust API registry.  All dust registry methods are found here. */
-public class RunesOfWizardryAPI {
+public class DustRegistry {
 
     /** List of all registered dusts **/
     public static List<IDust> dusts = new ArrayList<IDust>();
