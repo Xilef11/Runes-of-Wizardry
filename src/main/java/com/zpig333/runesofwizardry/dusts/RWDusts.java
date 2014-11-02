@@ -19,12 +19,12 @@ public class RWDusts {
         }
 
         @Override
-        public int getPrimaryColor() {
+        public int getPrimaryColor(ItemStack stack) {
             return 0xE5E6E8;
         }
 
         @Override
-        public int getSecondaryColor() {
+        public int getSecondaryColor(ItemStack stack) {
             return 0xC5C6C8;
         }
         @Override
@@ -33,8 +33,8 @@ public class RWDusts {
         }
 
         @Override
-        public ItemStack getInfusionItem() {
-            //TODO auto-generated method: getInfusionItem
+        public ItemStack[] getInfusionItems(ItemStack stack) {
+            //TODO auto-generated method: getInfusionItems
             throw new UnsupportedOperationException("Not supported yet: getInfusionItem");
         }
     }
@@ -49,22 +49,23 @@ public class RWDusts {
         }
 
         @Override
-        public int getPrimaryColor() {
+        public int getPrimaryColor(ItemStack stack) {
             return 0x068F08;
         }
 
         @Override
-        public int getSecondaryColor() {
+        public int getSecondaryColor(ItemStack stack) {
             return 0x045C05;
         }
-       /* @Override
+        @Override
         public void registerIcons(IIconRegister ireg){
             this.itemIcon=ireg.registerIcon(References.texture_path+"dust_plant");
         }
-        */
+        
         @Override
-        public ItemStack getInfusionItem() {
-            return new ItemStack(WizardryRegistry.plant_balls, 1, 1);
+        public ItemStack[] getInfusionItems(ItemStack stack) {
+            ItemStack[] items={new ItemStack(WizardryRegistry.plant_balls, 1, 1)};
+            return items;
         }
     }
 
@@ -77,12 +78,12 @@ public class RWDusts {
             super();
         }
         @Override
-        public int getPrimaryColor() {
+        public int getPrimaryColor(ItemStack stack) {
             return 0x32A3FF;
         }
 
         @Override
-        public int getSecondaryColor() {
+        public int getSecondaryColor(ItemStack stack) {
             return 0x96D1FF;
         }
         @Override
@@ -90,8 +91,8 @@ public class RWDusts {
             this.itemIcon=ireg.registerIcon(References.texture_path+"dust_aqua");
         }
         @Override
-        public ItemStack getInfusionItem() {
-            //TODO auto-generated method: getInfusionItem
+        public ItemStack[] getInfusionItems(ItemStack stack) {
+            //TODO auto-generated method: getInfusionItems
             throw new UnsupportedOperationException("Not supported yet: getInfusionItem");
         }
     }
@@ -106,17 +107,17 @@ public class RWDusts {
         }
 
         @Override
-        public int getPrimaryColor() {
+        public int getPrimaryColor(ItemStack stack) {
             return 0xEA8A00;
         }
 
         @Override
-        public int getSecondaryColor() {
+        public int getSecondaryColor(ItemStack stack) {
             return 0xFFFE31;
         }
 
         @Override
-        public int getPlacedColor() {
+        public int getPlacedColor(ItemStack stack) {
             return 0xFF6E1E;
         }
         @Override
@@ -124,8 +125,9 @@ public class RWDusts {
             this.itemIcon=ireg.registerIcon(References.texture_path+"dust_flame");
         }
         @Override
-        public ItemStack getInfusionItem() {
-            return new ItemStack(WizardryRegistry.lavastone,1);
+        public ItemStack[] getInfusionItems(ItemStack stack) {
+            ItemStack[] items = {new ItemStack(WizardryRegistry.lavastone,1)};
+            return items;
         }
     }
 
@@ -139,17 +141,17 @@ public class RWDusts {
         }
 
         @Override
-        public int getPrimaryColor() {
+        public int getPrimaryColor(ItemStack stack) {
             return 0xD2D200;
         }
 
         @Override
-        public int getSecondaryColor() {
+        public int getSecondaryColor(ItemStack stack) {
             return 0x868600;
         }
 
         @Override
-        public int getPlacedColor() {
+        public int getPlacedColor(ItemStack stack) {
             return 0xD2D200;
         }
         @Override
@@ -157,8 +159,8 @@ public class RWDusts {
             this.itemIcon=ireg.registerIcon(References.texture_path+"dust_glowstone");
         }
         @Override
-        public ItemStack getInfusionItem() {
-            //TODO auto-generated method: getInfusionItem
+        public ItemStack[] getInfusionItems(ItemStack stack) {
+            //TODO auto-generated method: getInfusionItems
             throw new UnsupportedOperationException("Not supported yet: getInfusionItem");
         }
     }
@@ -173,17 +175,17 @@ public class RWDusts {
         }
 
         @Override
-        public int getPrimaryColor() {
+        public int getPrimaryColor(ItemStack stack) {
             return 0x105E51;
         }
 
         @Override
-        public int getSecondaryColor() {
+        public int getSecondaryColor(ItemStack stack) {
             return 0x0B4D42;
         }
 
         @Override
-        public int getPlacedColor() {
+        public int getPlacedColor(ItemStack stack) {
             return 0x0B4D42;
         }
         @Override
@@ -191,8 +193,8 @@ public class RWDusts {
             this.itemIcon=ireg.registerIcon(References.texture_path+"dust_ender");
         }
         @Override
-        public ItemStack getInfusionItem() {
-            //TODO auto-generated method: getInfusionItem
+        public ItemStack[] getInfusionItems(ItemStack stack) {
+            //TODO auto-generated method: getInfusionItems
             throw new UnsupportedOperationException("Not supported yet: getInfusionItem");
         }
     }

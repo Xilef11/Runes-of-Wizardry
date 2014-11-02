@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.item.ItemStack;
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
 
@@ -25,7 +26,18 @@ public class DustRegistry {
         GameRegistry.registerItem(dustclass, dustclass.getUnlocalizedName());
         //TODO- craftability and whatnot
     }
-
+    /** Returns the dust class from an ItemStack
+     * @return the IDust in the ItemStack
+     * @throws IllegalArgumentException if the ItemStack is not a dust
+     */
+    public static IDust getDustFromItemStack(ItemStack stack){
+        Item item = stack.getItem();
+        if(item instanceof IDust){
+            return (IDust)item;
+        }else{
+            throw new IllegalArgumentException("The Item is not a dust");
+        }
+    }
     public static boolean isDust(Block block){
         if(block == WizardryRegistry.dust_placed){
             return true;

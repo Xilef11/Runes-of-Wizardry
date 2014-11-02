@@ -41,28 +41,29 @@ public abstract class IDust extends Item {
      * @return the dust name
      */
     public abstract String getDustName();
-    /**returns the primary color of the dust
+    /**returns the primary color of the dust (can be based on metadata/nbt)
      * 
      * @return the primary color of the dust
      */
-    public abstract int getPrimaryColor();
+    public abstract int getPrimaryColor(ItemStack stack);
     /**returns the secondary color of the dust
      * 
      * @return the secondary color of the dust
      */
-    public abstract int getSecondaryColor();
+    public abstract int getSecondaryColor(ItemStack stack);
     /** returns the placed color of the dust
      * 
      * @return (default) the primary color of the dust
      */
-    public int getPlacedColor(){
-        return getPrimaryColor();
+    public int getPlacedColor(ItemStack stack){
+        return getPrimaryColor(stack);
     }
     /** returns the item used to obtain this dust by infusing inert dust.
      * @return - the item used to infuse this dust. (has to be an ItemStack for metadata)
      * <br/>- <code>null</code> for custom crafting mechanics
      */
-    public abstract ItemStack getInfusionItem();
+    //XXX not sure how we would handle the ItemStack parameter for infusion...
+    public abstract ItemStack[] getInfusionItems(ItemStack stack);
     
     
     //Stuff from ItemDustPieces
@@ -119,11 +120,8 @@ public abstract class IDust extends Item {
         //if there is a custom icon registered, return the same thing as Item
         if(hasCustomIcon)return 16777215;
         //otherwise, return the colors of the dust
-        Item item = stack.getItem();
-        if(item instanceof IDust){
-        	IDust dust = (IDust)item;
-        	return pass == 0 ? dust.getPrimaryColor() : dust.getSecondaryColor();
-        }else throw new IllegalArgumentException("Item is not a dust");
+        IDust dust = DustRegistry.getDustFromItemStack(stack);
+        return pass == 0 ? dust.getPrimaryColor(stack) : dust.getSecondaryColor(stack);
        
     }
     /** sets the icon of the dust.
