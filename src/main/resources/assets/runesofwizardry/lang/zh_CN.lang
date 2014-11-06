@@ -4,8 +4,8 @@ itemGroup.wizardry=法术符文
 #Dust storage blocks
 tile.dust_storage.inert.name=粉尘块
 tile.dust_storage.plant.name=植物注魔粉尘块
-tile.dust_storage.flame.name=火焰注魔粉尘块
-tile.dust_storage.aqua.name=水体注魔粉尘块
+tile.dust_storage.flame.name=火注魔粉尘块
+tile.dust_storage.aqua.name=水注魔粉尘块
 tile.dust_storage.glowstone.name=萤石注魔粉尘块
 tile.dust_storage.ender.name=末影注魔粉尘块
 
