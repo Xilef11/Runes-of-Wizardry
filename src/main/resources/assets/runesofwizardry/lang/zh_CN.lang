@@ -2,23 +2,23 @@
 itemGroup.wizardry=法术符文
 
 #Dust storage blocks
-tile.dust_storage.inert.name=粉尘块
-tile.dust_storage.plant.name=植物注魔粉尘块
-tile.dust_storage.flame.name=火注魔粉尘块
-tile.dust_storage.aqua.name=水注魔粉尘块
-tile.dust_storage.glowstone.name=萤石注魔粉尘块
-tile.dust_storage.ender.name=末影注魔粉尘块
+tile.dust_storage.inert.name=魔尘块
+tile.dust_storage.plant.name=植物蕴魔尘块
+tile.dust_storage.flame.name=火蕴魔尘块
+tile.dust_storage.aqua.name=水蕴魔尘块
+tile.dust_storage.glowstone.name=萤石蕴魔尘块
+tile.dust_storage.ender.name=末影蕴魔尘块
 
 #Dust item names
-item.dust_inert.name=惰性符文粉尘
-item.dust_plant.name=植物符文粉尘
-item.dust_aqua.name=水体符文粉尘
-item.dust_fire.name=火焰符文粉尘
-item.dust_glowstone.name=萤石符文粉尘
-item.dust_ender.name=末影符文粉尘
+item.dust_inert.name=惰性符文魔尘
+item.dust_plant.name=植物符文魔尘
+item.dust_aqua.name=水体符文魔尘
+item.dust_fire.name=火焰符文魔尘
+item.dust_glowstone.name=萤石符文魔尘
+item.dust_ender.name=末影符文魔尘
 
 #Items
-item.wizardry_dictionary.name=符文秘典
+item.wizardry_dictionary.name=符文宝典
 item.wizards_staff.name=符文权杖
 
 
