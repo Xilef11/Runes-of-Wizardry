@@ -15,4 +15,4 @@ in the comments section of your submission. ;-)
 If you don't you're just a prat! :x"
 
 some textures are modifications of vanilla minecraft textures
-others made by Xilef11, GPL v3
+others made by the contributors to Runes of Wizardry
