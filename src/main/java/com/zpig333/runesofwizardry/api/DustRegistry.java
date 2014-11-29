@@ -2,17 +2,23 @@ package com.zpig333.runesofwizardry.api;
 
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.item.ItemStack;
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
 
     /** List of all registered dusts **/
-    public static List<IDust> dusts = new ArrayList<IDust>();
+    //XXX we probably don't need this list, we can always get the dust from an ItemStack
+    //public static List<IDust> dusts = new ArrayList<IDust>();
+    /** Map of all the infusion recipes **/
+    private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
 
     /**
      * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
@@ -20,11 +26,19 @@ public class DustRegistry {
      */ 
     public static void registerDust(IDust dustclass){
         //get the last avaliable ID
-        int nextId=dusts.size();
-        dustclass.setId(nextId);
-        dusts.add(nextId, dustclass);
+        //int nextId=dusts.size();
+        //dustclass.setId(nextId);
+        //dusts.add(nextId, dustclass);
         GameRegistry.registerItem(dustclass, dustclass.getUnlocalizedName());
-        //TODO- craftability and whatnot
+        //register the recipes fot this dust
+        //list of subItems
+        List<ItemStack> subDusts = new ArrayList<ItemStack>(15);
+        //get the subDusts. hopefully, tabAllSearch is the right one
+        dustclass.getSubItems(dustclass, CreativeTabs.tabAllSearch, subDusts);
+        for(ItemStack i : subDusts){
+            ItemStack[] items = dustclass.getInfusionItems(i);
+            if(items!=null)recipes.put(items, i);
+        }
     }
     /** Returns the dust class from an ItemStack
      * @return the IDust in the ItemStack
@@ -38,6 +52,14 @@ public class DustRegistry {
             throw new IllegalArgumentException("The Item is not a dust");
         }
     }
+    /** Returns the dust associated with an infusion recipe
+     * @param recipe the infusion recipe to look up
+     * @return the (dust) ItemStack associated with this recipe
+     */
+    public static ItemStack getDustFromRecipe(ItemStack[] recipe){
+        return recipes.get(recipe);
+    }
+    
     public static boolean isDust(Block block){
         if(block == WizardryRegistry.dust_placed){
             return true;
@@ -50,26 +72,26 @@ public class DustRegistry {
     public static int getPrimaryColor(int value) {
         if(value < 0)
             return 0x8F25A2;
-        if (value > dusts.size())
+//        if (value > dusts.size())
             return 0;
-        return dusts.get(value).getPrimaryColor();
+//        return dusts.get(value).getPrimaryColor();
     }
     //XXX might not be needed
     public static int getSecondaryColor(int value) {
         if (value < 0)
             return 0xDB73ED1;
-        if (value > dusts.size())
+//        if (value > dusts.size())
             return 0;
-        return dusts.get(value).getSecondaryColor();
+//        return dusts.get(value).getSecondaryColor();
     }
     //XXX might not be needed
     public static int getPlacedColor(int value)
     {
         if (value < 0)
             return 0xCE00E0;
-        if (value > dusts.size())
+//        if (value > dusts.size())
             return 0;
-        return dusts.get(value).getPlacedColor();
+//        return dusts.get(value).getPlacedColor();
     }
     public static int [] getFloorColorRGB(IDust dust){
         return getFloorColorRGB(dust.getId());
@@ -80,16 +102,16 @@ public class DustRegistry {
         if (value < 0)
             return new int[] { 206, 0, 224 }; // 00CE00E0 variable
 
-        if (value > dusts.size())
+//        if (value > dusts.size())
             return new int[] { 0, 0, 0 };
 
-        int[] rtn = new int[3];
-        int col = dusts.get(value).getPlacedColor();
-        rtn[0] = (col & 0xFF0000) >> 16;
-        rtn[1] = (col & 0xFF00) >> 8;
-        rtn[2] = (col & 0xFF);
+//        int[] rtn = new int[3];
+//        int col = dusts.get(value).getPlacedColor();
+//        rtn[0] = (col & 0xFF0000) >> 16;
+//        rtn[1] = (col & 0xFF00) >> 8;
+//        rtn[2] = (col & 0xFF);
 
-        return rtn;
+//        return rtn;
     }
 }
 

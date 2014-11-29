@@ -14,3 +14,5 @@ Runes-of-Wizardry.ipr
 .project
 .settings
 /bin/
+#build
+build
