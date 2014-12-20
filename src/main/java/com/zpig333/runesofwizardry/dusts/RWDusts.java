@@ -34,8 +34,7 @@ public class RWDusts {
 
         @Override
         public ItemStack[] getInfusionItems(ItemStack stack) {
-            //TODO auto-generated method: getInfusionItems
-            throw new UnsupportedOperationException("Not supported yet: getInfusionItem");
+            return null;
         }
     }
 
@@ -92,8 +91,8 @@ public class RWDusts {
         }
         @Override
         public ItemStack[] getInfusionItems(ItemStack stack) {
-            //TODO auto-generated method: getInfusionItems
-            throw new UnsupportedOperationException("Not supported yet: getInfusionItem");
+            //TODO Aqua infusion
+            return null;
         }
     }
 
@@ -160,8 +159,8 @@ public class RWDusts {
         }
         @Override
         public ItemStack[] getInfusionItems(ItemStack stack) {
-            //TODO auto-generated method: getInfusionItems
-            throw new UnsupportedOperationException("Not supported yet: getInfusionItem");
+            //TODO Glowstone infusion
+            return null;
         }
     }
 
@@ -194,8 +193,8 @@ public class RWDusts {
         }
         @Override
         public ItemStack[] getInfusionItems(ItemStack stack) {
-            //TODO auto-generated method: getInfusionItems
-            throw new UnsupportedOperationException("Not supported yet: getInfusionItem");
+            //TODO Ender infusion
+            return null;
         }
     }
 

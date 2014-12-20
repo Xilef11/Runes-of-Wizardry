@@ -1,16 +1,24 @@
 package com.zpig333.runesofwizardry.api;
 
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.client.render.DustStorageRenderer;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.IBlockAccess;
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
 
@@ -24,22 +32,49 @@ public class DustRegistry {
      * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
      * <br/>Note: also registers it as an Item in the GameRegistry.
      */ 
-    public static void registerDust(IDust dustclass){
+    public static void registerDust(final IDust dustclass) {
         //get the last avaliable ID
         //int nextId=dusts.size();
         //dustclass.setId(nextId);
         //dusts.add(nextId, dustclass);
         GameRegistry.registerItem(dustclass, dustclass.getUnlocalizedName());
-        //register the recipes fot this dust
         //list of subItems
         List<ItemStack> subDusts = new ArrayList<ItemStack>(15);
         //get the subDusts. hopefully, tabAllSearch is the right one
         dustclass.getSubItems(dustclass, CreativeTabs.tabAllSearch, subDusts);
-        for(ItemStack i : subDusts){
+        //create the block form of the dust
+        if(!dustclass.usesCustomBlock()){
+        	Block dustBlock = new IDustStorageBlock(Material.sand) {
+        		//XXX hopefully this will work
+        		@Override
+        		public IDust getIDust() {
+        			return dustclass;
+        		}
+        		
+        	};
+        	dustBlock.setHardness(0.5F).setCreativeTab(RunesOfWizardry.wizardry_tab)
+        	.setStepSound(Block.soundTypeSand).setHarvestLevel("shovel", 0);
+        	dustBlock.setBlockName("dust_storage_"+dustclass.getDustName());
+        	GameRegistry.registerBlock(dustBlock, "dust_storage_"+dustclass.getDustName());
+        	//Crafting
+        	//XXX hopefully this is enough for metadata
+        	for(ItemStack i:subDusts){
+        		GameRegistry.addShapedRecipe(new ItemStack(dustBlock, 1, i.getItemDamage()), 
+        				new Object[]{"XXX","XXX","XXX",'X',i});
+        		GameRegistry.addShapelessRecipe(i, new ItemStack(dustBlock, 1, i.getItemDamage()));
+        	}
+        	
+        }
+        //register the recipes for this dust
+        
+        for (ItemStack i : subDusts) {
             ItemStack[] items = dustclass.getInfusionItems(i);
-            if(items!=null)recipes.put(items, i);
+            if (items != null) {
+                recipes.put(items, i);
+            }
         }
     }
+    
     /** Returns the dust class from an ItemStack
      * @return the IDust in the ItemStack
      * @throws IllegalArgumentException if the ItemStack is not a dust

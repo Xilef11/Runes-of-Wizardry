@@ -7,7 +7,9 @@ import com.zpig333.runesofwizardry.client.gui.DustDyeButtonPacket;
 import com.zpig333.runesofwizardry.client.gui.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.client.gui.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.client.gui.DustDyeUpdatePacket;
+import com.zpig333.runesofwizardry.client.render.DustStorageRenderer;
 import com.zpig333.runesofwizardry.core.GuiHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -42,6 +44,7 @@ public class RunesOfWizardry {
         initNetwork();
         //the GUI handler
         NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance, new GuiHandler());
+        RenderingRegistry.registerBlockHandler(DustStorageRenderer.getInstance());
     }
 
     @Mod.EventHandler
