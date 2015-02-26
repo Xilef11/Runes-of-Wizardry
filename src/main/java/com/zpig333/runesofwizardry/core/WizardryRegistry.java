@@ -109,6 +109,7 @@ public class WizardryRegistry {
 
         //a way to craft dust chunks and blocks
         GameRegistry.addShapelessRecipe(new ItemStack(dust_item, 1, 0), new ItemStack(Items.clay_ball, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        //FIXME not working with the new way of implementing dusts
         //all dusts
         for(int i=0;i<6;i++){
             GameRegistry.addRecipe(new ItemStack(dust_blocks, 1, i), new Object[]{

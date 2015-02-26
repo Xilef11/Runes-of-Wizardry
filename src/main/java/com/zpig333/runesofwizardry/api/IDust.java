@@ -64,11 +64,19 @@ public abstract class IDust extends Item {
      */
     //XXX not sure how we would handle the ItemStack parameter for infusion...
     public abstract ItemStack[] getInfusionItems(ItemStack stack);
-    
+    /** returns whether or not this dust uses a custom block for storage. 
+     * if false (default), a storage block will be generated when registering this dust with the DustRegistery
+     * NOTE: the default block is not a TileEntity and will not handle NBT for color.
+     * @return true to disable the automatic generation of a storage block.
+     */
+    public boolean usesCustomBlock(){
+    	return false;
+    }
     
     //Stuff from ItemDustPieces
     private IIcon icon_foreground;
     private IIcon icon_background;
+    
     /**Gets an icon index based on an item's damage value and the given render pass. 
      * <br/>Override this if your custom dust uses metadata/render pass to change its icon
      * 

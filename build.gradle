@@ -21,7 +21,7 @@ group= "com.zpig333.runesofwizardry"
 archivesBaseName = project.name
 
 minecraft {
-    version = "1.7.10-10.13.2.1231"
+    version = "1.7.10-10.13.2.1291"
     runDir = "minecraft"
 	
 	replaceIn "RunesOfWizardry.java"
@@ -31,6 +31,10 @@ minecraft {
 dependencies {
 
 }
+
+	tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    }
 
 processResources
 {
