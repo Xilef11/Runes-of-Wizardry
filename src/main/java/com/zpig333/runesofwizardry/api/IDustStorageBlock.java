@@ -1,19 +1,17 @@
 package com.zpig333.runesofwizardry.api;
 
-import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 
 import com.zpig333.runesofwizardry.client.render.DustStorageRenderer;
 import com.zpig333.runesofwizardry.core.References;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 
-public abstract class IDustStorageBlock extends BlockFalling {
+public abstract class IDustStorageBlock extends Block {
+    //FIXME changed from BlockFalling to Block because of rendering bug
     //Icons for the background and foreground
     private static IIcon bgIcon=null,
     					 fgIcon=null;
