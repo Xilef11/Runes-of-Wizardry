@@ -1,13 +1,13 @@
 package com.zpig333.runesofwizardry.tileentity;
 
-import com.zpig333.runesofwizardry.item.ItemDyedDust;
-import java.io.Serializable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+
+import com.zpig333.runesofwizardry.item.ItemDyedDust;
 
 
 public class TileEntityDustDye extends TileEntity implements IInventory{

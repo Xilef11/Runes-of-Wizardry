@@ -1,24 +1,25 @@
 package com.zpig333.runesofwizardry;
 
-import com.zpig333.runesofwizardry.core.CommonProxy;
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
+
 import com.zpig333.runesofwizardry.client.gui.DustDyeButtonPacket;
 import com.zpig333.runesofwizardry.client.gui.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.client.gui.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.client.gui.DustDyeUpdatePacket;
 import com.zpig333.runesofwizardry.client.render.DustStorageRenderer;
+import com.zpig333.runesofwizardry.core.CommonProxy;
 import com.zpig333.runesofwizardry.core.GuiHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.relauncher.Side;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 @Mod(modid = References.modid, name = "Runes of Wizardry", version = "@MOD_VERSION@")
 public class RunesOfWizardry {

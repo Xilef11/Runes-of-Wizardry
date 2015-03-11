@@ -1,20 +1,21 @@
 package com.zpig333.runesofwizardry.block;
 
-import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class BlockDustDye extends BlockContainer {
 
@@ -63,11 +64,11 @@ public class BlockDustDye extends BlockContainer {
                         }
 
                         itemstack.stackSize -= j1;
-                        entityitem = new EntityItem(p_149749_1_, (double) ((float) p_149749_2_ + f), (double) ((float) p_149749_3_ + f1), (double) ((float) p_149749_4_ + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
                         float f3 = 0.05F;
-                        entityitem.motionX = (double) ((float) this.random.nextGaussian() * f3);
-                        entityitem.motionY = (double) ((float) this.random.nextGaussian() * f3 + 0.2F);
-                        entityitem.motionZ = (double) ((float) this.random.nextGaussian() * f3);
+                        entityitem.motionX = (float) this.random.nextGaussian() * f3;
+                        entityitem.motionY = (float) this.random.nextGaussian() * f3 + 0.2F;
+                        entityitem.motionZ = (float) this.random.nextGaussian() * f3;
 
                         if (itemstack.hasTagCompound()) {
                             entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());

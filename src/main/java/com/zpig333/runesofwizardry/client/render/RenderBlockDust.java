@@ -1,13 +1,12 @@
 package com.zpig333.runesofwizardry.client.render;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.world.IBlockAccess;
+
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.world.IBlockAccess;
 
 public class RenderBlockDust implements ISimpleBlockRenderingHandler {
 
@@ -67,9 +66,9 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
                 if (midArray[x][z] != 0) {
 
                     col = DustRegistry.getFloorColorRGB(midArray[x][z]);
-                    r = (float) col[0];
-                    g = (float) col[1];
-                    b = (float) col[2];
+                    r = col[0];
+                    g = col[1];
+                    b = col[2];
 
                     if (meta == BlockDust.DUST_ACTIVE || meta == BlockDust.DUST_ACTIVATING) {
                         r = 255f;
@@ -112,9 +111,9 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
                 if (horizArray[x][z] != 0) {
 
                     col = DustRegistry.getFloorColorRGB(horizArray[x][z]);
-                    r = (float) col[0];
-                    g = (float) col[1];
-                    b = (float) col[2];
+                    r = col[0];
+                    g = col[1];
+                    b = col[2];
 
                     if (meta == BlockDust.DUST_ACTIVE || meta == BlockDust.DUST_ACTIVATING) {
                         r = 255f;
@@ -167,9 +166,9 @@ public class RenderBlockDust implements ISimpleBlockRenderingHandler {
                 if (vertArray[x][z] != 0) {
 
                     col = DustRegistry.getFloorColorRGB(vertArray[x][z]);
-                    r = (float) col[0];
-                    g = (float) col[1];
-                    b = (float) col[2];
+                    r = col[0];
+                    g = col[1];
+                    b = col[2];
 
                     if (meta == BlockDust.DUST_ACTIVE || meta == BlockDust.DUST_ACTIVATING) {
                         r = 255f;

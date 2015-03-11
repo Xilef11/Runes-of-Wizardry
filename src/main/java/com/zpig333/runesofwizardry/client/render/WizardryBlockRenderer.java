@@ -1,8 +1,6 @@
 package com.zpig333.runesofwizardry.client.render;
 
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 
 public class WizardryBlockRenderer implements ISimpleBlockRenderingHandler {

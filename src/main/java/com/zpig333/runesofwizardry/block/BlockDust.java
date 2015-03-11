@@ -1,24 +1,22 @@
 package com.zpig333.runesofwizardry.block;
 
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.awt.Color;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.awt.*;
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
 
 public class BlockDust extends BlockContainer {
 
@@ -51,7 +49,8 @@ public class BlockDust extends BlockContainer {
      * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
      * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
      */
-    public boolean isOpaqueCube()
+    @Override
+	public boolean isOpaqueCube()
     {
         return false;
     }
@@ -124,7 +123,7 @@ public class BlockDust extends BlockContainer {
             }
 
             world.notifyBlockChange(i, j, k, Blocks.air);
-            world.playSoundEffect((float) i + 0.5F, (float) j + 0.5F, (float) k + 0.5F, stepSound.getStepResourcePath(), (stepSound.getVolume() + 1.0F) / 6.0F, stepSound.getPitch() * 0.99F);
+            world.playSoundEffect(i + 0.5F, j + 0.5F, k + 0.5F, stepSound.getStepResourcePath(), (stepSound.getVolume() + 1.0F) / 6.0F, stepSound.getPitch() * 0.99F);
         }
 
         /*
@@ -159,9 +158,9 @@ public class BlockDust extends BlockContainer {
 
                     if (ix < 0)
                     {
-                        ix = ted.size - 1;
+                        ix = TileEntityDust.size - 1;
                         wx--;
-                    } else if (ix >= ted.size)
+                    } else if (ix >= TileEntityDust.size)
                     {
                         ix = 0;
                         wx++;
@@ -169,9 +168,9 @@ public class BlockDust extends BlockContainer {
 
                     if (iz < 0)
                     {
-                        iz = ted.size - 1;
+                        iz = TileEntityDust.size - 1;
                         wz--;
-                    } else if (iz >= ted.size)
+                    } else if (iz >= TileEntityDust.size)
                     {
                         iz = 0;
                         wz++;

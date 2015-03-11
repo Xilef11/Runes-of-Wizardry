@@ -1,13 +1,14 @@
 package com.zpig333.runesofwizardry.tileentity;
 
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 public class TileEntityDust extends TileEntity implements IInventory{
 
@@ -40,17 +41,17 @@ public class TileEntityDust extends TileEntity implements IInventory{
             int[] color = DustRegistry.getFloorColorRGB(dust);
             java.awt.Color c = new java.awt.Color(color[0], color[1], color[2]);
             c = c.darker();
-            float r = (float) c.getRed() / 255F;
-            float g = (float) c.getGreen() / 255F;
-            float b = (float) c.getBlue() / 255F;
+            float r = c.getRed() / 255F;
+            float g = c.getGreen() / 255F;
+            float b = c.getBlue() / 255F;
             if (r == 0)
                 r -= 1;
 
             if (Math.random() < 0.75)
                 for (int d = 0; d < Math.random() * 3; d++)
                 {
-                    worldObj.spawnParticle("reddust", xCoord + (double) i / 4D
-                            + Math.random() * 0.15, yCoord, zCoord + (double) j
+                    worldObj.spawnParticle("reddust", xCoord + i / 4D
+                            + Math.random() * 0.15, yCoord, zCoord + j
                             / 4D + Math.random() * 0.15, r, g, b);
                 }
         }

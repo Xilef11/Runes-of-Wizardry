@@ -1,9 +1,9 @@
 package com.zpig333.runesofwizardry.item;
 
+import net.minecraft.item.Item;
+
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.item.Item;
 
 public class ItemWizardryDictionary extends Item {
 

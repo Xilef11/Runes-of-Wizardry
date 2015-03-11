@@ -1,19 +1,15 @@
 package com.zpig333.runesofwizardry.client.render;
 
-import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.api.IDustStorageBlock;
-
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 import org.lwjgl.opengl.GL11;
+
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 
 
 public class DustStorageRenderer implements ISimpleBlockRenderingHandler{

@@ -1,9 +1,10 @@
 package com.zpig333.runesofwizardry.block.itemblocks;
 
-import com.zpig333.runesofwizardry.core.References;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+
+import com.zpig333.runesofwizardry.core.References;
 
 
 public class ItemBlockDustBlocks extends ItemBlock {

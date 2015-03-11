@@ -1,11 +1,10 @@
 package com.zpig333.runesofwizardry.dusts;
 
+import net.minecraft.item.ItemStack;
+
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 public class RWDusts {
 

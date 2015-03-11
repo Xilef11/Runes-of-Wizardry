@@ -1,23 +1,22 @@
 package com.zpig333.runesofwizardry.client.gui;
 
 import java.awt.Color;
+
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.client.container.ContainerDustDye;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.player.InventoryPlayer;
-
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
-import org.lwjgl.input.Keyboard;
 
 public class GuiDustDye extends GuiContainer {
 
@@ -172,7 +171,8 @@ public class GuiDustDye extends GuiContainer {
      * 
      * @param button the button that was clicked (?)
      */
-    protected void actionPerformed(GuiButton button){
+    @Override
+	protected void actionPerformed(GuiButton button){
     	switch(button.id){
     	case GUI_DYE_BUTTON: 
     		//send the selected colour to the server

@@ -1,19 +1,17 @@
 package com.zpig333.runesofwizardry.item;
 
-import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.core.References;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
-import java.util.Random;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.core.References;
 
 public class ItemDyedDust extends Item{
     public IIcon icon;
@@ -23,7 +21,8 @@ public class ItemDyedDust extends Item{
         this.setUnlocalizedName("dust_dyed");
     }
     //add tooltip
-    public void addInformation(ItemStack stack, EntityPlayer player, List data, boolean bool){
+    @Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List data, boolean bool){
         //if the stack has no tag compound, create one and set the color to white
         if(stack.getTagCompound()==null){
             stack.setTagCompound(new NBTTagCompound());

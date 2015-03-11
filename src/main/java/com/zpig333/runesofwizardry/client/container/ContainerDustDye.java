@@ -1,13 +1,14 @@
 package com.zpig333.runesofwizardry.client.container;
 
-import com.zpig333.runesofwizardry.item.ItemDyedDust;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
+import com.zpig333.runesofwizardry.item.ItemDyedDust;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class ContainerDustDye extends Container {
 

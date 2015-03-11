@@ -1,15 +1,16 @@
 package com.zpig333.runesofwizardry.core;
 
-import com.zpig333.runesofwizardry.api.DustRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.block.BlockDustBlocks;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
@@ -23,8 +24,6 @@ import com.zpig333.runesofwizardry.item.ItemWizardryDictionary;
 import com.zpig333.runesofwizardry.item.ItemWizardsStaff;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class WizardryRegistry {
 

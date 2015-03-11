@@ -1,20 +1,17 @@
 package com.zpig333.runesofwizardry.api;
 
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 
 /** Extend this to create a dust (you also need to register it)
  * 
@@ -105,7 +102,7 @@ public abstract class IDust extends Item {
                 return false;
             }
             world.setBlock(xPos, yPos + 1, zPos, WizardryRegistry.dust_placed);
-            world.playSoundEffect((double)((float)xPos + 0.5F), (double)((float)yPos + 0.5F), (double)((float)zPos + 0.5F), Block.soundTypeSand.func_150496_b(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getPitch() * 0.8F);
+            world.playSoundEffect((double)(xPos + 0.5F), (double)(yPos + 0.5F), (double)(zPos + 0.5F), Block.soundTypeSand.func_150496_b(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getPitch() * 0.8F);
             return true;
         }
     }
