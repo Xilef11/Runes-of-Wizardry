@@ -1,15 +1,7 @@
 Runes-of-Wizardry
 =================
 
-This is a repository where a team is slowly developing a magic mod for the game of Minecraft.
-
-This repo has a wiki with a pretty good explanation of what I am trying to accomplish- check it for more detailed info for what the mod does/will do.
-
-Development Team/Credits
--------------------------
-
-zombiepig333- Project Founder/Coder<br/>
-Xilef11- Coder/Textures
+Runes of Wozardry is a magic mod for Minecraft that allows the player to place patterns of arcane dust to form runes with various effects.
 
 Issue Reporting
 ----------------
@@ -25,29 +17,44 @@ Contributing
 -------------
 Runes of Wizardry is open-source under the GPL v3 license.  As a result, you may contribute to the development of the mod via pull requests.
 
-If you plan to contribute, it might be helpful to let others know what you are working on by writing an issue (use the "contribution" tag)
+If you plan to contribute, it might be helpful to let others know what you are working on by writing an issue
 
-To set up the mod as to allow you to make changes, do the following:
+Suggested setup instructions for making changes:
 
-1. Keep in mind these setup instructions are for IntelliJ IDEA ONLY, not Eclipse.
-2. Clone the repository onto your local system.
-3. Open a command prompt from the repository folder.
-4. Run the command 'gradlew setupDecompWorkspace'.
-5. Then, run 'gradlew idea'.
-6. Open IntelliJ and point to either the project folder or the build.gradle file.
-7. If you are updating forge, run 'gradlew build' to finish updating.  If you are setting up 
-for this first time, keep going on to 8 and 9.
-8. After opening the project in IntelliJ, run 'gradlew genIntellijRuns' in the command terminal you opened earlier.
-9. You now have a functional local copy of Runes of Wizardry, ready to develop on.
+Eclipse:
+
+1. Clone the repository
+2. Download the appropriate (currently 1.8-11.14.1.1334) Minecraft Forge source release from the <a href=files.minecraftforge.net>Official site</a> (Src link)
+3. Copy the 'eclipse' folder from the downloaded archive to the same folder where you cloned the repository. It is a pre-configured workspace that makes the setup much easier.
+4. Open a command prompt in the repository folder.
+5. Run the commands 'gradlew setupDecompWorkspace' (this will take a while) and 'gradlew eclipse'.
+6. Open eclipse and choose the 'eclipse' folder that you copied earlier as the workspace.
+7. Done!
+
+IntelliJ IDEA:
+
+1. Clone the repository onto your local system.
+2. Open a command prompt from the repository folder.
+3. Run the commands 'gradlew setupDecompWorkspace' (will take a while) and 'gradlew idea'.
+4. Open IntelliJ and point to either the project folder or the build.gradle file.
+5. After opening the project in IntelliJ, run 'gradlew genIntellijRuns' in the command prompt you opened earlier.
+6. You now have a functional local copy of Runes of Wizardry, ready to develop on.
 
 Instructions for Netbeans IDE
 
 1. Install the gradle plugin for NetBeans
 2. Go to Tools->Settings->Misc->gradle and change "build script evaluation" to "Idea based [...]"
-3. follow steps 2-4 above (It might not hurt to run gradlew setupdecompworkspace --refresh-dependencies)
-4. open the project folder in NetBeans
-5. in project properties, go to "manage built-in tasks"
-6. In the "run" task, uncheck inherited and change run to runCLient
-7. done!
+3. Open a command prompt from the repository folder.
+4. Run the commands 'gradlew setupDecompWorkspace' (will take a while) and 'gradlew idea'.
+4. Open the project folder in NetBeans
+5. In "project properties", go to "manage built-in tasks"
+6. In the "run" task, uncheck inherited and change run to runClient
+7. Done!
 
-MAKE SURE TO UPDATE YOUR FORK BEFORE MAKING A PULL REQUEST.
+
+Development Team/Credits
+-------------------------
+
+Xilef11- Current maintainer
+zombiepig333/lightningpig333- Project founder<br/>
+billythegoat101 - Original author of <a href=http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1280442-1-5-the-runic-dust-mod-mar14>The Runic Dust Mod</a>
