@@ -31,7 +31,7 @@ Eclipse:
 6. Open eclipse and choose the 'eclipse' folder that you copied earlier as the workspace.
 7. Done!
 
-IntelliJ IDEA:
+IntelliJ IDEA (not tested for the MC 1.8 version):
 
 1. Clone the repository onto your local system.
 2. Open a command prompt from the repository folder.
@@ -40,7 +40,7 @@ IntelliJ IDEA:
 5. After opening the project in IntelliJ, run 'gradlew genIntellijRuns' in the command prompt you opened earlier.
 6. You now have a functional local copy of Runes of Wizardry, ready to develop on.
 
-Instructions for Netbeans IDE
+NetBeans (not tested for the MC 1.8 version):
 
 1. Install the gradle plugin for NetBeans
 2. Go to Tools->Settings->Misc->gradle and change "build script evaluation" to "Idea based [...]"
