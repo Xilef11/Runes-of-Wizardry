@@ -1,5 +1,8 @@
 package com.zpig333.runesofwizardry;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -20,51 +23,76 @@ import com.zpig333.runesofwizardry.core.CommonProxy;
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.ItemPestle;
 
 @Mod(modid = References.modid, name = "Runes of Wizardry", version = "@MOD_VERSION@")
 public class RunesOfWizardry {
 
-    @SidedProxy(clientSide = "com.zpig333.runesofwizardry.client.ClientProxy", serverSide = "com.zpig333.runesofwizardry.core.CommonProxy")
-    public static CommonProxy proxy;
+	@SidedProxy(clientSide = "com.zpig333.runesofwizardry.client.ClientProxy", serverSide = "com.zpig333.runesofwizardry.core.CommonProxy")
+	public static CommonProxy proxy;
 
-    @Mod.Instance(References.modid)
-    public static RunesOfWizardry instance = new RunesOfWizardry();
+	@Mod.Instance(References.modid)
+	public static RunesOfWizardry instance = new RunesOfWizardry();
 
-    //packet handler thingy
-    public static SimpleNetworkWrapper networkWrapper;
-    @Mod.EventHandler
-    public static void preInit(FMLPreInitializationEvent event){
+	// packet handler thingy
+	public static SimpleNetworkWrapper networkWrapper;
 
-        WizardryRegistry.initBlocks();
-        WizardryRegistry.initItems();
-        WizardryRegistry.initDusts();
-        WizardryRegistry.initCrafting();
+	@Mod.EventHandler
+	public static void preInit(FMLPreInitializationEvent event) {
 
-        //Decorative dusts- dust of any color wip
-        WizardryRegistry.initDec();
-        initNetwork();
-        //the GUI handler
-        NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance, new GuiHandler());
-        RenderingRegistry.registerBlockHandler(DustStorageRenderer.getInstance());
-    }
+		WizardryRegistry.initBlocks();
+		WizardryRegistry.initItems();
+		WizardryRegistry.initDusts();
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event){
-        proxy.registerRenderers();
-    }
+		// Decorative dusts- dust of any color wip
+		WizardryRegistry.initDecItems();
 
-    public static void initNetwork(){
-        networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(References.modid);
-        networkWrapper.registerMessage(DustDyeButtonPacket.Handler.class, DustDyeButtonPacket.class, 0, Side.SERVER);
-        networkWrapper.registerMessage(DustDyeTextPacket.Handler.class, DustDyeTextPacket.class, 1, Side.SERVER);
-        networkWrapper.registerMessage(DustDyeRequestUpdatePacket.Handler.class, DustDyeRequestUpdatePacket.class, 2, Side.SERVER);
-        networkWrapper.registerMessage(DustDyeUpdatePacket.Handler.class, DustDyeUpdatePacket.class, 3, Side.CLIENT);
-    }
+	}
 
-    public static CreativeTabs wizardry_tab = new CreativeTabs("wizardry"){
-        @Override
-        public Item getTabIconItem() {
-            return WizardryRegistry.wizardry_dictionary;
-        }
-    };
+	@Mod.EventHandler
+	public void init(FMLInitializationEvent event) {
+		WizardryRegistry.initCrafting();
+		proxy.registerRenderers();
+
+		// initialise the item renders
+		if (event.getSide() == Side.CLIENT) {
+			// get the item renderer
+			RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+			//pestle
+			renderItem.getItemModelMesher().register(
+					WizardryRegistry.pestle,
+					0,
+					new ModelResourceLocation(References.modid + ":"
+							+ ((ItemPestle) WizardryRegistry.pestle).getName(),
+							"inventory"));
+		}
+
+		initNetwork();
+		// the GUI handler
+		NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance,
+				new GuiHandler());
+		// FIXME Custom Block rendering for 1.8
+		// RenderingRegistry.registerBlockHandler(DustStorageRenderer.getInstance());
+	}
+
+	public static void initNetwork() {
+		networkWrapper = NetworkRegistry.INSTANCE
+				.newSimpleChannel(References.modid);
+		networkWrapper.registerMessage(DustDyeButtonPacket.Handler.class,
+				DustDyeButtonPacket.class, 0, Side.SERVER);
+		networkWrapper.registerMessage(DustDyeTextPacket.Handler.class,
+				DustDyeTextPacket.class, 1, Side.SERVER);
+		networkWrapper.registerMessage(
+				DustDyeRequestUpdatePacket.Handler.class,
+				DustDyeRequestUpdatePacket.class, 2, Side.SERVER);
+		networkWrapper.registerMessage(DustDyeUpdatePacket.Handler.class,
+				DustDyeUpdatePacket.class, 3, Side.CLIENT);
+	}
+
+	public static CreativeTabs wizardry_tab = new CreativeTabs("wizardry") {
+		@Override
+		public Item getTabIconItem() {
+			return WizardryRegistry.wizardry_dictionary;
+		}
+	};
 }

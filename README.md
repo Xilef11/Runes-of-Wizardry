@@ -20,6 +20,7 @@ Runes of Wizardry is open-source under the GPL v3 license.  As a result, you may
 If you plan to contribute, it might be helpful to let others know what you are working on by writing an issue
 
 Suggested setup instructions for making changes:
+Note: Advanced instructions and help can be found on the <a href=http://www.minecraftforge.net/forum/index.php/topic,14048.0.html>Minecraft Forge forums</a>
 
 Eclipse:
 

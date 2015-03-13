@@ -17,11 +17,7 @@ import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
 import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
 import com.zpig333.runesofwizardry.dusts.RWDusts;
-import com.zpig333.runesofwizardry.item.ItemDyedDust;
-import com.zpig333.runesofwizardry.item.ItemPestle;
-import com.zpig333.runesofwizardry.item.ItemPlantBalls;
-import com.zpig333.runesofwizardry.item.ItemWizardryDictionary;
-import com.zpig333.runesofwizardry.item.ItemWizardsStaff;
+import com.zpig333.runesofwizardry.item.*;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
@@ -42,12 +38,12 @@ public class WizardryRegistry {
     public static Item dust_dyed;
 
     public static void initBlocks(){
-
-        dust_placed = new BlockDust().setBlockName("dust_placed");
+    	//FIXME setBlockName not used
+        //dust_placed = new BlockDust().setBlockName("dust_placed");
         GameRegistry.registerBlock(dust_placed, "dust_placed");
         GameRegistry.registerTileEntity(TileEntityDust.class, "dust_placed");
-
-        dust_blocks = new BlockDustBlocks(Material.clay).setBlockName("dust_storage");
+      //FIXME setBlockName not used
+        //dust_blocks = new BlockDustBlocks(Material.clay).setBlockName("dust_storage");
         GameRegistry.registerBlock(dust_blocks, ItemBlockDustBlocks.class, "dust_storage");
         
         lavastone_bricks = new BlockLavastone_bricks(Material.rock);
@@ -57,8 +53,8 @@ public class WizardryRegistry {
 
     public static void initItems(){
 
-        pestle = new ItemPestle().setUnlocalizedName("pestle_wizardry");
-        GameRegistry.registerItem(pestle, "pestle_wizardry");
+        pestle = new ItemPestle();
+        
 
         plant_balls = new ItemPlantBalls().setUnlocalizedName("plant_balls");
         GameRegistry.registerItem(plant_balls, "plant_balls");
@@ -66,17 +62,13 @@ public class WizardryRegistry {
 //        dust_item = new ItemDustPieces().setUnlocalizedName("dust").setCreativeTab(RunesOfWizardry.wizardry_tab);;
 //        GameRegistry.registerItem(dust_item, "dust");
 
-        nether_paste = new Item().setUnlocalizedName("nether_paste").setCreativeTab(RunesOfWizardry.wizardry_tab).setTextureName(References.texture_path + "nether_paste");
-        GameRegistry.registerItem(nether_paste, "nether_paste");
+        nether_paste = new ItemNetherPaste();
         
-        lavastone=new Item().setUnlocalizedName("lavastone").setCreativeTab(RunesOfWizardry.wizardry_tab).setTextureName(References.texture_path + "lavastone");
-        GameRegistry.registerItem(lavastone, "lavastone");
+        lavastone=new ItemLavastone();
 
-        wizardry_dictionary = new ItemWizardryDictionary().setUnlocalizedName("wizardry_dictionary");
-        GameRegistry.registerItem(wizardry_dictionary, "wizardry_dictionary");
+        wizardry_dictionary = new ItemWizardryDictionary();
 
-        wizards_staff = new ItemWizardsStaff().setUnlocalizedName("wizards_staff");
-        GameRegistry.registerItem(wizards_staff, "wizards_staff");
+        wizards_staff = new ItemWizardsStaff();
     }
 
     public static void initDusts(){
@@ -132,7 +124,7 @@ public class WizardryRegistry {
     }
 
     //a separate method will allow for easier disabling/enabling via config
-    public static void initDec(){
+    public static void initDecItems(){
         Block dust_dye = new BlockDustDye().setBlockName("dust_dye_block");
         GameRegistry.registerBlock(dust_dye, "dust_dye_block");
         GameRegistry.registerTileEntity(TileEntityDustDye.class, "te_Dust_Dye");
@@ -140,7 +132,12 @@ public class WizardryRegistry {
         dust_dyed = new ItemDyedDust();
         GameRegistry.registerItem(dust_dyed, "dust_dyed");
         
-        //the dyed dusts
+       
+    }
+    public static void initDecRecipes(){
+    	 //the dyed dusts
         GameRegistry.addShapelessRecipe(new ItemStack(dust_dyed,32), new ItemStack(Items.brick, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1));
     }
+
+
 }

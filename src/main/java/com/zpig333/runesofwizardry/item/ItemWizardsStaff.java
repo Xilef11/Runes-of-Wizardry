@@ -4,15 +4,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 
 public class ItemWizardsStaff extends Item {
-
+	private final String name = "wizards_staff";
     public ItemWizardsStaff(){
+    	GameRegistry.registerItem(this, name);
         this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setMaxDamage(50);
+        this.setUnlocalizedName(References.modid+"_"+name);
     }
 
     /**
@@ -24,10 +27,5 @@ public class ItemWizardsStaff extends Item {
             player.openGui(RunesOfWizardry.instance, 0, world, (int)player.posX, (int)player.posY, (int)player.posZ);
         }
         return itemStack;
-    }
-
-    @Override
-    public void registerIcons(IIconRegister ireg){
-        this.itemIcon = ireg.registerIcon(References.texture_path + "wizards_staff");
     }
 }
