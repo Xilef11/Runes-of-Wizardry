@@ -23,7 +23,11 @@ import com.zpig333.runesofwizardry.core.CommonProxy;
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.ItemLavastone;
+import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
+import com.zpig333.runesofwizardry.item.ItemWizardryDictionary;
+import com.zpig333.runesofwizardry.item.ItemWizardsStaff;
 
 @Mod(modid = References.modid, name = "Runes of Wizardry", version = "@MOD_VERSION@")
 public class RunesOfWizardry {
@@ -65,6 +69,14 @@ public class RunesOfWizardry {
 					new ModelResourceLocation(References.modid + ":"
 							+ ((ItemPestle) WizardryRegistry.pestle).getName(),
 							"inventory"));
+			//other simple items
+			renderItem.getItemModelMesher().register(WizardryRegistry.lavastone, 0, new ModelResourceLocation(References.modid+":"+((ItemLavastone)WizardryRegistry.lavastone).getName(),"inventory"));
+			renderItem.getItemModelMesher().register(WizardryRegistry.nether_paste, 0, new ModelResourceLocation(References.modid+":"+((ItemNetherPaste)WizardryRegistry.nether_paste).getName(),"inventory"));
+			renderItem.getItemModelMesher().register(WizardryRegistry.wizardry_dictionary, 0, new ModelResourceLocation(References.modid+":"+((ItemWizardryDictionary)WizardryRegistry.wizardry_dictionary).getName(),"inventory"));
+			renderItem.getItemModelMesher().register(WizardryRegistry.wizards_staff, 0, new ModelResourceLocation(References.modid+":"+((ItemWizardsStaff)WizardryRegistry.wizards_staff).getName(),"inventory"));
+			
+			//plant balls - try changing the meta number only?
+			//dyedDusts - layers in the json file
 		}
 
 		initNetwork();

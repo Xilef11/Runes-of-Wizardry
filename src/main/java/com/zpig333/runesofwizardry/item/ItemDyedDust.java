@@ -47,10 +47,11 @@ public class ItemDyedDust extends Item{
     public void registerIcons(IIconRegister ireg){
         itemIcon = ireg.registerIcon(References.texture_path + "dust_dyed");
     }
-
+    /* FIXME onItemUse has changed?
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int xPos, int yPos, int zPos, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_){
         //TODO place the dust
         return true;
     }
+    */
 }

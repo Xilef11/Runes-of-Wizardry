@@ -28,4 +28,7 @@ public class ItemWizardsStaff extends Item {
         }
         return itemStack;
     }
+    public String getName(){
+    	return name;
+    }
 }
