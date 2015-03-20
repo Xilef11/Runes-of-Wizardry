@@ -23,13 +23,15 @@ import com.zpig333.runesofwizardry.core.CommonProxy;
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.ItemDyedDust;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
 import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
+import com.zpig333.runesofwizardry.item.ItemPlantBalls;
 import com.zpig333.runesofwizardry.item.ItemWizardryDictionary;
 import com.zpig333.runesofwizardry.item.ItemWizardsStaff;
 
-@Mod(modid = References.modid, name = "Runes of Wizardry", version = "@MOD_VERSION@")
+@Mod(modid = References.modid, name = "Runes of Wizardry", version = "@MOD_VERSION")
 public class RunesOfWizardry {
 
 	@SidedProxy(clientSide = "com.zpig333.runesofwizardry.client.ClientProxy", serverSide = "com.zpig333.runesofwizardry.core.CommonProxy")
@@ -76,7 +78,11 @@ public class RunesOfWizardry {
 			renderItem.getItemModelMesher().register(WizardryRegistry.wizards_staff, 0, new ModelResourceLocation(References.modid+":"+((ItemWizardsStaff)WizardryRegistry.wizards_staff).getName(),"inventory"));
 			
 			//plant balls - try changing the meta number only?
-			//dyedDusts - layers in the json file
+			renderItem.getItemModelMesher().register(WizardryRegistry.plantballs,0 , new ModelResourceLocation(References.modid+":"+((ItemPlantBalls)WizardryRegistry.plantballs).getFullName(0), "inventory"));
+			renderItem.getItemModelMesher().register(WizardryRegistry.plantballs,1 , new ModelResourceLocation(References.modid+":"+((ItemPlantBalls)WizardryRegistry.plantballs).getFullName(1), "inventory"));
+			//dyedDusts
+			renderItem.getItemModelMesher().register(WizardryRegistry.dust_dyed,0 , new ModelResourceLocation(References.modid+":"+((ItemDyedDust)WizardryRegistry.dust_dyed).getName(), "inventory"));
+			
 		}
 
 		initNetwork();

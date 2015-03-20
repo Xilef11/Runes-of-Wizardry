@@ -29,7 +29,7 @@ public class WizardryRegistry {
     /** The item which all dust pieces are registered under.**/
     public static Item dust_item;
     public static Item pestle;
-    public static Item plant_balls;
+    public static Item plantballs;
     public static Item nether_paste, lavastone;
     public static Item wizardry_dictionary;
     public static Item wizards_staff;
@@ -56,8 +56,7 @@ public class WizardryRegistry {
         pestle = new ItemPestle();
         
 
-        plant_balls = new ItemPlantBalls().setUnlocalizedName("plant_balls");
-        GameRegistry.registerItem(plant_balls, "plant_balls");
+        plantballs = new ItemPlantBalls();
 		
 //        dust_item = new ItemDustPieces().setUnlocalizedName("dust").setCreativeTab(RunesOfWizardry.wizardry_tab);;
 //        GameRegistry.registerItem(dust_item, "dust");
@@ -85,17 +84,17 @@ public class WizardryRegistry {
     public static void initCrafting(){
 
         //Allows plants to be mashed down into a plantball.  Each plant goes for 1 plantball
-        GameRegistry.addShapelessRecipe(new ItemStack(plant_balls, 1, 1), new ItemStack(Blocks.red_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-        GameRegistry.addShapelessRecipe(new ItemStack(plant_balls, 1, 1), new ItemStack(Blocks.yellow_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 1), new ItemStack(Blocks.red_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 1), new ItemStack(Blocks.yellow_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
 
 
         //Stuuuuuuupid mojang had to make 2 different leaves, didn't they?
-        GameRegistry.addShapelessRecipe(new ItemStack(plant_balls, 1, 1), new ItemStack(Blocks.leaves, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-        GameRegistry.addShapelessRecipe(new ItemStack(plant_balls, 1, 1), new ItemStack(Blocks.leaves2, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 1), new ItemStack(Blocks.leaves, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 1), new ItemStack(Blocks.leaves2, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
 
         //Craft the small plant balls into larger ones... for now.
-        GameRegistry.addRecipe(new ItemStack(plant_balls, 1, 0), new Object[]{
-                "XXX", "XXX", "XXX", 'X', new ItemStack(plant_balls, 1, 1)
+        GameRegistry.addRecipe(new ItemStack(plantballs, 1, 0), new Object[]{
+                "XXX", "XXX", "XXX", 'X', new ItemStack(plantballs, 1, 1)
         });
 
         //a way to craft dust chunks and blocks
@@ -125,12 +124,12 @@ public class WizardryRegistry {
 
     //a separate method will allow for easier disabling/enabling via config
     public static void initDecItems(){
-        Block dust_dye = new BlockDustDye().setBlockName("dust_dye_block");
-        GameRegistry.registerBlock(dust_dye, "dust_dye_block");
+        //FIXME Blocks name registering
+    	//Block dust_dye = new BlockDustDye().setBlockName("dust_dye_block");
+        //GameRegistry.registerBlock(dust_dye, "dust_dye_block");
         GameRegistry.registerTileEntity(TileEntityDustDye.class, "te_Dust_Dye");
         
         dust_dyed = new ItemDyedDust();
-        GameRegistry.registerItem(dust_dyed, "dust_dyed");
         
        
     }

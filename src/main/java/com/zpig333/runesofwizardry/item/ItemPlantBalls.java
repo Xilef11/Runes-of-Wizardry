@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -12,24 +13,28 @@ import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 
 public class ItemPlantBalls extends Item {
-
-    private IIcon[] icons;
+	private final String name="plantball";
+	private final String[] metaName={"small","large"};
     public ItemPlantBalls(){
         super();
+        GameRegistry.registerItem(this, name);
+        setUnlocalizedName(References.modid+"_"+name);
         this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setHasSubtypes(true);
     }
-
+    public String getName(){
+    	return name;
+    }
+    public String getFullName(int meta){
+    	return name+"_"+metaName[meta];
+    }
     @Override
     public String getUnlocalizedName(ItemStack itemStack){
         int meta = itemStack.getItemDamage();
-        return super.getUnlocalizedName() + "." + meta;
+        return super.getUnlocalizedName() + "_" + metaName[meta];
     }
 
-    @Override
-    public IIcon getIconFromDamage(int meta){
-        return icons[meta];
-    }
+
 
     @Override
     public void getSubItems(Item item, CreativeTabs tabs, List list){
@@ -37,11 +42,5 @@ public class ItemPlantBalls extends Item {
         list.add(new ItemStack(item, 1, 1));
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister ireg){
-        icons = new IIcon[2];
-        icons[0] = ireg.registerIcon(References.texture_path + "plantball");
-        icons[1] = ireg.registerIcon(References.texture_path + "plantball_small");
-    }
+
 }

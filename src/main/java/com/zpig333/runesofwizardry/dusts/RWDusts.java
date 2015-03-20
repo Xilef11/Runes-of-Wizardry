@@ -62,7 +62,7 @@ public class RWDusts {
         
         @Override
         public ItemStack[] getInfusionItems(ItemStack stack) {
-            ItemStack[] items={new ItemStack(WizardryRegistry.plant_balls, 1, 1)};
+            ItemStack[] items={new ItemStack(WizardryRegistry.plantballs, 1, 1)};
             return items;
         }
     }

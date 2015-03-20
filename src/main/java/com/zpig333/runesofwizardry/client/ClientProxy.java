@@ -14,8 +14,8 @@ public class ClientProxy extends CommonProxy{
     @Override
     public void registerRenderers(){
         MinecraftForgeClient.registerItemRenderer(WizardryRegistry.wizards_staff, new RenderStaff());
-
-        RenderBlockDust.dust_modelid = RenderingRegistry.getNextAvailableRenderId();
-        RenderingRegistry.registerBlockHandler(new RenderBlockDust(RenderBlockDust.dust_modelid));
+        //FIXME block rendering
+//        RenderBlockDust.dust_modelid = RenderingRegistry.getNextAvailableRenderId();
+//        RenderingRegistry.registerBlockHandler(new RenderBlockDust(RenderBlockDust.dust_modelid));
     }
 }
