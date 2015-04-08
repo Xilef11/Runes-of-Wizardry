@@ -1,6 +1,7 @@
 package com.zpig333.runesofwizardry.client.gui;
 
 import java.awt.Color;
+import java.io.IOException;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -9,6 +10,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
+import org.apache.logging.log4j.Level;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -131,7 +133,11 @@ public class GuiDustDye extends GuiContainer {
     	 * anyways, compensating...
     	 */
     	textColor.mouseClicked(par1-posX, par2-posY, par3);
-    	super.mouseClicked(par1, par2, par3);
+    	try {
+			super.mouseClicked(par1, par2, par3);
+		} catch (IOException e) {
+			WizardryLogger.logException(Level.ERROR, e, "Mouse Click IO Error in GuiDustDye");
+		}
     }
 
     /** runs while the GUI is open

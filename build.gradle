@@ -31,10 +31,12 @@ minecraft {
     // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
     mappings = "snapshot_20141130"
-
+	
 	replaceIn "RunesOfWizardry.java"
-	replace "@MOD_VERSION", project.version
+	replace "@MOD_VERSION@", project.version
+
 }
+
 
 dependencies {
     // you may put jars on which you depend on in ./libs

@@ -1,16 +1,17 @@
 [
 {
-  "modid": "RunesWizardry",
+  "modid": "runesofwizardry",
   "name": "Runes of Wizardry",
   "description": "Magic.  Runes.  And dust.  Lots of dusts.",
-  "version": "Dev",
-  "mcversion": "1.7.10",
-  "url": "http://zombiepig333.com",
-  "updateUrl": "https://github.com/LightningPig333/Runes-of-Wizardry",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/Xilef11/Runes-of-Wizardry",
+  "updateUrl": "https://github.com/Xilef11/Runes-of-Wizardry",
   "authorList": ["LightningPig333", "Xilef11"],
   "credits": "billythegoat101 for the original concept.",
   "logoFile": "",
   "screenshots": [],
+  "requiredMods":["Forge"],
   "dependencies": []
 }
 ]

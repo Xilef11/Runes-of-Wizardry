@@ -2,6 +2,9 @@ package com.zpig333.runesofwizardry.core;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -26,6 +29,7 @@ public class WizardryRegistry {
     public static Block dust_blocks;
     public static Block dust_placed;
     public static Block lavastone_bricks;
+    public static Block dust_dye;
     /** The item which all dust pieces are registered under.**/
     public static Item dust_item;
     public static Item pestle;
@@ -47,7 +51,7 @@ public class WizardryRegistry {
         GameRegistry.registerBlock(dust_blocks, ItemBlockDustBlocks.class, "dust_storage");
         
         lavastone_bricks = new BlockLavastone_bricks(Material.rock);
-        GameRegistry.registerBlock(lavastone_bricks, "lavastone_bricks");
+
     }
 
 
@@ -124,9 +128,7 @@ public class WizardryRegistry {
 
     //a separate method will allow for easier disabling/enabling via config
     public static void initDecItems(){
-        //FIXME Blocks name registering
-    	//Block dust_dye = new BlockDustDye().setBlockName("dust_dye_block");
-        //GameRegistry.registerBlock(dust_dye, "dust_dye_block");
+    	dust_dye = new BlockDustDye();
         GameRegistry.registerTileEntity(TileEntityDustDye.class, "te_Dust_Dye");
         
         dust_dyed = new ItemDyedDust();
@@ -137,6 +139,83 @@ public class WizardryRegistry {
     	 //the dyed dusts
         GameRegistry.addShapelessRecipe(new ItemStack(dust_dyed,32), new ItemStack(Items.brick, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1));
     }
+    
+	public static void initItemRenders() {
+		// get the item renderer
+		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+		// pestle
+		renderItem.getItemModelMesher().register(
+				WizardryRegistry.pestle,
+				0,
+				new ModelResourceLocation(References.modid + ":"
+						+ ((ItemPestle) WizardryRegistry.pestle).getName(),
+						"inventory"));
+		// other simple items
+		renderItem.getItemModelMesher().register(
+				WizardryRegistry.lavastone,
+				0,
+				new ModelResourceLocation(References.modid
+						+ ":"
+						+ ((ItemLavastone) WizardryRegistry.lavastone)
+								.getName(), "inventory"));
+		renderItem.getItemModelMesher().register(
+				WizardryRegistry.nether_paste,
+				0,
+				new ModelResourceLocation(References.modid
+						+ ":"
+						+ ((ItemNetherPaste) WizardryRegistry.nether_paste)
+								.getName(), "inventory"));
+		renderItem
+				.getItemModelMesher()
+				.register(
+						WizardryRegistry.wizardry_dictionary,
+						0,
+						new ModelResourceLocation(
+								References.modid
+										+ ":"
+										+ ((ItemWizardryDictionary) WizardryRegistry.wizardry_dictionary)
+												.getName(), "inventory"));
+		renderItem.getItemModelMesher().register(
+				WizardryRegistry.wizards_staff,
+				0,
+				new ModelResourceLocation(References.modid
+						+ ":"
+						+ ((ItemWizardsStaff) WizardryRegistry.wizards_staff)
+								.getName(), "inventory"));
+
+		// plant balls - try changing the meta number only?
+		renderItem.getItemModelMesher().register(
+				WizardryRegistry.plantballs,
+				0,
+				new ModelResourceLocation(References.modid
+						+ ":"
+						+ ((ItemPlantBalls) WizardryRegistry.plantballs)
+								.getFullName(0), "inventory"));
+		renderItem.getItemModelMesher().register(
+				WizardryRegistry.plantballs,
+				1,
+				new ModelResourceLocation(References.modid
+						+ ":"
+						+ ((ItemPlantBalls) WizardryRegistry.plantballs)
+								.getFullName(1), "inventory"));
+		// dyedDusts
+		renderItem.getItemModelMesher().register(
+				WizardryRegistry.dust_dyed,
+				0,
+				new ModelResourceLocation(
+						References.modid
+								+ ":"
+								+ ((ItemDyedDust) WizardryRegistry.dust_dyed)
+										.getName(), "inventory"));
+	}
+
+
+	public static void registerBlockRenders() {
+		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+		//lavastone bricks
+		renderItem.getItemModelMesher().register(Item.getItemFromBlock(lavastone_bricks), 0, new ModelResourceLocation(References.modid + ":" + ((BlockLavastone_bricks) lavastone_bricks).getName(), "inventory"));
+		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.modid+":"+((BlockDustDye)dust_dye).getName()));		
+	}
 
 
 }

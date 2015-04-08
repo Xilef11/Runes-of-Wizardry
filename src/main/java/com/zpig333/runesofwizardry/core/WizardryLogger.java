@@ -30,4 +30,7 @@ public class WizardryLogger {
         log(Level.TRACE, obj);
     }
 
+    public static void logException(Level level, Throwable ex, Object message){
+    	FMLLog.log(References.modid, level, ex, String.valueOf(message));
+    }
 }

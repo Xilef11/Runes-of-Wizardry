@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,7 +16,7 @@ import com.zpig333.runesofwizardry.core.References;
 
 public class BlockDustBlocks extends Block {
 
-    private IIcon[] icons;
+	//TODO BlockDustBlocks for 1.8
 
     public BlockDustBlocks(Material material) {
         super(material);
@@ -25,21 +26,6 @@ public class BlockDustBlocks extends Block {
         this.setHarvestLevel("shovel", 0);
     }
 
-    @Override
-    public IIcon getIcon(int side, int meta){
-        if(meta < 0 || meta >= icons.length){
-            return null;
-        }
-        else{
-            return icons[meta];
-        }
-    }
-
-    @Override
-    public int damageDropped(int i)
-    {
-        return i;
-    }
 
     @Override
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list){
@@ -48,11 +34,5 @@ public class BlockDustBlocks extends Block {
         }
     }
 
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister ireg){
-        icons = new IIcon[6];
-        for(int i = 0; i < icons.length; ++i){
-            icons[i] = ireg.registerIcon(References.texture_path + "dust_storage_" + References.dust_types[i]);
-        }
-    }
+
 }

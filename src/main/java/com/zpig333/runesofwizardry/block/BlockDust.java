@@ -5,10 +5,13 @@ import java.awt.Color;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,7 +22,7 @@ import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
 
 public class BlockDust extends BlockContainer {
-
+	//TODO BlockDust for 1.8
     /** Dust block metadata states.  To be api-ified **/
     public static int DUST_UNUSED = 0;
     public static int DUST_ACTIVATING = 1;
@@ -27,10 +30,10 @@ public class BlockDust extends BlockContainer {
     public static int DUST_DEAD = 3;
 
 
-    @SideOnly(Side.CLIENT)
-    private IIcon icon_side;
-    @SideOnly(Side.CLIENT)
-    private IIcon icon_top;
+//    @SideOnly(Side.CLIENT)
+//    private IIcon icon_side;
+//    @SideOnly(Side.CLIENT)
+//    private IIcon icon_top;
 
     public BlockDust(){
         super(Material.circuits);
@@ -40,10 +43,10 @@ public class BlockDust extends BlockContainer {
         this.disableStats();
     }
 
-    @Override
-    public IIcon getIcon(int side, int meta){
-        return side == 1 ? icon_top : icon_side;
-    }
+//    @Override
+//    public IIcon getIcon(int side, int meta){
+//        return side == 1 ? icon_top : icon_side;
+//    }
 
     /**
      * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
@@ -73,15 +76,15 @@ public class BlockDust extends BlockContainer {
     }
 
     @Override
-    public boolean canPlaceBlockAt(World world, int i, int j, int k)
+    public boolean canPlaceBlockAt(World world, BlockPos pos)
     {
-        Block block = world.getBlock(i, j - 1, k);
-
+    	//get the block 1 lower
+        Block block = world.getBlockState(pos.down()).getBlock();
         if (block == null)
         {
             return false;
         } else{
-            return world.isSideSolid(i, j - 1, k, ForgeDirection.UP) || block == Blocks.glass;
+            return world.isSideSolid(pos.down(), EnumFacing.UP) || block == Blocks.glass;
         }
     }
 
@@ -92,38 +95,41 @@ public class BlockDust extends BlockContainer {
         return new Color(colors[0], colors[1], colors[2]).getRGB();
     }
 
+    //public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer p, int face, float x, float y, float z)
     @Override
-    public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer p, int face, float x, float y, float z)
+	public boolean onBlockActivated(World world, BlockPos pos,IBlockState state, EntityPlayer player, EnumFacing side,float hitX, float hitY, float hitZ)
     {
-        if (!world.canMineBlock(p, i, j, k))
-            return false;
-
-        ItemStack item = p.getCurrentEquippedItem();
-        int dust = item.getItemDamage();
-
-        if (world.getBlockMetadata(i, j, k) > 1){
+        if (!world.canMineBlockBody(player, pos)){
             return false;
         }
 
-        int rx = (int) Math.floor(x * TileEntityDust.size);
-        int rz = (int) Math.floor(z * TileEntityDust.size);
+        ItemStack item = player.getCurrentEquippedItem();
+        int dust = item.getItemDamage();
+        //FIXME metadata stuff for BlockDust
+//        if (world.getBlockMetadata(pos) > 1){
+//            return false;
+//        }
+
+        int rx = (int) Math.floor(hitX * TileEntityDust.size);
+        int rz = (int) Math.floor(hitZ * TileEntityDust.size);
         rx = Math.min(TileEntityDust.size - 1, rx);
         rz = Math.min(TileEntityDust.size - 1, rz);
 
-        TileEntityDust ted = (TileEntityDust) world.getTileEntity(i, j, k);
+        TileEntityDust ted = (TileEntityDust) world.getTileEntity(pos);
 
         if (ted.getDust(rx, rz) <= 0)
         {
             if (ted.getDust(rx, rz) == -2)
             {
-                setVariableDust(ted, rx, rz, p, dust);
+                setVariableDust(ted, rx, rz, player, dust);
             } else
             {
-                ted.setDust(p, rx, rz, dust);
+                ted.setDust(player, rx, rz, dust);
             }
 
-            world.notifyBlockChange(i, j, k, Blocks.air);
-            world.playSoundEffect(i + 0.5F, j + 0.5F, k + 0.5F, stepSound.getStepResourcePath(), (stepSound.getVolume() + 1.0F) / 6.0F, stepSound.getPitch() * 0.99F);
+            world.notifyBlockOfStateChange(pos, Blocks.air);
+            //XXX check this, not sure about stepSound.soundName
+            world.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, stepSound.soundName, (stepSound.getVolume() + 1.0F) / 6.0F, stepSound.getFrequency() * 0.99F);
         }
 
         /*
@@ -151,8 +157,9 @@ public class BlockDust extends BlockContainer {
             {
                 if (i == 0 || j == 0)
                 {
-                    int wx = ted.xCoord;
-                    int wz = ted.zCoord;
+                	//XXX check the pos, not sure. was xCoord and zCoord
+                    int wx = ted.getPos().getX();
+                    int wz = ted.getPos().getZ();
                     int ix = x + i;
                     int iz = z + j;
 
@@ -175,8 +182,8 @@ public class BlockDust extends BlockContainer {
                         iz = 0;
                         wz++;
                     }
-
-                    TileEntity te = p.worldObj.getTileEntity(wx, ted.yCoord, wz);
+                    //XXX position
+                    TileEntity te = p.worldObj.getTileEntity(new BlockPos(wx, ted.getPos().getY(), wz));
 
                     if (!(te instanceof TileEntityDust))
                     {
@@ -190,13 +197,13 @@ public class BlockDust extends BlockContainer {
         }
     }
 
-
-    @Override
-    public void registerBlockIcons(IIconRegister ireg){
-
-        icon_top = ireg.registerIcon(References.texture_path + "dust_top");
-        icon_side = ireg.registerIcon(References.texture_path + "dust_side");
-    }
+//TODO don't forget the icons
+//    @Override
+//    public void registerBlockIcons(IIconRegister ireg){
+//
+//        icon_top = ireg.registerIcon(References.texture_path + "dust_top");
+//        icon_side = ireg.registerIcon(References.texture_path + "dust_side");
+//    }
 
     @Override
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {

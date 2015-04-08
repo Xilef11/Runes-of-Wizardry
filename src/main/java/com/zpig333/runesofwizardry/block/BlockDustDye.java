@@ -5,12 +5,17 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
@@ -20,22 +25,24 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 public class BlockDustDye extends BlockContainer {
 
     private Random random = new Random();
-
+    private final String name="dust_dye";
     public BlockDustDye() {
         super(Material.rock);
         setCreativeTab(RunesOfWizardry.wizardry_tab);
         setHarvestLevel("pickaxe", 0);
         setHardness(2);
+        setUnlocalizedName(References.modid+"_"+name);
+        GameRegistry.registerBlock(this, name);
     }
-    
+    public String getName(){
+    	return name;
+    }
     @Override
-    public boolean canHarvestBlock(EntityPlayer player, int meta){
-        return true;
-    }
+    public boolean canHarvestBlock(IBlockAccess world, net.minecraft.util.BlockPos pos, EntityPlayer player) {
+    	return true;
+    };
     
-    public void registerBlockIcons(IIconRegister ireg){
-        this.blockIcon=ireg.registerIcon(References.texture_path+"dust_dye_block");
-    }
+
 
     @Override
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
@@ -44,8 +51,8 @@ public class BlockDustDye extends BlockContainer {
 
     //drops the items when the block is broken (?)
     @Override
-    public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {
-        TileEntityDustDye tileentityDustDye = (TileEntityDustDye) p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        TileEntityDustDye tileentityDustDye = (TileEntityDustDye) world.getTileEntity(pos);
 
         if (tileentityDustDye != null) {
             for (int i1 = 0; i1 < tileentityDustDye.getSizeInventory(); ++i1) {
@@ -56,7 +63,7 @@ public class BlockDustDye extends BlockContainer {
                     float f1 = this.random.nextFloat() * 0.8F + 0.1F;
                     EntityItem entityitem;
 
-                    for (float f2 = this.random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; p_149749_1_.spawnEntityInWorld(entityitem)) {
+                    for (float f2 = this.random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; world.spawnEntityInWorld(entityitem)) {
                         int j1 = this.random.nextInt(21) + 10;
 
                         if (j1 > itemstack.stackSize) {
@@ -64,7 +71,7 @@ public class BlockDustDye extends BlockContainer {
                         }
 
                         itemstack.stackSize -= j1;
-                        entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
                         float f3 = 0.05F;
                         entityitem.motionX = (float) this.random.nextGaussian() * f3;
                         entityitem.motionY = (float) this.random.nextGaussian() * f3 + 0.2F;
@@ -76,28 +83,27 @@ public class BlockDustDye extends BlockContainer {
                     }
                 }
             }
-
-            p_149749_1_.func_147453_f(p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_);
+            //world.func_147453_f is updateNeighborsOnBlockChange(x, y, z, block)
+            world.notifyBlockOfStateChange(pos, state.getBlock());
         }
-        super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
+        super.breakBlock(world, pos, state);
 
     }
     
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z,
-                        EntityPlayer player, int metadata, float what, float these, float are){
+    public boolean onBlockActivated(World world, BlockPos pos,IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
         if (world.isRemote)
         {
             return true;
         }
         else
         { 
-            TileEntityDustDye tileentityDD = (TileEntityDustDye)world.getTileEntity(x,y,z);
+            TileEntityDustDye tileentityDD = (TileEntityDustDye)world.getTileEntity(pos);
             
             if (tileentityDD == null || player.isSneaking()) {
                         return false;
             }
-            player.openGui(RunesOfWizardry.instance, GuiDustDye.GUI_ID, world, x, y, z);            
+            player.openGui(RunesOfWizardry.instance, GuiDustDye.GUI_ID, world, pos.getX(),pos.getY(),pos.getZ());            
             return true;
         }
     }
