@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IChatComponent;
 
 import com.zpig333.runesofwizardry.item.ItemDyedDust;
 
@@ -112,7 +113,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     /**
      * Returns the name of the inventory
      */
-    public String getInventoryName()
+    public String getName()
     {
         return "RunesWiz.DustDye";
     }
@@ -120,16 +121,16 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this &&
-                player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64;
+        return worldObj.getTileEntity(pos) == this &&
+                player.getDistanceSq(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) < 64;
     }
 
     @Override
-    public void openInventory() {
+    public void openInventory(EntityPlayer p) {
     }
 
     @Override
-    public void closeInventory() {
+    public void closeInventory(EntityPlayer p) {
     }
 
     @Override
@@ -144,7 +145,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     }
 
     @Override
-    public boolean hasCustomInventoryName() {
+    public boolean hasCustomName() {
         return true;
     }
     
@@ -181,5 +182,32 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
                 tagCompound.setString("Color", colorString);
                 
         }
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

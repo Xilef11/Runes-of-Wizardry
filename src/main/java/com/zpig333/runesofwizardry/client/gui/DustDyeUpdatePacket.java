@@ -4,6 +4,7 @@ package com.zpig333.runesofwizardry.client.gui;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -15,10 +16,10 @@ public class DustDyeUpdatePacket implements IMessage {
     String colorString;
     int posX,posY,posZ;
     public DustDyeUpdatePacket(){}
-    public DustDyeUpdatePacket(int x, int y, int z, String colorS){
-        posX=x;
-        posY=y;
-        posX=z;
+    public DustDyeUpdatePacket(BlockPos pos, String colorS){
+        posX=pos.getX();
+        posY=pos.getY();
+        posX=pos.getZ();
         colorString=colorS;
     }
     @Override

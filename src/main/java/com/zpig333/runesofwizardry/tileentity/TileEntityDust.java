@@ -6,6 +6,8 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.IChatComponent;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
@@ -31,7 +33,7 @@ public class TileEntityDust extends TileEntity implements IInventory{
     //Sets a piece of dust
     public void setDust(EntityPlayer p, int i, int j, int dust)
     {
-        if (p != null && !worldObj.canMineBlock(p, this.xCoord, this.yCoord, this.zCoord))
+        if (p != null && !worldObj.canMineBlockBody(p, this.getPos()))
             return;
         int last = getDust(i, j);
         pattern[i][j] = dust;
@@ -47,16 +49,18 @@ public class TileEntityDust extends TileEntity implements IInventory{
             if (r == 0)
                 r -= 1;
 
-            if (Math.random() < 0.75)
+            if (Math.random() < 0.75){
                 for (int d = 0; d < Math.random() * 3; d++)
                 {
-                    worldObj.spawnParticle("reddust", xCoord + i / 4D
-                            + Math.random() * 0.15, yCoord, zCoord + j
-                            / 4D + Math.random() * 0.15, r, g, b);
+                    //(1.7.10)worldObj.spawnParticle("reddust", pos.getX() + i / 4D + Math.random() * 0.15, pos.getY(), pos.getZ() + j / 4D + Math.random() * 0.15, r, g, b);
+                	//FIXME not sure what the last param is...
+                    worldObj.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX(), pos.getY(), pos.getZ(), 1/4D + Math.random() * 0.15, 0, j / 4D + Math.random() * 0.15,0);
                 }
+
+            }
         }
-        worldObj.notifyBlockChange(xCoord, yCoord, zCoord, Blocks.air);
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        worldObj.notifyBlockOfStateChange(pos, Blocks.air);
+        worldObj.markBlockForUpdate(pos);
     }
 
 
@@ -74,10 +78,10 @@ public class TileEntityDust extends TileEntity implements IInventory{
                 rtn[0][x][z] = getDust(x, z);
             }
         }
-
-        if (DustRegistry.isDust(worldObj.getBlock(xCoord - 1, yCoord, zCoord)))
+        //worldObj.getBlock(xCoord - 1, yCoord, zCoord)
+        if (DustRegistry.isDust(worldObj.getBlockState(pos.add(-1, 0, 0))))
         {
-            TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(xCoord - 1, yCoord, zCoord);
+            TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(pos.add(-1, 0, 0));
 
             for (int i = 0; i < size; i++)
             {
@@ -85,9 +89,9 @@ public class TileEntityDust extends TileEntity implements IInventory{
             }
         }
 
-        if (DustRegistry.isDust(worldObj.getBlock(xCoord + 1, yCoord, zCoord)))
+        if (DustRegistry.isDust(worldObj.getBlockState(pos.add(1,0,0))))
         {
-            TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(xCoord + 1, yCoord, zCoord);
+            TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(pos.add(1,0,0));
 
             for (int i = 0; i < size; i++)
             {
@@ -95,9 +99,9 @@ public class TileEntityDust extends TileEntity implements IInventory{
             }
         }
 
-        if (DustRegistry.isDust(worldObj.getBlock(xCoord, yCoord, zCoord - 1)))
+        if (DustRegistry.isDust(worldObj.getBlockState(pos.add(0,0,-1))))
         {
-            TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(xCoord, yCoord, zCoord - 1);
+            TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(pos.add(0,0,-1));
 
             for (int i = 0; i < size; i++)
             {
@@ -105,9 +109,9 @@ public class TileEntityDust extends TileEntity implements IInventory{
             }
         }
 
-        if (DustRegistry.isDust(worldObj.getBlock(xCoord, yCoord, zCoord + 1)))
+        if (DustRegistry.isDust(worldObj.getBlockState(pos.add(0,0,1))))
         {
-            TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(xCoord, yCoord, zCoord + 1);
+            TileEntityDust ted = (TileEntityDust) worldObj.getTileEntity(pos.add(0,0,1));
 
             for (int i = 0; i < size; i++)
             {
@@ -182,14 +186,14 @@ public class TileEntityDust extends TileEntity implements IInventory{
         }
 
     }
-
+    
     @Override
-    public String getInventoryName() {
+    public String getName(){
         return "rw.tile_dust";
     }
 
     @Override
-    public boolean hasCustomInventoryName() {
+    public boolean hasCustomName() {
         return false;
     }
 
@@ -204,12 +208,12 @@ public class TileEntityDust extends TileEntity implements IInventory{
     }
 
     @Override
-    public void openInventory() {
+    public void openInventory(EntityPlayer player) {
 
     }
 
     @Override
-    public void closeInventory() {
+    public void closeInventory(EntityPlayer player) {
 
     }
 
@@ -217,4 +221,37 @@ public class TileEntityDust extends TileEntity implements IInventory{
     public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
         return false;
     }
+
+
+
+	@Override
+	public IChatComponent getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public int getField(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getFieldCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
 }

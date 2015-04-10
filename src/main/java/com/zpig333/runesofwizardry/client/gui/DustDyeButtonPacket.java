@@ -2,6 +2,7 @@ package com.zpig333.runesofwizardry.client.gui;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -21,14 +22,15 @@ public class DustDyeButtonPacket implements IMessage {
     }
 
     
-    public DustDyeButtonPacket(int color,int x, int y, int z){
-        this.x=x;
-        this.y=y;
-        this.z=z;
+    public DustDyeButtonPacket(int color,BlockPos pos){
+        this.x=pos.getX();
+        this.y=pos.getY();
+        this.z=pos.getZ();
         this.color=color;
     }
     @Override
     public void fromBytes(ByteBuf buf) {
+    	//XXX would probably be more efficient to use the BlockPos.toLong and fromLong, but ByteBufUtils dosen't have a readVarLong
        this.color = ByteBufUtils.readVarInt(buf, 5);
        this.x=ByteBufUtils.readVarInt(buf, 5);
        this.y=ByteBufUtils.readVarInt(buf, 5);
@@ -47,7 +49,7 @@ public class DustDyeButtonPacket implements IMessage {
 
         @Override
         public IMessage onMessage(DustDyeButtonPacket message, MessageContext ctx) {
-            TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(message.x, message.y, message.z);
+            TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
             if(te instanceof TileEntityDustDye){
                 TileEntityDustDye ted = (TileEntityDustDye)te;
                 ted.dye(message.color);

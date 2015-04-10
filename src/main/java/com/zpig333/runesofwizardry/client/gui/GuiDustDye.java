@@ -50,15 +50,17 @@ public class GuiDustDye extends GuiContainer {
     @Override
     public void initGui(){
       super.initGui();
-      RunesOfWizardry.networkWrapper.sendToServer(new DustDyeRequestUpdatePacket(PARENT.xCoord, PARENT.yCoord, PARENT.zCoord));
+      RunesOfWizardry.networkWrapper.sendToServer(new DustDyeRequestUpdatePacket(PARENT.getPos()));
       Keyboard.enableRepeatEvents(true);
       //posX, posY defines the top left pixel of the gui display
       int posX = (this.width - textureX) /2;
       int posY = (this.height - textureY) /2;
      
       //GuiTextField(fontrenderer, x, y, sizeX, sizeY)
+    //GuiTextField(int id, FontRenderer font, int xPos, int yPos, int width, int height)
+      //id is useless apparently
       //here, 0,0 is the top left of the texture...
-      textColor = new GuiTextField(this.fontRendererObj, 105, 14, 45, 12);
+      textColor = new GuiTextField(0, this.fontRendererObj, 105, 14, 45, 12);
       textColor.setMaxStringLength(6);
       textColor.setEnableBackgroundDrawing(false);
       textColor.setVisible(true);
@@ -91,13 +93,14 @@ public class GuiDustDye extends GuiContainer {
      * 
      * @param par1
      * @param par2 
+     * @throws IOException 
      */
     @Override
-    protected void keyTyped(char par1, int par2){
+    protected void keyTyped(char par1, int par2) throws IOException{
         if(textColor.textboxKeyTyped(par1, par2)){
             colorString = textColor.getText();
             PARENT.setColor(colorString);
-            RunesOfWizardry.networkWrapper.sendToServer(new DustDyeTextPacket(colorString, PARENT.xCoord, PARENT.yCoord, PARENT.zCoord));
+            RunesOfWizardry.networkWrapper.sendToServer(new DustDyeTextPacket(colorString, PARENT.getPos()));
             updateColor();
         }else{
             super.keyTyped(par1, par2);
@@ -182,7 +185,7 @@ public class GuiDustDye extends GuiContainer {
     	switch(button.id){
     	case GUI_DYE_BUTTON: 
     		//send the selected colour to the server
-    		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeButtonPacket(colorInt,PARENT.xCoord,PARENT.yCoord,PARENT.zCoord));
+    		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeButtonPacket(colorInt,PARENT.getPos()));
                 
     	default: System.out.println("Button clicked "+button.displayString+" "+button.id);
     		break;

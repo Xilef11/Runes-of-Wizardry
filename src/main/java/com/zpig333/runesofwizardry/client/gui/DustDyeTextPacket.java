@@ -2,6 +2,7 @@ package com.zpig333.runesofwizardry.client.gui;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -15,11 +16,11 @@ public class DustDyeTextPacket implements IMessage{
     private int x,y,z;//position of the tileentity
     
     public DustDyeTextPacket(){}
-    public DustDyeTextPacket(String text, int x, int y, int z){
+    public DustDyeTextPacket(String text, BlockPos pos){
         this.text=text;
-        this.x=x;
-        this.y=y;
-        this.z=z;
+        this.x=pos.getX();
+        this.y=pos.getY();
+        this.z=pos.getZ();
     }
     @Override
     public void fromBytes(ByteBuf buf) {
@@ -41,7 +42,7 @@ public class DustDyeTextPacket implements IMessage{
 
         @Override
         public IMessage onMessage(DustDyeTextPacket message, MessageContext ctx) {
-            TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(message.x, message.y, message.z);
+            TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
             if(te instanceof TileEntityDustDye){
                 TileEntityDustDye ted = (TileEntityDustDye)te;
                 ted.setColor(message.text);

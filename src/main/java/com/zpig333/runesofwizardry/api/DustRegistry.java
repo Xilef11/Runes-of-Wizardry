@@ -7,12 +7,15 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
@@ -49,8 +52,8 @@ public class DustRegistry {
         	};
         	dustBlock.setHardness(0.5F).setCreativeTab(RunesOfWizardry.wizardry_tab)
         	.setStepSound(Block.soundTypeSand).setHarvestLevel("shovel", 0);
-        	dustBlock.setBlockName("dust_storage_"+dustclass.getDustName());
-        	GameRegistry.registerBlock(dustBlock, "dust_storage_"+dustclass.getDustName());
+        	dustBlock.setUnlocalizedName(References.modid+"_dust_storage_"+dustclass.getDustName());
+        	GameRegistry.registerBlock(dustBlock, References.modid+"_dust_storage_"+dustclass.getDustName());
         	//Crafting
         	//XXX hopefully this is enough for metadata
         	for(ItemStack i:subDusts){
@@ -90,8 +93,8 @@ public class DustRegistry {
         return recipes.get(recipe);
     }
     
-    public static boolean isDust(Block block){
-        if(block == WizardryRegistry.dust_placed){
+    public static boolean isDust(IBlockState blockState){
+        if(blockState.getBlock() == WizardryRegistry.dust_placed){
             return true;
         }
         else{
