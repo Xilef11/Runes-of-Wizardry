@@ -1,10 +1,13 @@
 package com.zpig333.runesofwizardry.api;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -70,51 +73,29 @@ public abstract class IDust extends Item {
     	return false;
     }
     
-    //Stuff from ItemDustPieces
-    private IIcon icon_foreground;
-    private IIcon icon_background;
+   //TODO don't forget to do the textures
     
-    /**Gets an icon index based on an item's damage value and the given render pass. 
-     * <br/>Override this if your custom dust uses metadata/render pass to change its icon
-     * 
-     */
-    @Override
-    public IIcon getIconFromDamageForRenderPass(int meta, int pass){
-    	if(hasCustomIcon)return this.itemIcon;
-        if(pass == 0){
-            return icon_foreground;
-        }else {
-            return icon_background;
-        }
-    }
     /** what happens when the dust is used. places the dust by default, override for custom behaviour
      * 
      */
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int xPos, int yPos, int zPos, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_){
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
 
         if(world.isRemote){
             return true;
         }
         else {
-            Block block = world.getBlock(xPos, yPos, zPos);
+            Block block = world.getBlockState(pos).getBlock();
             if (block == Blocks.vine || block == Blocks.tallgrass || block == Blocks.deadbush || block == WizardryRegistry.dust_placed || block == Blocks.snow_layer) {
                 return false;
             }
-            world.setBlock(xPos, yPos + 1, zPos, WizardryRegistry.dust_placed);
-            world.playSoundEffect((double)(xPos + 0.5F), (double)(yPos + 0.5F), (double)(zPos + 0.5F), Block.soundTypeSand.func_150496_b(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getPitch() * 0.8F);
+            //TODO seems like we will need a BlockState implementation for this
+            //world.setBlockState(pos.add(0, 1, 0), WizardryRegistry.dust_placed);
+            world.playSoundEffect((double)(pos.getX() + 0.5F), (double)(pos.getY() + 0.5F), (double)(pos.getZ() + 0.5F), Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
             return true;
         }
     }
-    /** does the item require multiple render passes?
-     * @return (default) true
-     */
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean requiresMultipleRenderPasses()
-    {
-        return true;
-    }
+    
     /** sets the item's color based on the itemstack
      * 
      */
@@ -129,18 +110,5 @@ public abstract class IDust extends Item {
         return pass == 0 ? dust.getPrimaryColor(stack) : dust.getSecondaryColor(stack);
        
     }
-    /** sets the icon of the dust.
-     * default is based on the primary and secondary colors. 
-     * override for custom icon
-     * 
-     * @param ireg 
-     */
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IIconRegister ireg){
-    	hasCustomIcon=false;
-        //just the plain one for now
-        icon_foreground = ireg.registerIcon(References.texture_path + "dust_item_fore");
-        icon_background = ireg.registerIcon(References.texture_path + "dust_item_sub");
-    }
+
 }

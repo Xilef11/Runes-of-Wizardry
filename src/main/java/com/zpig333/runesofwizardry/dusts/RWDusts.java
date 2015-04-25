@@ -26,10 +26,7 @@ public class RWDusts {
         public int getSecondaryColor(ItemStack stack) {
             return 0xC5C6C8;
         }
-        @Override
-        public void registerIcons(IIconRegister ireg){
-            this.itemIcon=ireg.registerIcon(References.texture_path+"dust_inert");
-        }
+
 
         @Override
         public ItemStack[] getInfusionItems(ItemStack stack) {
@@ -55,10 +52,7 @@ public class RWDusts {
         public int getSecondaryColor(ItemStack stack) {
             return 0x045C05;
         }
-        @Override
-        public void registerIcons(IIconRegister ireg){
-            this.itemIcon=ireg.registerIcon(References.texture_path+"dust_plant");
-        }
+
         
         @Override
         public ItemStack[] getInfusionItems(ItemStack stack) {
@@ -84,10 +78,7 @@ public class RWDusts {
         public int getSecondaryColor(ItemStack stack) {
             return 0x96D1FF;
         }
-        @Override
-        public void registerIcons(IIconRegister ireg){
-            this.itemIcon=ireg.registerIcon(References.texture_path+"dust_aqua");
-        }
+
         @Override
         public ItemStack[] getInfusionItems(ItemStack stack) {
             //TODO Aqua infusion
@@ -118,10 +109,7 @@ public class RWDusts {
         public int getPlacedColor(ItemStack stack) {
             return 0xFF6E1E;
         }
-        @Override
-        public void registerIcons(IIconRegister ireg){
-            this.itemIcon=ireg.registerIcon(References.texture_path+"dust_flame");
-        }
+
         @Override
         public ItemStack[] getInfusionItems(ItemStack stack) {
             ItemStack[] items = {new ItemStack(WizardryRegistry.lavastone,1)};
@@ -152,10 +140,7 @@ public class RWDusts {
         public int getPlacedColor(ItemStack stack) {
             return 0xD2D200;
         }
-        @Override
-        public void registerIcons(IIconRegister ireg){
-            this.itemIcon=ireg.registerIcon(References.texture_path+"dust_glowstone");
-        }
+
         @Override
         public ItemStack[] getInfusionItems(ItemStack stack) {
             //TODO Glowstone infusion
@@ -186,10 +171,7 @@ public class RWDusts {
         public int getPlacedColor(ItemStack stack) {
             return 0x0B4D42;
         }
-        @Override
-        public void registerIcons(IIconRegister ireg){
-            this.itemIcon=ireg.registerIcon(References.texture_path+"dust_ender");
-        }
+
         @Override
         public ItemStack[] getInfusionItems(ItemStack stack) {
             //TODO Ender infusion
