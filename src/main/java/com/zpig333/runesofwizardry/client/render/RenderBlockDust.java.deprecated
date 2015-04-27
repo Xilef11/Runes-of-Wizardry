@@ -7,7 +7,7 @@ import net.minecraft.world.IBlockAccess;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
-
+//@see http://www.minecraftforge.net/forum/index.php/topic,28714.0.html for 1.8 reimplementation
 public class RenderBlockDust implements ISimpleBlockRenderingHandler {
 
     public static int dust_modelid;

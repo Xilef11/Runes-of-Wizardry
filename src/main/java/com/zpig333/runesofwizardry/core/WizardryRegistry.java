@@ -44,11 +44,11 @@ public class WizardryRegistry {
     public static void initBlocks(){
     	//FIXME setBlockName not used
         //dust_placed = new BlockDust().setBlockName("dust_placed");
-        GameRegistry.registerBlock(dust_placed, "dust_placed");
-        GameRegistry.registerTileEntity(TileEntityDust.class, "dust_placed");
+        //GameRegistry.registerBlock(dust_placed, "dust_placed");
+        //GameRegistry.registerTileEntity(TileEntityDust.class, "dust_placed");
       //FIXME setBlockName not used
         //dust_blocks = new BlockDustBlocks(Material.clay).setBlockName("dust_storage");
-        GameRegistry.registerBlock(dust_blocks, ItemBlockDustBlocks.class, "dust_storage");
+        //GameRegistry.registerBlock(dust_blocks, ItemBlockDustBlocks.class, "dust_storage");
         
         lavastone_bricks = new BlockLavastone_bricks(Material.rock);
 
