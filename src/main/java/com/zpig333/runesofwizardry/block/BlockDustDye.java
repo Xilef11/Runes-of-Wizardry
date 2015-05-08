@@ -22,12 +22,12 @@ import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
-public class BlockDustDye extends BlockContainer {
-
+public class BlockDustDye extends BlockContainer{
+	//XXX might want to consider extending Block and implementing ITileEntityProvider
     private Random random = new Random();
     private final String name="dust_dye";
-    public BlockDustDye() {
-        super(Material.rock);
+    public BlockDustDye(Material mat) {
+        super(mat);
         setCreativeTab(RunesOfWizardry.wizardry_tab);
         setHarvestLevel("pickaxe", 0);
         setHardness(2);
@@ -42,9 +42,16 @@ public class BlockDustDye extends BlockContainer {
     	return true;
     };
     
+    
 
-
-    @Override
+    /* (non-Javadoc)
+	 * @see net.minecraft.block.BlockContainer#getRenderType()
+	 */
+	@Override
+	public int getRenderType() {
+		return 3;
+	}
+	@Override
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
         return new TileEntityDustDye();
     }
@@ -107,5 +114,6 @@ public class BlockDustDye extends BlockContainer {
             return true;
         }
     }
+    
 }
 

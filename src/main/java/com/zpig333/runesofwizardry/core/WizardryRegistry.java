@@ -1,9 +1,14 @@
 package com.zpig333.runesofwizardry.core;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -14,6 +19,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.block.BlockDust;
 import com.zpig333.runesofwizardry.block.BlockDustBlocks;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
@@ -128,7 +134,7 @@ public class WizardryRegistry {
 
     //a separate method will allow for easier disabling/enabling via config
     public static void initDecItems(){
-    	dust_dye = new BlockDustDye();
+    	dust_dye = new BlockDustDye(Material.rock);
         GameRegistry.registerTileEntity(TileEntityDustDye.class, "te_Dust_Dye");
         
         dust_dyed = new ItemDyedDust();
@@ -209,12 +215,31 @@ public class WizardryRegistry {
 										.getName(), "inventory"));
 	}
 
-
+	public static void registerDustItemRendering(){
+    	RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+    	for(IDust d:DustRegistry.getAllDusts()){
+    		renderItem.getItemModelMesher().register(d,new ItemMeshDefinition() {
+				
+				@Override
+				public ModelResourceLocation getModelLocation(ItemStack stack) {
+					return new ModelResourceLocation(References.modid+":"+"default_dusts","inventory");
+				}
+			});
+//    		List<ItemStack> subDusts=new LinkedList<ItemStack>();
+//        	d.getSubItems(d, RunesOfWizardry.wizardry_tab, subDusts);
+//        	for(ItemStack i:subDusts){
+//        		//FIXME still looking for the item name instead of default_dusts
+//        		ModelResourceLocation model=new ModelResourceLocation(References.modid+":"+"default_dusts", "inventory");
+//        		renderItem.getItemModelMesher().register(d, new Item);
+//        	}
+    	}
+    }
 	public static void registerBlockRenders() {
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		//lavastone bricks
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(lavastone_bricks), 0, new ModelResourceLocation(References.modid + ":" + ((BlockLavastone_bricks) lavastone_bricks).getName(), "inventory"));
-		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.modid+":"+((BlockDustDye)dust_dye).getName()));		
+		//Dust Dye
+		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.modid+":"+((BlockDustDye)dust_dye).getName(),"inventory"));		
 	}
 
 

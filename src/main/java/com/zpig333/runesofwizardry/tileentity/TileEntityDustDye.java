@@ -6,8 +6,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.StatCollector;
 
+import com.sun.imageio.plugins.common.I18N;
+import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.item.ItemDyedDust;
 
 
@@ -186,28 +192,33 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	@Override
 	public IChatComponent getDisplayName() {
 		// TODO Auto-generated method stub
-		return null;
+		//line InventoryBasic
+		 return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]));
 	}
 
 	@Override
 	public int getField(int id) {
 		// TODO Auto-generated method stub
+		//not using this
 		return 0;
 	}
 	@Override
 	public void setField(int id, int value) {
 		// TODO Auto-generated method stub
-		
+		//not using this?
 	}
 	@Override
 	public int getFieldCount() {
 		// TODO Auto-generated method stub
+		//Not using this?
 		return 0;
 	}
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		// let's just do the same thing as inventoryBasic
+		for(ItemStack i:contents){
+			i=null;
+		}
 	}
-
+	
 }

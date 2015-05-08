@@ -65,6 +65,7 @@ public class RunesOfWizardry {
 		// initialize the item renders
 		if (event.getSide() == Side.CLIENT) {
 			WizardryRegistry.initItemRenders();
+			WizardryRegistry.registerDustItemRendering();
 			WizardryRegistry.registerBlockRenders();
 		}
 
