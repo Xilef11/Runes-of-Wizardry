@@ -14,6 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -217,21 +218,34 @@ public class WizardryRegistry {
 
 	public static void registerDustItemRendering(){
     	RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+    	ModelResourceLocation dustModel = new ModelResourceLocation(References.modid+":"+"default_dusts","inventory");
     	for(IDust d:DustRegistry.getAllDusts()){
-    		renderItem.getItemModelMesher().register(d,new ItemMeshDefinition() {
+    		/*renderItem.getItemModelMesher().register(d,new ItemMeshDefinition() {
 				
 				@Override
 				public ModelResourceLocation getModelLocation(ItemStack stack) {
 					return new ModelResourceLocation(References.modid+":"+"default_dusts","inventory");
 				}
 			});
-//    		List<ItemStack> subDusts=new LinkedList<ItemStack>();
-//        	d.getSubItems(d, RunesOfWizardry.wizardry_tab, subDusts);
-//        	for(ItemStack i:subDusts){
-//        		//FIXME still looking for the item name instead of default_dusts
-//        		ModelResourceLocation model=new ModelResourceLocation(References.modid+":"+"default_dusts", "inventory");
-//        		renderItem.getItemModelMesher().register(d, new Item);
-//        	}
+    		*/
+    		/*ModelLoader.setCustomMeshDefinition(d, new ItemMeshDefinition() {
+				
+				@Override
+				public ModelResourceLocation getModelLocation(ItemStack stack) {
+					return new ModelResourceLocation(References.modid+":"+"default_dusts","inventory");
+				}
+			});*/
+    		//ModelLoader.setCustomModelResourceLocation(d, OreDictionary.WILDCARD_VALUE, new ModelResourceLocation(References.modid+":"+"default_dusts","inventory"));
+    		List<ItemStack> subDusts = new LinkedList<ItemStack>();
+    		d.getSubItems(d, RunesOfWizardry.wizardry_tab, subDusts);
+    		for(ItemStack i:subDusts){
+    			//ModelLoader.setCustomModelResourceLocation(d, i.getMetadata(), dustModel);
+    			renderItem.getItemModelMesher().register(d, i.getMetadata(), dustModel);
+    		}
+    		//FIXME naming conventions
+    		//ModelBakery.addVariantName(d, "dust_"+d.getDustName());
+    		ModelBakery.addVariantName(d, References.modid+":default_dusts");
+    		
     	}
     }
 	public static void registerBlockRenders() {

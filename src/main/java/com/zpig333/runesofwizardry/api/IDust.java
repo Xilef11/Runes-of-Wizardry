@@ -29,8 +29,12 @@ public abstract class IDust extends Item {
     int getId(){return id;}
     /** sets the ID of this dust. for use by the dust registry only. **/
     void setId(int newId){this.id=newId;}
-    /**determines if this has a custom icon**/
-    private boolean hasCustomIcon=true;
+    /**determines if this has a custom icon
+     * @return false by default
+     **/
+    private boolean hasCustomIcon(){
+    	return false;
+    }
     public IDust(){
         setCreativeTab(RunesOfWizardry.wizardry_tab);
         setUnlocalizedName("dust_"+getDustName());
@@ -104,7 +108,7 @@ public abstract class IDust extends Item {
     public int getColorFromItemStack(ItemStack stack, int pass)
     {
         //if there is a custom icon registered, return the same thing as Item
-        if(hasCustomIcon)return 16777215;
+        if(hasCustomIcon())return 16777215;
         //otherwise, return the colors of the dust
         IDust dust = DustRegistry.getDustFromItemStack(stack);
         return pass == 0 ? dust.getPrimaryColor(stack) : dust.getSecondaryColor(stack);

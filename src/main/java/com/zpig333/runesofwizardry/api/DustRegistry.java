@@ -2,12 +2,12 @@ package com.zpig333.runesofwizardry.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -21,11 +21,17 @@ import com.zpig333.runesofwizardry.core.WizardryRegistry;
 public class DustRegistry {
 
     /** List of all registered dusts **/
-    //XXX we probably don't need this list, we can always get the dust from an ItemStack
-    //public static List<IDust> dusts = new ArrayList<IDust>();
+    private static List<IDust> dusts = new LinkedList<IDust>();
+    
     /** Map of all the infusion recipes **/
     private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
-
+    /** returns a list of all the registered dusts
+     * 
+     * @return
+     */
+    public static List<IDust> getAllDusts(){
+    	return new LinkedList<IDust>(dusts);
+    }
     /**
      * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
      * <br/>Note: also registers it as an Item in the GameRegistry.
@@ -34,8 +40,9 @@ public class DustRegistry {
         //get the last avaliable ID
         //int nextId=dusts.size();
         //dustclass.setId(nextId);
-        //dusts.add(nextId, dustclass);
-        GameRegistry.registerItem(dustclass, dustclass.getUnlocalizedName());
+        dusts.add(dustclass);
+        //FIXME this should not use unlocalized name
+        GameRegistry.registerItem(dustclass, "dust_"+dustclass.getDustName());
         //list of subItems
         List<ItemStack> subDusts = new ArrayList<ItemStack>(15);
         //get the subDusts. hopefully, tabAllSearch is the right one
@@ -146,6 +153,7 @@ public class DustRegistry {
 
 //        return rtn;
     }
+
 }
 
 
