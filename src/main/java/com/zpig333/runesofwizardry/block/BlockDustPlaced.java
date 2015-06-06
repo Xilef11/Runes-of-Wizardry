@@ -20,9 +20,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
-
-public class BlockDust extends BlockContainer {
-	//TODO BlockDust for 1.8
+/**
+ * This class creates the block that holds placed dust
+ *
+ */
+//XXX not sure what most of this does
+public class BlockDustPlaced extends BlockContainer {
+	//TODO BlockDustPlaced for 1.8
     /** Dust block metadata states.  To be api-ified **/
     public static int DUST_UNUSED = 0;
     public static int DUST_ACTIVATING = 1;
@@ -35,7 +39,7 @@ public class BlockDust extends BlockContainer {
 //    @SideOnly(Side.CLIENT)
 //    private IIcon icon_top;
 
-    public BlockDust(){
+    public BlockDustPlaced(){
         super(Material.circuits);
         this.setStepSound(Block.soundTypeSand);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
@@ -105,7 +109,7 @@ public class BlockDust extends BlockContainer {
 
         ItemStack item = player.getCurrentEquippedItem();
         int dust = item.getItemDamage();
-        //FIXME metadata stuff for BlockDust
+        //FIXME metadata stuff for BlockDustPlaced
 //        if (world.getBlockMetadata(pos) > 1){
 //            return false;
 //        }

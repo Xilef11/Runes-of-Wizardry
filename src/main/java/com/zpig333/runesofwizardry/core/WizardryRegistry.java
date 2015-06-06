@@ -6,7 +6,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -14,21 +13,22 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.block.BlockDust;
-import com.zpig333.runesofwizardry.block.BlockDustBlocks;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
-import com.zpig333.runesofwizardry.block.itemblocks.ItemBlockDustBlocks;
-import com.zpig333.runesofwizardry.dusts.RWDusts;
-import com.zpig333.runesofwizardry.item.*;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
+import com.zpig333.runesofwizardry.item.ItemDyedDust;
+import com.zpig333.runesofwizardry.item.ItemLavastone;
+import com.zpig333.runesofwizardry.item.ItemNetherPaste;
+import com.zpig333.runesofwizardry.item.ItemPestle;
+import com.zpig333.runesofwizardry.item.ItemPlantBalls;
+import com.zpig333.runesofwizardry.item.ItemWizardryDictionary;
+import com.zpig333.runesofwizardry.item.ItemWizardsStaff;
+import com.zpig333.runesofwizardry.item.RWDusts;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class WizardryRegistry {
@@ -50,11 +50,11 @@ public class WizardryRegistry {
 
     public static void initBlocks(){
     	//FIXME setBlockName not used
-        //dust_placed = new BlockDust().setBlockName("dust_placed");
+        //dust_placed = new BlockDustPlaced().setBlockName("dust_placed");
         //GameRegistry.registerBlock(dust_placed, "dust_placed");
         //GameRegistry.registerTileEntity(TileEntityDust.class, "dust_placed");
       //FIXME setBlockName not used
-        //dust_blocks = new BlockDustBlocks(Material.clay).setBlockName("dust_storage");
+        //dust_blocks = new BlockDustStorage(Material.clay).setBlockName("dust_storage");
         //GameRegistry.registerBlock(dust_blocks, ItemBlockDustBlocks.class, "dust_storage");
         
         lavastone_bricks = new BlockLavastone_bricks(Material.rock);

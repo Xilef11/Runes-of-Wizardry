@@ -18,6 +18,9 @@ import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.client.container.ContainerDustDye;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
+import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
+import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class GuiDustDye extends GuiContainer {

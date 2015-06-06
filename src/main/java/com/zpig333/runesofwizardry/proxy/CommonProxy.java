@@ -1,4 +1,4 @@
-package com.zpig333.runesofwizardry.core;
+package com.zpig333.runesofwizardry.proxy;
 
 import java.util.List;
 

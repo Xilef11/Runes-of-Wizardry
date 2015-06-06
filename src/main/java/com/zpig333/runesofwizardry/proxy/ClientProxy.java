@@ -1,4 +1,4 @@
-package com.zpig333.runesofwizardry.client;
+package com.zpig333.runesofwizardry.proxy;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +12,6 @@ import net.minecraftforge.client.MinecraftForgeClient;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.client.render.RenderStaff;
-import com.zpig333.runesofwizardry.core.CommonProxy;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 

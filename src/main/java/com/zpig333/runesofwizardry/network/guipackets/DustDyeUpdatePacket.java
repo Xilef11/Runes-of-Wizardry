@@ -1,5 +1,5 @@
 
-package com.zpig333.runesofwizardry.client.gui;
+package com.zpig333.runesofwizardry.network.guipackets;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class DustDyeUpdatePacket implements IMessage {

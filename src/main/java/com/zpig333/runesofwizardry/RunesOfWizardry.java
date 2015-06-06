@@ -17,11 +17,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.zpig333.runesofwizardry.client.gui.DustDyeButtonPacket;
-import com.zpig333.runesofwizardry.client.gui.DustDyeRequestUpdatePacket;
-import com.zpig333.runesofwizardry.client.gui.DustDyeTextPacket;
-import com.zpig333.runesofwizardry.client.gui.DustDyeUpdatePacket;
-import com.zpig333.runesofwizardry.core.CommonProxy;
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
@@ -33,6 +28,11 @@ import com.zpig333.runesofwizardry.item.ItemPestle;
 import com.zpig333.runesofwizardry.item.ItemPlantBalls;
 import com.zpig333.runesofwizardry.item.ItemWizardryDictionary;
 import com.zpig333.runesofwizardry.item.ItemWizardsStaff;
+import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
+import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
+import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
+import com.zpig333.runesofwizardry.network.guipackets.DustDyeUpdatePacket;
+import com.zpig333.runesofwizardry.proxy.CommonProxy;
 
 @Mod(modid = References.modid, name = "Runes of Wizardry", version = "@MOD_VERSION@")
 public class RunesOfWizardry {

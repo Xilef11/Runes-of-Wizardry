@@ -1,4 +1,4 @@
-package com.zpig333.runesofwizardry.dusts;
+package com.zpig333.runesofwizardry.item;
 
 import net.minecraft.item.ItemStack;
 

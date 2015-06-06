@@ -1,4 +1,4 @@
-package com.zpig333.runesofwizardry.client.gui;
+package com.zpig333.runesofwizardry.network.guipackets;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
