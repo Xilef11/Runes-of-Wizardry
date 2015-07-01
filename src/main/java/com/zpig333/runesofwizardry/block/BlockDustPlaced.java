@@ -22,22 +22,11 @@ import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDust;
 /**
  * This class creates the block that holds placed dust
- *
+ * [refactor] to be fixed when we figure out how to place dusts
  */
 //XXX not sure what most of this does
 public class BlockDustPlaced extends BlockContainer {
 	//TODO BlockDustPlaced for 1.8
-    /** Dust block metadata states.  To be api-ified **/
-    public static int DUST_UNUSED = 0;
-    public static int DUST_ACTIVATING = 1;
-    public static int DUST_ACTIVE = 2;
-    public static int DUST_DEAD = 3;
-
-
-//    @SideOnly(Side.CLIENT)
-//    private IIcon icon_side;
-//    @SideOnly(Side.CLIENT)
-//    private IIcon icon_top;
 
     public BlockDustPlaced(){
         super(Material.circuits);
@@ -47,10 +36,6 @@ public class BlockDustPlaced extends BlockContainer {
         this.disableStats();
     }
 
-//    @Override
-//    public IIcon getIcon(int side, int meta){
-//        return side == 1 ? icon_top : icon_side;
-//    }
 
     /**
      * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
@@ -88,18 +73,19 @@ public class BlockDustPlaced extends BlockContainer {
         {
             return false;
         } else{
+        	//FUTURE maybe tweak to use the oredict to allow other types of glass
             return world.isSideSolid(pos.down(), EnumFacing.UP) || block == Blocks.glass;
         }
     }
-
+    //Leaving this here for now, not sure how I want to handle the rendering of placed dusts
     @SideOnly(Side.CLIENT)
     public int colorMultiplier(IBlockAccess access, int x, int y, int z)
     {
         int[] colors = DustRegistry.getFloorColorRGB(3);
         return new Color(colors[0], colors[1], colors[2]).getRGB();
     }
-
-    //public boolean onBlockActivated(World world, int i, int j, int k, EntityPlayer p, int face, float x, float y, float z)
+    //[refactor] not touching this one too much
+    //handle the placing of dusts on existing blocks
     @Override
 	public boolean onBlockActivated(World world, BlockPos pos,IBlockState state, EntityPlayer player, EnumFacing side,float hitX, float hitY, float hitZ)
     {
@@ -108,6 +94,7 @@ public class BlockDustPlaced extends BlockContainer {
         }
 
         ItemStack item = player.getCurrentEquippedItem();
+        //FUTURE this is not what we want to do to get the dust...
         int dust = item.getItemDamage();
         //FIXME metadata stuff for BlockDustPlaced
 //        if (world.getBlockMetadata(pos) > 1){
@@ -146,7 +133,7 @@ public class BlockDustPlaced extends BlockContainer {
         } */
         return true;
     }
-
+    //[refactor] leaving this for placing dusts later on
     private void setVariableDust(TileEntityDust ted, int x, int z, EntityPlayer p, int dust)
     {
         if (ted.getDust(x, z) != -2)
@@ -201,13 +188,6 @@ public class BlockDustPlaced extends BlockContainer {
         }
     }
 
-//TODO don't forget the icons
-//    @Override
-//    public void registerBlockIcons(IIconRegister ireg){
-//
-//        icon_top = ireg.registerIcon(References.texture_path + "dust_top");
-//        icon_side = ireg.registerIcon(References.texture_path + "dust_side");
-//    }
 
     @Override
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {

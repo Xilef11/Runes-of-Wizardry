@@ -43,7 +43,7 @@ public class DustDyeRequestUpdatePacket implements IMessage{
             TileEntity te = player.worldObj.getTileEntity(position);
             if(te instanceof TileEntityDustDye){
                 TileEntityDustDye ted = (TileEntityDustDye)te;
-                return new DustDyeUpdatePacket(position, ted.getColor());
+                return new DustDyeUpdatePacket(position, ted.getColorString());
             }else{
                 throw new IllegalArgumentException("DustDyeRequestUpdatePacket.onMessage: tileEntity is not a Dust Dye");
             }

@@ -1,4 +1,4 @@
-package com.zpig333.runesofwizardry.client.container;
+package com.zpig333.runesofwizardry.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -19,7 +19,7 @@ public class ContainerDustDye extends Container {
 
         //the Slot constructor takes the IInventory and the slot number in that it binds to
         //and the x-y coordinates it resides on-screen
-        addSlotToContainer(new ContainerDustDye.Dye(tileEntity, 0, 116,30));
+        addSlotToContainer(new ContainerDustDye.SlotDustDye(tileEntity, 0, 116,30));
         /*for (int i = 0; i < 1; i++) {
             for (int j = 0; j < 1; j++) {
                 addSlotToContainer(new Slot(tileEntity, j + i * 3, 62 + j * 18, 17 + i * 18));
@@ -82,8 +82,8 @@ public class ContainerDustDye extends Container {
         return stack;
     }
     
-    static class Dye extends Slot{
-        public Dye(IInventory inv, int a, int b, int c){
+    static class SlotDustDye extends Slot{
+        public SlotDustDye(IInventory inv, int a, int b, int c){
             super(inv, a, b, c);
         }
         @Override

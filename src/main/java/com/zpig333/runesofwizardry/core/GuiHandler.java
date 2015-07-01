@@ -6,8 +6,8 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
-import com.zpig333.runesofwizardry.client.container.ContainerDustDye;
 import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
+import com.zpig333.runesofwizardry.inventory.ContainerDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class GuiHandler implements IGuiHandler {

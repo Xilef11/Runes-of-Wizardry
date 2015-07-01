@@ -14,8 +14,10 @@ import net.minecraft.util.StatCollector;
 
 import com.sun.imageio.plugins.common.I18N;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.item.ItemDyedDust;
 
+//[refactor] This class seems OK for now
 
 public class TileEntityDustDye extends TileEntity implements IInventory{
     //only 1 slot for now, might change if dyes are required as input
@@ -25,6 +27,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     
     public TileEntityDustDye(){
         super();
+        //TODO maybe use a translated version...
         colorString="Color";
     }
     public void dye(int color){
@@ -35,7 +38,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
      * 
      * @return the currently selected Color of this block as a String
      */
-    public String getColor(){
+    public String getColorString(){
         return colorString;
     }
     /**
@@ -96,6 +99,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
      public void setInventorySlotContents(int slot, ItemStack stack) {
         contents[slot]=stack;
         contents[slot] = stack;
+        //TODO check if the following is necessary
         /*        if (stack != null && stack.stackSize > getInventoryStackLimit()) {
                         stack.stackSize = getInventoryStackLimit();
                 }              
@@ -106,6 +110,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     /**
      * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem -
      * like when you close a workbench GUI.
+     * <br/>NOT to be used for the Dust Dye container
      */
     public ItemStack getStackInSlotOnClosing(int slot) {
                 ItemStack stack = getStackInSlot(slot);
@@ -121,7 +126,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
      */
     public String getName()
     {
-        return "RunesWiz.DustDye";
+        return References.modid+".DustDye";
     }
 
 
@@ -130,7 +135,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
         return worldObj.getTileEntity(pos) == this &&
                 player.getDistanceSq(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) < 64;
     }
-
+    //TODO why are these methods empty?
     @Override
     public void openInventory(EntityPlayer p) {
     }
@@ -141,7 +146,6 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
-        
         //only allow dyed dust in the dyer
         return slot==0 ? stack.getItem() instanceof ItemDyedDust : false;
     }
@@ -154,7 +158,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     public boolean hasCustomName() {
         return true;
     }
-    
+    //XXX might want to change the tag names to be variables for "safety"
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
                 super.readFromNBT(tagCompound);
@@ -191,25 +195,24 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 
 	@Override
 	public IChatComponent getDisplayName() {
-		// TODO Auto-generated method stub
-		//line InventoryBasic
+		//line from InventoryBasic
+		//XXX might want to always return the translated version?
 		 return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]));
 	}
-
+	/*[refactor] the following methods are used to ghange the fields of the TileEntity.
+	 * we are already doing this in other ways, but we might want to switch to them eventually
+	 */
 	@Override
 	public int getField(int id) {
-		// TODO Auto-generated method stub
 		//not using this
 		return 0;
 	}
 	@Override
 	public void setField(int id, int value) {
-		// TODO Auto-generated method stub
 		//not using this?
 	}
 	@Override
 	public int getFieldCount() {
-		// TODO Auto-generated method stub
 		//Not using this?
 		return 0;
 	}

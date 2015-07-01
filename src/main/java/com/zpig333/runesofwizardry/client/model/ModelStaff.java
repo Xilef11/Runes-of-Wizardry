@@ -10,7 +10,7 @@ package com.zpig333.runesofwizardry.client.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-
+//[refactor] no need to mess with this, its the model from Techne
 public class ModelStaff extends ModelBase
 {
   //fields

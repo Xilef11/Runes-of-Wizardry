@@ -15,14 +15,14 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.client.container.ContainerDustDye;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.inventory.ContainerDustDye;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-
+//[refactor] this class seems OK for now
 public class GuiDustDye extends GuiContainer {
 
     public static final int GUI_ID = 1;
@@ -41,11 +41,11 @@ public class GuiDustDye extends GuiContainer {
     private final TileEntityDustDye PARENT;
     public GuiDustDye(InventoryPlayer inventoryPlayer,
             TileEntityDustDye tileEntity) {
-        //the container is instanciated and passed to the superclass for handling
+        //the container is instantiated and passed to the superclass for handling
         super(new ContainerDustDye(inventoryPlayer, tileEntity));
         //sets the parent entity
         PARENT=tileEntity;
-        colorString=PARENT.getColor();
+        colorString=PARENT.getColorString();
     }
     /** runs once every time the GUI is opened
      * 
@@ -68,7 +68,7 @@ public class GuiDustDye extends GuiContainer {
       textColor.setEnableBackgroundDrawing(false);
       textColor.setVisible(true);
       textColor.setTextColor(16777215);
-      textColor.setText(PARENT.getColor());
+      textColor.setText(PARENT.getColorString());
       updateColor();
       textColor.setFocused(true);
       textColor.setCanLoseFocus(true);
@@ -78,6 +78,10 @@ public class GuiDustDye extends GuiContainer {
       
       
     }
+    /** returns the Tile Entity this GUI is bound to
+     * 
+     * @return the TileEntityDustDye that opened this GUI
+     */
     public TileEntityDustDye getParent(){
         return PARENT;
     }
@@ -100,7 +104,7 @@ public class GuiDustDye extends GuiContainer {
      */
     @Override
     protected void keyTyped(char par1, int par2) throws IOException{
-        if(textColor.textboxKeyTyped(par1, par2)){
+        if(textColor.textboxKeyTyped(par1, par2)){//if we are in the text box
             colorString = textColor.getText();
             PARENT.setColor(colorString);
             RunesOfWizardry.networkWrapper.sendToServer(new DustDyeTextPacket(colorString, PARENT.getPos()));
@@ -148,13 +152,14 @@ public class GuiDustDye extends GuiContainer {
 
     /** runs while the GUI is open
      * 
-     * @param param1
-     * @param param2 
+     * @param mouseX
+     * @param mouseY 
      */
     @Override
-    protected void drawGuiContainerForegroundLayer(int param1, int param2) {
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         //draw text and stuff here
         //the parameters for drawString are: string, x, y, color
+    	//TODO translate that String!
         fontRendererObj.drawString("Arcane Dye", 8, 6, 4210752);
         //draws "Inventory" or your regional equivalent
         fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);

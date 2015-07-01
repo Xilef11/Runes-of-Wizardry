@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 import com.zpig333.runesofwizardry.client.model.ModelStaff;
 
 @SideOnly(Side.CLIENT)
+//[refactor] TODO figure out the good way of dealing with IItemRenderers in 1.8
 public class RenderStaff implements IItemRenderer {
 
     static final Minecraft mc = Minecraft.getMinecraft();
