@@ -6,14 +6,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.StatCollector;
 
-import com.sun.imageio.plugins.common.I18N;
-import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.item.ItemDyedDust;
 
@@ -197,7 +193,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	public IChatComponent getDisplayName() {
 		//line from InventoryBasic
 		//XXX might want to always return the translated version?
-		 return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]));
+		 return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
 	}
 	/*[refactor] the following methods are used to ghange the fields of the TileEntity.
 	 * we are already doing this in other ways, but we might want to switch to them eventually

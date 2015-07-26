@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
-
+//[refactor] should be good
 public class DustDyeTextPacket implements IMessage{
     private String text;//the text
     private int x,y,z;//position of the tileentity

@@ -5,7 +5,7 @@ import com.zpig333.runesofwizardry.core.References;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
+//[refactor] simple, nothing to do here.
 public class ItemLavastone extends Item {
 	private final String name="lavastone";
 	public ItemLavastone(){

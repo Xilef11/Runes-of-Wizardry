@@ -11,7 +11,7 @@ import net.minecraft.util.IChatComponent;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
-
+//[refactor] TODO Will have to rewrite this when we get to placing dusts
 public class TileEntityDust extends TileEntity implements IInventory{
 
     public static final int size = 4;

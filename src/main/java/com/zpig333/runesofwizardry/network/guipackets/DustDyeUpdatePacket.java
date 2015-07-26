@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-
+//[refactor] cleaned up comment
 public class DustDyeUpdatePacket implements IMessage {
     String colorString;
     int posX,posY,posZ;
@@ -44,15 +44,7 @@ public class DustDyeUpdatePacket implements IMessage {
 
         @Override
         public IMessage onMessage(DustDyeUpdatePacket message, MessageContext ctx) {
-            /*
-            TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(message.posX, message.posY, message.posZ);
-            if(te instanceof TileEntityDustDye){
-                TileEntityDustDye ted = (TileEntityDustDye)te;
-                ted.setColor(message.colorString);
-            }else{
-                throw new IllegalArgumentException("DustDyeUpdatepacket.Handler.onMessage: tileEntity is not a Dust Dye");
-            }
-            */
+
             GuiScreen screen = Minecraft.getMinecraft().currentScreen;
             if (screen instanceof GuiDustDye){
                 TileEntityDustDye ted = ((GuiDustDye)screen).getParent();

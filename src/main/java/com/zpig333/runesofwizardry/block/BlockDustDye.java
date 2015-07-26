@@ -2,7 +2,6 @@ package com.zpig333.runesofwizardry.block;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -21,7 +20,7 @@ import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-
+//[refactor] this is good
 public class BlockDustDye extends BlockContainer{
 	//XXX might want to consider extending Block and implementing ITileEntityProvider
     private Random random = new Random();

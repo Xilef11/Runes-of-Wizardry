@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
 import com.zpig333.runesofwizardry.inventory.ContainerDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-
+//[refactor] Nothing to do here
 public class GuiHandler implements IGuiHandler {
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {

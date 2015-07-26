@@ -3,9 +3,8 @@ package com.zpig333.runesofwizardry.item;
 import net.minecraft.item.ItemStack;
 
 import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
-
+//[refactor] TODO maybe break this up in a package, or use a single item with metadata
 public class RWDusts {
 
     public class DustInert extends IDust {

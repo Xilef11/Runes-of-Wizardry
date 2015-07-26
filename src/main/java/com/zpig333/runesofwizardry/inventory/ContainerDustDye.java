@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 
 import com.zpig333.runesofwizardry.item.ItemDyedDust;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-
+//[refactor] Seems good
 public class ContainerDustDye extends Container {
 
     protected TileEntityDustDye tileEntity;
@@ -20,6 +20,7 @@ public class ContainerDustDye extends Container {
         //the Slot constructor takes the IInventory and the slot number in that it binds to
         //and the x-y coordinates it resides on-screen
         addSlotToContainer(new ContainerDustDye.SlotDustDye(tileEntity, 0, 116,30));
+        //this is if we had a grid of slots. leaving it here for reference reasons
         /*for (int i = 0; i < 1; i++) {
             for (int j = 0; j < 1; j++) {
                 addSlotToContainer(new Slot(tileEntity, j + i * 3, 62 + j * 18, 17 + i * 18));
@@ -58,12 +59,12 @@ public class ContainerDustDye extends Container {
             ItemStack stackInSlot = slotObject.getStack();
             stack = stackInSlot.copy();
 
-            //merges the item into player inventory since its in the tileEntity
+            //merges the item into player inventory since it's in the tileEntity
             if (slot < 9) {
                 if (!this.mergeItemStack(stackInSlot, 0, 35, true)) {
                     return null;
                 }
-            } //places it into the tileEntity is possible since its in the player inventory
+            } //places it into the tileEntity if possible since its in the player inventory
             else if (!this.mergeItemStack(stackInSlot, 0, 9, false)) {
                 return null;
             }

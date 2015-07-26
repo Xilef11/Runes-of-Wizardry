@@ -1,14 +1,7 @@
 package com.zpig333.runesofwizardry;
 
-import org.apache.logging.log4j.Level;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -19,15 +12,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.item.ItemDyedDust;
-import com.zpig333.runesofwizardry.item.ItemLavastone;
-import com.zpig333.runesofwizardry.item.ItemNetherPaste;
-import com.zpig333.runesofwizardry.item.ItemPestle;
-import com.zpig333.runesofwizardry.item.ItemPlantBalls;
-import com.zpig333.runesofwizardry.item.ItemWizardryDictionary;
-import com.zpig333.runesofwizardry.item.ItemWizardsStaff;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
@@ -37,7 +22,7 @@ import com.zpig333.runesofwizardry.proxy.CommonProxy;
 @Mod(modid = References.modid, name = "Runes of Wizardry", version = "@MOD_VERSION@")
 public class RunesOfWizardry {
 
-	@SidedProxy(clientSide = "com.zpig333.runesofwizardry.client.ClientProxy", serverSide = "com.zpig333.runesofwizardry.core.CommonProxy")
+	@SidedProxy(clientSide = "com.zpig333.runesofwizardry.proxy.ClientProxy", serverSide = "com.zpig333.runesofwizardry.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	@Mod.Instance(References.modid)

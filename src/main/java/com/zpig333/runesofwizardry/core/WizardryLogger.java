@@ -3,7 +3,7 @@ package com.zpig333.runesofwizardry.core;
 import net.minecraftforge.fml.common.FMLLog;
 
 import org.apache.logging.log4j.Level;
-
+//[refactor] nothing to do here
 public class WizardryLogger {
 
     public static void log(Level level, Object obj){

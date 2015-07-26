@@ -11,9 +11,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
-
+//[refactor] should be ok
 public class DustDyeRequestUpdatePacket implements IMessage{
-    int posX,posY,posZ;
+    int posX,posY,posZ;//position of the DustDye TE
     public DustDyeRequestUpdatePacket(){}
     public DustDyeRequestUpdatePacket(BlockPos source){
         this.posX=source.getX();

@@ -3,18 +3,16 @@ package com.zpig333.runesofwizardry.item;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.core.References;
-
-public class ItemDyedDust extends Item{
+//[refactor] now extends IDust => no need for custom getColor stuff anymore
+public class ItemDyedDust extends IDust{
+	
 	private final String name="dust_dyed";
     public ItemDyedDust(){
         super();
@@ -22,6 +20,7 @@ public class ItemDyedDust extends Item{
         this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setUnlocalizedName(References.modid+"_"+name);
     }
+    //XXX this may be handled already via IDust
     public String getName(){
     	return name;
     }
@@ -38,22 +37,39 @@ public class ItemDyedDust extends Item{
         data.add(color);
             
     }
-    //this allows the itemstack to render in the defined color
-    @SideOnly(Side.CLIENT)
-    @Override
-    public int getColorFromItemStack(ItemStack stack, int layer){
-        NBTTagCompound tag=stack.getTagCompound();
+
+    /* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.api.IDust#getDustName()
+	 */
+	@Override
+	public String getDustName() {
+		return "dyed";
+	}
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.api.IDust#getPrimaryColor(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public int getPrimaryColor(ItemStack stack) {
+		NBTTagCompound tag=stack.getTagCompound();
         if(tag==null){
             return 0xffffff;
         }
         return tag.getInteger("color");
-    }
-
-    /* FIXME onItemUse has changed?
-    @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int xPos, int yPos, int zPos, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_){
-        //TODO place the dust
-        return true;
-    }
-    */
+	}
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.api.IDust#getSecondaryColor(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public int getSecondaryColor(ItemStack stack) {
+		//Only 1 color
+		return getPrimaryColor(stack);
+	}
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.api.IDust#getInfusionItems(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public ItemStack[] getInfusionItems(ItemStack stack) {
+		//This dust is crafted via other mechanics
+		return null;
+	}
 }

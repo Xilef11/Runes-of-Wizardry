@@ -12,6 +12,7 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 /**@see http://www.minecraftforge.net/forum/index.php/topic,20135.0.html
  * 
  */
+//[refactor] seems good
 public class DustDyeButtonPacket implements IMessage {
 
     private int color;

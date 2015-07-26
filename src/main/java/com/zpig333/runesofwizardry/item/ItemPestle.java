@@ -3,12 +3,10 @@ package com.zpig333.runesofwizardry.item;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
-
+//[refactor] cleaned up comments
 public class ItemPestle extends Item {
 	
 	private final String name="pestle";
@@ -32,12 +30,6 @@ public class ItemPestle extends Item {
     public boolean hasContainerItem(ItemStack itemStack){
         return true;
     }
-    /* FIXME not sure what to do with this for 1.8
-    @Override
-    public boolean doesContainerItemLeaveCraftingGrid(ItemStack itemStack){
-        return false;
-    }
-    */
 
     @Override
     public ItemStack getContainerItem(ItemStack itemStack){
@@ -45,12 +37,5 @@ public class ItemPestle extends Item {
         itemStack.stackSize = 1;
         return itemStack;
     }
-
-    /* NOT used in 1.8
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister ireg){
-        this.itemIcon = ireg.registerIcon(References.texture_path + "pestle");
-    }
-    */
 
 }

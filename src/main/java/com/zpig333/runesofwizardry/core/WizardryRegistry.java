@@ -26,11 +26,11 @@ import com.zpig333.runesofwizardry.item.ItemLavastone;
 import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
 import com.zpig333.runesofwizardry.item.ItemPlantBalls;
-import com.zpig333.runesofwizardry.item.ItemWizardryDictionary;
-import com.zpig333.runesofwizardry.item.ItemWizardsStaff;
+import com.zpig333.runesofwizardry.item.ItemRunicDictionary;
+import com.zpig333.runesofwizardry.item.ItemRunicStaff;
 import com.zpig333.runesofwizardry.item.RWDusts;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-
+//TODO [refactor] I think dust_item is not useful anymore. but it causes a mess
 public class WizardryRegistry {
 
     public static Block dust_blocks;
@@ -76,9 +76,9 @@ public class WizardryRegistry {
         
         lavastone=new ItemLavastone();
 
-        wizardry_dictionary = new ItemWizardryDictionary();
+        wizardry_dictionary = new ItemRunicDictionary();
 
-        wizards_staff = new ItemWizardsStaff();
+        wizards_staff = new ItemRunicStaff();
     }
 
     public static void initDusts(){
@@ -180,14 +180,14 @@ public class WizardryRegistry {
 						new ModelResourceLocation(
 								References.modid
 										+ ":"
-										+ ((ItemWizardryDictionary) WizardryRegistry.wizardry_dictionary)
+										+ ((ItemRunicDictionary) WizardryRegistry.wizardry_dictionary)
 												.getName(), "inventory"));
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.wizards_staff,
 				0,
 				new ModelResourceLocation(References.modid
 						+ ":"
-						+ ((ItemWizardsStaff) WizardryRegistry.wizards_staff)
+						+ ((ItemRunicStaff) WizardryRegistry.wizards_staff)
 								.getName(), "inventory"));
 
 		// plant balls - try changing the meta number only?
