@@ -32,7 +32,6 @@ public class GuiDustDye extends GuiContainer {
                              textureY = 166;
 
     private String colorString;
-    private Color color;
     private int colorInt=0;
     private boolean validColor=false;
     
@@ -74,7 +73,7 @@ public class GuiDustDye extends GuiContainer {
       textColor.setCanLoseFocus(true);
      //id, x, y, width, height, text
       //note: height seems to need to be 20 to display full button texture
-      buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+99,posY+55,50,20,"Dye"));
+      buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+99,posY+55,50,20,"Dye"));//MC's buttonList does not use generic types, ignore the warning
       
       
     }
@@ -121,8 +120,7 @@ public class GuiDustDye extends GuiContainer {
                 //parsing in hexadecimal allows for a more natural, html-style color input
                 //that is, 2 (hex) digits per color (RGB)
                 colorInt=Integer.parseInt(colorString,16);
-                //XXX is this even necessary?
-            	color = new Color(colorInt);
+                new Color(colorInt);
                 validColor=true;
             }catch(NumberFormatException e){
                 //this might spam a bit...

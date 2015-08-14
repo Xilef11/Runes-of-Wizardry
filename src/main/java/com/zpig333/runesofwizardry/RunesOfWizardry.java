@@ -18,11 +18,11 @@ import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeUpdatePacket;
 import com.zpig333.runesofwizardry.proxy.CommonProxy;
-
-@Mod(modid = References.modid, name = "Runes of Wizardry", version = "@MOD_VERSION@")
+//[refactor] moved Strings to References, 
+@Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@")
 public class RunesOfWizardry {
 
-	@SidedProxy(clientSide = "com.zpig333.runesofwizardry.proxy.ClientProxy", serverSide = "com.zpig333.runesofwizardry.proxy.CommonProxy")
+	@SidedProxy(clientSide = References.client_proxy, serverSide = References.server_proxy)
 	public static CommonProxy proxy;
 
 	@Mod.Instance(References.modid)
@@ -36,9 +36,6 @@ public class RunesOfWizardry {
 		WizardryRegistry.initBlocks();
 		WizardryRegistry.initItems();
 		WizardryRegistry.initDusts();
-
-		// Decorative dusts- dust of any color wip
-		WizardryRegistry.initDecItems();
 
 	}
 
@@ -75,11 +72,11 @@ public class RunesOfWizardry {
 		networkWrapper.registerMessage(DustDyeUpdatePacket.Handler.class,
 				DustDyeUpdatePacket.class, 3, Side.CLIENT);
 	}
-
+	/** the tab in the Creative inventory for our stuff**/
 	public static CreativeTabs wizardry_tab = new CreativeTabs("wizardry") {
 		@Override
 		public Item getTabIconItem() {
-			return WizardryRegistry.wizardry_dictionary;
+			return WizardryRegistry.runic_dictionary;
 		}
 	};
 }
