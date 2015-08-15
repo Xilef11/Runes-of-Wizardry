@@ -161,7 +161,7 @@ public class WizardryRegistry {
 						+ ":"
 						+ ((ItemRunicStaff) WizardryRegistry.runic_staff)
 								.getName(), "inventory"));
-
+		//TODO Icons not shown, looking for runesofwizardry:plantball#inventory
 		// plant balls - try changing the meta number only?
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.plantballs,
@@ -194,7 +194,7 @@ public class WizardryRegistry {
     	ModelResourceLocation dustModel = new ModelResourceLocation(References.modid+":"+"default_dusts","inventory");
     	
     	for(IDust d:DustRegistry.getAllDusts()){
-    		if(d.hasCustomIcon()){
+    		if(!d.hasCustomIcon()){
     			List<ItemStack> subDusts = new LinkedList<ItemStack>();
     			//Things must (probably) be registered for all meta values
     			d.getSubItems(d, RunesOfWizardry.wizardry_tab, subDusts);

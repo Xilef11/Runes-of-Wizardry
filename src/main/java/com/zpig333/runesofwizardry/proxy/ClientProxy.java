@@ -10,7 +10,7 @@ public class ClientProxy extends CommonProxy{
     //Renderers go here (client-only!!!)
     @Override
     public void registerRenderers(){
-        MinecraftForgeClient.registerItemRenderer(WizardryRegistry.wizards_staff, new RenderStaff());
+        MinecraftForgeClient.registerItemRenderer(WizardryRegistry.runic_staff, new RenderStaff());
     }
     
 }
