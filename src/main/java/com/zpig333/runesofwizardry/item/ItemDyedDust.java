@@ -25,7 +25,8 @@ public class ItemDyedDust extends IDust{
     	return name;
     }
     //add tooltip
-    @Override
+    @SuppressWarnings({ "rawtypes", "unchecked" })//List is a list of Strings, but Item does not use generics
+	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List data, boolean bool){
         //if the stack has no tag compound, create one and set the color to white
         if(stack.getTagCompound()==null){

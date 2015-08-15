@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+//[refactor] removed methods related to dust IDs, they have equivalents in IDust.
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
 
@@ -24,31 +25,35 @@ public class DustRegistry {
     private static List<IDust> dusts = new LinkedList<IDust>();
     
     /** Map of all the infusion recipes **/
+    //TODO use a RecipeHandler for this
     private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
+    
     /** returns a list of all the registered dusts
      * 
-     * @return
+     * @return a LinkedList of all the dusts, in the order they were registered
      */
     public static List<IDust> getAllDusts(){
     	return new LinkedList<IDust>(dusts);
     }
+    
     /**
      * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
      * <br/>Note: also registers it as an Item in the GameRegistry.
      */ 
     public static void registerDust(final IDust dustclass) {
-        //get the last avaliable ID
-        //int nextId=dusts.size();
-        //dustclass.setId(nextId);
+    	//add it to our list of dusts
         dusts.add(dustclass);
+        
         //FIXME this should not use unlocalized name
         GameRegistry.registerItem(dustclass, "dust_"+dustclass.getDustName());
+        
         //list of subItems
         List<ItemStack> subDusts = new ArrayList<ItemStack>(15);
         //get the subDusts. hopefully, tabAllSearch is the right one
         dustclass.getSubItems(dustclass, CreativeTabs.tabAllSearch, subDusts);
+        
         //create the block form of the dust
-        if(!dustclass.usesCustomBlock()){
+        if(!dustclass.hasCustomBlock()){
         	Block dustBlock = new IDustStorageBlock(Material.sand) {
         		//XXX hopefully this will work
         		@Override
@@ -61,6 +66,7 @@ public class DustRegistry {
         	.setStepSound(Block.soundTypeSand).setHarvestLevel("shovel", 0);
         	dustBlock.setUnlocalizedName(References.modid+"_dust_storage_"+dustclass.getDustName());
         	GameRegistry.registerBlock(dustBlock, References.modid+"_dust_storage_"+dustclass.getDustName());
+        	
         	//Crafting
         	//XXX hopefully this is enough for metadata
         	for(ItemStack i:subDusts){
@@ -70,8 +76,9 @@ public class DustRegistry {
         	}
         	
         }
-        //register the recipes for this dust
         
+        //register the recipes for this dust
+        //TODO use a custom RecipeHandler
         for (ItemStack i : subDusts) {
             ItemStack[] items = dustclass.getInfusionItems(i);
             if (items != null) {
@@ -92,6 +99,7 @@ public class DustRegistry {
             throw new IllegalArgumentException("The Item is not a dust");
         }
     }
+    
     /** Returns the dust associated with an infusion recipe
      * @param recipe the infusion recipe to look up
      * @return the (dust) ItemStack associated with this recipe
@@ -99,7 +107,10 @@ public class DustRegistry {
     public static ItemStack getDustFromRecipe(ItemStack[] recipe){
         return recipes.get(recipe);
     }
-    
+    /** Find if a given Block is placed Dust
+     * @param blockState the block to check
+     * @return {@code true} if the argument is placed dust
+     **/
     public static boolean isDust(IBlockState blockState){
         if(blockState.getBlock() == WizardryRegistry.dust_placed){
             return true;
@@ -108,52 +119,9 @@ public class DustRegistry {
             return false;
         }
     }
-    //XXX might not be needed
-    public static int getPrimaryColor(int value) {
-        if(value < 0)
-            return 0x8F25A2;
-//        if (value > dusts.size())
-            return 0;
-//        return dusts.get(value).getPrimaryColor();
-    }
-    //XXX might not be needed
-    public static int getSecondaryColor(int value) {
-        if (value < 0)
-            return 0xDB73ED1;
-//        if (value > dusts.size())
-            return 0;
-//        return dusts.get(value).getSecondaryColor();
-    }
-    //XXX might not be needed
-    public static int getPlacedColor(int value)
-    {
-        if (value < 0)
-            return 0xCE00E0;
-//        if (value > dusts.size())
-            return 0;
-//        return dusts.get(value).getPlacedColor();
-    }
-    public static int [] getFloorColorRGB(IDust dust){
-        return getFloorColorRGB(dust.getId());
-    }
-    public static int[] getFloorColorRGB(int value)
-    {
-        
-        if (value < 0)
-            return new int[] { 206, 0, 224 }; // 00CE00E0 variable
-
-//        if (value > dusts.size())
-            return new int[] { 0, 0, 0 };
-
-//        int[] rtn = new int[3];
-//        int col = dusts.get(value).getPlacedColor();
-//        rtn[0] = (col & 0xFF0000) >> 16;
-//        rtn[1] = (col & 0xFF00) >> 8;
-//        rtn[2] = (col & 0xFF);
-
-//        return rtn;
-    }
-
+    
+    //TODO Method to switch between rgb and int could be useful
+    
 }
 
 

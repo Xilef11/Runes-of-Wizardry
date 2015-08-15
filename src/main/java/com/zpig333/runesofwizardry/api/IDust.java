@@ -1,7 +1,6 @@
 package com.zpig333.runesofwizardry.api;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -13,33 +12,19 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
+//[refactor] small cleanup
 /** Extend this to create a dust (you also need to register it)
  * 
  */
 public abstract class IDust extends Item {
-    /** the ID of this dust. for use by the dust registry. **/
-    private int id;
-    
-    /** returns the ID of this dust. only the dust registry should use this 
-      (note: visibility of this is package)
-    **/
-    int getId(){return id;}
-    /** sets the ID of this dust. for use by the dust registry only. **/
-    void setId(int newId){this.id=newId;}
-    /**determines if this has a custom icon
-     * @return false by default
-     **/
-    private boolean hasCustomIcon(){
-    	return false;
-    }
+
     public IDust(){
         setCreativeTab(RunesOfWizardry.wizardry_tab);
         setUnlocalizedName("dust_"+getDustName());
     }
-
+    
     /** returns the name of the dust.
      * <br/> the (default) unlocalized name will be dust_[whatever this returns]
      * @return the dust name
@@ -62,22 +47,30 @@ public abstract class IDust extends Item {
     public int getPlacedColor(ItemStack stack){
         return getPrimaryColor(stack);
     }
+    
     /** returns the item used to obtain this dust by infusing inert dust.
      * @return - the item used to infuse this dust. (has to be an ItemStack for metadata)
      * <br/>- <code>null</code> for custom crafting mechanics
      */
-    //XXX not sure how we would handle the ItemStack parameter for infusion...
     public abstract ItemStack[] getInfusionItems(ItemStack stack);
+    
     /** returns whether or not this dust uses a custom block for storage. 
      * if false (default), a storage block will be generated when registering this dust with the DustRegistery
      * NOTE: the default block is not a TileEntity and will not handle NBT for color.
      * @return true to disable the automatic generation of a storage block.
      */
-    public boolean usesCustomBlock(){
+    public boolean hasCustomBlock(){
     	return false;
     }
     
-   //TODO don't forget to do the textures
+    /**determines if this has a custom icon
+     * if false (default), a texture will be generated when registering this dust with the DustRegistery
+     * @return false by default
+     **/
+    public boolean hasCustomIcon(){
+    	return false;
+    }
+
     
     /** what happens when the dust is used. places the dust by default, override for custom behaviour
      * 
@@ -89,6 +82,7 @@ public abstract class IDust extends Item {
             return true;
         }
         else {
+        	//can't place dust on certain blocks...
             Block block = world.getBlockState(pos).getBlock();
             if (block == Blocks.vine || block == Blocks.tallgrass || block == Blocks.deadbush || block == WizardryRegistry.dust_placed || block == Blocks.snow_layer) {
                 return false;

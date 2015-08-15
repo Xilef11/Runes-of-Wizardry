@@ -1,17 +1,10 @@
 package com.zpig333.runesofwizardry.item;
 
-import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.core.References;
-
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 //[refactor] simple, nothing to do here.
-public class ItemLavastone extends Item {
+public class ItemLavastone extends WizardryItem {
 	private final String name="lavastone";
 	public ItemLavastone(){
-		GameRegistry.registerItem(this, name);
-		this.setCreativeTab(RunesOfWizardry.wizardry_tab);
-		setUnlocalizedName(References.modid+"_"+name);
+		super();
 	}
 	public String getName(){
 		return name;
