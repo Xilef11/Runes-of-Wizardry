@@ -2,12 +2,12 @@
 itemGroup.wizardry=Runes of Wizardry
 
 #Dust storage blocks
-tile.runesofwizardry_dust_storage.inert.name=Dust Block
-tile.runesofwizardry_dust_storage.plant.name=Plant Infused Dust Block
-tile.runesofwizardry_dust_storage.flame.name=Flame Infused Dust Block
-tile.runesofwizardry_dust_storage.aqua.name=Water Infused Dust Block
-tile.runesofwizardry_dust_storage.glowstone.name=Glowstone Infused Dust Block
-tile.runesofwizardry_dust_storage.ender.name=Ender Infused Dust Block
+tile.runesofwizardry_dust_storage_inert.name=Dust Block
+tile.runesofwizardry_dust_storage_plant.name=Plant Infused Dust Block
+tile.runesofwizardry_dust_storage_fire.name=Flame Infused Dust Block
+tile.runesofwizardry_dust_storage_aqua.name=Water Infused Dust Block
+tile.runesofwizardry_dust_storage_glowstone.name=Glowstone Infused Dust Block
+tile.runesofwizardry_dust_storage_ender.name=Ender Infused Dust Block
 
 #Dust item names
 item.dust_inert.name=Inert Runic Dust
@@ -18,16 +18,19 @@ item.dust_glowstone.name=Glowstone Runic Dust
 item.dust_ender.name=Ender Runic Dust
 
 #Items
-item.wizardry_dictionary.name=Runic Dictionary
-item.wizards_staff.name=Runic Staff
+item.runesofwizardry_runic_dictionary.name=Runic Dictionary
+item.runesofwizardry_runic_staff.name=Runic Staff
 
 
 #Misc crafting items
-item.plant_balls.0.name=Plant Ball
-item.plant_balls.1.name=Small Plant Ball
-item.pestle_wizardry.name=Mortar and Pestle
-item.nether_paste.name=Netherrack Paste
-item.lavastone.name=Lavastone
-item.dust_dyed.name=Chalk Dust
-tile.dust_dye_block.name=Arcane Dye
-tile.lavastone_bricks.name=Lavastone Bricks
+item.runesofwizardry_plantball_large.name=Plant Ball
+item.runesofwizardry_plantball_small.name=Small Plant Ball
+item.runesofwizardry_pestle.name=Mortar and Pestle
+item.runesofwizardry_nether_paste.name=Netherrack Paste
+
+item.runesofwizardry_lavastone.name=Lavastone
+tile.runesofwizardry_lavastone_bricks.name=Lavastone Bricks
+
+#dyed dust
+item.runesofwizardry_dust_dyed.name=Chalk Dust
+tile.runesofwizardry_dust_dye.name=Arcane Dye

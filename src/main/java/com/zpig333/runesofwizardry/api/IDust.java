@@ -19,8 +19,8 @@ import com.zpig333.runesofwizardry.core.WizardryRegistry;
  * 
  */
 public abstract class IDust extends Item {
-
-    public IDust(){
+//TODO use modid in unlocalized name
+	public IDust(){
         setCreativeTab(RunesOfWizardry.wizardry_tab);
         setUnlocalizedName("dust_"+getDustName());
     }

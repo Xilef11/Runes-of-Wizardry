@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "runesofwizardry:items/plantball_small"
+        "layer0": "runesofwizardry:items/plantball_large"
     },
     "display": {
         "thirdperson": {

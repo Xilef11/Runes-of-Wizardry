@@ -163,20 +163,20 @@ public class WizardryRegistry {
 								.getName(), "inventory"));
 		//TODO Icons not shown, looking for runesofwizardry:plantball#inventory
 		// plant balls - try changing the meta number only?
+		ItemPlantBalls plantballs = (ItemPlantBalls) WizardryRegistry.plantballs;
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.plantballs,
 				0,
-				new ModelResourceLocation(References.modid
-						+ ":"
-						+ ((ItemPlantBalls) WizardryRegistry.plantballs)
-								.getFullName(0), "inventory"));
+				new ModelResourceLocation(References.modid+":"
+						+ plantballs.getFullName(0), "inventory"));
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.plantballs,
 				1,
-				new ModelResourceLocation(References.modid
-						+ ":"
-						+ ((ItemPlantBalls) WizardryRegistry.plantballs)
-								.getFullName(1), "inventory"));
+				new ModelResourceLocation(References.modid+ ":"
+						+ plantballs.getFullName(1), "inventory"));
+		//maybe we need to setup variants?
+		ModelBakery.addVariantName(WizardryRegistry.plantballs, References.modid+":"+plantballs.getFullName(0),
+				References.modid+":"+plantballs.getFullName(1));
 		// dyedDusts
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.dust_dyed,
