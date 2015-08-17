@@ -11,6 +11,7 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.item.ItemDyedDust;
 
 
@@ -130,9 +131,11 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
         return worldObj.getTileEntity(pos) == this &&
                 player.getDistanceSq(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) < 64;
     }
-    //TODO why are these methods empty?
+    //TODO why are these methods empty? Maybe fired when the inv is opened/closed?
     @Override
     public void openInventory(EntityPlayer p) {
+    	//XXX TESTING
+    	WizardryLogger.logInfo("TileEntityDustDye.openInventory()");
     }
 
     @Override

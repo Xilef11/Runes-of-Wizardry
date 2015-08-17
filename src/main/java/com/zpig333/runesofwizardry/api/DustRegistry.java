@@ -14,8 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 /** Dust API registry.  All dust registry methods are found here. */
@@ -38,14 +36,16 @@ public class DustRegistry {
     
     /**
      * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
-     * <br/>Note: also registers it as an Item in the GameRegistry.
+     * <br/>Note: also registers it as an Item in the GameRegistry, sets up its unlocalized name and creative tab.
      */ 
     public static void registerDust(final IDust dustclass) {
     	//add it to our list of dusts
         dusts.add(dustclass);
         
-        //FIXME this should not use unlocalized name
-        GameRegistry.registerItem(dustclass, "dust_"+dustclass.getDustName());
+        dustclass.setUnlocalizedName(dustclass.getmodid()+"_"+dustclass.getName());
+        dustclass.setCreativeTab(dustclass.creativeTab());
+        
+        GameRegistry.registerItem(dustclass, dustclass.getName());
         
         //list of subItems
         List<ItemStack> subDusts = new ArrayList<ItemStack>(15);
@@ -55,17 +55,13 @@ public class DustRegistry {
         //create the block form of the dust
         if(!dustclass.hasCustomBlock()){
         	Block dustBlock = new IDustStorageBlock(Material.sand) {
-        		//XXX hopefully this will work
+
         		@Override
         		public IDust getIDust() {
         			return dustclass;
         		}
         		
         	};
-        	dustBlock.setHardness(0.5F).setCreativeTab(RunesOfWizardry.wizardry_tab)
-        	.setStepSound(Block.soundTypeSand).setHarvestLevel("shovel", 0);
-        	dustBlock.setUnlocalizedName(References.modid+"_dust_storage_"+dustclass.getDustName());
-        	GameRegistry.registerBlock(dustBlock, References.modid+"_dust_storage_"+dustclass.getDustName());
         	
         	//Crafting
         	//XXX hopefully this is enough for metadata
@@ -119,8 +115,6 @@ public class DustRegistry {
             return false;
         }
     }
-    
-    //TODO Method to switch between rgb and int could be useful
     
 }
 

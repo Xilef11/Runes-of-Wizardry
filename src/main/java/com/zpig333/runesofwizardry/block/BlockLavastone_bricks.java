@@ -16,6 +16,7 @@ public class BlockLavastone_bricks extends Block{
 		setCreativeTab(RunesOfWizardry.wizardry_tab);
 		setUnlocalizedName(References.modid+"_"+name);
 		setHardness(2);
+		setResistance(12);//slightly better than nether bricks (10)
 		setHarvestLevel("pickaxe", 0);
 		setLightLevel(0.72F);
 		GameRegistry.registerBlock(this, name);

@@ -28,7 +28,12 @@ import com.zpig333.runesofwizardry.item.ItemPestle;
 import com.zpig333.runesofwizardry.item.ItemPlantBalls;
 import com.zpig333.runesofwizardry.item.ItemRunicDictionary;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
-import com.zpig333.runesofwizardry.item.RWDusts;
+import com.zpig333.runesofwizardry.item.dust.DustAqua;
+import com.zpig333.runesofwizardry.item.dust.DustBlaze;
+import com.zpig333.runesofwizardry.item.dust.DustEnder;
+import com.zpig333.runesofwizardry.item.dust.DustGlowstone;
+import com.zpig333.runesofwizardry.item.dust.DustInert;
+import com.zpig333.runesofwizardry.item.dust.DustPlant;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class WizardryRegistry {
@@ -75,14 +80,12 @@ public class WizardryRegistry {
 
     /**Registers all our dusts with the DustRegistry**/
     public static void initDusts(){
-
-        RWDusts instance = new RWDusts();
-        DustRegistry.registerDust(instance.new DustInert());
-        DustRegistry.registerDust(instance.new DustPlant());
-        DustRegistry.registerDust(instance.new DustAqua());
-        DustRegistry.registerDust(instance.new DustBlaze());
-        DustRegistry.registerDust(instance.new DustGlowstone());
-        DustRegistry.registerDust(instance.new DustEnder());
+        DustRegistry.registerDust(new DustInert());
+        DustRegistry.registerDust(new DustPlant());
+        DustRegistry.registerDust(new DustAqua());
+        DustRegistry.registerDust(new DustBlaze());
+        DustRegistry.registerDust(new DustGlowstone());
+        DustRegistry.registerDust(new DustEnder());
     }
     /**Create the (vanilla) recipes**/
     public static void initCrafting(){
@@ -126,22 +129,20 @@ public class WizardryRegistry {
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.pestle,
 				0,
-				new ModelResourceLocation(References.modid + ":"
+				new ModelResourceLocation(References.texture_path
 						+ ((ItemPestle) WizardryRegistry.pestle).getName(),
 						"inventory"));
 		// other simple items
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.lavastone,
 				0,
-				new ModelResourceLocation(References.modid
-						+ ":"
+				new ModelResourceLocation(References.texture_path
 						+ ((ItemLavastone) WizardryRegistry.lavastone)
 								.getName(), "inventory"));
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.nether_paste,
 				0,
-				new ModelResourceLocation(References.modid
-						+ ":"
+				new ModelResourceLocation(References.texture_path
 						+ ((ItemNetherPaste) WizardryRegistry.nether_paste)
 								.getName(), "inventory"));
 		renderItem
@@ -150,40 +151,36 @@ public class WizardryRegistry {
 						WizardryRegistry.runic_dictionary,
 						0,
 						new ModelResourceLocation(
-								References.modid
-										+ ":"
+								References.texture_path
 										+ ((ItemRunicDictionary) WizardryRegistry.runic_dictionary)
 												.getName(), "inventory"));
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.runic_staff,
 				0,
-				new ModelResourceLocation(References.modid
-						+ ":"
+				new ModelResourceLocation(References.texture_path
 						+ ((ItemRunicStaff) WizardryRegistry.runic_staff)
 								.getName(), "inventory"));
-		//TODO Icons not shown, looking for runesofwizardry:plantball#inventory
 		// plant balls - try changing the meta number only?
 		ItemPlantBalls plantballs = (ItemPlantBalls) WizardryRegistry.plantballs;
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.plantballs,
 				0,
-				new ModelResourceLocation(References.modid+":"
+				new ModelResourceLocation(References.texture_path
 						+ plantballs.getFullName(0), "inventory"));
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.plantballs,
 				1,
-				new ModelResourceLocation(References.modid+ ":"
+				new ModelResourceLocation(References.texture_path
 						+ plantballs.getFullName(1), "inventory"));
 		//maybe we need to setup variants?
-		ModelBakery.addVariantName(WizardryRegistry.plantballs, References.modid+":"+plantballs.getFullName(0),
-				References.modid+":"+plantballs.getFullName(1));
+		ModelBakery.addVariantName(WizardryRegistry.plantballs, References.texture_path+plantballs.getFullName(0),
+				References.texture_path+plantballs.getFullName(1));
 		// dyedDusts
 		renderItem.getItemModelMesher().register(
 				WizardryRegistry.dust_dyed,
 				0,
 				new ModelResourceLocation(
-						References.modid
-								+ ":"
+						References.texture_path
 								+ ((ItemDyedDust) WizardryRegistry.dust_dyed)
 										.getName(), "inventory"));
 	}
@@ -191,7 +188,7 @@ public class WizardryRegistry {
 	public static void registerDustItemRendering(){
     	RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
     	//The location of the JSON for default dusts
-    	ModelResourceLocation dustModel = new ModelResourceLocation(References.modid+":"+"default_dusts","inventory");
+    	ModelResourceLocation dustModel = new ModelResourceLocation(References.texture_path+"default_dusts","inventory");
     	
     	for(IDust d:DustRegistry.getAllDusts()){
     		if(!d.hasCustomIcon()){
@@ -203,7 +200,7 @@ public class WizardryRegistry {
     				renderItem.getItemModelMesher().register(d, i.getMetadata(), dustModel);
     			}
     			
-    			ModelBakery.addVariantName(d, References.modid+":default_dusts");
+    			ModelBakery.addVariantName(d, References.texture_path+"default_dusts");
     		}
     		
     	}
@@ -212,9 +209,9 @@ public class WizardryRegistry {
 	public static void registerBlockRenders() {
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		//lavastone bricks
-		renderItem.getItemModelMesher().register(Item.getItemFromBlock(lavastone_bricks), 0, new ModelResourceLocation(References.modid + ":" + ((BlockLavastone_bricks) lavastone_bricks).getName(), "inventory"));
+		renderItem.getItemModelMesher().register(Item.getItemFromBlock(lavastone_bricks), 0, new ModelResourceLocation(References.texture_path + ((BlockLavastone_bricks) lavastone_bricks).getName(), "inventory"));
 		//Dust Dye
-		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.modid+":"+((BlockDustDye)dust_dye).getName(),"inventory"));		
+		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.texture_path+((BlockDustDye)dust_dye).getName(),"inventory"));		
 	}
 
 

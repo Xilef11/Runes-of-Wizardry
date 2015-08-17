@@ -20,10 +20,7 @@ public class ItemDyedDust extends IDust{
         this.setCreativeTab(RunesOfWizardry.wizardry_tab);
         this.setUnlocalizedName(References.modid+"_"+name);
     }
-    //XXX this may be handled already via IDust
-    public String getName(){
-    	return name;
-    }
+
     //add tooltip
     @SuppressWarnings({ "rawtypes", "unchecked" })//List is a list of Strings, but Item does not use generics
 	@Override

@@ -1,6 +1,7 @@
 package com.zpig333.runesofwizardry.api;
 
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 
@@ -19,25 +21,24 @@ import com.zpig333.runesofwizardry.core.WizardryRegistry;
  * 
  */
 public abstract class IDust extends Item {
-//TODO use modid in unlocalized name
+
 	public IDust(){
-        setCreativeTab(RunesOfWizardry.wizardry_tab);
-        setUnlocalizedName("dust_"+getDustName());
+        
     }
     
     /** returns the name of the dust.
-     * <br/> the (default) unlocalized name will be dust_[whatever this returns]
+     * <br/> the (default) name will be dust_[whatever this returns]
      * @return the dust name
      */
     public abstract String getDustName();
     /**returns the primary color of the dust (can be based on metadata/nbt)
      * 
-     * @return the primary color of the dust
+     * @return the primary color of the dust (0xRRGGBB is the suggested format to make your life easier)
      */
     public abstract int getPrimaryColor(ItemStack stack);
     /**returns the secondary color of the dust
      * 
-     * @return the secondary color of the dust
+     * @return the secondary color of the dust (0xRRGGBB is the suggested format to make your life easier)
      */
     public abstract int getSecondaryColor(ItemStack stack);
     /** returns the placed color of the dust
@@ -71,13 +72,31 @@ public abstract class IDust extends Item {
     	return false;
     }
 
+	/**returns a name for this dust. 
+	 * @return (default) dust_[getDustName]**/
+	public String getName(){
+		return "dust_"+getDustName();
+	}
+	
+	/**return the modid under which to register this dust. 
+	 * @return (default) to runesofwizardry
+	 **/
+	public String getmodid(){
+		return References.modid;
+	}
+	/** return the creative tab for this dust. not to be confused with {@link Item#getCreativeTab()}
+	 * @return (default) the Runes of Wizardry creative tab
+	 **/
+	public CreativeTabs creativeTab(){
+		return RunesOfWizardry.wizardry_tab;
+	}
     
     /** what happens when the dust is used. places the dust by default, override for custom behaviour
      * 
      */
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
-
+    	//see ItemRedstone#onItemUse
         if(world.isRemote){
             return true;
         }
