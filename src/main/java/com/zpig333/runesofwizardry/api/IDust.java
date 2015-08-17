@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
-//[refactor] small cleanup
+
 /** Extend this to create a dust (you also need to register it)
  * 
  */

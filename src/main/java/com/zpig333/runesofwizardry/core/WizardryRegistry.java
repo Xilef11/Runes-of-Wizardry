@@ -30,7 +30,7 @@ import com.zpig333.runesofwizardry.item.ItemRunicDictionary;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
 import com.zpig333.runesofwizardry.item.RWDusts;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-//[refactor] cleaned up comments, moved things around & removed useless stuff
+
 public class WizardryRegistry {
 
     public static Block dust_blocks;

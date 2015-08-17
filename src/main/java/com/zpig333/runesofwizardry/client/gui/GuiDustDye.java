@@ -22,7 +22,7 @@ import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-//[refactor] this class seems OK for now
+
 public class GuiDustDye extends GuiContainer {
 
     public static final int GUI_ID = 1;

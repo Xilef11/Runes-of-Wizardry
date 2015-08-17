@@ -1,7 +1,7 @@
 package com.zpig333.runesofwizardry.item;
 
 import net.minecraft.item.ItemStack;
-//[refactor] cleaned up comments
+
 public class ItemPestle extends WizardryItem {
 	
 	private final String name="pestle";

@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
-//[refactor] this is ok
+
 public class BlockLavastone_bricks extends Block{
 	private final String name="lavastone_bricks";
 	

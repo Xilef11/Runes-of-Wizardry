@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-//[refactor] cleaned up comment
+
 public class DustDyeUpdatePacket implements IMessage {
     String colorString;
     int posX,posY,posZ;

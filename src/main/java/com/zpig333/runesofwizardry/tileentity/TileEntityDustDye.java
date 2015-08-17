@@ -13,7 +13,6 @@ import net.minecraft.util.IChatComponent;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.item.ItemDyedDust;
 
-//[refactor] This class seems OK for now
 
 public class TileEntityDustDye extends TileEntity implements IInventory{
     //only 1 slot for now, might change if dyes are required as input

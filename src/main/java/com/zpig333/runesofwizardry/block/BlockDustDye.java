@@ -20,7 +20,7 @@ import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-//[refactor] this is good
+
 public class BlockDustDye extends BlockContainer{
 	//XXX might want to consider extending Block and implementing ITileEntityProvider
     private Random random = new Random();

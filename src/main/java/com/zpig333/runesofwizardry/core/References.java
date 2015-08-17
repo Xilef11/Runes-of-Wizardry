@@ -1,5 +1,5 @@
 package com.zpig333.runesofwizardry.core;
-//[refactor] removed unnecessary variables
+
 public class References {
 
     public static final String modid = "runesofwizardry";

@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 
 import com.zpig333.runesofwizardry.item.ItemDyedDust;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
-//[refactor] Seems good
+
 public class ContainerDustDye extends Container {
 
     protected TileEntityDustDye tileEntity;

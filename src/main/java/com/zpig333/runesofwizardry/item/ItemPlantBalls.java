@@ -5,7 +5,7 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-//[refactor] seems good
+
 public class ItemPlantBalls extends WizardryItem {
 	private final String name="plantball";
 	private final String[] metaName={"small","large"};

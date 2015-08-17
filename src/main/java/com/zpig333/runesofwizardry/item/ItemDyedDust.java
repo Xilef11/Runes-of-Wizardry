@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.core.References;
-//[refactor] now extends IDust => no need for custom getColor stuff anymore
+
 public class ItemDyedDust extends IDust{
 	
 	private final String name="dust_dyed";

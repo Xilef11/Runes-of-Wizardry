@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
-//[refactor] removed methods related to dust IDs, they have equivalents in IDust.
+
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
 
