@@ -49,8 +49,8 @@ public abstract class IDust extends Item {
         return getPrimaryColor(stack);
     }
     
-    /** returns the item used to obtain this dust by infusing inert dust.
-     * @return - the item used to infuse this dust. (has to be an ItemStack for metadata)
+    /** returns the items used to obtain this dust by infusing inert dust.
+     * @return - the items used to infuse this dust. (has to be an ItemStack for metadata)
      * <br/>- <code>null</code> for custom crafting mechanics
      */
     public abstract ItemStack[] getInfusionItems(ItemStack stack);

@@ -7,7 +7,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-import com.zpig333.runesofwizardry.item.ItemDyedDust;
+import com.zpig333.runesofwizardry.item.dust.DustDyed;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class ContainerDustDye extends Container {
@@ -90,7 +90,7 @@ public class ContainerDustDye extends Container {
         @Override
         public boolean isItemValid(ItemStack stack){
             //only allow dyed dusts in the slot
-            return stack.getItem() instanceof ItemDyedDust;
+            return stack.getItem() instanceof DustDyed;
         }
     }
 }

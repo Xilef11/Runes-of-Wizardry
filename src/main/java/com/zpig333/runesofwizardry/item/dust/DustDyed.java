@@ -1,28 +1,17 @@
-package com.zpig333.runesofwizardry.item;
+package com.zpig333.runesofwizardry.item.dust;
 
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.core.References;
 
-public class ItemDyedDust extends IDust{
+public class DustDyed extends IDust{
 	
-	private final String name="dust_dyed";
-    public ItemDyedDust(){
-        super();
-        GameRegistry.registerItem(this, name);
-        this.setCreativeTab(RunesOfWizardry.wizardry_tab);
-        this.setUnlocalizedName(References.modid+"_"+name);
-    }
-
     //add tooltip
-    @SuppressWarnings({ "rawtypes", "unchecked" })//List is a list of Strings, but Item does not use generics
+    @SuppressWarnings({ "rawtypes", "unchecked" })//data is a list of Strings, but Item does not use generics
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List data, boolean bool){
         //if the stack has no tag compound, create one and set the color to white

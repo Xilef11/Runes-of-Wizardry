@@ -55,7 +55,7 @@ public class RunesOfWizardry {
 		// the GUI handler
 		NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance,
 				new GuiHandler());
-		// FIXME Custom Block rendering for 1.8
+		// TODO Custom Block rendering for 1.8
 		// RenderingRegistry.registerBlockHandler(DustStorageRenderer.getInstance());
 	}
 

@@ -9,11 +9,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.StatCollector;
 
 import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.item.ItemDyedDust;
+import com.zpig333.runesofwizardry.item.dust.DustDyed;
 
 
 public class TileEntityDustDye extends TileEntity implements IInventory{
@@ -95,12 +93,10 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     @Override
      public void setInventorySlotContents(int slot, ItemStack stack) {
         contents[slot]=stack;
-        contents[slot] = stack;
-        //TODO check if the following is necessary
-        /*        if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-                        stack.stackSize = getInventoryStackLimit();
-                }              
-        */
+        //FIXME if stacksize > InventoryStackLimit && Shift-clicking the stack in, the "extra" items are deleted...
+        if (stack != null && stack.stackSize > getInventoryStackLimit()) {
+        	stack.stackSize = getInventoryStackLimit();
+        }              
     }
 
     @Override
@@ -145,18 +141,18 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
         //only allow dyed dust in the dyer
-        return slot==0 ? stack.getItem() instanceof ItemDyedDust : false;
+        return slot==0 ? stack.getItem() instanceof DustDyed : false;
     }
     @Override
     public int getInventoryStackLimit() {
-        return 64;
+        return 16;
     }
 
     @Override
     public boolean hasCustomName() {
         return true;
     }
-    //XXX might want to change the tag names to be variables for "safety"
+    //might want to change the tag names to be variables for "safety" (nah, "safety" is overrated)
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
                 super.readFromNBT(tagCompound);
@@ -217,7 +213,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	@Override
 	public void clear() {
 		// let's just do the same thing as inventoryBasic
-		for(ItemStack i:contents){
+		for(@SuppressWarnings("unused") ItemStack i:contents){
 			i=null;
 		}
 	}

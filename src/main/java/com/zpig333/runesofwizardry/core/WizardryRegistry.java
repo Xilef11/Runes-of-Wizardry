@@ -21,7 +21,6 @@ import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
-import com.zpig333.runesofwizardry.item.ItemDyedDust;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
 import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
@@ -34,6 +33,7 @@ import com.zpig333.runesofwizardry.item.dust.DustEnder;
 import com.zpig333.runesofwizardry.item.dust.DustGlowstone;
 import com.zpig333.runesofwizardry.item.dust.DustInert;
 import com.zpig333.runesofwizardry.item.dust.DustPlant;
+import com.zpig333.runesofwizardry.item.dust.DustDyed;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class WizardryRegistry {
@@ -74,8 +74,9 @@ public class WizardryRegistry {
         runic_dictionary = new ItemRunicDictionary();
 
         runic_staff = new ItemRunicStaff();
-        //The dyed dust. XXX Temporary, will use IDust in the future
-        dust_dyed = new ItemDyedDust();
+        
+        //dyed dust
+        dust_dyed = new DustDyed();
     }
 
     /**Registers all our dusts with the DustRegistry**/
@@ -86,6 +87,8 @@ public class WizardryRegistry {
         DustRegistry.registerDust(new DustBlaze());
         DustRegistry.registerDust(new DustGlowstone());
         DustRegistry.registerDust(new DustEnder());
+        
+        DustRegistry.registerDust((IDust) dust_dyed);
     }
     /**Create the (vanilla) recipes**/
     public static void initCrafting(){
@@ -175,14 +178,6 @@ public class WizardryRegistry {
 		//maybe we need to setup variants?
 		ModelBakery.addVariantName(WizardryRegistry.plantballs, References.texture_path+plantballs.getFullName(0),
 				References.texture_path+plantballs.getFullName(1));
-		// dyedDusts
-		renderItem.getItemModelMesher().register(
-				WizardryRegistry.dust_dyed,
-				0,
-				new ModelResourceLocation(
-						References.texture_path
-								+ ((ItemDyedDust) WizardryRegistry.dust_dyed)
-										.getName(), "inventory"));
 	}
 	/**Register the rendering/icon for all dusts that use the default model**/
 	public static void registerDustItemRendering(){
