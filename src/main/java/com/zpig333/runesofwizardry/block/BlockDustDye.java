@@ -22,7 +22,7 @@ import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class BlockDustDye extends BlockContainer{
-	//XXX might want to consider extending Block and implementing ITileEntityProvider
+	//might want to consider extending Block and implementing ITileEntityProvider
     private Random random = new Random();
     private final String name="dust_dye";
     public BlockDustDye(Material mat) {

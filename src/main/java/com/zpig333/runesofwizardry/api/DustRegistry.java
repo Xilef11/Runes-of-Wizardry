@@ -64,7 +64,7 @@ public class DustRegistry {
         	};
         	
         	//Crafting
-        	//XXX hopefully this is enough for metadata
+        	//hopefully this is enough for metadata
         	for(ItemStack i:subDusts){
         		GameRegistry.addShapedRecipe(new ItemStack(dustBlock, 1, i.getItemDamage()), 
         				new Object[]{"XXX","XXX","XXX",'X',i});
