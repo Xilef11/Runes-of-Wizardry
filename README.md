@@ -1,7 +1,7 @@
 Runes-of-Wizardry
 =================
 
-Runes of Wozardry is a magic mod for Minecraft that allows the player to place patterns of arcane dust to form runes with various effects.
+Runes of Wizardry is a magic mod for Minecraft that allows the player to place patterns of arcane dust to form runes with various effects.
 
 Issue Reporting
 ----------------
