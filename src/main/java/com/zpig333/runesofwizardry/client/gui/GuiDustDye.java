@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.inventory.ContainerDustDye;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
@@ -67,7 +68,14 @@ public class GuiDustDye extends GuiContainer {
       textColor.setEnableBackgroundDrawing(false);
       textColor.setVisible(true);
       textColor.setTextColor(16777215);
-      textColor.setText(PARENT.getColorString());
+      /*if the color from the TE is empty/default, translate it to use it as the text
+       * Doing it here instead of in the TE allows the 'Color' text to be localized when the GUI is opened, not only when the TE is placed
+       */
+      String color= PARENT.getColorString();
+      if(color==null || color.equals("Color") || color.equals("")){
+    	  color= StatCollector.translateToLocal(References.Lang.COLOR);
+      }
+      textColor.setText(color);
       updateColor();
       textColor.setFocused(true);
       textColor.setCanLoseFocus(true);
@@ -157,8 +165,7 @@ public class GuiDustDye extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         //draw text and stuff here
         //the parameters for drawString are: string, x, y, color
-    	//TODO translate that String!
-        fontRendererObj.drawString("Arcane Dye", 8, 6, 4210752);
+        fontRendererObj.drawString(WizardryRegistry.dust_dye.getLocalizedName(), 8, 6, 4210752);
         //draws "Inventory" or your regional equivalent
         fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
         textColor.drawTextBox();
@@ -192,9 +199,8 @@ public class GuiDustDye extends GuiContainer {
     	case GUI_DYE_BUTTON: 
     		//send the selected colour to the server
     		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeButtonPacket(colorInt,PARENT.getPos()));
-                
-    	default: System.out.println("Button clicked "+button.displayString+" "+button.id);
     		break;
+    	default: WizardryLogger.logDebug("Button clicked "+button.displayString+" "+button.id);
     	}
     		
     	

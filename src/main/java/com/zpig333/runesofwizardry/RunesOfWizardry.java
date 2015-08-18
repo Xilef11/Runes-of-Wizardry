@@ -73,7 +73,7 @@ public class RunesOfWizardry {
 				DustDyeUpdatePacket.class, 3, Side.CLIENT);
 	}
 	/** the tab in the Creative inventory for our stuff**/
-	public static CreativeTabs wizardry_tab = new CreativeTabs("wizardry") {
+	public static CreativeTabs wizardry_tab = new CreativeTabs(References.modid+"_main") {
 		@Override
 		public Item getTabIconItem() {
 			return WizardryRegistry.runic_dictionary;

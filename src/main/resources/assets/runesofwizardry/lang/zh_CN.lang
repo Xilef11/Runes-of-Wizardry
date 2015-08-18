@@ -1,33 +1,35 @@
 #Creative tab
-itemGroup.wizardry=法术符文
+itemGroup.runesofwizardry_main=æ³•æœ¯ç¬¦æ–‡
 
 #Dust storage blocks
-tile.dust_storage.inert.name=魔尘块
-tile.dust_storage.plant.name=植物蕴魔尘块
-tile.dust_storage.flame.name=火蕴魔尘块
-tile.dust_storage.aqua.name=水蕴魔尘块
-tile.dust_storage.glowstone.name=萤石蕴魔尘块
-tile.dust_storage.ender.name=末影蕴魔尘块
+tile.runesofwizardry_dust_inert_storage.name=é­”å°˜å�—
+tile.runesofwizardry_dust_plant_storage.name=æ¤�ç‰©è•´é­”å°˜å�—
+tile.runesofwizardry_dust_flame_storage.name=ç�«è•´é­”å°˜å�—
+tile.runesofwizardry_dust_aqua_storage.name=æ°´è•´é­”å°˜å�—
+tile.runesofwizardry_dust_glowstone_storage.name=è�¤çŸ³è•´é­”å°˜å�—
+tile.runesofwizardry_dust_ender_storage.name=æœ«å½±è•´é­”å°˜å�—
 
 #Dust item names
-item.dust_inert.name=惰性符文魔尘
-item.dust_plant.name=植物符文魔尘
-item.dust_aqua.name=水体符文魔尘
-item.dust_fire.name=火焰符文魔尘
-item.dust_glowstone.name=萤石符文魔尘
-item.dust_ender.name=末影符文魔尘
+item.runesofwizardry_dust_inert.name=æƒ°æ€§ç¬¦æ–‡é­”å°˜
+item.runesofwizardry_dust_plant.name=æ¤�ç‰©ç¬¦æ–‡é­”å°˜
+item.runesofwizardry_dust_aqua.name=æ°´ä½“ç¬¦æ–‡é­”å°˜
+item.runesofwizardry_dust_fire.name=ç�«ç„°ç¬¦æ–‡é­”å°˜
+item.runesofwizardry_dust_glowstone.name=è�¤çŸ³ç¬¦æ–‡é­”å°˜
+item.runesofwizardry_dust_ender.name=æœ«å½±ç¬¦æ–‡é­”å°˜
 
 #Items
-item.wizardry_dictionary.name=符文宝典
-item.wizards_staff.name=符文权杖
+item.runesofwizardry_runic_dictionary.name=ç¬¦æ–‡å®�å…¸
+item.runesofwizardry_runic_staff.name=ç¬¦æ–‡æ�ƒæ�–
 
 
 #Misc crafting items
-item.plant_balls.0.name=植物球
-item.plant_balls.1.name=小植物球
-item.pestle_wizardry.name=杵臼
-item.nether_paste.name=地狱岩糨糊
-item.lavastone.name=岩浆石
-item.dust_dyed.name=粉笔灰尘
-tile.dust_dye_block.name=奥术染料
-tile.lavastone_bricks.name=岩浆石砖
+item.runesofwizardry_plantball_large.name=æ¤�ç‰©ç�ƒ
+item.runesofwizardry_plantball_small.name=å°�æ¤�ç‰©ç�ƒ
+item.runesofwizardry_pestle.name=æ�µè‡¼
+
+item.runesofwizardry_nether_paste.name=åœ°ç‹±å²©ç³¨ç³Š
+item.runesofwizardry_lavastone.name=å²©æµ†çŸ³
+tile.runesofwizardry_lavastone_bricks.name=å²©æµ†çŸ³ç –
+
+item.runesofwizardry_dust_dyed.name=ç²‰ç¬”ç�°å°˜
+tile.runesofwizardry_dust_dye.name=å¥¥æœ¯æŸ“æ–™

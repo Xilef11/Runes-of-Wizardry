@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.StatCollector;
 
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
@@ -23,8 +24,8 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     
     public TileEntityDustDye(){
         super();
-        //TODO maybe use a translated version...
         colorString="Color";
+        //colorString=StatCollector.translateToLocal(References.Lang.COLOR);
     }
     public void dye(int color){
         contents[0].getTagCompound().setInteger("color", color);
@@ -131,11 +132,10 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
         return worldObj.getTileEntity(pos) == this &&
                 player.getDistanceSq(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) < 64;
     }
-    //TODO why are these methods empty? Maybe fired when the inv is opened/closed?
+    //No clue what the next 2 methods 2 (NOT run when inv. opened)
     @Override
     public void openInventory(EntityPlayer p) {
-    	//XXX TESTING
-    	WizardryLogger.logInfo("TileEntityDustDye.openInventory()");
+    	
     }
 
     @Override
@@ -194,10 +194,10 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	@Override
 	public IChatComponent getDisplayName() {
 		//line from InventoryBasic
-		//XXX might want to always return the translated version?
+		//might want to always return the translated version? (dosen't seem much used, leave as is.)
 		 return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
 	}
-	/*[refactor] the following methods are used to ghange the fields of the TileEntity.
+	/*[refactor] the following methods are used to change the fields of the TileEntity.
 	 * we are already doing this in other ways, but we might want to switch to them eventually
 	 */
 	@Override
