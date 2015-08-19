@@ -59,4 +59,8 @@ public class DustDyed extends IDust{
 		//This dust is crafted via other mechanics
 		return null;
 	}
+	@Override
+	public boolean hasCustomBlock(){
+		return true;
+	}
 }

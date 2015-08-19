@@ -5,13 +5,11 @@
  */
 package com.zpig333.runesofwizardry.tileentity;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import scala.collection.mutable.FlatHashTable.Contents;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
@@ -30,19 +28,19 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	//the dusts placed in this block
 	private ItemStack[][] contents = new ItemStack[4][4];
 	/* return the coordinates of a slot based on its id
-	 * NORTH
+	 * NORTH (Z-)
 	 * [0][1][2][3]
-	 * [4][5][6][7]
+	 * [4][5][6][7]		EAST (X+)
 	 * [8][9][10][11]
 	 * [12][13][14][15]
 	 */
-	private static int[] getPositionFromSlotID(int id){
+	public static int[] getPositionFromSlotID(int id){
 		int row = id / 4;
 		int col = id % 4;
 		return new int[]{row,col};
 	}
 	//the other way around
-	private static int getSlotIDfromPosition(int row, int col){
+	public static int getSlotIDfromPosition(int row, int col){
 		return row * 4 + col;
 	}
 	
@@ -76,7 +74,15 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		int[] coords=getPositionFromSlotID(index);
 		return contents[coords[0]][coords[1]];
 	}
-
+	/** returns true if there are no more itemStacks in**/
+	public boolean isEmpty(){
+		for(int i=0;i<contents.length;i++){
+			for(int j=0;j<contents[i].length;i++){
+				if(contents[i][j]!=null)return false;
+			}
+		}
+		return true;
+	}
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		int[] co=getPositionFromSlotID(index);
@@ -154,7 +160,37 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		// only let dust in
 		return stack.getItem() instanceof IDust;
 	}
+	@Override
+	public void readFromNBT(NBTTagCompound tagCompound){
+		super.readFromNBT(tagCompound);
 
+		NBTTagList tagList = tagCompound.getTagList("Inventory",10);
+		for (int i = 0; i < tagList.tagCount(); i++) {
+			NBTTagCompound tag = tagList.getCompoundTagAt(i);
+			byte slot = tag.getByte("Slot");
+			if (slot >= 0 && slot < getSizeInventory()) {
+				int[] coords = getPositionFromSlotID(slot);
+				contents[coords[0]][coords[1]] = ItemStack.loadItemStackFromNBT(tag);
+			}
+		}
+	}
+	@Override
+	public void writeToNBT(NBTTagCompound tagCompound) {
+		super.writeToNBT(tagCompound);
+
+		NBTTagList itemList = new NBTTagList();
+		for (int i = 0; i < getSizeInventory(); i++) {
+			ItemStack stack = getStackInSlot(i);
+			if (stack != null) {
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setByte("Slot", (byte) i);
+				stack.writeToNBT(tag);
+				itemList.appendTag(tag);
+			}
+		}
+		tagCompound.setTag("Inventory", itemList);
+
+	}
 	//NOT using the following field methods
 	@Override
 	public int getField(int id) {
@@ -180,5 +216,4 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 			}
 		}
 	}
-	//TODO 
 }

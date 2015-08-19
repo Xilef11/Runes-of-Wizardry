@@ -4,19 +4,26 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 /**
  * This class creates the block that holds placed dust
  * [refactor] to be fixed when we figure out how to place dusts
  */
-//XXX not sure what most of this does
 //public class BlockDustPlaced extends BlockContainer {
 public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	//TODO BlockDustPlaced for 1.8
@@ -27,6 +34,8 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
         this.setHardness(0.2F);
         this.disableStats();
+        //XXX temp
+        GameRegistry.registerBlock(this, "dust_placed");
     }
 
 
@@ -39,25 +48,29 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
     {
         return false;
     }
-//
-//    /**
-//     * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
-//     */
-//    public boolean renderAsNormalBlock()
-//    {
-//        return false;
-//    }
-//
-//    /**
-//     * Returns which pass should this block be rendered on. 0 for solids and 1
-//     * for alpha
-//     */
-//    public int getRenderBlockPass()
-//    {
-//        return 1;
-//    }
+    @Override
+    public boolean isFullCube(){
+    	return false;
+    }
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+    {	//No collision
+        return null;
+    }
 
-    public boolean canHarvestBlock(net.minecraft.world.IBlockAccess world, BlockPos pos, net.minecraft.entity.player.EntityPlayer player) {
+    @Override
+    public int getRenderType(){
+    	return -1;//don't render normally (-1) (FSR "normal" (3) render always renders a full block...)
+    	//FIXME can't get normal render to render partial block
+    }
+    
+    @Override
+	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+    	this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
+	}
+
+
+	public boolean canHarvestBlock(net.minecraft.world.IBlockAccess world, BlockPos pos, net.minecraft.entity.player.EntityPlayer player) {
     	//this block is never harvested
     	return false;
     };
@@ -79,12 +92,71 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
     public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
         return new TileEntityDustPlaced();
     }
-
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+        super.breakBlock(worldIn, pos, state);
+        worldIn.removeTileEntity(pos);
+    }
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side,	float hitX, float hitY, float hitZ) {
-		// TODO Auto-generated method stub
-		return super.onBlockActivated(worldIn, pos, state, playerIn, side, hitX, hitY,
-				hitZ);
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if(playerIn.isSneaking() || tile==null){
+			return false;
+		}
+		
+		WizardryLogger.logInfo("DustPlaced block activated. pos= "+pos+" hitX: "+hitX+" hitY: "+hitY+" hitZ: "+hitZ);
+		if(! (tile instanceof TileEntityDustPlaced)){
+			//something is wrong
+			WizardryLogger.logError("The TileEntity attached to the BlockDustPlaced at "+pos+" has bad type: "+tile.getClass());
+			return false;
+		}
+		TileEntityDustPlaced tileDust = (TileEntityDustPlaced) tile;
+		//NW corner has hitX:0.09 hitZ:0.09
+		//NE corner has hitX:0.9 hitZ 0.09
+		//SE Corner has hitX 0.9 hitZ 0.9
+		//SW corner has hitX:0.02 hitZ 0.9
+		float posX = hitX * 4;
+		float posZ = hitZ * 4;
+		int row = (int) posZ;
+		int col = (int) posX;
+		
+		WizardryLogger.logInfo("Slot coords is "+row+" "+col);
+		//make sure we are within bounds
+		if(row<0)row=0;
+		if(row>3)row=3;
+		if(col<0)col=0;
+		if(col>3)col=3;
+
+		int slotID = TileEntityDustPlaced.getSlotIDfromPosition(row, col);
+		
+		ItemStack playerStack = playerIn.getCurrentEquippedItem();
+		ItemStack dustStack = tileDust.getStackInSlot(slotID);
+		
+		if(playerStack==null){
+			if (dustStack !=null){
+				//drop the dust piece
+				tileDust.setInventorySlotContents(slotID, null);
+				//drop the itemStack
+				//FIXME not in creative...
+				spawnAsEntity(worldIn, pos, dustStack);
+				if(tileDust.isEmpty()){//if there is no more dust, break the block
+					this.breakBlock(worldIn, pos, state);
+				}
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+		if(playerStack.getItem() instanceof IDust && dustStack ==null){
+			//place dust in the inventory
+			ItemStack newItem = playerStack.splitStack(1);//grab one item from the stack
+			tileDust.setInventorySlotContents(slotID, newItem);
+			return true;
+		}
+		
+		return false;
 	}
 }

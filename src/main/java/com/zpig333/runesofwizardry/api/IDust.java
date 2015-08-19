@@ -1,6 +1,7 @@
 package com.zpig333.runesofwizardry.api;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -105,11 +106,16 @@ public abstract class IDust extends Item {
             Block block = world.getBlockState(pos).getBlock();
             if (block == Blocks.vine || block == Blocks.tallgrass || block == Blocks.deadbush || block == WizardryRegistry.dust_placed || block == Blocks.snow_layer) {
                 return false;
+            }if(block == WizardryRegistry.dust_placed){
+            	return true;
+            }else{
+            	//TODO seems like we will need a BlockState implementation for this
+            	world.setBlockState(pos.up(), WizardryRegistry.dust_placed.getDefaultState());
+            	IBlockState state =  world.getBlockState(pos.up());
+            	state.getBlock().onBlockActivated(world, pos.up(), state, player, side, hitX, hitY, hitZ);
+            	world.playSoundEffect((double)(pos.getX() + 0.5F), (double)(pos.getY() + 0.5F), (double)(pos.getZ() + 0.5F), Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+            	return true;
             }
-            //TODO seems like we will need a BlockState implementation for this
-            //world.setBlockState(pos.add(0, 1, 0), WizardryRegistry.dust_placed);
-            world.playSoundEffect((double)(pos.getX() + 0.5F), (double)(pos.getY() + 0.5F), (double)(pos.getZ() + 0.5F), Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
-            return true;
         }
     }
     

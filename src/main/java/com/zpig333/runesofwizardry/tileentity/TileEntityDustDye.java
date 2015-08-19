@@ -155,37 +155,37 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     //might want to change the tag names to be variables for "safety" (nah, "safety" is overrated)
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
-                super.readFromNBT(tagCompound);
-               
-                NBTTagList tagList = tagCompound.getTagList("Inventory",10);
-                for (int i = 0; i < tagList.tagCount(); i++) {
-                        NBTTagCompound tag = tagList.getCompoundTagAt(i);
-                        byte slot = tag.getByte("Slot");
-                        if (slot >= 0 && slot < contents.length) {
-                                contents[slot] = ItemStack.loadItemStackFromNBT(tag);
-                        }
-                }
-                this.colorString=tagCompound.getString("Color");
-        }
+    	super.readFromNBT(tagCompound);
+
+    	NBTTagList tagList = tagCompound.getTagList("Inventory",10);
+    	for (int i = 0; i < tagList.tagCount(); i++) {
+    		NBTTagCompound tag = tagList.getCompoundTagAt(i);
+    		byte slot = tag.getByte("Slot");
+    		if (slot >= 0 && slot < contents.length) {
+    			contents[slot] = ItemStack.loadItemStackFromNBT(tag);
+    		}
+    	}
+    	this.colorString=tagCompound.getString("Color");
+    }
 
     @Override
-        public void writeToNBT(NBTTagCompound tagCompound) {
-                super.writeToNBT(tagCompound);
-                               
-                NBTTagList itemList = new NBTTagList();
-                for (int i = 0; i < contents.length; i++) {
-                        ItemStack stack = contents[i];
-                        if (stack != null) {
-                                NBTTagCompound tag = new NBTTagCompound();
-                                tag.setByte("Slot", (byte) i);
-                                stack.writeToNBT(tag);
-                                itemList.appendTag(tag);
-                        }
-                }
-                tagCompound.setTag("Inventory", itemList);
-                tagCompound.setString("Color", colorString);
-                
-        }
+    public void writeToNBT(NBTTagCompound tagCompound) {
+    	super.writeToNBT(tagCompound);
+
+    	NBTTagList itemList = new NBTTagList();
+    	for (int i = 0; i < contents.length; i++) {
+    		ItemStack stack = contents[i];
+    		if (stack != null) {
+    			NBTTagCompound tag = new NBTTagCompound();
+    			tag.setByte("Slot", (byte) i);
+    			stack.writeToNBT(tag);
+    			itemList.appendTag(tag);
+    		}
+    	}
+    	tagCompound.setTag("Inventory", itemList);
+    	tagCompound.setString("Color", colorString);
+
+    }
 
 	@Override
 	public IChatComponent getDisplayName() {
