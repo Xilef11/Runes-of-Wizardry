@@ -109,7 +109,6 @@ public abstract class IDust extends Item {
             }if(block == WizardryRegistry.dust_placed){
             	return true;
             }else{
-            	//TODO seems like we will need a BlockState implementation for this
             	world.setBlockState(pos.up(), WizardryRegistry.dust_placed.getDefaultState());
             	IBlockState state =  world.getBlockState(pos.up());
             	state.getBlock().onBlockActivated(world, pos.up(), state, player, side, hitX, hitY, hitZ);

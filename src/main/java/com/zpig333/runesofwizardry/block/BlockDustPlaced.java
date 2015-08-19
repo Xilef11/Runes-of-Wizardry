@@ -1,5 +1,7 @@
 package com.zpig333.runesofwizardry.block;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -7,8 +9,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -26,15 +28,14 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
  */
 //public class BlockDustPlaced extends BlockContainer {
 public class BlockDustPlaced extends Block implements ITileEntityProvider{
-	//TODO BlockDustPlaced for 1.8
-
+	//TODO rendering placed dust
     public BlockDustPlaced(){
         super(Material.circuits);
         this.setStepSound(Block.soundTypeSand);
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
         this.setHardness(0.2F);
         this.disableStats();
-        //XXX temp
+        //TODO remove break particles / make unbreakable by player
         GameRegistry.registerBlock(this, "dust_placed");
     }
 
@@ -94,7 +95,42 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
     }
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-    {
+    {	//drop the items
+    	TileEntityDustPlaced tileentityDustPlaced = (TileEntityDustPlaced) worldIn.getTileEntity(pos);
+
+        if (tileentityDustPlaced != null) {
+        	Random random = new Random();
+            for (int i1 = 0; i1 < tileentityDustPlaced.getSizeInventory(); ++i1) {
+                ItemStack itemstack = tileentityDustPlaced.getStackInSlot(i1);
+
+                if (itemstack != null) {
+                    float f = random.nextFloat() * 0.8F + 0.1F;
+                    float f1 = random.nextFloat() * 0.8F + 0.1F;
+                    EntityItem entityitem;
+
+                    for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; worldIn.spawnEntityInWorld(entityitem)) {
+                        int j1 = random.nextInt(21) + 10;
+
+                        if (j1 > itemstack.stackSize) {
+                            j1 = itemstack.stackSize;
+                        }
+
+                        itemstack.stackSize -= j1;
+                        entityitem = new EntityItem(worldIn, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        float f3 = 0.05F;
+                        entityitem.motionX = (float) random.nextGaussian() * f3;
+                        entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F;
+                        entityitem.motionZ = (float) random.nextGaussian() * f3;
+
+                        if (itemstack.hasTagCompound()) {
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+                        }
+                    }
+                }
+            }
+            worldIn.notifyBlockOfStateChange(pos, state.getBlock());
+        }
+    	
         super.breakBlock(worldIn, pos, state);
         worldIn.removeTileEntity(pos);
     }
@@ -136,12 +172,14 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		
 		if(playerStack==null){
 			if (dustStack !=null){
+				//XXX removing dusts with left-click would be better
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
 				//drop the itemStack
 				//FIXME not in creative...
 				spawnAsEntity(worldIn, pos, dustStack);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
+					//FIXME this does not break the block
 					this.breakBlock(worldIn, pos, state);
 				}
 				return true;

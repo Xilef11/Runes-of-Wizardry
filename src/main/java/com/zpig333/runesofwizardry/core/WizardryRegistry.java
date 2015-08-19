@@ -13,8 +13,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
@@ -98,21 +101,26 @@ public class WizardryRegistry {
     }
     /**Create the (vanilla) recipes**/
     public static void initCrafting(){
-    	//TODO use OreDict for plant stuff
+//    	for(String s:OreDictionary.getOreNames()){
+//    		WizardryLogger.logInfo("Oredict name: "+s);
+//    	}
         //Allows plants to be mashed down into a plantball.  Each plant goes for 1 plantball
-        GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 1), new ItemStack(Blocks.red_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-        GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 1), new ItemStack(Blocks.yellow_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-
-        //Stuuuuuuupid mojang had to make 2 different leaves, didn't they?
-        GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 1), new ItemStack(Blocks.leaves, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-        GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 1), new ItemStack(Blocks.leaves2, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-
+    	//flowers
+        GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.red_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.yellow_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        //tall grass
+        GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.tallgrass, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+        //Leaves
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(plantballs, 1, 0), "treeLeaves", new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE)));
+        //saplings
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(plantballs, 1, 0), "treeSapling", new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE)));
+        //XXX would be nice to have other plants easily (i.e all at once) in the oredict...
+        
         //Craft the small plant balls into larger ones... for now.
         GameRegistry.addRecipe(new ItemStack(plantballs, 1, 0), new Object[]{
                 "XXX", "XXX", "XXX", 'X', new ItemStack(plantballs, 1, 1)
         });
 
-        
         //craft the pestle
         GameRegistry.addRecipe(new ItemStack(pestle,1,0), new Object[]{
             " Y ", "X X", " X ", 'X',new ItemStack(Blocks.stone),'Y',new ItemStack(Items.bone)

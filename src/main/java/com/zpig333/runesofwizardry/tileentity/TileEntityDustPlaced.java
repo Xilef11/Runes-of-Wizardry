@@ -46,7 +46,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	
 	public TileEntityDustPlaced() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 	@Override
 	public String getName() {
@@ -77,7 +77,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	/** returns true if there are no more itemStacks in**/
 	public boolean isEmpty(){
 		for(int i=0;i<contents.length;i++){
-			for(int j=0;j<contents[i].length;i++){
+			for(int j=0;j<contents[i].length;j++){
 				if(contents[i][j]!=null)return false;
 			}
 		}
