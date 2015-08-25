@@ -14,7 +14,9 @@ import com.zpig333.runesofwizardry.client.model.ModelStaff;
 
 @SideOnly(Side.CLIENT)
 //[refactor] TODO figure out the good way of dealing with IItemRenderers in 1.8 - supposedly doable with the JSON models.
-@SuppressWarnings("deprecation")
+//NOT doable with techne in 1.8, use the item texture and json transforms :(
+//see http://www.planetminecraft.com/mod/item-transform-helper---interactively-rotate-scale-translate/ for a tool to help with that
+//also see greyminecraftcoder.blogspot.com.au/2014/12/item-rendering-1.8.html
 public class RenderStaff implements IItemRenderer {
 
     static final Minecraft mc = Minecraft.getMinecraft();
