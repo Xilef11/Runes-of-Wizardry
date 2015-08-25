@@ -11,10 +11,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.core.References;
 
@@ -23,10 +27,10 @@ import com.zpig333.runesofwizardry.core.References;
  *
  */
 public class TileEntityDustPlaced extends TileEntity implements IInventory{
- 
+	public static final int ROWS=4, COLS=4;
 	
 	//the dusts placed in this block
-	private ItemStack[][] contents = new ItemStack[4][4];
+	private ItemStack[][] contents = new ItemStack[ROWS][COLS];
 	/* return the coordinates of a slot based on its id
 	 * NORTH (Z-)
 	 * [0][1][2][3]
@@ -35,19 +39,44 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	 * [12][13][14][15]
 	 */
 	public static int[] getPositionFromSlotID(int id){
-		int row = id / 4;
-		int col = id % 4;
+		int row = id / ROWS;
+		int col = id % COLS;
 		return new int[]{row,col};
 	}
 	//the other way around
 	public static int getSlotIDfromPosition(int row, int col){
-		return row * 4 + col;
+		return row * ROWS + col;
 	}
 	
 	public TileEntityDustPlaced() {
 		super();
-		
 	}
+	/**returns the color of all center points**/
+	public int[][] getCenterColors(){
+		int[][]result = new int[ROWS][COLS];
+		for(int i=0;i<result.length;i++){
+			for(int j=0;j<result[i].length;j++){
+				if(contents[i][j]!=null){
+					result[i][j]=DustRegistry.getDustFromItemStack(contents[i][j]).getPlacedColor(contents[i][j]);
+				}else{
+					result[i][j]=-1;
+				}
+			}
+		}
+		return result;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public double getMaxRenderDistanceSquared() {
+		return 32*32;
+	};
+	@SideOnly(Side.CLIENT)
+	@Override
+	public net.minecraft.util.AxisAlignedBB getRenderBoundingBox() {
+		return INFINITE_EXTENT_AABB;
+	};
+	
 	@Override
 	public String getName() {
 		return References.modid+".DustPlaced";
@@ -66,7 +95,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 
 	@Override
 	public int getSizeInventory() {
-		return 16;
+		return ROWS*COLS;
 	}
 
 	@Override

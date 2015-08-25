@@ -97,10 +97,9 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {	//drop the items
     	TileEntityDustPlaced tileentityDustPlaced = (TileEntityDustPlaced) worldIn.getTileEntity(pos);
-
         if (tileentityDustPlaced != null) {
         	Random random = new Random();
-            for (int i1 = 0; i1 < tileentityDustPlaced.getSizeInventory(); ++i1) {
+            for (int i1 = 0; i1 < tileentityDustPlaced.getSizeInventory(); i1++) {
                 ItemStack itemstack = tileentityDustPlaced.getStackInSlot(i1);
 
                 if (itemstack != null) {
@@ -179,8 +178,8 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 				//FIXME not in creative...
 				spawnAsEntity(worldIn, pos, dustStack);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
-					//FIXME this does not break the block
 					this.breakBlock(worldIn, pos, state);
+					worldIn.setBlockToAir(pos);
 				}
 				return true;
 			}else{
