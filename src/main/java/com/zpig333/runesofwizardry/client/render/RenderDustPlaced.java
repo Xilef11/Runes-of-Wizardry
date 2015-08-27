@@ -54,29 +54,40 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 			
 			//setup flags
 			GL11.glDisable(GL11.GL_LIGHTING);//we want lighting (?)
-			GL11.glDisable(GL11.GL_BLEND);//we want transparency blending(?)
+			GL11.glEnable(GL11.GL_BLEND);//we want transparency blending(?)
 			GL11.glDisable(GL11.GL_CULL_FACE);//visible from both faces (might solve being invisible)
 			GL11.glDepthMask(false);//hidden behind other objects
-			//FIXME STILL INVISIBLE (when scrolling through items)
 			//GlStateManager.color(1, 0, 0);
 			
 			//WorldRenderer.startDrawing(GL11.GL_QUADS);//our thing is quads (? the example uses triangles)
 			
 			//drawing logic here
 			//XXX testing
-			drawCenterVertexNoUV(0, 0, 0xff0000, worldrenderer, tesselator);
-			drawCenterVertexNoUV(0, 1, 0x0000ff, worldrenderer,tesselator);
-			//FIXME following does not work FSR
-//			int[][] colors = teDust.getCenterColors();
-//			for(int i=0;i<colors.length;i++){
-//				for(int j=0;j<colors[i].length;j++){
-//					if(colors[i][j]>0){//negative colors indicate no rendering
-//						drawCenterVertexNoUV(i, j, colors[i][j], worldrenderer, tesselator);
-//					}
-//				}
-//			}
+			//drawCenterVertexNoUV(0, 0, 0xff0000, worldrenderer, tesselator);
+			//drawCenterVertexNoUV(0, 1, 0x0000ff, worldrenderer,tesselator);
+			/* a square is
+			 * 0 y 0 
+			 * 0 y 1
+			 * 1 y 1
+			 * 1 y 0
+			 */
+//			GlStateManager.color(1,0,0);
+//			worldrenderer.startDrawingQuads();
+//			worldrenderer.addVertexWithUV(0, 0.1, 0, 0, 0);
+//			worldrenderer.addVertexWithUV(0, 0.1, 1, 0, 1);
+//			worldrenderer.addVertexWithUV(1, 0.1, 1, 1, 1);
+//			worldrenderer.addVertexWithUV(1, 0.1, 0, 1, 0);
+//			tesselator.draw();
+//			drawCenterVertexWithUV(0, 0, 0xff0000, worldrenderer, tesselator);
 			
-			//addCenterVertex(0, 1, 0x0000ff, worldrenderer);
+			int[][] colors = teDust.getCenterColors();
+			for(int i=0;i<colors.length;i++){
+				for(int j=0;j<colors[i].length;j++){
+					if(colors[i][j]>=0){//negative colors indicate no rendering
+						drawCenterVertexWithUV(i, j, colors[i][j], worldrenderer, tesselator);
+					}
+				}
+			}
 			
 //			worldrenderer.addVertex(0, 0.1, 0);
 //			worldrenderer.addVertex(0, 0.1, 1);
@@ -88,23 +99,6 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		}finally{//restore GL stuff
 			GL11.glPopAttrib();
 			GL11.glPopMatrix();
-		}
-		
-	}
-	
-	private void addCenterVertex(int row, int col, int colorInt, WorldRenderer renderer){
-		Color color = new Color(colorInt);
-		GlStateManager.color(((float)color.getRed())/255F,((float)color.getGreen())/255F,((float)color.getBlue())/255F);
-		final double offset=0.0;
-		final double[][] vertexTable = {
-				{0+offset,0.1,0-offset,0,0}, //numbers are X Y Z U V
-				{0,0,0,1,0},
-				{0,0,1,1,0},
-				{1,1,1,1,0}
-			};
-		
-		for(double[] vertex:vertexTable){
-			renderer.addVertexWithUV(vertex[0], vertex[1], vertex[2], vertex[3], vertex[4]);
 		}
 		
 	}
@@ -128,6 +122,28 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		
 		for(double[] vertex:vertexTable){
 			renderer.addVertex(vertex[0], vertex[1], vertex[2]);
+		}
+		tes.draw();
+	}
+	private void drawCenterVertexWithUV(int row, int col, int colorInt, WorldRenderer renderer, Tessellator tes){
+		Color color = new Color(colorInt);
+		GlStateManager.color(((float)color.getRed())/255F,((float)color.getGreen())/255F,((float)color.getBlue())/255F);
+		renderer.startDrawing(GL11.GL_QUADS);//our thing is quads (? the example uses triangles)
+		final double offset=0.058;
+		final double y = 0.01;//y coordinate at which to draw the things
+		double rowBegin = row/4F + offset;
+		double rowEnd = (row+1)/4F - offset;
+		double colBegin = col/4F + offset;
+		double colEnd = (col+1)/4F - offset;
+		final double[][] vertexTable = {
+				{colBegin,y,rowBegin, colBegin, rowBegin}, //numbers are X Y Z U V
+				{colBegin,y,rowEnd, colBegin, rowEnd},
+				{colEnd,y,rowEnd, colEnd, rowEnd},
+				{colEnd,y,rowBegin, colEnd, rowBegin}
+			};
+		
+		for(double[] vertex:vertexTable){
+			renderer.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
 		}
 		tes.draw();
 	}

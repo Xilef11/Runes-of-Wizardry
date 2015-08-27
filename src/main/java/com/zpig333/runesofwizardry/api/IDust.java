@@ -112,7 +112,6 @@ public abstract class IDust extends Item {
             	world.setBlockState(pos.up(), WizardryRegistry.dust_placed.getDefaultState());
             	IBlockState state =  world.getBlockState(pos.up());
             	state.getBlock().onBlockActivated(world, pos.up(), state, player, side, hitX, hitY, hitZ);
-            	world.playSoundEffect((double)(pos.getX() + 0.5F), (double)(pos.getY() + 0.5F), (double)(pos.getZ() + 0.5F), Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
             	return true;
             }
         }

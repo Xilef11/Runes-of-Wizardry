@@ -9,12 +9,14 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -28,7 +30,6 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
  */
 //public class BlockDustPlaced extends BlockContainer {
 public class BlockDustPlaced extends Block implements ITileEntityProvider{
-	//TODO rendering placed dust
     public BlockDustPlaced(){
         super(Material.circuits);
         this.setStepSound(Block.soundTypeSand);
@@ -36,6 +37,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
         this.setHardness(0.2F);
         this.disableStats();
         //TODO remove break particles / make unbreakable by player
+        this.setBlockUnbreakable();
         GameRegistry.registerBlock(this, "dust_placed");
     }
 
@@ -62,7 +64,6 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
     @Override
     public int getRenderType(){
     	return -1;//don't render normally (-1) (FSR "normal" (3) render always renders a full block...)
-    	//FIXME can't get normal render to render partial block
     }
     
     @Override
@@ -85,7 +86,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
             return false;
         } else{
         	//FUTURE maybe tweak to use the oredict to allow other types of glass
-            return world.isSideSolid(pos.down(), EnumFacing.UP) || block == Blocks.glass;
+            return World.doesBlockHaveSolidTopSurface(world, pos.down()) || block == Blocks.glass;
         }
     }
    
@@ -133,7 +134,10 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
         super.breakBlock(worldIn, pos, state);
         worldIn.removeTileEntity(pos);
     }
-
+    @Override
+    public Item getItemDropped(IBlockState state, Random rand, int fortune){
+    	return null;//this block should not be dropped!
+    }
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side,	float hitX, float hitY, float hitZ) {
 		TileEntity tile = worldIn.getTileEntity(pos);
@@ -152,17 +156,17 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		//NE corner has hitX:0.9 hitZ 0.09
 		//SE Corner has hitX 0.9 hitZ 0.9
 		//SW corner has hitX:0.02 hitZ 0.9
-		float posX = hitX * 4;
-		float posZ = hitZ * 4;
+		float posX = hitX * TileEntityDustPlaced.COLS;
+		float posZ = hitZ * TileEntityDustPlaced.ROWS;
 		int row = (int) posZ;
 		int col = (int) posX;
 		
 		WizardryLogger.logInfo("Slot coords is "+row+" "+col);
 		//make sure we are within bounds
 		if(row<0)row=0;
-		if(row>3)row=3;
+		if(row>TileEntityDustPlaced.ROWS-1)row=TileEntityDustPlaced.ROWS-1;
 		if(col<0)col=0;
-		if(col>3)col=3;
+		if(col>TileEntityDustPlaced.COLS-1)col=TileEntityDustPlaced.COLS-1;
 
 		int slotID = TileEntityDustPlaced.getSlotIDfromPosition(row, col);
 		
@@ -174,9 +178,9 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 				//XXX removing dusts with left-click would be better
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
+				worldIn.playSoundEffect((double)(pos.getX() + 0.5F), (double)(pos.getY() + 0.5F), (double)(pos.getZ() + 0.5F), Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
 				//drop the itemStack
-				//FIXME not in creative...
-				spawnAsEntity(worldIn, pos, dustStack);
+			    if(!playerIn.capabilities.isCreativeMode)spawnAsEntity(worldIn, pos, dustStack);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, state);
 					worldIn.setBlockToAir(pos);
@@ -189,11 +193,35 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 
 		if(playerStack.getItem() instanceof IDust && dustStack ==null){
 			//place dust in the inventory
-			ItemStack newItem = playerStack.splitStack(1);//grab one item from the stack
+			ItemStack newItem=null;
+			if(!playerIn.capabilities.isCreativeMode){
+				 newItem= playerStack.splitStack(1);//grab one item from the stack
+			}else{
+				newItem = playerStack.copy();
+				newItem.stackSize=1;
+			}
 			tileDust.setInventorySlotContents(slotID, newItem);
+			worldIn.playSoundEffect((double)(pos.getX() + 0.5F), (double)(pos.getY() + 0.5F), (double)(pos.getZ() + 0.5F), Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
 			return true;
 		}
 		
 		return false;
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#onBlockClicked(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.entity.player.EntityPlayer)
+	 */
+	@Override
+	public void onBlockClicked(World worldIn, BlockPos pos,	EntityPlayer playerIn) {
+		//called when the block is left-clicked, but does not have hitX Y Z ...
+		// TODO Auto-generated method stub
+	}
+	@Override
+    public boolean canDropFromExplosion(Explosion explosionIn)
+    {
+        return false;
+    }
+	
+	
 }

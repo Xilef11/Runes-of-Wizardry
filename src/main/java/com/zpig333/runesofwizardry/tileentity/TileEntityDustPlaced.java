@@ -10,8 +10,10 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
@@ -172,7 +174,26 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		// Handled with onBlockActivated?
 		return false;
 	}
-
+	
+	//Next 2 methods are an attempt to sync stuff
+	/* (non-Javadoc)
+	 * @see net.minecraft.tileentity.TileEntity#getDescriptionPacket()
+	 */
+	@Override
+	public Packet getDescriptionPacket() {
+		//what botania does
+		NBTTagCompound tagCompound = new NBTTagCompound();
+		this.writeToNBT(tagCompound);
+		return new S35PacketUpdateTileEntity(pos, -999, tagCompound);
+	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.tileentity.TileEntity#onDataPacket(net.minecraft.network.NetworkManager, net.minecraft.network.play.server.S35PacketUpdateTileEntity)
+	 */
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+		super.onDataPacket(net, pkt);
+		this.readFromNBT(pkt.getNbtCompound());
+	}
 	@Override
 	public void openInventory(EntityPlayer player) {
 		// not using this
