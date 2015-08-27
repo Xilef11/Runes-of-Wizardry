@@ -50,8 +50,9 @@ public class DustRegistry {
         //list of subItems
         List<ItemStack> subDusts = new ArrayList<ItemStack>(15);
         //get the subDusts. hopefully, tabAllSearch is the right one
+        //FIXME this is client only now...
         dustclass.getSubItems(dustclass, CreativeTabs.tabAllSearch, subDusts);
-        
+
         //create the block form of the dust
         if(!dustclass.hasCustomBlock()){
         	Block dustBlock = new IDustStorageBlock(Material.sand) {

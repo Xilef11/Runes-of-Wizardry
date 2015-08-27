@@ -61,6 +61,6 @@ public class DustDyed extends IDust{
 	}
 	@Override
 	public boolean hasCustomBlock(){
-		return true;
+		return true;//no block at all, actually...
 	}
 }

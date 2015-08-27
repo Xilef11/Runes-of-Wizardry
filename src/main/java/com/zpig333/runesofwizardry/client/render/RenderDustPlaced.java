@@ -38,7 +38,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		if (!(tileEntity instanceof TileEntityDustPlaced)) return;//should not happen
 		TileEntityDustPlaced teDust = (TileEntityDustPlaced)tileEntity;
 		
-		// TODO placed dust rendering
+		// TODO external connectors
 		try{
 			//save GL state
 			GL11.glPushMatrix();
@@ -50,7 +50,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 			Tessellator tesselator = Tessellator.getInstance();
 			WorldRenderer worldrenderer = tesselator.getWorldRenderer();
 			
-			//set texture (might not be needed?)
+			//set texture
 			this.bindTexture(dustTexture);
 			
 			//setup flags
@@ -58,29 +58,10 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 			GL11.glEnable(GL11.GL_BLEND);//we want transparency blending(?)
 			GL11.glDisable(GL11.GL_CULL_FACE);//visible from both faces (might solve being invisible)
 			GL11.glDepthMask(false);//hidden behind other objects
-			//GlStateManager.color(1, 0, 0);
-			
-			//WorldRenderer.startDrawing(GL11.GL_QUADS);//our thing is quads (? the example uses triangles)
 			
 			//drawing logic here
-			//XXX testing
-			//drawCenterVertexNoUV(0, 0, 0xff0000, worldrenderer, tesselator);
-			//drawCenterVertexNoUV(0, 1, 0x0000ff, worldrenderer,tesselator);
-			/* a square is
-			 * 0 y 0 
-			 * 0 y 1
-			 * 1 y 1
-			 * 1 y 0
-			 */
-//			GlStateManager.color(1,0,0);
-//			worldrenderer.startDrawingQuads();
-//			worldrenderer.addVertexWithUV(0, 0.1, 0, 0, 0);
-//			worldrenderer.addVertexWithUV(0, 0.1, 1, 0, 1);
-//			worldrenderer.addVertexWithUV(1, 0.1, 1, 1, 1);
-//			worldrenderer.addVertexWithUV(1, 0.1, 0, 1, 0);
-//			tesselator.draw();
-//			drawCenterVertexWithUV(0, 0, 0xff0000, worldrenderer, tesselator);
-			
+			//FIXME still sometimes invisible when first placed
+			//the central spots
 			int[][] colors = teDust.getCenterColors();
 			for(int i=0;i<colors.length;i++){
 				for(int j=0;j<colors[i].length;j++){
@@ -89,18 +70,11 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 					}
 				}
 			}
-			//drawInternalConnector(0, 0, 0, 1, 0xff0000, 0x0, worldrenderer, tesselator);
-			//drawInternalConnector(0, 0, 1, 0, 0xff0000, 0x0, worldrenderer, tesselator);
+			///the internal connectors
 			Set<int[]> connectors = teDust.getInternalConnectors();
 			for(int[] i : connectors){
 				drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], worldrenderer, tesselator);
 			}
-//			worldrenderer.addVertex(0, 0.1, 0);
-//			worldrenderer.addVertex(0, 0.1, 1);
-//			worldrenderer.addVertex(1, 0.1, 1);
-//			worldrenderer.addVertex(1, 0.1, 0);
-			//actually draw the stuff
-			//tesselator.draw();
 			
 		}finally{//restore GL stuff
 			GL11.glPopAttrib();

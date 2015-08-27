@@ -6,8 +6,6 @@
 package com.zpig333.runesofwizardry.tileentity;
 
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,6 +36,10 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	
 	//the dusts placed in this block
 	private ItemStack[][] contents = new ItemStack[ROWS][COLS];
+	//the colors for rendering the center of the dusts
+	private int[][] centralColors;
+	//the internal connector data
+	private Set<int[]> internalConnectors;
 	/* return the coordinates of a slot based on its id
 	 * NORTH (Z-)
 	 * [0][1][2][3]
@@ -60,6 +62,11 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	}
 	/**returns the color of all center points**/
 	public int[][] getCenterColors(){
+		if(centralColors==null)updateCenterColors();
+		return centralColors;
+	}
+	//updates the array of central colors
+	private void updateCenterColors(){
 		int[][]result = new int[ROWS][COLS];
 		for(int i=0;i<result.length;i++){
 			for(int j=0;j<result[i].length;j++){
@@ -70,13 +77,18 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				}
 			}
 		}
-		return result;
+		centralColors=result;
 	}
 	/**returns the data on the internal connectors to draw
 	 * 
-	 * @return a list of arrays with the following structure: [row1, col1, row2, col2, color1, color2]
+	 * @return a set of arrays with the following structure: [row1, col1, row2, col2, color1, color2]
 	 */
 	public Set<int[]> getInternalConnectors(){
+		if (internalConnectors==null) updateInternalConnectors();
+		return internalConnectors;
+	}
+	//update the data for the internal connectors
+	private void updateInternalConnectors(){
 		HashSet<int[]> result = new HashSet<int[]>();
 		for(int i=0;i<contents.length;i++){
 			for(int j=0;j<contents[i].length;j++){
@@ -92,15 +104,19 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 			}
 		}
 		
-		return result;
+		internalConnectors = result;
 	}
 	//XXX should be moved into IDust.areDustsEqualForRendering()
 	private boolean dustsMatch(ItemStack stack1, ItemStack stack2){
-		if(stack1==null || stack2==null)return false;
-		if(!(stack1.getItem() instanceof IDust || stack2.getItem() instanceof IDust)) return false;//should not happen
-		//IDust dust1 = DustRegistry.getDustFromItemStack(stack1);
-		//IDust dust2 = DustRegistry.getDustFromItemStack(stack2);
-		return ItemStack.areItemStacksEqual(stack1, stack2);//this should be enough for now?
+		if(stack1!=null && stack1.getItem()instanceof IDust){
+			IDust dust1 = DustRegistry.getDustFromItemStack(stack1);
+			return dust1.shouldConnect(stack1, stack2);
+		}
+		if(stack2!=null && stack2.getItem() instanceof IDust){
+			IDust dust2 = DustRegistry.getDustFromItemStack(stack2);
+			return dust2.shouldConnect(stack2, stack1);
+		}
+		return false;//if not at least one is a non-null IDust, should not connect.
 		
 	}
 	@SideOnly(Side.CLIENT)
@@ -196,6 +212,9 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
         if (stack != null && stack.stackSize > getInventoryStackLimit()) {
         	stack.stackSize = getInventoryStackLimit();
         } 
+        //update the rendering stuff
+        updateCenterColors();
+        updateInternalConnectors();
 	}
 
 	@Override

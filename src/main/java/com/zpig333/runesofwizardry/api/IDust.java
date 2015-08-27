@@ -91,7 +91,17 @@ public abstract class IDust extends Item {
 	public CreativeTabs creativeTab(){
 		return RunesOfWizardry.wizardry_tab;
 	}
-    
+    /** returns whether or not this dust should be rendered as connected to a second one when placed
+     * 
+     * @param thisDust the stack that contains this dust
+     * @param otherDust the stack that contains the other dust 
+     * @return true for the dusts to connect (checks if the itemstacks are equal by default)
+     */
+	public boolean shouldConnect(ItemStack thisDust, ItemStack otherDust){
+		if(thisDust==null || otherDust==null)return false;
+		if(!(thisDust.getItem() instanceof IDust && otherDust.getItem() instanceof IDust))return false;
+		return ItemStack.areItemStacksEqual(thisDust, otherDust);
+	}
     /** what happens when the dust is used. places the dust by default, override for custom behaviour
      * 
      */
