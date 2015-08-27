@@ -5,6 +5,11 @@
  */
 package com.zpig333.runesofwizardry.tileentity;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -67,7 +72,37 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		}
 		return result;
 	}
-	
+	/**returns the data on the internal connectors to draw
+	 * 
+	 * @return a list of arrays with the following structure: [row1, col1, row2, col2, color1, color2]
+	 */
+	public Set<int[]> getInternalConnectors(){
+		HashSet<int[]> result = new HashSet<int[]>();
+		for(int i=0;i<contents.length;i++){
+			for(int j=0;j<contents[i].length;j++){
+				if(i+1<contents.length && dustsMatch(contents[i][j],contents[i+1][j])){
+					int color1 = DustRegistry.getDustFromItemStack(contents[i][j]).getPlacedColor(contents[i][j]);
+					int color2 = DustRegistry.getDustFromItemStack(contents[i+1][j]).getPlacedColor(contents[i+1][j]);
+					result.add(new int[]{i,j,i+1,j, color1,color2});
+				}if(j+1<contents[i].length && dustsMatch(contents[i][j],contents[i][j+1])){
+					int color1 = DustRegistry.getDustFromItemStack(contents[i][j]).getPlacedColor(contents[i][j]);
+					int color2 = DustRegistry.getDustFromItemStack(contents[i][j+1]).getPlacedColor(contents[i][j+1]);
+					result.add(new int[]{i,j,i,j+1, color1,color2});
+				}
+			}
+		}
+		
+		return result;
+	}
+	//XXX should be moved into IDust.areDustsEqualForRendering()
+	private boolean dustsMatch(ItemStack stack1, ItemStack stack2){
+		if(stack1==null || stack2==null)return false;
+		if(!(stack1.getItem() instanceof IDust || stack2.getItem() instanceof IDust)) return false;//should not happen
+		//IDust dust1 = DustRegistry.getDustFromItemStack(stack1);
+		//IDust dust2 = DustRegistry.getDustFromItemStack(stack2);
+		return ItemStack.areItemStacksEqual(stack1, stack2);//this should be enough for now?
+		
+	}
 	@SideOnly(Side.CLIENT)
 	@Override
 	public double getMaxRenderDistanceSquared() {

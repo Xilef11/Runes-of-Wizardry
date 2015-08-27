@@ -6,11 +6,7 @@
 package com.zpig333.runesofwizardry.client.render;
 
 import java.awt.Color;
-
-import org.lwjgl.opengl.GL11;
-
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
+import java.util.Set;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -18,6 +14,11 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 /** Renders the placed dust
  * @author Xilef11
@@ -88,7 +89,12 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 					}
 				}
 			}
-			
+			//drawInternalConnector(0, 0, 0, 1, 0xff0000, 0x0, worldrenderer, tesselator);
+			//drawInternalConnector(0, 0, 1, 0, 0xff0000, 0x0, worldrenderer, tesselator);
+			Set<int[]> connectors = teDust.getInternalConnectors();
+			for(int[] i : connectors){
+				drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], worldrenderer, tesselator);
+			}
 //			worldrenderer.addVertex(0, 0.1, 0);
 //			worldrenderer.addVertex(0, 0.1, 1);
 //			worldrenderer.addVertex(1, 0.1, 1);
@@ -102,35 +108,12 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		}
 		
 	}
-	
-	private void drawCenterVertexNoUV(int row, int col, int colorInt, WorldRenderer renderer, Tessellator tes){
-		Color color = new Color(colorInt);
-		GlStateManager.color(((float)color.getRed())/255F,((float)color.getGreen())/255F,((float)color.getBlue())/255F);
-		renderer.startDrawing(GL11.GL_QUADS);//our thing is quads (? the example uses triangles)
-		final double offset=0.05;
-		final double y = 0.01;//y coordinate at which to draw the things
-		float rowBegin = row/4F;
-		float rowEnd = (row+1)/4F;
-		float colBegin = col/4F;
-		float colEnd = (col+1)/4F;
-		final double[][] vertexTable = {
-				{colBegin+offset,y,rowBegin+offset}, //numbers are X Y Z
-				{colBegin+offset,y,rowEnd-offset},
-				{colEnd-offset,y,rowEnd-offset},
-				{colEnd-offset,y,rowBegin + offset}
-			};
-		
-		for(double[] vertex:vertexTable){
-			renderer.addVertex(vertex[0], vertex[1], vertex[2]);
-		}
-		tes.draw();
-	}
+	private static final double offset = 0.058;
+	final double y = 0.01;//y coordinate at which to draw the things
 	private void drawCenterVertexWithUV(int row, int col, int colorInt, WorldRenderer renderer, Tessellator tes){
 		Color color = new Color(colorInt);
 		GlStateManager.color(((float)color.getRed())/255F,((float)color.getGreen())/255F,((float)color.getBlue())/255F);
 		renderer.startDrawing(GL11.GL_QUADS);//our thing is quads (? the example uses triangles)
-		final double offset=0.058;
-		final double y = 0.01;//y coordinate at which to draw the things
 		double rowBegin = row/4F + offset;
 		double rowEnd = (row+1)/4F - offset;
 		double colBegin = col/4F + offset;
@@ -143,6 +126,70 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 			};
 		
 		for(double[] vertex:vertexTable){
+			renderer.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
+		}
+		tes.draw();
+	}
+	
+	private void drawInternalConnector(int row1, int col1, int row2, int col2, int color1, int color2, WorldRenderer renderer, Tessellator tes){
+		double thin = 0.02;
+		double row1begin = row1/4F + offset,
+			   row1end = (row1+1)/4F - offset,
+			   row2begin = row2/4F + offset,
+			   //row2end = (row2+1)/4F - offset,
+			   col1begin = col1/4F + offset,
+			   col1end = (col1+1)/4F - offset,
+			   col2begin = col2/4F + offset;
+			   //col2end = (col2+1)/4F - offset;
+		double[][]vertexTable1=null,vertexTable2=null;
+		double middle;
+		if(row1==row2){//horizontal connector
+			middle = col1end + ((col2begin - col1end)/2);
+			vertexTable1 = new double[][]{
+					{col1end,y,row1begin+thin,col1end,row1begin+thin},
+					{middle,y,row1begin+thin, middle,row1begin+thin},
+					{middle,y,row1end-thin,middle,row1end-thin},
+					{col1end,y,row1end-thin,col1end,row1end-thin}
+			};
+			vertexTable2 = new double[][]{
+					{middle,y,row1begin+thin,middle,row1begin+thin},
+					{col2begin,y,row1begin+thin,col2begin,row1begin+thin},
+					{col2begin,y,row1end-thin,col2begin,row1end-thin},
+					{middle,y,row1end-thin,middle,row1end-thin}
+			};
+			
+		}else if(col1==col2){
+			middle = row1end + ((row2begin - row1end)/2);
+			vertexTable1 = new double[][]{
+					{col1end-thin,y,row1end,col1end-thin,row1end},
+					{col1end-thin,y,middle, col1end-thin,middle},
+					{col1begin+thin,y,middle,col1begin+thin,middle},
+					{col1begin+thin,y,row1end,col1begin+thin,row1end}
+			};
+			vertexTable2 = new double[][]{
+					{col1end-thin,y,middle,col1end-thin,middle},
+					{col1end-thin,y,row2begin,col1end-thin,row2begin},
+					{col1begin+thin,y,row2begin,col1begin+thin,row2begin},
+					{col1begin+thin,y,middle,col1begin+thin,middle}
+			};
+		}else{
+			throw new IllegalArgumentException("Invalid internal connector");
+		}
+		//safety
+		if(vertexTable1==null ||vertexTable2==null)return;
+		
+		Color color = new Color(color1);
+		GlStateManager.color(((float)color.getRed())/255F,((float)color.getGreen())/255F,((float)color.getBlue())/255F);
+		renderer.startDrawingQuads();
+		for(double vertex[]:vertexTable1){
+			renderer.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
+		}
+		tes.draw();
+		
+		color=new Color(color2);
+		GlStateManager.color(((float)color.getRed())/255F,((float)color.getGreen())/255F,((float)color.getBlue())/255F);
+		renderer.startDrawingQuads();
+		for(double vertex[]:vertexTable2){
 			renderer.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
 		}
 		tes.draw();
