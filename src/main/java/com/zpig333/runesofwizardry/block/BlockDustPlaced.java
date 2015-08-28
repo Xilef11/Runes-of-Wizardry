@@ -133,8 +133,28 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
     	
         super.breakBlock(worldIn, pos, state);
         worldIn.removeTileEntity(pos);
+        TileEntityDustPlaced.updateNeighborConnectors(worldIn, pos);
     }
-    @Override
+    
+    /* (non-Javadoc)
+	 * @see net.minecraft.block.Block#onBlockDestroyedByPlayer(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.block.state.IBlockState)
+	 */
+	@Override
+	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos,IBlockState state) {
+		TileEntityDustPlaced.updateNeighborConnectors(worldIn, pos);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#onBlockDestroyedByExplosion(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.world.Explosion)
+	 */
+	@Override
+	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos,Explosion explosionIn) {
+		TileEntityDustPlaced.updateNeighborConnectors(worldIn, pos);
+	}
+
+
+	@Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune){
     	return null;//this block should not be dropped!
     }
@@ -207,6 +227,26 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		
 		return false;
 	}
+	
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#onNeighborBlockChange(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.block.state.IBlockState, net.minecraft.block.Block)
+	 */
+	@Override
+	public void onNeighborBlockChange(World worldIn, BlockPos pos,IBlockState state, Block neighborBlock) {
+		super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+		/*
+		//XXX this dosen't work very well...
+		//tell or TE to update its external connectors
+		TileEntity te = worldIn.getTileEntity(pos);
+		if(te==null || !(te instanceof TileEntityDustPlaced))return;//stuff is wrong
+		TileEntityDustPlaced ted = (TileEntityDustPlaced) te;
+		//WizardryLogger.logInfo("Updating external connectors of block at "+pos);
+		ted.updateExternalConnectors();//XXX this runs properly, but rendering is not updated... (probably runs BEFORE setting the slot contents...)
+		ted.markDirty();
+		*/
+	}
+	
 
 
 	/* (non-Javadoc)

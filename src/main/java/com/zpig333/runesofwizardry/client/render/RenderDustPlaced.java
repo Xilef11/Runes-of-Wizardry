@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -75,6 +76,10 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 			for(int[] i : connectors){
 				drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], worldrenderer, tesselator);
 			}
+			//external connectors
+			for(int[]i:teDust.getExternalConnectors()){
+				drawExternalConnector(i[0], i[1], i[2], EnumFacing.getFront(i[3]), worldrenderer, tesselator);
+			}
 			
 		}finally{//restore GL stuff
 			GL11.glPopAttrib();
@@ -104,9 +109,9 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		}
 		tes.draw();
 	}
-	
+	private final static double thin = 0.02;
 	private void drawInternalConnector(int row1, int col1, int row2, int col2, int color1, int color2, WorldRenderer renderer, Tessellator tes){
-		double thin = 0.02;
+		
 		double row1begin = row1/4F + offset,
 			   row1end = (row1+1)/4F - offset,
 			   row2begin = row2/4F + offset,
@@ -164,6 +169,53 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		GlStateManager.color(((float)color.getRed())/255F,((float)color.getGreen())/255F,((float)color.getBlue())/255F);
 		renderer.startDrawingQuads();
 		for(double vertex[]:vertexTable2){
+			renderer.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
+		}
+		tes.draw();
+	}
+	private void drawExternalConnector(int row, int col, int colorIn, EnumFacing direction, WorldRenderer renderer, Tessellator tes){
+		double rowBegin = row/4F + offset;
+		double rowEnd = (row+1)/4F - offset;
+		double colBegin = col/4F + offset;
+		double colEnd = (col+1)/4F - offset;
+		double[][] vertexTable = null;
+		if(direction == EnumFacing.NORTH && row==0){//top row
+			vertexTable = new double[][]{
+					{colBegin+thin,y,rowBegin,colBegin+thin,rowBegin},
+					{colBegin+thin,y,0,colBegin+thin,0},
+					{colEnd-thin,y,0,colEnd-thin,0},
+					{colEnd-thin,y,rowBegin,colEnd-thin,rowBegin}
+			};
+		}
+		if(direction==EnumFacing.SOUTH && row==TileEntityDustPlaced.ROWS-1){//bottom row
+			vertexTable = new double[][]{
+					{colBegin+thin,y,rowEnd,colBegin+thin,rowEnd},
+					{colBegin+thin,y,1,colBegin+thin,1},
+					{colEnd-thin,y,1,colEnd-thin,1},
+					{colEnd-thin,y,rowEnd,colEnd-thin,rowEnd}
+			};
+		}
+		if(direction==EnumFacing.WEST && col==0){//left (west) column
+			vertexTable = new double[][]{
+					{colBegin,y,rowBegin+thin,colBegin,rowBegin+thin},
+					{0,y,rowBegin+thin,0,rowBegin+thin},
+					{0,y,rowEnd-thin,0,rowEnd-thin},
+					{colBegin,y,rowEnd-thin,colBegin,rowEnd-thin}
+			};
+		}
+		if(direction==EnumFacing.EAST && col==TileEntityDustPlaced.COLS-1){//right (EAST) column
+			vertexTable = new double[][]{
+					{colEnd,y,rowBegin+thin,colEnd,rowBegin+thin},
+					{1,y,rowBegin+thin,1,rowBegin+thin},
+					{1,y,rowEnd-thin,1,rowEnd-thin},
+					{colEnd,y,rowEnd-thin,colEnd,rowEnd-thin}
+			};
+		}
+		if(vertexTable==null)return;//should not happen
+		Color colour = new Color(colorIn);
+		GlStateManager.color(((float)colour.getRed())/255F,((float)colour.getGreen())/255F,((float)colour.getBlue())/255F);
+		renderer.startDrawingQuads();
+		for(double vertex[]:vertexTable){
 			renderer.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
 		}
 		tes.draw();

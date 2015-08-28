@@ -6,6 +6,8 @@
 package com.zpig333.runesofwizardry.tileentity;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,15 +19,19 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 /**The TileEntity that holds placed dust
  * @author Xilef11
@@ -40,6 +46,8 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	private int[][] centralColors;
 	//the internal connector data
 	private Set<int[]> internalConnectors;
+	//external connector data
+	private List<int[]> externalConnectors;
 	/* return the coordinates of a slot based on its id
 	 * NORTH (Z-)
 	 * [0][1][2][3]
@@ -106,7 +114,77 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		
 		internalConnectors = result;
 	}
-	//XXX should be moved into IDust.areDustsEqualForRendering()
+	/**returns the data on the external connectors
+	 * @return a Linked List of int[] in the following format: [row,col,color, index of the facing]
+	 * @see EnumFacing#getIndex()
+	 * @see EnumFacing#getFront(int)
+	 */
+	public List<int[]>getExternalConnectors(){
+		if(externalConnectors==null)updateExternalConnectors();
+		//updateExternalConnectors();
+		return externalConnectors;
+	}
+	//update the external connectors
+	public void updateExternalConnectors(){
+		List<int[]> result = new LinkedList<int[]>();
+		if(worldObj.getBlockState(pos.north()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.north());
+			if(ted!=null){
+				for(int i=0;i<COLS;i++){
+					int id=getSlotIDfromPosition(0, i);
+					int otherSlot=id+((ROWS-1)*COLS);
+					if(contents[0][i]!=null){
+						if(dustsMatch(contents[0][i], ted.getStackInSlot(otherSlot))){
+							result.add(new int[]{0,i,DustRegistry.getDustFromItemStack(contents[0][i]).getPlacedColor(contents[0][i]),EnumFacing.NORTH.getIndex()});
+						}
+					}
+				}
+			}
+		}
+		if(worldObj.getBlockState(pos.south()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.south());
+			if(ted!=null){
+				for(int i=0;i<COLS;i++){
+					int id=getSlotIDfromPosition(ROWS-1, i);
+					int otherSlot=id-((ROWS-1)*COLS);
+					if(contents[ROWS-1][i]!=null){
+						if(dustsMatch(contents[ROWS-1][i], ted.getStackInSlot(otherSlot))){
+							result.add(new int[]{ROWS-1,i,DustRegistry.getDustFromItemStack(contents[ROWS-1][i]).getPlacedColor(contents[ROWS-1][i]),EnumFacing.SOUTH.getIndex()});
+						}
+					}
+				}
+			}
+		}
+		if(worldObj.getBlockState(pos.west()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.west());
+			if(ted!=null){
+				for(int i=0;i<ROWS;i++){
+					int id=getSlotIDfromPosition(i,0);
+					int otherSlot=id+(COLS-1);
+					if(contents[i][0]!=null){
+						if(dustsMatch(contents[i][0], ted.getStackInSlot(otherSlot))){
+							result.add(new int[]{i,0,DustRegistry.getDustFromItemStack(contents[i][0]).getPlacedColor(contents[i][0]),EnumFacing.WEST.getIndex()});
+						}
+					}
+				}
+			}
+		}
+		if(worldObj.getBlockState(pos.east()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.east());
+			if(ted!=null){
+				for(int i=0;i<ROWS;i++){
+					int id=getSlotIDfromPosition(i,COLS-1);
+					int otherSlot=id-(COLS-1);
+					if(contents[i][COLS-1]!=null){
+						if(dustsMatch(contents[i][COLS-1], ted.getStackInSlot(otherSlot))){//should be true OK
+							result.add(new int[]{i,COLS-1,DustRegistry.getDustFromItemStack(contents[i][COLS-1]).getPlacedColor(contents[i][COLS-1]),EnumFacing.EAST.getIndex()});
+						}
+					}
+				}
+			}
+		}
+		externalConnectors=result;
+	}
 	private boolean dustsMatch(ItemStack stack1, ItemStack stack2){
 		if(stack1!=null && stack1.getItem()instanceof IDust){
 			IDust dust1 = DustRegistry.getDustFromItemStack(stack1);
@@ -215,8 +293,23 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
         //update the rendering stuff
         updateCenterColors();
         updateInternalConnectors();
+        updateExternalConnectors();
+        //update neighbors
+        //worldObj.notifyNeighborsOfStateChange(getPos(), getBlockType()); NOT working FSR
+        updateNeighborConnectors();
+        
 	}
-
+	public void updateNeighborConnectors(){
+		updateNeighborConnectors(getWorld(), getPos());
+	}
+	public static void updateNeighborConnectors(World worldIn, BlockPos pos){
+		for(EnumFacing dir : EnumFacing.HORIZONTALS){
+        	TileEntity te =worldIn.getTileEntity(pos.offset(dir));
+        	if(te !=null && te instanceof TileEntityDustPlaced){
+        		((TileEntityDustPlaced)te).updateExternalConnectors();
+        	}
+        }
+	}
 	@Override
 	public int getInventoryStackLimit() {
 		// only 1 item per slot (does this even do anything?)
@@ -247,6 +340,13 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 		super.onDataPacket(net, pkt);
 		this.readFromNBT(pkt.getNbtCompound());
+//		//also update the rendering
+		updateCenterColors();
+		updateInternalConnectors();
+		updateExternalConnectors();
+		updateNeighborConnectors();
+		//worldObj.notifyBlockOfStateChange(getPos(), getBlockType());
+		//worldObj.notifyNeighborsOfStateChange(getPos(), getBlockType());
 	}
 	@Override
 	public void openInventory(EntityPlayer player) {
@@ -315,8 +415,8 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public void clear() {
 		// let's just do the same thing as inventoryBasic
 		for(int i=0;i<contents.length;i++){
-			for(@SuppressWarnings("unused") ItemStack j:contents[i]){
-				j=null;
+			for(int j=0;j<contents[i].length;j++){
+				contents[i][j]=null;
 			}
 		}
 	}
