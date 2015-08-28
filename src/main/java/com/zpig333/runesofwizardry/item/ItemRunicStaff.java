@@ -13,6 +13,7 @@ public class ItemRunicStaff extends WizardryItem {
         this.setMaxDamage(50);
         this.setFull3D();
     }
+	@Override
 	public String getName(){
     	return name;
     }
@@ -25,7 +26,8 @@ public class ItemRunicStaff extends WizardryItem {
 	/**
      * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
      */
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
+    @Override
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     {
         playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
         return itemStackIn;
@@ -33,7 +35,8 @@ public class ItemRunicStaff extends WizardryItem {
     /**
      * How long it takes to use or consume an item
      */
-    public int getMaxItemUseDuration(ItemStack stack)
+	@Override
+	public int getMaxItemUseDuration(ItemStack stack)
     {
         return 72000;
     }

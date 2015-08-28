@@ -72,6 +72,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	}
 
 
+	@Override
 	public boolean canHarvestBlock(net.minecraft.world.IBlockAccess world, BlockPos pos, net.minecraft.entity.player.EntityPlayer player) {
     	//this block is never harvested
     	return false;
@@ -165,7 +166,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 			return false;
 		}
 		
-		WizardryLogger.logInfo("DustPlaced block activated. pos= "+pos+" hitX: "+hitX+" hitY: "+hitY+" hitZ: "+hitZ);
+		//WizardryLogger.logInfo("DustPlaced block activated. pos= "+pos+" hitX: "+hitX+" hitY: "+hitY+" hitZ: "+hitZ);
 		if(! (tile instanceof TileEntityDustPlaced)){
 			//something is wrong
 			WizardryLogger.logError("The TileEntity attached to the BlockDustPlaced at "+pos+" has bad type: "+tile.getClass());
@@ -181,7 +182,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		int row = (int) posZ;
 		int col = (int) posX;
 		
-		WizardryLogger.logInfo("Slot coords is "+row+" "+col);
+		//WizardryLogger.logInfo("Slot coords is "+row+" "+col);
 		//make sure we are within bounds
 		if(row<0)row=0;
 		if(row>TileEntityDustPlaced.ROWS-1)row=TileEntityDustPlaced.ROWS-1;
@@ -242,7 +243,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		if(te==null || !(te instanceof TileEntityDustPlaced))return;//stuff is wrong
 		TileEntityDustPlaced ted = (TileEntityDustPlaced) te;
 		//WizardryLogger.logInfo("Updating external connectors of block at "+pos);
-		ted.updateExternalConnectors();//XXX this runs properly, but rendering is not updated... (probably runs BEFORE setting the slot contents...)
+		ted.updateExternalConnectors();//this runs properly, but rendering is not updated... (probably runs BEFORE setting the slot contents...)
 		ted.markDirty();
 		*/
 	}
@@ -255,7 +256,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos,	EntityPlayer playerIn) {
 		//called when the block is left-clicked, but does not have hitX Y Z ...
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub: onBlockClicked
 	}
 	@Override
     public boolean canDropFromExplosion(Explosion explosionIn)

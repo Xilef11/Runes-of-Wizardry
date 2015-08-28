@@ -14,7 +14,8 @@ public class ItemPestle extends WizardryItem {
         
     }
     
-    public String getName(){
+    @Override
+	public String getName(){
     	return name;
     }
 

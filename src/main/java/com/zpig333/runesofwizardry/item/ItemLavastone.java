@@ -6,6 +6,7 @@ public class ItemLavastone extends WizardryItem {
 	public ItemLavastone(){
 		super();
 	}
+	@Override
 	public String getName(){
 		return name;
 	}

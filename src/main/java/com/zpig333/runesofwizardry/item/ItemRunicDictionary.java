@@ -8,7 +8,8 @@ public class ItemRunicDictionary extends WizardryItem {
     	super();
         this.setMaxStackSize(1);
     }
-    public String getName(){
+    @Override
+	public String getName(){
     	return name;
     }
 

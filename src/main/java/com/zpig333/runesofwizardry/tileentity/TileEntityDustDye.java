@@ -145,7 +145,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
     }
     @Override
     public int getInventoryStackLimit() {
-        return 16;
+        return 64;
     }
 
     @Override

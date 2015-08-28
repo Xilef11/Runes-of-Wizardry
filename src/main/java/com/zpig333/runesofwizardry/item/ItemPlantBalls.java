@@ -13,7 +13,8 @@ public class ItemPlantBalls extends WizardryItem {
         super();
         this.setHasSubtypes(true);
     }
-    public String getName(){
+    @Override
+	public String getName(){
     	return name;
     }
     public String getFullName(int meta){

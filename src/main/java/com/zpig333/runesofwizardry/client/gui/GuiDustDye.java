@@ -50,7 +50,8 @@ public class GuiDustDye extends GuiContainer {
     /** runs once every time the GUI is opened
      * 
      */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void initGui(){
       super.initGui();
       RunesOfWizardry.networkWrapper.sendToServer(new DustDyeRequestUpdatePacket(PARENT.getPos()));
@@ -81,9 +82,44 @@ public class GuiDustDye extends GuiContainer {
       textColor.setCanLoseFocus(true);
      //id, x, y, width, height, text
       //note: height seems to need to be 20 to display full button texture
-      buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+99,posY+55,50,20,"Dye"));//MC's buttonList does not use generic types, ignore the warning
-      
-      
+      buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+99,posY+55,50,20,StatCollector.translateToLocal(References.Lang.DYE)));//MC's buttonList does not use generic types, ignore the warning
+      //TODO buttons for all Vanilla colors or GUI color chooser
+      /* Colors are (probably) as Follows:
+			white=16777215
+			orange=14188339
+			magenta=11685080
+			light_blue=6724056
+			yellow=15066419
+			lime=8375321
+			pink=15892389
+			gray=5000268
+			silver=10066329
+			cyan=5013401
+			purple=8339378
+			blue=3361970
+			brown=6704179
+			green=6717235
+			red=10040115
+			black=1644825
+			
+			HEX:
+			white=0xffffff
+			orange=0xd87f33
+			magenta=0xb24cd8
+			light_blue=0x6699d8
+			yellow=0xe5e533
+			lime=0x7fcc19
+			pink=0xf27fa5
+			gray=0x4c4c4c
+			silver=0x999999
+			cyan=0x4c7f99
+			purple=0x7f3fb2
+			blue=0x334cb2
+			brown=0x664c33
+			green=0x667f33
+			red=0x993333
+			black=0x191919
+       */
     }
     /** returns the Tile Entity this GUI is bound to
      * 

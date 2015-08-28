@@ -53,10 +53,7 @@ public class RunesOfWizardry {
 
 		initNetwork();
 		// the GUI handler
-		NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance,
-				new GuiHandler());
-		// TODO Custom Block rendering for 1.8
-		// RenderingRegistry.registerBlockHandler(DustStorageRenderer.getInstance());
+		NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance,new GuiHandler());
 	}
 
 	public static void initNetwork() {

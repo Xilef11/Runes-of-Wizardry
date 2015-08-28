@@ -13,5 +13,6 @@ public final class References {
 	public static final class Lang{
 		private static final String misc=modid+".lang.";
 		public static final String COLOR=misc+"color";
+		public static final String DYE=misc+"dye";
 	}
 }

@@ -93,10 +93,10 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		Color color = new Color(colorInt);
 		GlStateManager.color(((float)color.getRed())/255F,((float)color.getGreen())/255F,((float)color.getBlue())/255F);
 		renderer.startDrawing(GL11.GL_QUADS);//our thing is quads (? the example uses triangles)
-		double rowBegin = row/4F + offset;
-		double rowEnd = (row+1)/4F - offset;
-		double colBegin = col/4F + offset;
-		double colEnd = (col+1)/4F - offset;
+		double rowBegin = row/(float)TileEntityDustPlaced.ROWS + offset;
+		double rowEnd = (row+1)/(float)TileEntityDustPlaced.ROWS - offset;
+		double colBegin = col/(float)TileEntityDustPlaced.COLS + offset;
+		double colEnd = (col+1)/(float)TileEntityDustPlaced.COLS - offset;
 		final double[][] vertexTable = {
 				{colBegin,y,rowBegin, colBegin, rowBegin}, //numbers are X Y Z U V
 				{colBegin,y,rowEnd, colBegin, rowEnd},
@@ -112,14 +112,14 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 	private final static double thin = 0.02;
 	private void drawInternalConnector(int row1, int col1, int row2, int col2, int color1, int color2, WorldRenderer renderer, Tessellator tes){
 		
-		double row1begin = row1/4F + offset,
-			   row1end = (row1+1)/4F - offset,
-			   row2begin = row2/4F + offset,
-			   //row2end = (row2+1)/4F - offset,
-			   col1begin = col1/4F + offset,
-			   col1end = (col1+1)/4F - offset,
-			   col2begin = col2/4F + offset;
-			   //col2end = (col2+1)/4F - offset;
+		double row1begin = row1/(float)TileEntityDustPlaced.ROWS + offset,
+			   row1end = (row1+1)/(float)TileEntityDustPlaced.ROWS - offset,
+			   row2begin = row2/(float)TileEntityDustPlaced.ROWS + offset,
+			   //row2end = (row2+1)/(float)TileEntityDustPlaced.ROWS - offset,
+			   col1begin = col1/(float)TileEntityDustPlaced.COLS + offset,
+			   col1end = (col1+1)/(float)TileEntityDustPlaced.COLS - offset,
+			   col2begin = col2/(float)TileEntityDustPlaced.COLS + offset;
+			   //col2end = (col2+1)/(float)TileEntityDustPlaced.COLS - offset;
 		double[][]vertexTable1=null,vertexTable2=null;
 		double middle;
 		if(row1==row2){//horizontal connector
@@ -174,10 +174,10 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		tes.draw();
 	}
 	private void drawExternalConnector(int row, int col, int colorIn, EnumFacing direction, WorldRenderer renderer, Tessellator tes){
-		double rowBegin = row/4F + offset;
-		double rowEnd = (row+1)/4F - offset;
-		double colBegin = col/4F + offset;
-		double colEnd = (col+1)/4F - offset;
+		double rowBegin = row/(float)TileEntityDustPlaced.ROWS + offset;
+		double rowEnd = (row+1)/(float)TileEntityDustPlaced.ROWS - offset;
+		double colBegin = col/(float)TileEntityDustPlaced.COLS + offset;
+		double colEnd = (col+1)/(float)TileEntityDustPlaced.COLS - offset;
 		double[][] vertexTable = null;
 		if(direction == EnumFacing.NORTH && row==0){//top row
 			vertexTable = new double[][]{
