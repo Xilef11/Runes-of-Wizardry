@@ -8,15 +8,15 @@ import net.minecraft.world.World;
 
 public class ItemRunicStaff extends WizardryItem {
 	private final String name = "runic_staff";
-    public ItemRunicStaff(){
-    	super();
-        this.setMaxDamage(50);
-        this.setFull3D();
-    }
+	public ItemRunicStaff(){
+		super();
+		this.setMaxDamage(50);
+		this.setFull3D();
+	}
 	@Override
 	public String getName(){
-    	return name;
-    }
+		return name;
+	}
 	//the following methods are for rendering and may be temporary
 	//XXX still not happy with 3rd person attack animation
 	@Override
@@ -24,21 +24,21 @@ public class ItemRunicStaff extends WizardryItem {
 		return EnumAction.BLOCK;
 	}
 	/**
-     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
-     */
-    @Override
+	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+	 */
+	@Override
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
-    {
-        playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-        return itemStackIn;
-    }
-    /**
-     * How long it takes to use or consume an item
-     */
+	{
+		playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+		return itemStackIn;
+	}
+	/**
+	 * How long it takes to use or consume an item
+	 */
 	@Override
 	public int getMaxItemUseDuration(ItemStack stack)
-    {
-        return 72000;
-    }
+	{
+		return 72000;
+	}
 
 }

@@ -6,7 +6,7 @@ public class ItemNetherPaste extends WizardryItem {
 	public ItemNetherPaste(){
 		super();
 	}
-	
+
 	@Override
 	public String getName(){
 		return name;

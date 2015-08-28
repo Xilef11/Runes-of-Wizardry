@@ -9,7 +9,7 @@ import com.zpig333.runesofwizardry.core.References;
 
 public class BlockLavastone_bricks extends Block{
 	private final String name="lavastone_bricks";
-	
+
 	public BlockLavastone_bricks(Material p_i45394_1_) {
 		super(p_i45394_1_);
 		setStepSound(soundTypeStone);
@@ -25,5 +25,5 @@ public class BlockLavastone_bricks extends Block{
 		return name;
 	}
 
-	
+
 }

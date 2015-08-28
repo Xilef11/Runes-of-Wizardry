@@ -30,114 +30,114 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
  */
 //public class BlockDustPlaced extends BlockContainer {
 public class BlockDustPlaced extends Block implements ITileEntityProvider{
-    public BlockDustPlaced(){
-        super(Material.circuits);
-        this.setStepSound(Block.soundTypeSand);
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
-        this.setHardness(0.2F);
-        this.disableStats();
-        //TODO remove break particles / make unbreakable by player
-        this.setBlockUnbreakable();
-        GameRegistry.registerBlock(this, "dust_placed");
-    }
+	public BlockDustPlaced(){
+		super(Material.circuits);
+		this.setStepSound(Block.soundTypeSand);
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
+		this.setHardness(0.2F);
+		this.disableStats();
+		//TODO remove break particles / make unbreakable by player
+		this.setBlockUnbreakable();
+		GameRegistry.registerBlock(this, "dust_placed");
+	}
 
 
-    /**
-     * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
-     * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
-     */
-    @Override
+	/**
+	 * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
+	 * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
+	 */
+	@Override
 	public boolean isOpaqueCube()
-    {
-        return false;
-    }
-    @Override
-    public boolean isFullCube(){
-    	return false;
-    }
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
-    {	//No collision
-        return null;
-    }
+	{
+		return false;
+	}
+	@Override
+	public boolean isFullCube(){
+		return false;
+	}
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+	{	//No collision
+		return null;
+	}
 
-    @Override
-    public int getRenderType(){
-    	return -1;//don't render normally (-1) (FSR "normal" (3) render always renders a full block...)
-    }
-    
-    @Override
+	@Override
+	public int getRenderType(){
+		return -1;//don't render normally (-1) (FSR "normal" (3) render always renders a full block...)
+	}
+
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-    	this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
 	}
 
 
 	@Override
 	public boolean canHarvestBlock(net.minecraft.world.IBlockAccess world, BlockPos pos, net.minecraft.entity.player.EntityPlayer player) {
-    	//this block is never harvested
-    	return false;
-    };
-    @Override
-    public boolean canPlaceBlockAt(World world, BlockPos pos)
-    {
-    	//get the block 1 lower
-        Block block = world.getBlockState(pos.down()).getBlock();
-        if (block == null)
-        {
-            return false;
-        } else{
-        	//FUTURE maybe tweak to use the oredict to allow other types of glass
-            return World.doesBlockHaveSolidTopSurface(world, pos.down()) || block == Blocks.glass;
-        }
-    }
-   
-    @Override
-    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-        return new TileEntityDustPlaced();
-    }
-    @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-    {	//drop the items
-    	TileEntityDustPlaced tileentityDustPlaced = (TileEntityDustPlaced) worldIn.getTileEntity(pos);
-        if (tileentityDustPlaced != null) {
-        	Random random = new Random();
-            for (int i1 = 0; i1 < tileentityDustPlaced.getSizeInventory(); i1++) {
-                ItemStack itemstack = tileentityDustPlaced.getStackInSlot(i1);
+		//this block is never harvested
+		return false;
+	};
+	@Override
+	public boolean canPlaceBlockAt(World world, BlockPos pos)
+	{
+		//get the block 1 lower
+		Block block = world.getBlockState(pos.down()).getBlock();
+		if (block == null)
+		{
+			return false;
+		} else{
+			//FUTURE maybe tweak to use the oredict to allow other types of glass
+			return World.doesBlockHaveSolidTopSurface(world, pos.down()) || block == Blocks.glass;
+		}
+	}
 
-                if (itemstack != null) {
-                    float f = random.nextFloat() * 0.8F + 0.1F;
-                    float f1 = random.nextFloat() * 0.8F + 0.1F;
-                    EntityItem entityitem;
+	@Override
+	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+		return new TileEntityDustPlaced();
+	}
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	{	//drop the items
+		TileEntityDustPlaced tileentityDustPlaced = (TileEntityDustPlaced) worldIn.getTileEntity(pos);
+		if (tileentityDustPlaced != null) {
+			Random random = new Random();
+			for (int i1 = 0; i1 < tileentityDustPlaced.getSizeInventory(); i1++) {
+				ItemStack itemstack = tileentityDustPlaced.getStackInSlot(i1);
 
-                    for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; worldIn.spawnEntityInWorld(entityitem)) {
-                        int j1 = random.nextInt(21) + 10;
+				if (itemstack != null) {
+					float f = random.nextFloat() * 0.8F + 0.1F;
+					float f1 = random.nextFloat() * 0.8F + 0.1F;
+					EntityItem entityitem;
 
-                        if (j1 > itemstack.stackSize) {
-                            j1 = itemstack.stackSize;
-                        }
+					for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; worldIn.spawnEntityInWorld(entityitem)) {
+						int j1 = random.nextInt(21) + 10;
 
-                        itemstack.stackSize -= j1;
-                        entityitem = new EntityItem(worldIn, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
-                        float f3 = 0.05F;
-                        entityitem.motionX = (float) random.nextGaussian() * f3;
-                        entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F;
-                        entityitem.motionZ = (float) random.nextGaussian() * f3;
+						if (j1 > itemstack.stackSize) {
+							j1 = itemstack.stackSize;
+						}
 
-                        if (itemstack.hasTagCompound()) {
-                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-                        }
-                    }
-                }
-            }
-            worldIn.notifyBlockOfStateChange(pos, state.getBlock());
-        }
-    	
-        super.breakBlock(worldIn, pos, state);
-        worldIn.removeTileEntity(pos);
-        TileEntityDustPlaced.updateNeighborConnectors(worldIn, pos);
-    }
-    
-    /* (non-Javadoc)
+						itemstack.stackSize -= j1;
+						entityitem = new EntityItem(worldIn, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+						float f3 = 0.05F;
+						entityitem.motionX = (float) random.nextGaussian() * f3;
+						entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F;
+						entityitem.motionZ = (float) random.nextGaussian() * f3;
+
+						if (itemstack.hasTagCompound()) {
+							entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+						}
+					}
+				}
+			}
+			worldIn.notifyBlockOfStateChange(pos, state.getBlock());
+		}
+
+		super.breakBlock(worldIn, pos, state);
+		worldIn.removeTileEntity(pos);
+		TileEntityDustPlaced.updateNeighborConnectors(worldIn, pos);
+	}
+
+	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#onBlockDestroyedByPlayer(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.block.state.IBlockState)
 	 */
 	@Override
@@ -156,16 +156,16 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 
 
 	@Override
-    public Item getItemDropped(IBlockState state, Random rand, int fortune){
-    	return null;//this block should not be dropped!
-    }
+	public Item getItemDropped(IBlockState state, Random rand, int fortune){
+		return null;//this block should not be dropped!
+	}
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side,	float hitX, float hitY, float hitZ) {
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(playerIn.isSneaking() || tile==null){
 			return false;
 		}
-		
+
 		//WizardryLogger.logInfo("DustPlaced block activated. pos= "+pos+" hitX: "+hitX+" hitY: "+hitY+" hitZ: "+hitZ);
 		if(! (tile instanceof TileEntityDustPlaced)){
 			//something is wrong
@@ -181,7 +181,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		float posZ = hitZ * TileEntityDustPlaced.ROWS;
 		int row = (int) posZ;
 		int col = (int) posX;
-		
+
 		//WizardryLogger.logInfo("Slot coords is "+row+" "+col);
 		//make sure we are within bounds
 		if(row<0)row=0;
@@ -190,18 +190,18 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		if(col>TileEntityDustPlaced.COLS-1)col=TileEntityDustPlaced.COLS-1;
 
 		int slotID = TileEntityDustPlaced.getSlotIDfromPosition(row, col);
-		
+
 		ItemStack playerStack = playerIn.getCurrentEquippedItem();
 		ItemStack dustStack = tileDust.getStackInSlot(slotID);
-		
+
 		if(playerStack==null){
 			if (dustStack !=null){
 				//XXX removing dusts with left-click would be better
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
-				worldIn.playSoundEffect((double)(pos.getX() + 0.5F), (double)(pos.getY() + 0.5F), (double)(pos.getZ() + 0.5F), Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
 				//drop the itemStack
-			    if(!playerIn.capabilities.isCreativeMode)spawnAsEntity(worldIn, pos, dustStack);
+				if(!playerIn.capabilities.isCreativeMode)spawnAsEntity(worldIn, pos, dustStack);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, state);
 					worldIn.setBlockToAir(pos);
@@ -216,19 +216,19 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 			//place dust in the inventory
 			ItemStack newItem=null;
 			if(!playerIn.capabilities.isCreativeMode){
-				 newItem= playerStack.splitStack(1);//grab one item from the stack
+				newItem= playerStack.splitStack(1);//grab one item from the stack
 			}else{
 				newItem = playerStack.copy();
 				newItem.stackSize=1;
 			}
 			tileDust.setInventorySlotContents(slotID, newItem);
-			worldIn.playSoundEffect((double)(pos.getX() + 0.5F), (double)(pos.getY() + 0.5F), (double)(pos.getZ() + 0.5F), Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#onNeighborBlockChange(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.block.state.IBlockState, net.minecraft.block.Block)
@@ -245,9 +245,9 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		//WizardryLogger.logInfo("Updating external connectors of block at "+pos);
 		ted.updateExternalConnectors();//this runs properly, but rendering is not updated... (probably runs BEFORE setting the slot contents...)
 		ted.markDirty();
-		*/
+		 */
 	}
-	
+
 
 
 	/* (non-Javadoc)
@@ -259,10 +259,10 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		// TODO Auto-generated method stub: onBlockClicked
 	}
 	@Override
-    public boolean canDropFromExplosion(Explosion explosionIn)
-    {
-        return false;
-    }
-	
-	
+	public boolean canDropFromExplosion(Explosion explosionIn)
+	{
+		return false;
+	}
+
+
 }

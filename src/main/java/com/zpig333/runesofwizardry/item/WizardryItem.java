@@ -23,7 +23,7 @@ public abstract class WizardryItem extends Item {
 		this.setCreativeTab(RunesOfWizardry.wizardry_tab);
 		setUnlocalizedName(References.modid+"_"+getName());
 	}
-	
+
 	/** returns the internal name of this item**/
 	public abstract String getName();
 }

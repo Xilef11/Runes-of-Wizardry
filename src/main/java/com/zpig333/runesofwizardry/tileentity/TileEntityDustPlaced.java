@@ -39,7 +39,7 @@ import com.zpig333.runesofwizardry.core.WizardryRegistry;
  */
 public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public static final int ROWS=4, COLS=4;
-	
+
 	//the dusts placed in this block
 	private ItemStack[][] contents = new ItemStack[ROWS][COLS];
 	//the colors for rendering the center of the dusts
@@ -64,7 +64,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public static int getSlotIDfromPosition(int row, int col){
 		return row * ROWS + col;
 	}
-	
+
 	public TileEntityDustPlaced() {
 		super();
 	}
@@ -111,7 +111,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				}
 			}
 		}
-		
+
 		internalConnectors = result;
 	}
 	/**returns the data on the external connectors
@@ -195,7 +195,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 			return dust2.shouldConnect(stack2, stack1);
 		}
 		return false;//if not at least one is a non-null IDust, should not connect.
-		
+
 	}
 	@SideOnly(Side.CLIENT)
 	@Override
@@ -207,7 +207,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public net.minecraft.util.AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB;
 	};
-	
+
 	@Override
 	public String getName() {
 		return References.modid+".DustPlaced";
@@ -246,69 +246,69 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		int[] co=getPositionFromSlotID(index);
-		 if (this.contents[co[0]][co[1]] != null)
-	        {
-	            ItemStack itemstack;
+		if (this.contents[co[0]][co[1]] != null)
+		{
+			ItemStack itemstack;
 
-	            if (this.contents[co[0]][co[1]].stackSize <= count)
-	            {
-	                itemstack = this.contents[co[0]][co[1]];
-	                this.contents[co[0]][co[1]] = null;
-	                return itemstack;
-	            }
-	            else
-	            {
-	                itemstack = this.contents[co[0]][co[1]].splitStack(count);
+			if (this.contents[co[0]][co[1]].stackSize <= count)
+			{
+				itemstack = this.contents[co[0]][co[1]];
+				this.contents[co[0]][co[1]] = null;
+				return itemstack;
+			}
+			else
+			{
+				itemstack = this.contents[co[0]][co[1]].splitStack(count);
 
-	                if (this.contents[co[0]][co[1]].stackSize == 0)
-	                {
-	                    this.contents[co[0]][co[1]] = null;
-	                }
+				if (this.contents[co[0]][co[1]].stackSize == 0)
+				{
+					this.contents[co[0]][co[1]] = null;
+				}
 
-	                return itemstack;
-	            }
-	        }
-	        else
-	        {
-	            return null;
-	        }
+				return itemstack;
+			}
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int index) {
 		ItemStack stack = getStackInSlot(index);
-        if (stack != null) {
-                setInventorySlotContents(index, null);
-        }
-        return stack;
+		if (stack != null) {
+			setInventorySlotContents(index, null);
+		}
+		return stack;
 	}
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		int[] co=getPositionFromSlotID(index);
 		contents[co[0]][co[1]]=stack;
-        if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-        	stack.stackSize = getInventoryStackLimit();
-        } 
-        //update the rendering stuff
-        updateCenterColors();
-        updateInternalConnectors();
-        updateExternalConnectors();
-        //update neighbors
-        //worldObj.notifyNeighborsOfStateChange(getPos(), getBlockType()); NOT working FSR
-        updateNeighborConnectors();
-        
+		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
+			stack.stackSize = getInventoryStackLimit();
+		} 
+		//update the rendering stuff
+		updateCenterColors();
+		updateInternalConnectors();
+		updateExternalConnectors();
+		//update neighbors
+		//worldObj.notifyNeighborsOfStateChange(getPos(), getBlockType()); NOT working FSR
+		updateNeighborConnectors();
+
 	}
 	public void updateNeighborConnectors(){
 		updateNeighborConnectors(getWorld(), getPos());
 	}
 	public static void updateNeighborConnectors(World worldIn, BlockPos pos){
 		for(EnumFacing dir : EnumFacing.HORIZONTALS){
-        	TileEntity te =worldIn.getTileEntity(pos.offset(dir));
-        	if(te !=null && te instanceof TileEntityDustPlaced){
-        		((TileEntityDustPlaced)te).updateExternalConnectors();
-        	}
-        }
+			TileEntity te =worldIn.getTileEntity(pos.offset(dir));
+			if(te !=null && te instanceof TileEntityDustPlaced){
+				((TileEntityDustPlaced)te).updateExternalConnectors();
+			}
+		}
 	}
 	@Override
 	public int getInventoryStackLimit() {
@@ -321,7 +321,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		// Handled with onBlockActivated?
 		return false;
 	}
-	
+
 	//Next 2 methods are an attempt to sync stuff
 	/* (non-Javadoc)
 	 * @see net.minecraft.tileentity.TileEntity#getDescriptionPacket()
@@ -340,7 +340,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 		super.onDataPacket(net, pkt);
 		this.readFromNBT(pkt.getNbtCompound());
-//		//also update the rendering
+		//		//also update the rendering
 		updateCenterColors();
 		updateInternalConnectors();
 		updateExternalConnectors();
@@ -351,7 +351,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	@Override
 	public void openInventory(EntityPlayer player) {
 		// not using this
-		
+
 	}
 
 	@Override
@@ -403,7 +403,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 
 	@Override
 	public void setField(int id, int value) {
-		
+
 	}
 
 	@Override

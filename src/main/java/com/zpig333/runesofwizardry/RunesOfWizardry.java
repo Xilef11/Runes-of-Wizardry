@@ -18,7 +18,7 @@ import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeUpdatePacket;
 import com.zpig333.runesofwizardry.proxy.CommonProxy;
- 
+
 @Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@")
 public class RunesOfWizardry {
 

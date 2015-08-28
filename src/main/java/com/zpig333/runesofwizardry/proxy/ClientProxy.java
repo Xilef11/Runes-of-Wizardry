@@ -7,11 +7,11 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 public class ClientProxy extends CommonProxy{
 
-    //Renderers go here (client-only!!!)
-    @Override
-    public void registerRenderers(){
-        //TESR for placed dust
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDustPlaced.class, new RenderDustPlaced());
-    }
-    
+	//Renderers go here (client-only!!!)
+	@Override
+	public void registerRenderers(){
+		//TESR for placed dust
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDustPlaced.class, new RenderDustPlaced());
+	}
+
 }
