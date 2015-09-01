@@ -26,6 +26,6 @@ public abstract class IDustStorageBlock extends BlockFalling {
 		return getIDust().getName() + "_storage";
 	}
 	//TODO custom block textures in 1.8
-	//We want to create images on the fly, save them to disk and use those as textures
+	//TODO handle metadata from the ItemStacks
 
 }

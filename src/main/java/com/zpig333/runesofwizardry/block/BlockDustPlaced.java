@@ -63,7 +63,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 
 	@Override
 	public int getRenderType(){
-		return -1;//don't render normally (-1) (FSR "normal" (3) render always renders a full block...)
+		return 2;//render type 2 is TESR
 	}
 
 	@Override
