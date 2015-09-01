@@ -93,7 +93,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
 		contents[slot]=stack;
-		//FIXME if stacksize > InventoryStackLimit && Shift-clicking the stack in, the "extra" items are deleted...
+		//if stacksize > InventoryStackLimit && Shift-clicking the stack in, the "extra" items are deleted...
 		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
 			stack.stackSize = getInventoryStackLimit();
 		}              

@@ -25,7 +25,7 @@ Note: Advanced instructions and help can be found on the <a href=http://www.mine
 Eclipse:
 
 1. Clone the repository
-2. Download the appropriate (currently 1.8-11.14.1.1334) Minecraft Forge source release from the <a href=files.minecraftforge.net>Official site</a> (Src link)
+2. Download the appropriate (currently 1.8-11.14.3.1450) Minecraft Forge source release from the <a href=files.minecraftforge.net>Official site</a> (Src link)
 3. Copy the 'eclipse' folder from the downloaded archive to the same folder where you cloned the repository. It is a pre-configured workspace that makes the setup much easier.
 4. Open a command prompt in the repository folder.
 5. Run the commands 'gradlew setupDecompWorkspace' (this will take a while) and 'gradlew eclipse'.

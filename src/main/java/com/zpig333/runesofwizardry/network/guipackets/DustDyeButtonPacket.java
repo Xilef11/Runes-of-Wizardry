@@ -31,7 +31,7 @@ public class DustDyeButtonPacket implements IMessage {
 	}
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		//XXX would probably be more efficient to use the BlockPos.toLong and fromLong, but ByteBufUtils dosen't have a readVarLong
+		//would probably be more efficient to use the BlockPos.toLong and fromLong, but ByteBufUtils dosen't have a readVarLong
 		this.color = ByteBufUtils.readVarInt(buf, 5);
 		this.x=ByteBufUtils.readVarInt(buf, 5);
 		this.y=ByteBufUtils.readVarInt(buf, 5);
