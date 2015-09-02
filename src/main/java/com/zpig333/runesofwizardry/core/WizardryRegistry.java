@@ -36,6 +36,7 @@ import com.zpig333.runesofwizardry.item.dust.DustEnder;
 import com.zpig333.runesofwizardry.item.dust.DustGlowstone;
 import com.zpig333.runesofwizardry.item.dust.DustInert;
 import com.zpig333.runesofwizardry.item.dust.DustPlant;
+import com.zpig333.runesofwizardry.item.dust.RWDusts;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
@@ -88,12 +89,12 @@ public class WizardryRegistry {
 
 	/**Registers all our dusts with the DustRegistry**/
 	public static void initDusts(){
-		DustRegistry.registerDust(new DustInert());
-		DustRegistry.registerDust(new DustPlant());
-		DustRegistry.registerDust(new DustAqua());
-		DustRegistry.registerDust(new DustBlaze());
-		DustRegistry.registerDust(new DustGlowstone());
-		DustRegistry.registerDust(new DustEnder());
+		DustRegistry.registerDust(RWDusts.dust_inert);
+		DustRegistry.registerDust(RWDusts.dust_plant);
+		DustRegistry.registerDust(RWDusts.dust_aqua);
+		DustRegistry.registerDust(RWDusts.dust_blaze);
+		DustRegistry.registerDust(RWDusts.dust_glowstone);
+		DustRegistry.registerDust(RWDusts.dust_ender);
 
 		DustRegistry.registerDust((IDust) dust_dyed);
 	}

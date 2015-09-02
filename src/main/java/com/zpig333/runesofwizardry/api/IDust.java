@@ -51,6 +51,7 @@ public abstract class IDust extends Item {
 	}
 
 	/** returns the items used to obtain this dust by infusing inert dust.
+	 * @note If you want to use NBT to have different dust types, return {@code null} here, since the registering method does not handle it.
 	 * @return - the items used to infuse this dust. (has to be an ItemStack for metadata)
 	 * <br/>- <code>null</code> for custom crafting mechanics
 	 */
@@ -64,6 +65,7 @@ public abstract class IDust extends Item {
 	public boolean hasCustomBlock(){
 		return false;
 	}
+	//XXX might need a getBlock and setBlock or something
 
 	/**determines if this has a custom icon
 	 * if false (default), a texture will be generated when registering this dust with the DustRegistery
@@ -72,7 +74,13 @@ public abstract class IDust extends Item {
 	public boolean hasCustomIcon(){
 		return false;
 	}
-
+	/** returns all metadata values that are used for this dust
+	 * 
+	 * @return [0] by default
+	 */
+	public int[] getMetaValues(){
+		return new int[]{0};
+	}
 	/**returns a name for this dust. 
 	 * @return (default) dust_[getDustName]**/
 	public String getName(){
@@ -102,7 +110,8 @@ public abstract class IDust extends Item {
 		if(!(thisDust.getItem() instanceof IDust && otherDust.getItem() instanceof IDust))return false;
 		return ItemStack.areItemStacksEqual(thisDust, otherDust);
 	}
-	/** what happens when the dust is used. places the dust by default, override for custom behaviour
+	/** what happens when the dust is used. places the dust by default,<br/>
+	 *  override for custom behaviour, but don't forget to call super.onItemUse()
 	 * 
 	 */
 	@Override
