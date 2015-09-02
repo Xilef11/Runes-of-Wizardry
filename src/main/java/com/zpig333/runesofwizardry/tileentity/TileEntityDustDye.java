@@ -213,7 +213,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	@Override
 	public void clear() {
 		// let's just do the same thing as inventoryBasic
-		for(@SuppressWarnings("unused") ItemStack i:contents){
+		for(ItemStack i:contents){
 			i=null;
 		}
 	}

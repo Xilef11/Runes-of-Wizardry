@@ -37,7 +37,6 @@ public abstract class IDustStorageBlock extends BlockFalling {
 		return getIDust().getName() + "_storage";
 	}
 	//TODO custom block textures in 1.8
-	//TODO handle metadata from the ItemStacks
 	//this block has 1 property: the meta value
 	public static final PropertyInteger PROPERTYMETA = PropertyInteger.create("meta",0,15);
 	@Override

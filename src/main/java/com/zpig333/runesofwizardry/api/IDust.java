@@ -65,7 +65,6 @@ public abstract class IDust extends Item {
 	public boolean hasCustomBlock(){
 		return false;
 	}
-	//XXX might need a getBlock and setBlock or something
 
 	/**determines if this has a custom icon
 	 * if false (default), a texture will be generated when registering this dust with the DustRegistery

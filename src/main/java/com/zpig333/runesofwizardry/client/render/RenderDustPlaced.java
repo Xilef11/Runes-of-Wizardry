@@ -39,7 +39,6 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		if (!(tileEntity instanceof TileEntityDustPlaced)) return;//should not happen
 		TileEntityDustPlaced teDust = (TileEntityDustPlaced)tileEntity;
 
-		// TODO external connectors
 		try{
 			//save GL state
 			GL11.glPushMatrix();

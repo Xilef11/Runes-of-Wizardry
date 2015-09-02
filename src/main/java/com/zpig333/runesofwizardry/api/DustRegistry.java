@@ -1,6 +1,6 @@
 package com.zpig333.runesofwizardry.api;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,7 +9,6 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -35,7 +34,17 @@ public class DustRegistry {
 	public static List<IDust> getAllDusts(){
 		return new LinkedList<IDust>(dusts);
 	}
-
+	/** Given a dust, returns the block that was created in registerDust
+	 * 
+	 * @param dust the dust to find the block for
+	 * @return the block created from this dust, or {@code null} if it has a custom block 
+	 */
+	public static Block getDefaultBlock(IDust dust){
+		return blocks.get(dust);
+	}
+	public static Collection<Block> getAllBlocks(){
+		return blocks.values();
+	}
 	/**
 	 * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
 	 * <br/>Note: also registers it as an Item in the GameRegistry, sets up its unlocalized name and creative tab.
@@ -83,7 +92,7 @@ public class DustRegistry {
 			recipe[i]=materials[i];
 		}
 		recipe[materials.length]=blockIn;
-		GameRegistry.addShapelessRecipe(blockOut, recipe);
+		GameRegistry.addShapelessRecipe(blockOut, (Object[])recipe);
 	}
 
 	/** Returns the dust class from an ItemStack

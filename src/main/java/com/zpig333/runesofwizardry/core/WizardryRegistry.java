@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -113,7 +114,7 @@ public class WizardryRegistry {
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(plantballs, 1, 0), "treeLeaves", new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE)));
 		//saplings
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(plantballs, 1, 0), "treeSapling", new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE)));
-		//XXX would be nice to have other plants easily (i.e all at once) in the oredict...
+		//would be nice to have other plants easily (i.e all at once) in the oredict...
 
 		//Craft the small plant balls into larger ones... for now.
 		GameRegistry.addRecipe(new ItemStack(plantballs, 1, 0), new Object[]{
@@ -219,7 +220,17 @@ public class WizardryRegistry {
 		//lavastone bricks
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(lavastone_bricks), 0, new ModelResourceLocation(References.texture_path + ((BlockLavastone_bricks) lavastone_bricks).getName(), "inventory"));
 		//Dust Dye
-		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.texture_path+((BlockDustDye)dust_dye).getName(),"inventory"));		
+		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.texture_path+((BlockDustDye)dust_dye).getName(),"inventory"));
+	}
+	/** registers the rendering for the default dust blocks **/
+	public static void registerDustBlocksRendering(){
+		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+		for(IDust dust:DustRegistry.getAllDusts()){
+			Block block = DustRegistry.getDefaultBlock(dust);
+			for(int meta:dust.getMetaValues()){
+				//XXX now we do the stuff
+			}
+		}
 	}
 
 
