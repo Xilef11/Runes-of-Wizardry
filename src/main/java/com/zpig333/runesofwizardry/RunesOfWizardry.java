@@ -1,7 +1,9 @@
 package com.zpig333.runesofwizardry;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -10,9 +12,15 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+import com.zpig333.runesofwizardry.client.model.ModelBuilder;
+import com.zpig333.runesofwizardry.client.model.ModelGeneratorDustStorage;
+import com.zpig333.runesofwizardry.client.model.TextureDustStorage;
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.dust.RWDusts;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
@@ -49,6 +57,8 @@ public class RunesOfWizardry {
 			WizardryRegistry.initItemRenders();
 			WizardryRegistry.registerDustItemRendering();
 			WizardryRegistry.registerBlockRenders();
+			ModelGeneratorDustStorage.register();
+			new TextureDustStorage((IDustStorageBlock) DustRegistry.getDefaultBlock(RWDusts.dust_plant)).load(Minecraft.getMinecraft().getResourceManager(), TextureDustStorage.getBlockResource(TextureDustStorage.getName((IDustStorageBlock) DustRegistry.getDefaultBlock(RWDusts.dust_plant))));
 		}
 
 		initNetwork();

@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -16,6 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -36,7 +38,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
 		this.setHardness(0.2F);
 		this.disableStats();
-		//TODO remove break particles / make unbreakable by player
+		//TODO make unbreakable in creative
 		this.setBlockUnbreakable();
 		GameRegistry.registerBlock(this, "dust_placed");
 	}
@@ -258,6 +260,25 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		//called when the block is left-clicked, but does not have hitX Y Z ...
 		// TODO Auto-generated method stub: onBlockClicked
 	}
+	
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#addDestroyEffects(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.client.particle.EffectRenderer)
+	 */
+	@Override
+	public boolean addDestroyEffects(World world, BlockPos pos,	EffectRenderer effectRenderer) {
+		return true;//should remove the break particles
+	}
+	
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#addHitEffects(net.minecraft.world.World, net.minecraft.util.MovingObjectPosition, net.minecraft.client.particle.EffectRenderer)
+	 */
+	@Override
+	public boolean addHitEffects(World worldObj, MovingObjectPosition target,EffectRenderer effectRenderer) {
+		return true;//should remove "breaking" particles
+	}
+
+
 	@Override
 	public boolean canDropFromExplosion(Explosion explosionIn)
 	{

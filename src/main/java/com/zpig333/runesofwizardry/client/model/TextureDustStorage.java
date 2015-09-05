@@ -5,9 +5,11 @@
  */
 package com.zpig333.runesofwizardry.client.model;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -38,7 +40,7 @@ public class TextureDustStorage extends TextureAtlasSprite {
 		this.bgColor=block.getIDust().getPrimaryColor(new ItemStack(block.getIDust()));
 		this.fgColor=block.getIDust().getSecondaryColor(new ItemStack(block.getIDust()));
 	}
-	private static String getName(IDustStorageBlock block){
+	public static String getName(IDustStorageBlock block){
 		return block.getIDust().getmodid()+":"+block.getName();
 	}
 
@@ -142,11 +144,28 @@ public class TextureDustStorage extends TextureAtlasSprite {
 		// create an ARGB output image that will be used as our texture
 		output_image = new BufferedImage(w, h, 2);
 		//TODO fill in the image data
-		Graphics bgGraphics = bg_image.getGraphics();
+		Graphics2D bgGraphics = bg_image.createGraphics();
 		Color bgCol = new Color(bgColor);
-		bgCol.setAlpha(0x100);
 		bgGraphics.setColor(bgCol);
+		bgGraphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 128));
+		bgGraphics.drawRect(0, 0, w, h);
+		
+		Graphics2D fgGraphics = fg_image.createGraphics();
+		fgGraphics.setColor(new Color(fgColor));
+		fgGraphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 128));
+		fgGraphics.drawRect(0, 0, w, h);
 		// write the new image data to the output image buffer
+		//background image
+		output_image.getGraphics().drawImage(bg_image, 0, 0, null);
+		output_image.getGraphics().drawImage(fg_image, 0, 0, null);
+		//testing
+		try {
+			ImageIO.write(bg_image, "png", new File("bg.png"));
+			ImageIO.write(fg_image, "png", new File("fg.png"));
+			ImageIO.write(output_image, "png", new File("out.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		//output_image.setRGB(0, y, w, w, new_data, 0, w);
 
 		// replace the old texture
