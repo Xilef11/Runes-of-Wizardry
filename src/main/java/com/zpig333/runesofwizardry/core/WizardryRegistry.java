@@ -222,16 +222,5 @@ public class WizardryRegistry {
 		//Dust Dye
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.texture_path+((BlockDustDye)dust_dye).getName(),"inventory"));
 	}
-	/** registers the rendering for the default dust blocks **/
-	public static void registerDustBlocksRendering(){
-		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-		for(IDust dust:DustRegistry.getAllDusts()){
-			Block block = DustRegistry.getDefaultBlock(dust);
-			for(int meta:dust.getMetaValues()){
-				//XXX now we do the stuff
-			}
-		}
-	}
-
 
 }
