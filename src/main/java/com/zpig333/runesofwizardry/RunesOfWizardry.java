@@ -36,6 +36,9 @@ public class RunesOfWizardry {
 		WizardryRegistry.initBlocks();
 		WizardryRegistry.initItems();
 		WizardryRegistry.initDusts();
+		if(event.getSide()==Side.CLIENT){
+			WizardryRegistry.registerDustStorageRendering();
+		}
 
 	}
 
@@ -49,6 +52,7 @@ public class RunesOfWizardry {
 			WizardryRegistry.initItemRenders();
 			WizardryRegistry.registerDustItemRendering();
 			WizardryRegistry.registerBlockRenders();
+			WizardryRegistry.registerDustStorageItemRendering();
 		}
 
 		initNetwork();

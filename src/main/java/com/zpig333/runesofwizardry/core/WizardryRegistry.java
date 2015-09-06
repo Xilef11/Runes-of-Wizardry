@@ -5,8 +5,9 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -14,6 +15,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -21,22 +24,19 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
+import com.zpig333.runesofwizardry.client.model.ModelBakeEventHandler;
+import com.zpig333.runesofwizardry.client.model.ModelDustStorage;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
 import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
 import com.zpig333.runesofwizardry.item.ItemPlantBalls;
 import com.zpig333.runesofwizardry.item.ItemRunicDictionary;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
-import com.zpig333.runesofwizardry.item.dust.DustAqua;
-import com.zpig333.runesofwizardry.item.dust.DustBlaze;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
-import com.zpig333.runesofwizardry.item.dust.DustEnder;
-import com.zpig333.runesofwizardry.item.dust.DustGlowstone;
-import com.zpig333.runesofwizardry.item.dust.DustInert;
-import com.zpig333.runesofwizardry.item.dust.DustPlant;
 import com.zpig333.runesofwizardry.item.dust.RWDusts;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
@@ -221,6 +221,45 @@ public class WizardryRegistry {
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(lavastone_bricks), 0, new ModelResourceLocation(References.texture_path + ((BlockLavastone_bricks) lavastone_bricks).getName(), "inventory"));
 		//Dust Dye
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.texture_path+((BlockDustDye)dust_dye).getName(),"inventory"));
+	}
+	//This must be used on the Client only
+	public static void registerDustStorageRendering() {
+		// We need to tell Forge how to map our BlockCamouflage's IBlockState to a ModelResourceLocation.
+	    // For example, the BlockStone granite variant has a BlockStateMap entry that looks like
+	    //   "stone[variant=granite]" (iBlockState)  -> "minecraft:granite#normal" (ModelResourceLocation)
+	    // For the camouflage block, we ignore the iBlockState completely and always return the same ModelResourceLocation,
+	    //   which is done using the anonymous class below
+	    StateMapperBase ignoreState = new StateMapperBase() {
+	      @Override
+	      protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
+	        return ModelDustStorage.modelResourceLocation;
+	      }
+	    };
+	    for(Block b:DustRegistry.getAllBlocks()){
+	    	ModelLoader.setCustomStateMapper(b, ignoreState);
+	    }
+
+	    // ModelBakeEvent will be used to add our ISmartBlockModel to the ModelManager's registry (the
+	    //  registry used to map all the ModelResourceLocations to IBlockModels).  For the stone example there is a map from
+	    // ModelResourceLocation("minecraft:granite#normal") to an IBakedModel created from models/block/granite.json.
+	    // For the camouflage block, it will map from
+	    // CamouflageISmartBlockModelFactory.modelResourceLocation to our CamouflageISmartBlockModelFactory instance
+	    MinecraftForge.EVENT_BUS.register(ModelBakeEventHandler.instance);
+	}
+
+	public static void registerDustStorageItemRendering() {
+		// This is currently necessary in order to make your block render properly when it is an item (i.e. in the inventory
+	    //   or in your hand or thrown on the ground).
+	    // Minecraft knows to look for the item model based on the GameRegistry.registerBlock.  However the registration of
+	    //  the model for each item is normally done by RenderItem.registerItems(), and this is not currently aware
+	    //   of any extra items you have created.  Hence you have to do it manually.  This will probably change in future.
+	    // It must be done in the init phase, not preinit, and must be done on client only.
+		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
+			Item itemBlockDustStorage = GameRegistry.findItem(References.modid, b.getName());
+			ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(References.texture_path+"block_dust_storage", "inventory");
+			final int DEFAULT_ITEM_SUBTYPE = 0;//XXX multiple meta values might need to be handled
+			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlockDustStorage, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
+		}
 	}
 
 }
