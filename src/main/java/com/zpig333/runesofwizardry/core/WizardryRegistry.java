@@ -261,5 +261,18 @@ public class WizardryRegistry {
 			Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlockDustStorage, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
 		}
 	}
+	//registers the recipes for all dusts
+	public static void registerDustInfusion() {
+		for(IDust dust:DustRegistry.getAllDusts()){
+			for(int meta:dust.getMetaValues()){
+				ItemStack[] recipe = dust.getInfusionItems(new ItemStack(dust, 1, meta));
+				if(recipe!=null){
+					DustRegistry.registerBlockInfusion(recipe, new ItemStack(RWDusts.dust_inert,9,0), new ItemStack(dust,9,meta));
+					
+				}
+			}
+		}
+		
+	}
 
 }

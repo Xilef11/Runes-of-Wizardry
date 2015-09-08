@@ -74,4 +74,5 @@ public abstract class IDustStorageBlock extends BlockFalling {
 		return (Integer) state.getValue(PROPERTYMETA);
 	}
 	
+	
 }

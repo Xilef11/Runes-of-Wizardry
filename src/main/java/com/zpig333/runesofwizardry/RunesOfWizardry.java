@@ -36,15 +36,16 @@ public class RunesOfWizardry {
 		WizardryRegistry.initBlocks();
 		WizardryRegistry.initItems();
 		WizardryRegistry.initDusts();
-		if(event.getSide()==Side.CLIENT){
-			WizardryRegistry.registerDustStorageRendering();
-		}
+//		if(event.getSide()==Side.CLIENT){
+//			WizardryRegistry.registerDustStorageRendering();
+//		}
 
 	}
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		WizardryRegistry.initCrafting();
+		WizardryRegistry.registerDustInfusion();
 		proxy.registerRenderers();
 
 		// initialize the item renders
@@ -52,7 +53,7 @@ public class RunesOfWizardry {
 			WizardryRegistry.initItemRenders();
 			WizardryRegistry.registerDustItemRendering();
 			WizardryRegistry.registerBlockRenders();
-			WizardryRegistry.registerDustStorageItemRendering();
+			//WizardryRegistry.registerDustStorageItemRendering();
 		}
 
 		initNetwork();

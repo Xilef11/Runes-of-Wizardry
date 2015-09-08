@@ -51,7 +51,8 @@ public abstract class IDust extends Item {
 	}
 
 	/** returns the items used to obtain this dust by infusing inert dust.
-	 * @note If you want to use NBT to have different dust types, return {@code null} here, since the registering method does not handle it.
+	 * @note If you want to use NBT to have different dust types, return {@code null} here, since the registering method does not handle it, 
+	 * and manually call {@link DustRegistry#registerBlockInfusion(ItemStack[], ItemStack, ItemStack)}
 	 * @return - the items used to infuse this dust. (has to be an ItemStack for metadata)
 	 * <br/>- <code>null</code> for custom crafting mechanics
 	 */
@@ -62,8 +63,8 @@ public abstract class IDust extends Item {
 	 * NOTE: the default block is not a TileEntity and will not handle NBT for color.
 	 * @return true to disable the automatic generation of a storage block.
 	 */
-	public boolean hasCustomBlock(){
-		return false;
+	public final boolean hasCustomBlock(){
+		return true;//Default blocks NYI and complicated to implement rendering
 	}
 
 	/**determines if this has a custom icon

@@ -78,13 +78,15 @@ public class DustRegistry {
 						new Object[]{"XXX","XXX","XXX",'X',dust});
 				GameRegistry.addShapelessRecipe(new ItemStack(dustclass,9,i), new ItemStack(dustBlock, 1, i));
 				
-				if(dustclass.getInfusionItems(dust)!=null && blocks.containsKey(RWDusts.dust_inert)){
-					registerBlockInfusion(dustclass.getInfusionItems(dust),new ItemStack(blocks.get(RWDusts.dust_inert)),new ItemStack(dustBlock,1,i));
-				}
 			}
 		}
 	}
-	
+	/**
+	 * 
+	 * @param materials the recipe to infuse the dust 
+	 * @param blockIn the block/item to be infused (usually a block of inert dust)
+	 * @param blockOut the result (usually a block of your dust)
+	 */
 	public static void registerBlockInfusion(ItemStack[] materials, ItemStack blockIn, ItemStack blockOut){
 		//XXX temporary until we figure out what we want
 		ItemStack[] recipe = new ItemStack[materials.length+1];
