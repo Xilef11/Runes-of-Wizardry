@@ -1,5 +1,7 @@
 package com.zpig333.runesofwizardry.item.dust;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import com.zpig333.runesofwizardry.api.IDust;
@@ -31,6 +33,6 @@ public class DustEnder extends IDust {
 	@Override
 	public ItemStack[] getInfusionItems(ItemStack stack) {
 		//TODO Ender infusion
-		return null;
+		return new ItemStack[]{new ItemStack(Items.ender_pearl),new ItemStack(Blocks.obsidian)};
 	}
 }

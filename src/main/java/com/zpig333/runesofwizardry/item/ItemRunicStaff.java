@@ -1,5 +1,7 @@
 package com.zpig333.runesofwizardry.item;
 
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -16,6 +18,13 @@ public class ItemRunicStaff extends WizardryItem {
 	@Override
 	public String getName(){
 		return name;
+	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
+	 */
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn,List tooltip, boolean advanced) {
+		tooltip.add("Unimplemented");
 	}
 	//the following methods are for rendering and may be temporary
 	//XXX still not happy with 3rd person attack animation

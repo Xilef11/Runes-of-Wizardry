@@ -1,5 +1,6 @@
 package com.zpig333.runesofwizardry.core;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -117,8 +118,8 @@ public class WizardryRegistry {
 		//would be nice to have other plants easily (i.e all at once) in the oredict...
 
 		//Craft the small plant balls into larger ones... for now.
-		GameRegistry.addRecipe(new ItemStack(plantballs, 1, 0), new Object[]{
-			"XXX", "XXX", "XXX", 'X', new ItemStack(plantballs, 1, 1)
+		GameRegistry.addRecipe(new ItemStack(plantballs, 1, 1), new Object[]{
+			"XXX", "XXX", "XXX", 'X', new ItemStack(plantballs, 1, 0)
 		});
 
 		//craft the pestle
@@ -136,6 +137,10 @@ public class WizardryRegistry {
 
 		//the dyed dusts
 		GameRegistry.addShapelessRecipe(new ItemStack(dust_dyed,32), new ItemStack(Items.brick, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1));
+		GameRegistry.addShapedRecipe(new ItemStack(dust_dye), "XXX","XYX","XXX",'X',new ItemStack(Items.dye,1,OreDictionary.WILDCARD_VALUE),'Y',new ItemStack(dust_dyed));
+		//inert dust
+		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_inert), new ItemStack(Items.clay_ball),new ItemStack(Items.dye,1,15),new ItemStack(pestle));
+		
 	}
 
 
@@ -267,12 +272,36 @@ public class WizardryRegistry {
 			for(int meta:dust.getMetaValues()){
 				ItemStack[] recipe = dust.getInfusionItems(new ItemStack(dust, 1, meta));
 				if(recipe!=null){
-					DustRegistry.registerBlockInfusion(recipe, new ItemStack(RWDusts.dust_inert,9,0), new ItemStack(dust,9,meta));
+					//Shapeless recipes don't handle multiple intems as parameters. following is a crappy workaround
+					int numItems = getTotalItems(recipe);
+					if(numItems<8){
+						ItemStack[] inertDusts = new ItemStack[8-getTotalItems(recipe)];
+						for(int i=0;i<inertDusts.length;i++){
+							inertDusts[i]=new ItemStack(RWDusts.dust_inert);
+						}
+						ItemStack[] newStack = new ItemStack[recipe.length+inertDusts.length];
+						for(int i=0;i<recipe.length;i++){
+							newStack[i]=recipe[i];
+						}
+						for(int i=0;i<inertDusts.length;i++){
+							newStack[i+recipe.length]=inertDusts[i];
+						}
+						recipe=newStack;
+					}
+					DustRegistry.registerBlockInfusion(recipe, new ItemStack(RWDusts.dust_inert), new ItemStack(dust,9,meta));
 					
 				}
 			}
 		}
 		
+	}
+	//XXX temp
+	private static int getTotalItems(ItemStack[] recipe){
+		int sum =0;
+		for(ItemStack i:recipe){
+			sum+=i.stackSize;
+		}
+		return sum;
 	}
 
 }

@@ -56,6 +56,6 @@ NetBeans (not tested for the MC 1.8 version):
 Development Team/Credits
 -------------------------
 
-Xilef11- Current maintainer
+Xilef11- Current maintainer<br/>
 zombiepig333/lightningpig333- Project founder<br/>
 billythegoat101 - Original author of <a href=http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1280442-1-5-the-runic-dust-mod-mar14>The Runic Dust Mod</a>

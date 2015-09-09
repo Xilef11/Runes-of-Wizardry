@@ -1,5 +1,8 @@
 package com.zpig333.runesofwizardry.item.dust;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 
 import com.zpig333.runesofwizardry.api.IDust;
@@ -25,6 +28,6 @@ public class DustAqua extends IDust {
 	@Override
 	public ItemStack[] getInfusionItems(ItemStack stack) {
 		//TODO Aqua infusion
-		return null;
+		return new ItemStack[]{new ItemStack(Items.dye,1,EnumDyeColor.BLUE.getDyeDamage()),new ItemStack(Items.water_bucket)};
 	}
 }
