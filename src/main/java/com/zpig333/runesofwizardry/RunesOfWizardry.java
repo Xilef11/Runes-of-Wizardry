@@ -37,7 +37,7 @@ public class RunesOfWizardry {
 		WizardryRegistry.initItems();
 		WizardryRegistry.initDusts();
 //		if(event.getSide()==Side.CLIENT){
-//			WizardryRegistry.registerDustStorageRendering();
+//			WizardryRegistry.registerDustStorageRendering(); - should be in proxy or crash
 //		}
 
 	}
@@ -53,7 +53,7 @@ public class RunesOfWizardry {
 			WizardryRegistry.initItemRenders();
 			WizardryRegistry.registerDustItemRendering();
 			WizardryRegistry.registerBlockRenders();
-			//WizardryRegistry.registerDustStorageItemRendering();
+			//WizardryRegistry.registerDustStorageItemRendering(); - Should be in proxy or crash
 		}
 
 		initNetwork();
