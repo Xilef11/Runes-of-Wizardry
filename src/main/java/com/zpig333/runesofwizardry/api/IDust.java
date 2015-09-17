@@ -50,7 +50,7 @@ public abstract class IDust extends Item {
 		return getPrimaryColor(stack);
 	}
 
-	/** returns the items used to obtain this dust by infusing inert dust.
+	/** returns the items used to obtain this dust by infusing inert dust. /!\ MAX OF 9 Stacks for now
 	 * @note If you want to use NBT to have different dust types, return {@code null} here, since the registering method does not handle it, 
 	 * and manually call {@link DustRegistry#registerBlockInfusion(ItemStack[], ItemStack, ItemStack)}
 	 * @return - the items used to infuse this dust. (has to be an ItemStack for metadata)

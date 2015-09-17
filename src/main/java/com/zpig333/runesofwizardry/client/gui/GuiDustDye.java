@@ -9,6 +9,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import org.apache.logging.log4j.Level;
 import org.lwjgl.input.Keyboard;
@@ -175,7 +176,7 @@ public class GuiDustDye extends GuiContainer {
 		}
 	}
 	@Override
-	protected void mouseClicked(int par1, int par2, int par3){
+	protected void mouseClicked(int mouseX, int mouseY, int clickedButton){
 		//posX, posY defines the top left pixel of the gui display
 		int posX = (this.width - textureX) /2;
 		int posY = (this.height - textureY) /2;
@@ -184,9 +185,9 @@ public class GuiDustDye extends GuiContainer {
 		 * WTF Minecraft?
 		 * anyways, compensating...
 		 */
-		textColor.mouseClicked(par1-posX, par2-posY, par3);
+		textColor.mouseClicked(mouseX-posX, mouseY-posY, clickedButton);
 		try {
-			super.mouseClicked(par1, par2, par3);
+			super.mouseClicked(mouseX, mouseY, clickedButton);
 		} catch (IOException e) {
 			WizardryLogger.logException(Level.ERROR, e, "Mouse Click IO Error in GuiDustDye");
 		}
