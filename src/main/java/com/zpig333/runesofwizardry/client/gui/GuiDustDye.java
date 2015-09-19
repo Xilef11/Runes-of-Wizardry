@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
@@ -84,43 +85,7 @@ public class GuiDustDye extends GuiContainer {
 		//id, x, y, width, height, text
 		//note: height seems to need to be 20 to display full button texture
 		buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+99,posY+55,50,20,StatCollector.translateToLocal(References.Lang.DYE)));//MC's buttonList does not use generic types, ignore the warning
-		//TODO buttons for all Vanilla colors or GUI color chooser
-		/* Colors are (probably) as Follows:
-			white=16777215
-			orange=14188339
-			magenta=11685080
-			light_blue=6724056
-			yellow=15066419
-			lime=8375321
-			pink=15892389
-			gray=5000268
-			silver=10066329
-			cyan=5013401
-			purple=8339378
-			blue=3361970
-			brown=6704179
-			green=6717235
-			red=10040115
-			black=1644825
-
-			HEX:
-			white=0xffffff
-			orange=0xd87f33
-			magenta=0xb24cd8
-			light_blue=0x6699d8
-			yellow=0xe5e533
-			lime=0x7fcc19
-			pink=0xf27fa5
-			gray=0x4c4c4c
-			silver=0x999999
-			cyan=0x4c7f99
-			purple=0x7f3fb2
-			blue=0x334cb2
-			brown=0x664c33
-			green=0x667f33
-			red=0x993333
-			black=0x191919
-		 */
+		
 	}
 	/** returns the Tile Entity this GUI is bound to
 	 * 
@@ -149,9 +114,6 @@ public class GuiDustDye extends GuiContainer {
 	@Override
 	protected void keyTyped(char par1, int par2) throws IOException{
 		if(textColor.textboxKeyTyped(par1, par2)){//if we are in the text box
-			colorString = textColor.getText();
-			PARENT.setColor(colorString);
-			RunesOfWizardry.networkWrapper.sendToServer(new DustDyeTextPacket(colorString, PARENT.getPos()));
 			updateColor();
 		}else{
 			super.keyTyped(par1, par2);
@@ -161,6 +123,9 @@ public class GuiDustDye extends GuiContainer {
 	 * 
 	 */
 	private void updateColor(){
+		colorString = textColor.getText();
+		PARENT.setColor(colorString);
+		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeTextPacket(colorString, PARENT.getPos()));
 		try{
 			//parsing in hexadecimal allows for a more natural, html-style color input
 			//that is, 2 (hex) digits per color (RGB)
@@ -186,13 +151,69 @@ public class GuiDustDye extends GuiContainer {
 		 * anyways, compensating...
 		 */
 		textColor.mouseClicked(mouseX-posX, mouseY-posY, clickedButton);
+		//colors
+		chooseColor(mouseX-posX,mouseY-posY,clickedButton);
+		
 		try {
 			super.mouseClicked(mouseX, mouseY, clickedButton);
 		} catch (IOException e) {
 			WizardryLogger.logException(Level.ERROR, e, "Mouse Click IO Error in GuiDustDye");
 		}
 	}
-
+	//use the color squares on the GUI to set the color
+	private void chooseColor(int mouseX, int mouseY, int clickedButton) {
+		//Note: we could also make custom buttons which would be easier to maintain if MC changes the color order / value
+		if(mouseX<11 || mouseX>66 || mouseY<17 || mouseY>69)return;//make sure we are in the color grid
+		final int width=55,height=51;
+		int mX = mouseX-9, mY = mouseY - 15;
+		int col = mX/(width/4);
+		int row = mY/(height/4);
+		//sometimes it gets too big near the end
+		if(col==4)col=3;
+		if(row==4)row=3;
+		WizardryLogger.logInfo("Selected a color, col: "+col+" row: "+row);
+		int color=0;
+//		final int white=0xffffff,
+//				orange=0xd87f33,
+//				magenta=0xb24cd8,
+//				light_blue=0x6699d8,
+//				yellow=0xe5e533,
+//				lime=0x7fcc19,
+//				pink=0xf27fa5,
+//				gray=0x4c4c4c,
+//				silver=0x999999,
+//				cyan=0x4c7f99,
+//				purple=0x7f3fb2,
+//				blue=0x334cb2,
+//				brown=0x664c33,
+//				green=0x667f33,
+//				red=0x993333,
+//				black=0x191919;
+		EnumDyeColor[] colors = EnumDyeColor.values();
+		int id = row*4 + col;
+		color=colors[id].getMapColor().colorValue;
+		//color+=0x050505; //Colors are off compared to wool colors FSR
+		/*
+		if(row==0){
+			switch(col){
+				case 0: color=white; break;
+				case 1: color=orange;break;
+				case 2: color=
+			}
+		}else if(row==1){
+			
+		}else if(row==2){
+			
+		}else if(row==3){
+			
+		}else{
+			WizardryLogger.logError("Wrong row number in GuiDustDye#chooseColor");
+		}
+		*/
+		textColor.setText(Integer.toHexString(color));
+		updateColor();
+		
+	}
 	/** runs while the GUI is open
 	 * 
 	 * @param mouseX
@@ -204,7 +225,7 @@ public class GuiDustDye extends GuiContainer {
 		//the parameters for drawString are: string, x, y, color
 		fontRendererObj.drawString(WizardryRegistry.dust_dye.getLocalizedName(), 8, 6, 4210752);
 		//draws "Inventory" or your regional equivalent
-		fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
+		fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 3, 4210752);
 		textColor.drawTextBox();
 		if(!validColor){
 			GL11.glPushMatrix();//GL stuff to make it bigger
