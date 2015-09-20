@@ -27,13 +27,16 @@ public class ModelDustStorage implements IBakedModel {
 	private int meta;
 	private TextureAtlasSprite texture;
 	// create a tag (ModelResourceLocation) for our model.
-	  public static final ModelResourceLocation modelResourceLocation
-	          = new ModelResourceLocation(References.texture_path+"block_dust_storage");
-	  public ModelDustStorage(){}//TEMP
+	  public final ModelResourceLocation modelResourceLocation;
+
 	  public ModelDustStorage(IDustStorageBlock block, int meta) {
 		this.block=block;
 		this.meta=meta;
+		this.modelResourceLocation = new ModelResourceLocation(getModelResourceLocationPath(block,meta));
 		this.texture=generateTexture();
+	}
+	public static String getModelResourceLocationPath(IDustStorageBlock block, int meta){
+		return References.texture_path+block.getName()+"_"+meta;
 	}
 	private TextureAtlasSprite generateTexture() {
 		// TODO Auto-generated method stub
@@ -43,9 +46,9 @@ public class ModelDustStorage implements IBakedModel {
 	 * @see net.minecraft.client.resources.model.IBakedModel#getFaceQuads(net.minecraft.util.EnumFacing)
 	 */
 	@Override
-	public List getFaceQuads(EnumFacing p_177551_1_) {
+	public List getFaceQuads(EnumFacing face) {
 		// TODO Auto-generated method stub
-		return null;
+		return Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getFaceQuads(face);
 	}
 
 	/* (non-Javadoc)
@@ -54,7 +57,7 @@ public class ModelDustStorage implements IBakedModel {
 	@Override
 	public List getGeneralQuads() {
 		// TODO Auto-generated method stub
-		return null;
+		return Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getGeneralQuads();
 	}
 
 	/* (non-Javadoc)
@@ -63,7 +66,7 @@ public class ModelDustStorage implements IBakedModel {
 	@Override
 	public boolean isAmbientOcclusion() {
 		// TODO Auto-generated method stub
-		return false;
+		return Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).isAmbientOcclusion();
 	}
 
 	/* (non-Javadoc)
@@ -72,7 +75,7 @@ public class ModelDustStorage implements IBakedModel {
 	@Override
 	public boolean isGui3d() {
 		// TODO Auto-generated method stub
-		return false;
+		return Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).isGui3d();
 	}
 
 	/* (non-Javadoc)
@@ -81,7 +84,7 @@ public class ModelDustStorage implements IBakedModel {
 	@Override
 	public boolean isBuiltInRenderer() {
 		// TODO Auto-generated method stub
-		return false;
+		return Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).isBuiltInRenderer();
 	}
 
 	/* (non-Javadoc)
@@ -99,7 +102,7 @@ public class ModelDustStorage implements IBakedModel {
 	@Override
 	public ItemCameraTransforms getItemCameraTransforms() {
 		// TODO Auto-generated method stub
-		return null;
+		return Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getItemCameraTransforms();
 	}
 
 }
