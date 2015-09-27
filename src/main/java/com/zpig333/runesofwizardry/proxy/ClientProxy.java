@@ -16,6 +16,7 @@ import com.zpig333.runesofwizardry.client.model.ModelBakeEventHandler;
 import com.zpig333.runesofwizardry.client.model.ModelDustStorage;
 import com.zpig333.runesofwizardry.client.render.RenderDustPlaced;
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 public class ClientProxy extends CommonProxy{
@@ -32,17 +33,19 @@ public class ClientProxy extends CommonProxy{
 	 */
 	@Override
 	public void registerDustStorageRendering() {
+		WizardryLogger.logInfo("Registering Dust Storage rendering");
 		// We need to tell Forge how to map our BlockCamouflage's IBlockState to a ModelResourceLocation.
 		// For example, the BlockStone granite variant has a BlockStateMap entry that looks like
 		//   "stone[variant=granite]" (iBlockState)  -> "minecraft:granite#normal" (ModelResourceLocation)
 		// For the camouflage block, we ignore the iBlockState completely and always return the same ModelResourceLocation,
 		//   which is done using the anonymous class below
 		for(final IDustStorageBlock block : DustRegistry.getAllBlocks()){
+			WizardryLogger.logInfo("Creating StateMapper for "+block.getName());//XXX This happens
 			StateMapperBase mapper = new StateMapperBase() {
 				@Override
 				protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
 					int meta = (Integer) iBlockState.getValue(IDustStorageBlock.PROPERTYMETA);
-					return new ModelResourceLocation(ModelDustStorage.getModelResourceLocationPath(block, meta));
+					return ModelDustStorage.getModelResourceLocation(block, meta);
 				}
 			};
 			ModelLoader.setCustomStateMapper(block, mapper);
@@ -57,6 +60,7 @@ public class ClientProxy extends CommonProxy{
 	}
 	
 	public void registerDustStorageItemRendering() {
+		WizardryLogger.logInfo("Registering dust storage item rendering");
 		// This is currently necessary in order to make your block render properly when it is an item (i.e. in the inventory
 	    //   or in your hand or thrown on the ground).
 	    // Minecraft knows to look for the item model based on the GameRegistry.registerBlock.  However the registration of
@@ -64,8 +68,10 @@ public class ClientProxy extends CommonProxy{
 	    //   of any extra items you have created.  Hence you have to do it manually.  This will probably change in future.
 	    // It must be done in the init phase, not preinit, and must be done on client only.
 		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
+			WizardryLogger.logInfo("Processing item: "+b.getName());
 			Item itemBlockDustStorage = GameRegistry.findItem(References.modid, b.getName());
 			for(int meta: b.getIDust().getMetaValues()){
+				WizardryLogger.logInfo("meta: "+meta);
 				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(ModelDustStorage.getModelResourceLocationPath(b, meta), "inventory");
 				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlockDustStorage, meta, itemModelResourceLocation);
 			}
