@@ -3,10 +3,11 @@
  *  
  *  this file was created by Xilef11 on 2015-09-06
  */
-package com.zpig333.runesofwizardry.client.model;
+package com.zpig333.runesofwizardry.client;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+import com.zpig333.runesofwizardry.client.model.ModelDustStorage;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 import net.minecraft.client.resources.model.IBakedModel;

@@ -12,7 +12,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
-import com.zpig333.runesofwizardry.client.model.ModelBakeEventHandler;
+import com.zpig333.runesofwizardry.client.ModelBakeEventHandler;
+import com.zpig333.runesofwizardry.client.TextureStitchEventHandler;
 import com.zpig333.runesofwizardry.client.model.ModelDustStorage;
 import com.zpig333.runesofwizardry.client.render.RenderDustPlaced;
 import com.zpig333.runesofwizardry.core.References;
@@ -57,6 +58,8 @@ public class ClientProxy extends CommonProxy{
 		// For the camouflage block, it will map from
 		// CamouflageISmartBlockModelFactory.modelResourceLocation to our CamouflageISmartBlockModelFactory instance
 		MinecraftForge.EVENT_BUS.register(ModelBakeEventHandler.instance);
+		//register the handler to create the textures
+		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHandler());
 	}
 	
 	public void registerDustStorageItemRendering() {
@@ -72,8 +75,8 @@ public class ClientProxy extends CommonProxy{
 			Item itemBlockDustStorage = GameRegistry.findItem(References.modid, b.getName());
 			for(int meta: b.getIDust().getMetaValues()){
 				WizardryLogger.logInfo("meta: "+meta);
-				ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(ModelDustStorage.getModelResourceLocationPath(b, meta), "inventory");
-				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlockDustStorage, meta, itemModelResourceLocation);
+				//ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(ModelDustStorage.getModelResourceLocationPath(b, meta), "inventory");
+				ModelResourceLocation itemModelResourceLocation = ModelDustStorage.getModelResourceLocation(b, meta);				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlockDustStorage, meta, itemModelResourceLocation);
 			}
 		}
 	}
