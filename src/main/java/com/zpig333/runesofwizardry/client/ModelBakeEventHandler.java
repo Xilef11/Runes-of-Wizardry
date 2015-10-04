@@ -34,17 +34,9 @@ public class ModelBakeEventHandler {
 			for(int meta : block.getIDust().getMetaValues()){
 				WizardryLogger.logInfo("meta is "+meta);//XXX this happens
 				ModelResourceLocation location = ModelDustStorage.getModelResourceLocation(block, meta);
-				Object object =  event.modelRegistry.getObject(location);
-				WizardryLogger.logInfo("object is "+object);
-				if (object instanceof IBakedModel) {//FIXME object is null
-					IBakedModel existingModel = (IBakedModel)object;
-					ModelDustStorage customModel = new ModelDustStorage(block, meta);
-					event.modelRegistry.putObject(location, customModel);
-				}else if(object==null){
-					ModelDustStorage model = new ModelDustStorage(block, meta);
-					event.modelRegistry.putObject(location, model);
-					
-				}
+				ModelDustStorage customModel = new ModelDustStorage(block, meta);
+				event.modelRegistry.putObject(location, customModel);
+				
 			}
 		}
 	}

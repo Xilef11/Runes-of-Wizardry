@@ -16,7 +16,7 @@ public class TextureStitchEventHandler {
 		return dust_storage_fg;
 	}
 	@SubscribeEvent
-	public void onTextureStitch(TextureStitchEvent event){
+	public void onTextureStitch(TextureStitchEvent.Pre event){
 		dust_storage_bg = event.map.registerSprite(new ResourceLocation(References.texture_path+"blocks/dustStorage_bg"));
 		dust_storage_fg = event.map.registerSprite(new ResourceLocation(References.texture_path+"blocks/dustStorage_fg"));
 	}

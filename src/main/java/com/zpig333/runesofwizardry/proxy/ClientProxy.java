@@ -76,7 +76,8 @@ public class ClientProxy extends CommonProxy{
 			for(int meta: b.getIDust().getMetaValues()){
 				WizardryLogger.logInfo("meta: "+meta);
 				//ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(ModelDustStorage.getModelResourceLocationPath(b, meta), "inventory");
-				ModelResourceLocation itemModelResourceLocation = ModelDustStorage.getModelResourceLocation(b, meta);				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlockDustStorage, meta, itemModelResourceLocation);
+				ModelResourceLocation itemModelResourceLocation = ModelDustStorage.getModelResourceLocation(b, meta);				
+				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlockDustStorage, meta, itemModelResourceLocation);
 			}
 		}
 	}

@@ -10,18 +10,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javafx.scene.shape.VertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.FaceBakery;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.client.TextureStitchEventHandler;
@@ -68,84 +69,101 @@ public class ModelDustStorage implements IBakedModel {
 	 */
 	@Override
 	public List getFaceQuads(EnumFacing face) {
+		List r = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getFaceQuads(face);
+		//XXX testing
+//		for(int i=0;i<4;i++){
+//			int [] quad0=((BakedQuad)r.get(0)).getVertexData();
+//			float x = Float.intBitsToFloat(quad0[i*7]);
+//			float y = Float.intBitsToFloat(quad0[1+i*7]);
+//			float z = Float.intBitsToFloat(quad0[2+i*7]);
+//			int color = quad0[3+i*7];
+//			int lastvalue = quad0[6+i*7];
+//			System.out.println("Dirt has vertex "+i+" on face "+face+" being "+x+" "+y+" "+z+" color: "+color+" last: "+lastvalue);
+//		}
 		List<BakedQuad> result = new LinkedList<BakedQuad>();
-		List<int[]> vertex = new LinkedList<int[]>();
+		int[] bg =null;
+		int[] fg = null;
 		TextureAtlasSprite bgTex = TextureStitchEventHandler.getDustStorageBG();
+		//following line works, so problem is with texture... (also color is wrong and dosen't render in inventory)
+		//bgTex = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getTexture();
 		TextureAtlasSprite fgTex = TextureStitchEventHandler.getDustStorageFG();
+		//looks like a bakedquad is a full square, and we have to pass it all its vertices in the int array...
+		//also, tintindex should be -1
+		//FIXME no more crash, but rendering is broken again
+		//Feels like the ints are not in the right order...
 		if(face==EnumFacing.EAST){
 			//BG color
-			vertex.add(vertexToInts(1, 0, 0, bgColor, bgTex, 16, 16));
-			vertex.add(vertexToInts(1, 1, 0, bgColor, bgTex, 16, 0));
-			vertex.add(vertexToInts(1, 1, 1, bgColor, bgTex, 0, 0));
-			vertex.add(vertexToInts(1, 0, 1, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 1, 1, bgColor, bgTex, 0, 0));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 0, 1, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 0, 0, bgColor, bgTex, 16, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 1, 0, bgColor, bgTex, 16, 0));
 			//fg
-			vertex.add(vertexToInts(1.001F, 0, 0, fgColor, fgTex, 16, 16));
-			vertex.add(vertexToInts(1.001F, 1, 0, fgColor, fgTex, 16, 0));
-			vertex.add(vertexToInts(1.001F, 1, 1, fgColor, fgTex, 0, 0));
-			vertex.add(vertexToInts(1.001F, 0, 1, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1.001F, 1, 1, fgColor, fgTex, 0, 0));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1.001F, 0, 1, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1.001F, 0, 0, fgColor, fgTex, 16, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1.001F, 1, 0, fgColor, fgTex, 16, 0));
 		}else if(face==EnumFacing.WEST){
 			//BG color
-			vertex.add(vertexToInts(0, 0, 1, bgColor, bgTex, 16, 16));
-			vertex.add(vertexToInts(0, 1, 1, bgColor, bgTex, 16, 0));
-			vertex.add(vertexToInts(0, 1, 0, bgColor, bgTex, 0, 0));
-			vertex.add(vertexToInts(0, 0, 0, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 1, 0, bgColor, bgTex, 0, 0));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 0, 0, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 0, 1, bgColor, bgTex, 16, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 1, 1, bgColor, bgTex, 16, 0));
 			//fg
-			vertex.add(vertexToInts(-0.001F, 0, 1, fgColor, fgTex, 16, 16));
-			vertex.add(vertexToInts(-0.001F, 1, 1, fgColor, fgTex, 16, 0));
-			vertex.add(vertexToInts(-0.001F, 1, 0, fgColor, fgTex, 0, 0));
-			vertex.add(vertexToInts(-0.001F, 0, 0, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(-0.001F, 1, 0, fgColor, fgTex, 0, 0));
+			fg = ArrayUtils.addAll(fg, vertexToInts(-0.001F, 0, 0, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(-0.001F, 0, 1, fgColor, fgTex, 16, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(-0.001F, 1, 1, fgColor, fgTex, 16, 0));
 		}else if(face==EnumFacing.NORTH){
 			//BG color
-			vertex.add(vertexToInts(0, 0, 0, bgColor, bgTex, 16, 16));
-			vertex.add(vertexToInts(0, 1, 0, bgColor, bgTex, 16, 0));
-			vertex.add(vertexToInts(1, 1, 0, bgColor, bgTex, 0, 0));
-			vertex.add(vertexToInts(1, 0, 0, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 1, 0, bgColor, bgTex, 0, 0));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 0, 0, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 0, 0, bgColor, bgTex, 16, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 1, 0, bgColor, bgTex, 16, 0));
 			//fg
-			vertex.add(vertexToInts(0, 0, -0.001F, fgColor, fgTex, 16, 16));
-			vertex.add(vertexToInts(0, 1, -0.001F, fgColor, fgTex, 16, 0));
-			vertex.add(vertexToInts(1, 1, -0.001F, fgColor, fgTex, 0, 0));
-			vertex.add(vertexToInts(1, 0, -0.001F, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1, 1, -0.001F, fgColor, fgTex, 0, 0));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1, 0, -0.001F, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(0, 0, -0.001F, fgColor, fgTex, 16, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(0, 1, -0.001F, fgColor, fgTex, 16, 0));
 		}else if(face==EnumFacing.SOUTH){
 			//BG color
-			vertex.add(vertexToInts(1, 0, 1, bgColor, bgTex, 16, 16));
-			vertex.add(vertexToInts(1, 1, 1, bgColor, bgTex, 16, 0));
-			vertex.add(vertexToInts(0, 1, 1, bgColor, bgTex, 0, 0));
-			vertex.add(vertexToInts(0, 0, 1, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 1, 1, bgColor, bgTex, 0, 0));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 0, 1, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 0, 1, bgColor, bgTex, 16, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 1, 1, bgColor, bgTex, 16, 0));
 			//fg
-			vertex.add(vertexToInts(1, 0, 1.001F, fgColor, fgTex, 16, 16));
-			vertex.add(vertexToInts(1, 1, 1.001F, fgColor, fgTex, 16, 0));
-			vertex.add(vertexToInts(0, 1, 1.001F, fgColor, fgTex, 0, 0));
-			vertex.add(vertexToInts(0, 0, 1.001F, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(0, 1, 1.001F, fgColor, fgTex, 0, 0));
+			fg = ArrayUtils.addAll(fg, vertexToInts(0, 0, 1.001F, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1, 0, 1.001F, fgColor, fgTex, 16, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1, 1, 1.001F, fgColor, fgTex, 16, 0));
 		}else if(face==EnumFacing.DOWN){
 			//BG color
-			vertex.add(vertexToInts(1, 0, 0, bgColor, bgTex, 16, 16));
-			vertex.add(vertexToInts(1, 0, 1, bgColor, bgTex, 16, 0));
-			vertex.add(vertexToInts(0, 0, 1, bgColor, bgTex, 0, 0));
-			vertex.add(vertexToInts(0, 0, 0, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 0, 1, bgColor, bgTex, 0, 0));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 0, 0, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 0, 0, bgColor, bgTex, 16, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 0, 1, bgColor, bgTex, 16, 0));
 			//fg
-			vertex.add(vertexToInts(1,-0.001F,0, fgColor, fgTex, 16, 16));
-			vertex.add(vertexToInts(1,-0.001F,1, fgColor, fgTex, 16, 0));
-			vertex.add(vertexToInts(0, -0.001F,1, fgColor, fgTex, 0, 0));
-			vertex.add(vertexToInts(0, -0.001F,0, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(0, -0.001F,1, fgColor, fgTex, 0, 0));
+			fg = ArrayUtils.addAll(fg, vertexToInts(0, -0.001F,0, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1,-0.001F,0, fgColor, fgTex, 16, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1,-0.001F,1, fgColor, fgTex, 16, 0));
 		}else if(face==EnumFacing.UP){
 			//BG color
-			vertex.add(vertexToInts(1, 1, 1, bgColor, bgTex, 16, 16));
-			vertex.add(vertexToInts(1, 1, 0, bgColor, bgTex, 16, 0));
-			vertex.add(vertexToInts(0, 1, 0, bgColor, bgTex, 0, 0));
-			vertex.add(vertexToInts(0, 1, 1, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 1, 0, bgColor, bgTex, 0, 0));
+			bg = ArrayUtils.addAll(bg, vertexToInts(0, 1, 1, bgColor, bgTex, 0, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 1, 1, bgColor, bgTex, 16, 16));
+			bg = ArrayUtils.addAll(bg, vertexToInts(1, 1, 0, bgColor, bgTex, 16, 0));
 			//fg
-			vertex.add(vertexToInts(1,1.001F,1, fgColor, fgTex, 16, 16));
-			vertex.add(vertexToInts(1,1.001F,0, fgColor, fgTex, 16, 0));
-			vertex.add(vertexToInts(0, 1.001F,0, fgColor, fgTex, 0, 0));
-			vertex.add(vertexToInts(0, 1.001F,1, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(0, 1.001F,0, fgColor, fgTex, 0, 0));
+			fg = ArrayUtils.addAll(fg, vertexToInts(0, 1.001F,1, fgColor, fgTex, 0, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1,1.001F,1, fgColor, fgTex, 16, 16));
+			fg = ArrayUtils.addAll(fg, vertexToInts(1,1.001F,0, fgColor, fgTex, 16, 0));
 		}else{
 			throw new IllegalArgumentException("Wrong EnumFacing: "+face);//is that even possible...
 		}
-		for(int[] i:vertex){
-			result.add(new BakedQuad(i, 0, face));
-		}
+		result.add(new BakedQuad(bg, -1, face));
+		//FIXME no alpha blending...
+		result.add(new BakedQuad(fg, -1, face));
 		return result;
-		//SBakedQuad quad1 = new BakedQuad(p_i46232_1_, p_i46232_2_, p_i46232_3_);
 		// TODO Auto-generated method stub
 	}
 
@@ -158,9 +176,10 @@ public class ModelDustStorage implements IBakedModel {
 		for(EnumFacing face : EnumFacing.VALUES){
 			res.addAll(getFaceQuads(face));
 		}
-		return res;
+		//return res;
 		// TODO Auto-generated method stub
-		//return Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getGeneralQuads();
+		List r = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getGeneralQuads();
+		return r;
 	}
 
 	/* (non-Javadoc)
@@ -169,6 +188,7 @@ public class ModelDustStorage implements IBakedModel {
 	@Override
 	public boolean isAmbientOcclusion() {
 		return true;
+		//return false;
 	}
 
 	/* (non-Javadoc)
