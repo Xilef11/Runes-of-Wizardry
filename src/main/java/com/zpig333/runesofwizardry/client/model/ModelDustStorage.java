@@ -24,6 +24,7 @@ import net.minecraft.util.EnumFacing;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import com.google.common.primitives.UnsignedInteger;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.client.TextureStitchEventHandler;
 import com.zpig333.runesofwizardry.core.References;
@@ -42,13 +43,16 @@ public class ModelDustStorage implements IBakedModel {
 	  public final ModelResourceLocation modelResourceLocation;
 
 	  public ModelDustStorage(IDustStorageBlock block, int meta) {
-		WizardryLogger.logInfo("Creating model for block: "+block.getName()+" "+meta);
 		this.block=block;
 		this.meta=meta;
 		this.modelResourceLocation = new ModelResourceLocation(getModelResourceLocationPath(block,meta));
 		this.bgColor = block.getIDust().getPrimaryColor(new ItemStack(block.getIDust(),1,meta));
 		this.fgColor = block.getIDust().getSecondaryColor(new ItemStack(block.getIDust(),1,meta));
-	}
+		WizardryLogger.logInfo("Created model for block: "+block.getName()+" "+meta+" bg: "+Integer.toHexString(bgColor)+" fg: "+Integer.toHexString(fgColor));
+		//debug - looks like the color must be big endian (rightmost msb)
+		//bgColor = 0xff0000;
+		//fgColor = 0x00ff00;
+	  }
 	public static String getModelResourceLocationPath(IDustStorageBlock block, int meta){
 		return References.texture_path+block.getName()+"_"+meta;
 	}
@@ -89,8 +93,6 @@ public class ModelDustStorage implements IBakedModel {
 		TextureAtlasSprite fgTex = TextureStitchEventHandler.getDustStorageFG();
 		//looks like a bakedquad is a full square, and we have to pass it all its vertices in the int array...
 		//also, tintindex should be -1
-		//FIXME no more crash, but rendering is broken again
-		//Feels like the ints are not in the right order...
 		if(face==EnumFacing.EAST){
 			//BG color
 			bg = ArrayUtils.addAll(bg, vertexToInts(1, 1, 1, bgColor, bgTex, 0, 0));
@@ -162,7 +164,8 @@ public class ModelDustStorage implements IBakedModel {
 		}
 		result.add(new BakedQuad(bg, -1, face));
 		//FIXME no alpha blending...
-		result.add(new BakedQuad(fg, -1, face));
+		BakedQuad fore = new BakedQuad(fg, -1, face);
+		//result.add(fore);
 		return result;
 		// TODO Auto-generated method stub
 	}
@@ -213,7 +216,9 @@ public class ModelDustStorage implements IBakedModel {
 	@Override
 	public TextureAtlasSprite getTexture() {
 		//TODO getTexture might need to get tweaked
-		return TextureStitchEventHandler.getDustStorageBG();
+		TextureAtlasSprite sprite =TextureStitchEventHandler.getDustStorageBG(); 
+		//sprite.
+		return sprite;
 	}
 
 	/* (non-Javadoc)
@@ -241,7 +246,11 @@ public class ModelDustStorage implements IBakedModel {
 	            Float.floatToRawIntBits(x),
 	            Float.floatToRawIntBits(y),
 	            Float.floatToRawIntBits(z),
-	            color,
+	            /* on a 0x00RRGGBB
+	             * on veut 0x00bbggrr
+	             * reverse donne 0xbbggrr00
+	             */
+	            (Integer.reverseBytes(color)>>8),
 	            Float.floatToRawIntBits(texture.getInterpolatedU(u)),
 	            Float.floatToRawIntBits(texture.getInterpolatedV(v)),
 	            0
