@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 /**
@@ -40,6 +41,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		this.disableStats();
 		//TODO make unbreakable in creative
 		this.setBlockUnbreakable();
+		this.setUnlocalizedName(References.modid+"_dust_placed");
 		GameRegistry.registerBlock(this, "dust_placed");
 	}
 

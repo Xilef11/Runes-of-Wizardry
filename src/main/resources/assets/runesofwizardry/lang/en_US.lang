@@ -35,6 +35,8 @@ tile.runesofwizardry_lavastone_bricks.name=Lavastone Bricks
 item.runesofwizardry_dust_dyed.name=Chalk Dust
 tile.runesofwizardry_dust_dye.name=Arcane Dye
 
+#placed dust, so NEI/WAILA show something useful
+tile.runesofwizardry_dust_placed.name=Runic Dust
 #misc words
 runesofwizardry.lang.color=Color
 runesofwizardry.lang.dye=Dye
