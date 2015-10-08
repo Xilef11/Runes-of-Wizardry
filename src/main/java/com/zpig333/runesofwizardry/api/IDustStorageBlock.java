@@ -12,6 +12,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -73,6 +74,17 @@ public abstract class IDustStorageBlock extends BlockFalling {
 	public int damageDropped(IBlockState state) {
 		return (Integer) state.getValue(PROPERTYMETA);
 	}
-	
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#getBlockLayer()
+	 */
+	@Override
+	public EnumWorldBlockLayer getBlockLayer() {
+		// TODO Auto-generated method stub
+		//CUTOUT causes the blocks to be invisible
+		//CUTOUT_MIPPED => same as cutout
+		//translucent => invisible
+		//SOLID => transparency is black
+		return EnumWorldBlockLayer.CUTOUT;
+	}
 	
 }

@@ -45,15 +45,18 @@ public class ModelDustStorage implements IBakedModel {
 	  public ModelDustStorage(IDustStorageBlock block, int meta) {
 		this.block=block;
 		this.meta=meta;
-		this.modelResourceLocation = new ModelResourceLocation(getModelResourceLocationPath(block,meta));
+		this.modelResourceLocation = getModelResourceLocation(block,meta);
 		this.bgColor = block.getIDust().getPrimaryColor(new ItemStack(block.getIDust(),1,meta));
 		this.fgColor = block.getIDust().getSecondaryColor(new ItemStack(block.getIDust(),1,meta));
 		WizardryLogger.logInfo("Created model for block: "+block.getName()+" "+meta+" bg: "+Integer.toHexString(bgColor)+" fg: "+Integer.toHexString(fgColor));
+		bgColor+=0xFF000000;//multiplies opacity by 100% when block is not in the solid layer
+		fgColor+=0xFF000000;
 		//debug - looks like the color must be big endian (rightmost msb)
 		//bgColor = 0xff0000;
 		//fgColor = 0x00ff00;
 	  }
 	public static String getModelResourceLocationPath(IDustStorageBlock block, int meta){
+		//maybe block.getIdust().getmodid instead of refs.texturepath?
 		return References.texture_path+block.getName()+"_"+meta;
 	}
 	public static ModelResourceLocation getModelResourceLocation(String path){
@@ -74,6 +77,7 @@ public class ModelDustStorage implements IBakedModel {
 	@Override
 	public List getFaceQuads(EnumFacing face) {
 		List r = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getFaceQuads(face);
+		
 		//XXX testing
 //		for(int i=0;i<4;i++){
 //			int [] quad0=((BakedQuad)r.get(0)).getVertexData();
@@ -91,6 +95,9 @@ public class ModelDustStorage implements IBakedModel {
 		//following line works, so problem is with texture... (also color is wrong and dosen't render in inventory)
 		//bgTex = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getTexture();
 		TextureAtlasSprite fgTex = TextureStitchEventHandler.getDustStorageFG();
+		//tall grass shows up as black too, so problem is not with registering texture
+		//also, tall grass is shown on block in inventory, but the bg is still gray
+		//fgTex=Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.tallgrass.getDefaultState()).getTexture();
 		//looks like a bakedquad is a full square, and we have to pass it all its vertices in the int array...
 		//also, tintindex should be -1
 		if(face==EnumFacing.EAST){
@@ -165,7 +172,7 @@ public class ModelDustStorage implements IBakedModel {
 		result.add(new BakedQuad(bg, -1, face));
 		//FIXME no alpha blending...
 		BakedQuad fore = new BakedQuad(fg, -1, face);
-		//result.add(fore);
+		result.add(fore);
 		return result;
 		// TODO Auto-generated method stub
 	}
@@ -250,7 +257,7 @@ public class ModelDustStorage implements IBakedModel {
 	             * on veut 0x00bbggrr
 	             * reverse donne 0xbbggrr00
 	             */
-	            (Integer.reverseBytes(color)>>8),
+	            Integer.rotateRight(Integer.reverseBytes(color),8),
 	            Float.floatToRawIntBits(texture.getInterpolatedU(u)),
 	            Float.floatToRawIntBits(texture.getInterpolatedV(v)),
 	            0
