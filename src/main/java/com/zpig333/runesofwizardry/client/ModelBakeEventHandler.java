@@ -3,10 +3,12 @@
  *  
  *  this file was created by Xilef11 on 2015-09-06
  */
-package com.zpig333.runesofwizardry.client.model;
+package com.zpig333.runesofwizardry.client;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+import com.zpig333.runesofwizardry.client.model.ModelDustStorage;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -23,18 +25,18 @@ public class ModelBakeEventHandler {
 	
 	@SubscribeEvent
 	public void onModelBake(ModelBakeEvent event){
+		WizardryLogger.logInfo("Registering models on ModelBakeEvent");
 		// Find the existing mapping for the block - it will have been added automatically because
 	    //  we registered a custom BlockStateMapper for it (using ModelLoader.setCustomStateMapper)
 	    // Replace the mapping with our ISmartBlockModel.
 		for(IDustStorageBlock block: DustRegistry.getAllBlocks()){
+			WizardryLogger.logInfo("ModelBake: processing "+block.getName());
 			for(int meta : block.getIDust().getMetaValues()){
-				ModelResourceLocation location = new ModelResourceLocation(ModelDustStorage.getModelResourceLocationPath(block, meta));
-				Object object =  event.modelRegistry.getObject(location);
-				if (object instanceof IBakedModel) {
-					IBakedModel existingModel = (IBakedModel)object;
-					ModelDustStorage customModel = new ModelDustStorage(block, meta);
-					event.modelRegistry.putObject(location, customModel);
-				}
+				WizardryLogger.logInfo("meta is "+meta);
+				ModelResourceLocation location = ModelDustStorage.getModelResourceLocation(block, meta);
+				ModelDustStorage customModel = new ModelDustStorage(block, meta);
+				event.modelRegistry.putObject(location, customModel);
+				
 			}
 		}
 	}

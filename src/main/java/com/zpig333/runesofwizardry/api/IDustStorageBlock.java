@@ -12,6 +12,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -36,7 +37,6 @@ public abstract class IDustStorageBlock extends BlockFalling {
 	public String getName(){
 		return getIDust().getName() + "_storage";
 	}
-	//TODO custom block textures in 1.8
 	//this block has 1 property: the meta value
 	public static final PropertyInteger PROPERTYMETA = PropertyInteger.create("meta",0,15);
 	@Override
@@ -73,6 +73,12 @@ public abstract class IDustStorageBlock extends BlockFalling {
 	public int damageDropped(IBlockState state) {
 		return (Integer) state.getValue(PROPERTYMETA);
 	}
-	
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#getBlockLayer()
+	 */
+	@Override
+	public EnumWorldBlockLayer getBlockLayer() {
+		return EnumWorldBlockLayer.CUTOUT;
+	}
 	
 }

@@ -23,7 +23,6 @@ public class NEIConfig implements IConfigureNEI {
 	 */
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return References.modid+"NEI_integration";
 	}
 
@@ -32,7 +31,6 @@ public class NEIConfig implements IConfigureNEI {
 	 */
 	@Override
 	public String getVersion() {
-		// TODO Auto-generated method stub
 		return "1.0";
 	}
 
