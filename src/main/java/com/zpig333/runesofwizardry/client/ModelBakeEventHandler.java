@@ -30,9 +30,9 @@ public class ModelBakeEventHandler {
 	    //  we registered a custom BlockStateMapper for it (using ModelLoader.setCustomStateMapper)
 	    // Replace the mapping with our ISmartBlockModel.
 		for(IDustStorageBlock block: DustRegistry.getAllBlocks()){
-			WizardryLogger.logInfo("ModelBake: processing "+block.getName());//XXX this happens
+			WizardryLogger.logInfo("ModelBake: processing "+block.getName());
 			for(int meta : block.getIDust().getMetaValues()){
-				WizardryLogger.logInfo("meta is "+meta);//XXX this happens
+				WizardryLogger.logInfo("meta is "+meta);
 				ModelResourceLocation location = ModelDustStorage.getModelResourceLocation(block, meta);
 				ModelDustStorage customModel = new ModelDustStorage(block, meta);
 				event.modelRegistry.putObject(location, customModel);

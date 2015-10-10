@@ -5,6 +5,7 @@
  */
 package com.zpig333.runesofwizardry.client.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,9 +53,6 @@ public class ModelDustStorage implements IBakedModel {
 		WizardryLogger.logInfo("Created model for block: "+block.getName()+" "+meta+" bg: "+Integer.toHexString(bgColor)+" fg: "+Integer.toHexString(fgColor));
 		bgColor+=0xFF000000;//multiplies opacity by 100% when block is not in the solid layer
 		fgColor+=0xFF000000;
-		//debug - looks like the color must be big endian (rightmost msb)
-		//bgColor = 0xff0000;
-		//fgColor = 0x00ff00;
 	  }
 	public static String getModelResourceLocationPath(IDustStorageBlock block, int meta){
 		//maybe block.getIdust().getmodid instead of refs.texturepath?
@@ -77,29 +75,13 @@ public class ModelDustStorage implements IBakedModel {
 	 */
 	@Override
 	public List getFaceQuads(EnumFacing face) {
-		List r = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getFaceQuads(face);
-		
-		//XXX testing
-//		for(int i=0;i<4;i++){
-//			int [] quad0=((BakedQuad)r.get(0)).getVertexData();
-//			float x = Float.intBitsToFloat(quad0[i*7]);
-//			float y = Float.intBitsToFloat(quad0[1+i*7]);
-//			float z = Float.intBitsToFloat(quad0[2+i*7]);
-//			int color = quad0[3+i*7];
-//			int lastvalue = quad0[6+i*7];
-//			System.out.println("Dirt has vertex "+i+" on face "+face+" being "+x+" "+y+" "+z+" color: "+color+" last: "+lastvalue);
-//		}
+		//could probably be optimised
 		List<BakedQuad> result = new LinkedList<BakedQuad>();
 		int[] bg =null;
 		int[] fg = null;
 		TextureAtlasSprite bgTex = TextureStitchEventHandler.getDustStorageBG();
-		//following line works, so problem is with texture... (also color is wrong and dosen't render in inventory)
-		//bgTex = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getTexture();
 		TextureAtlasSprite fgTex = TextureStitchEventHandler.getDustStorageFG();
-		//tall grass shows up as black too, so problem is not with registering texture
-		//also, tall grass is shown on block in inventory, but the bg is still gray
-		//fgTex=Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.tallgrass.getDefaultState()).getTexture();
-		//looks like a bakedquad is a full square, and we have to pass it all its vertices in the int array...
+		//a bakedquad is a full square, and we have to pass it all its vertices in the int array...
 		//also, tintindex should be -1
 		if(face==EnumFacing.EAST){
 			//BG color
@@ -170,30 +152,23 @@ public class ModelDustStorage implements IBakedModel {
 		}else{
 			throw new IllegalArgumentException("Wrong EnumFacing: "+face);//is that even possible...
 		}
-		//result.add(new BakedQuad(bg, -1, face));
-		ColoredBakedQuad back = new ColoredBakedQuad(bg, -1, face);
-		result.add(back);
-		//FIXME no alpha blending...
-		//BakedQuad fore = new BakedQuad(fg, -1, face);
-		ColoredBakedQuad fore = new ColoredBakedQuad(fg, -1, face);
-		result.add(fore);
+		result.add( new ColoredBakedQuad(bg, -1, face));
+		result.add( new ColoredBakedQuad(fg, -1, face));
 		return result;
-		// TODO Auto-generated method stub
 	}
-
+	private static ArrayList dummy=new ArrayList(0);
 	/* (non-Javadoc)
 	 * @see net.minecraft.client.resources.model.IBakedModel#getGeneralQuads()
 	 */
 	@Override
 	public List getGeneralQuads() {
-		List<BakedQuad> res = new LinkedList<BakedQuad>();
-		for(EnumFacing face : EnumFacing.VALUES){
-			res.addAll(getFaceQuads(face));
-		}
+//		List<BakedQuad> res = new LinkedList<BakedQuad>();
+//		for(EnumFacing face : EnumFacing.VALUES){
+//			res.addAll(getFaceQuads(face));
+//		}
 		//return res;
-		// TODO Auto-generated method stub
-		List r = Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.dirt.getDefaultState()).getGeneralQuads();
-		return r;
+		//dirt returns an empty list
+		return dummy;//called over and over, so return a static empty list is probably best
 	}
 
 	/* (non-Javadoc)
@@ -201,8 +176,7 @@ public class ModelDustStorage implements IBakedModel {
 	 */
 	@Override
 	public boolean isAmbientOcclusion() {
-		return true;
-		//return false;
+		return true; //same as dirt
 	}
 
 	/* (non-Javadoc)
@@ -226,7 +200,8 @@ public class ModelDustStorage implements IBakedModel {
 	 */
 	@Override
 	public TextureAtlasSprite getTexture() {
-		//TODO getTexture might need to get tweaked
+		//XXX getTexture might need to get tweaked, but we'll leave it as grey for now
+		//mostly affects breaking animation
 		TextureAtlasSprite sprite =TextureStitchEventHandler.getDustStorageBG(); 
 		//sprite.
 		return sprite;

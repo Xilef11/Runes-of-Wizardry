@@ -37,7 +37,6 @@ public abstract class IDustStorageBlock extends BlockFalling {
 	public String getName(){
 		return getIDust().getName() + "_storage";
 	}
-	//TODO custom block textures in 1.8
 	//this block has 1 property: the meta value
 	public static final PropertyInteger PROPERTYMETA = PropertyInteger.create("meta",0,15);
 	@Override
@@ -79,11 +78,6 @@ public abstract class IDustStorageBlock extends BlockFalling {
 	 */
 	@Override
 	public EnumWorldBlockLayer getBlockLayer() {
-		// TODO Auto-generated method stub
-		//CUTOUT causes the blocks to be invisible
-		//CUTOUT_MIPPED => same as cutout
-		//translucent => invisible
-		//SOLID => transparency is black
 		return EnumWorldBlockLayer.CUTOUT;
 	}
 	

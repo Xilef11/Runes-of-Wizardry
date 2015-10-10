@@ -41,7 +41,7 @@ public class ClientProxy extends CommonProxy{
 		// For the camouflage block, we ignore the iBlockState completely and always return the same ModelResourceLocation,
 		//   which is done using the anonymous class below
 		for(final IDustStorageBlock block : DustRegistry.getAllBlocks()){
-			WizardryLogger.logInfo("Creating StateMapper for "+block.getName());//XXX This happens
+			WizardryLogger.logInfo("Creating StateMapper for "+block.getName());
 			StateMapperBase mapper = new StateMapperBase() {
 				@Override
 				protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
