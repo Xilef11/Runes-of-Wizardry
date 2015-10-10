@@ -21,6 +21,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.client.model.IColoredBakedQuad.ColoredBakedQuad;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -169,9 +170,12 @@ public class ModelDustStorage implements IBakedModel {
 		}else{
 			throw new IllegalArgumentException("Wrong EnumFacing: "+face);//is that even possible...
 		}
-		result.add(new BakedQuad(bg, -1, face));
+		//result.add(new BakedQuad(bg, -1, face));
+		ColoredBakedQuad back = new ColoredBakedQuad(bg, -1, face);
+		result.add(back);
 		//FIXME no alpha blending...
-		BakedQuad fore = new BakedQuad(fg, -1, face);
+		//BakedQuad fore = new BakedQuad(fg, -1, face);
+		ColoredBakedQuad fore = new ColoredBakedQuad(fg, -1, face);
 		result.add(fore);
 		return result;
 		// TODO Auto-generated method stub
