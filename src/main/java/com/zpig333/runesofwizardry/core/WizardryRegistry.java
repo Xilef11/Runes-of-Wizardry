@@ -218,6 +218,8 @@ public class WizardryRegistry {
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(lavastone_bricks), 0, new ModelResourceLocation(References.texture_path + ((BlockLavastone_bricks) lavastone_bricks).getName(), "inventory"));
 		//Dust Dye
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.texture_path+((BlockDustDye)dust_dye).getName(),"inventory"));
+		//placed dust. for NEI/WAILA purposes
+		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_placed), 0, new ModelResourceLocation(References.texture_path+"dust_placed","inventory"));
 	}
 	
 	//registers the recipes for all dusts

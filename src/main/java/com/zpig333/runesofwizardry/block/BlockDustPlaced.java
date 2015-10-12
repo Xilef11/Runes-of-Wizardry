@@ -42,6 +42,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		//TODO make unbreakable in creative
 		this.setBlockUnbreakable();
 		this.setUnlocalizedName(References.modid+"_dust_placed");
+		//Could also register with null ItemBlock instead of hiding it in NEI
 		GameRegistry.registerBlock(this, "dust_placed");
 	}
 

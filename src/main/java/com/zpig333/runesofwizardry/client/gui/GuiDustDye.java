@@ -164,7 +164,7 @@ public class GuiDustDye extends GuiContainer {
 	private void chooseColor(int mouseX, int mouseY, int clickedButton) {
 		//Note: we could also make custom buttons which would be easier to maintain if MC changes the color order / value
 		if(mouseX<11 || mouseX>66 || mouseY<17 || mouseY>69)return;//make sure we are in the color grid
-		final int width=55,height=51;
+		final int width=59,height=56;
 		int mX = mouseX-9, mY = mouseY - 15;
 		int col = mX/(width/4);
 		int row = mY/(height/4);
