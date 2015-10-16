@@ -16,7 +16,7 @@ buildscript {
 }
 
 apply plugin: 'forge'
-version = "1.8-0.2"
+version = "1.8-0.3"
 group= "com.zpig333.runesofwizardry"
 archivesBaseName = project.name
 
