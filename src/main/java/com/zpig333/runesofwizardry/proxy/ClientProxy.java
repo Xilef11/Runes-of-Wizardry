@@ -1,5 +1,7 @@
 package com.zpig333.runesofwizardry.proxy;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
@@ -11,6 +13,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.client.ModelBakeEventHandler;
 import com.zpig333.runesofwizardry.client.TextureStitchEventHandler;
@@ -46,6 +49,7 @@ public class ClientProxy extends CommonProxy{
 				@Override
 				protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
 					int meta = (Integer) iBlockState.getValue(IDustStorageBlock.PROPERTYMETA);
+					//TODO: avoid getting ModelResourceLocations for unused meta values (returning null dosen't work)
 					return ModelDustStorage.getModelResourceLocation(block, meta);
 				}
 			};
@@ -71,10 +75,10 @@ public class ClientProxy extends CommonProxy{
 	    //   of any extra items you have created.  Hence you have to do it manually.  This will probably change in future.
 	    // It must be done in the init phase, not preinit, and must be done on client only.
 		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
-			WizardryLogger.logInfo("Processing item: "+b.getName());
+			WizardryLogger.logDebug("Processing item: "+b.getName());
 			Item itemBlockDustStorage = GameRegistry.findItem(References.modid, b.getName());
 			for(int meta: b.getIDust().getMetaValues()){
-				WizardryLogger.logInfo("meta: "+meta);
+				WizardryLogger.logDebug("meta: "+meta);
 				//ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(ModelDustStorage.getModelResourceLocationPath(b, meta), "inventory");
 				ModelResourceLocation itemModelResourceLocation = ModelDustStorage.getModelResourceLocation(b, meta);				
 				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlockDustStorage, meta, itemModelResourceLocation);
