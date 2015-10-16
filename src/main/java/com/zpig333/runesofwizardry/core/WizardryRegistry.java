@@ -221,43 +221,18 @@ public class WizardryRegistry {
 		//placed dust. for NEI/WAILA purposes
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_placed), 0, new ModelResourceLocation(References.texture_path+"dust_placed","inventory"));
 	}
-	
 	//registers the recipes for all dusts
 	public static void registerDustInfusion() {
 		for(IDust dust:DustRegistry.getAllDusts()){
 			for(int meta:dust.getMetaValues()){
 				ItemStack[] recipe = dust.getInfusionItems(new ItemStack(dust, 1, meta));
-				if(recipe!=null){
-					//Shapeless recipes don't handle multiple intems as parameters. following is a crappy workaround
-					int numItems = getTotalItems(recipe);
-					if(numItems<8){
-						ItemStack[] inertDusts = new ItemStack[8-getTotalItems(recipe)];
-						for(int i=0;i<inertDusts.length;i++){
-							inertDusts[i]=new ItemStack(RWDusts.dust_inert);
-						}
-						ItemStack[] newStack = new ItemStack[recipe.length+inertDusts.length];
-						for(int i=0;i<recipe.length;i++){
-							newStack[i]=recipe[i];
-						}
-						for(int i=0;i<inertDusts.length;i++){
-							newStack[i+recipe.length]=inertDusts[i];
-						}
-						recipe=newStack;
-					}
-					DustRegistry.registerBlockInfusion(recipe, new ItemStack(RWDusts.dust_inert), new ItemStack(dust,9,meta));
-					
+				if(recipe!=null && DustRegistry.getDefaultBlock(dust)!=null){
+					ItemStack output = new ItemStack(DustRegistry.getDefaultBlock(dust),1,meta);
+					ItemStack input = new ItemStack(DustRegistry.getDefaultBlock(RWDusts.dust_inert));
+					DustRegistry.registerBlockInfusion(recipe,input, output);
 				}
 			}
 		}
-		
-	}
-	//XXX temp
-	private static int getTotalItems(ItemStack[] recipe){
-		int sum =0;
-		for(ItemStack i:recipe){
-			sum+=i.stackSize;
-		}
-		return sum;
 	}
 
 }
