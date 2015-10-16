@@ -16,12 +16,12 @@ public class DustPlant extends IDust {
 
 	@Override
 	public int getPrimaryColor(ItemStack stack) {
-		return 0x068F08;
+		return 0x188615;
 	}
 
 	@Override
 	public int getSecondaryColor(ItemStack stack) {
-		return 0x045C05;
+		return 0x504C00;
 	}
 
 

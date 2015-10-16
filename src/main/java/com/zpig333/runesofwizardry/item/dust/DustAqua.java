@@ -16,12 +16,12 @@ public class DustAqua extends IDust {
 	}
 	@Override
 	public int getPrimaryColor(ItemStack stack) {
-		return 0x32A3FF;
+		return 0x1752FD;
 	}
 
 	@Override
 	public int getSecondaryColor(ItemStack stack) {
-		return 0x96D1FF;
+		return 0x00B5E8;
 	}
 
 	@Override

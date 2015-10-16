@@ -16,12 +16,12 @@ public class DustGlowstone extends IDust {
 
 	@Override
 	public int getPrimaryColor(ItemStack stack) {
-		return 0xD2D200;
+		return 0xB3B919;
 	}
 
 	@Override
 	public int getSecondaryColor(ItemStack stack) {
-		return 0x868600;
+		return 0xEBEE00;
 	}
 
 	@Override
