@@ -10,7 +10,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import org.apache.logging.log4j.Level;
 import org.lwjgl.input.Keyboard;

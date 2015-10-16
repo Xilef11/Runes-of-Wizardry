@@ -11,22 +11,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javafx.scene.shape.VertexFormat;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.FaceBakery;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.model.IColoredBakedQuad.ColoredBakedQuad;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import com.google.common.primitives.UnsignedInteger;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.client.TextureStitchEventHandler;
 import com.zpig333.runesofwizardry.core.References;

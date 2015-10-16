@@ -1,6 +1,5 @@
 package com.zpig333.runesofwizardry.item.dust;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;

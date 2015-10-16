@@ -1,7 +1,5 @@
 package com.zpig333.runesofwizardry.proxy;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
@@ -13,7 +11,6 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.client.ModelBakeEventHandler;
 import com.zpig333.runesofwizardry.client.TextureStitchEventHandler;
@@ -66,6 +63,7 @@ public class ClientProxy extends CommonProxy{
 		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHandler());
 	}
 	
+	@Override
 	public void registerDustStorageItemRendering() {
 		WizardryLogger.logInfo("Registering dust storage item rendering");
 		// This is currently necessary in order to make your block render properly when it is an item (i.e. in the inventory

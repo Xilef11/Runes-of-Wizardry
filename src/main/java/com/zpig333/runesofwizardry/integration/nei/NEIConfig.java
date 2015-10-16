@@ -5,12 +5,12 @@
  */
 package com.zpig333.runesofwizardry.integration.nei;
 
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-
 import net.minecraft.item.ItemStack;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 /**
  * @author Xilef11
