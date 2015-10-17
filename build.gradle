@@ -37,7 +37,12 @@ minecraft {
 
 }
 
-
+repositories{
+	maven {
+				name = 'CodeChicken'
+				url = 'http://chickenbones.net/maven/'
+			}
+}
 dependencies {
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
@@ -51,7 +56,13 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+	//classpath 'codechicken:CodeChickenCore:1.8-1.0.5.34:dev'
+	//classpath 'codechicken:CodeChickenLib:1.8-1.1.2.115:dev'
+	//classpath 'codechicken:NotEnoughItems:1.8-1.0.5.82:dev'
+		
+	compile 'codechicken:CodeChickenCore:1.8-1.0.5.34:dev'
+	compile 'codechicken:CodeChickenLib:1.8-1.1.2.115:dev'
+	compile 'codechicken:NotEnoughItems:1.8-1.0.5.82:dev'
 }
 
 	tasks.withType(JavaCompile) {

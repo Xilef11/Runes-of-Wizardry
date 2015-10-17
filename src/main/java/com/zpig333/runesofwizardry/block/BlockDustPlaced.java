@@ -134,7 +134,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 					}
 				}
 			}
-			worldIn.notifyBlockOfStateChange(pos, state.getBlock());
+			worldIn.notifyNeighborsOfStateChange(pos, state.getBlock());
 		}
 
 		super.breakBlock(worldIn, pos, state);
@@ -240,17 +240,10 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	 */
 	@Override
 	public void onNeighborBlockChange(World worldIn, BlockPos pos,IBlockState state, Block neighborBlock) {
-		super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
-		/*
-		//XXX this dosen't work very well...
-		//tell or TE to update its external connectors
-		TileEntity te = worldIn.getTileEntity(pos);
-		if(te==null || !(te instanceof TileEntityDustPlaced))return;//stuff is wrong
-		TileEntityDustPlaced ted = (TileEntityDustPlaced) te;
-		//WizardryLogger.logInfo("Updating external connectors of block at "+pos);
-		ted.updateExternalConnectors();//this runs properly, but rendering is not updated... (probably runs BEFORE setting the slot contents...)
-		ted.markDirty();
-		 */
+		if(worldIn.isAirBlock(pos.down())){
+			this.breakBlock(worldIn, pos, state);
+			worldIn.setBlockToAir(pos);
+		}
 	}
 
 
