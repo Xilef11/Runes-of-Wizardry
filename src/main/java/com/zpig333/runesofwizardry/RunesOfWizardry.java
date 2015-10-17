@@ -2,6 +2,7 @@ package com.zpig333.runesofwizardry;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -13,6 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.event.BlockEventHandler;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
@@ -37,6 +39,8 @@ public class RunesOfWizardry {
 		WizardryRegistry.initItems();
 		WizardryRegistry.initDusts();
 		proxy.registerDustStorageRendering();
+		//to set the placed dust block as unbreakable
+		MinecraftForge.EVENT_BUS.register(new BlockEventHandler());
 	}
 
 	@Mod.EventHandler

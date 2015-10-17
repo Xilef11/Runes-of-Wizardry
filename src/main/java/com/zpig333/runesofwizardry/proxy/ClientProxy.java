@@ -12,8 +12,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
-import com.zpig333.runesofwizardry.client.ModelBakeEventHandler;
-import com.zpig333.runesofwizardry.client.TextureStitchEventHandler;
+import com.zpig333.runesofwizardry.client.event.ModelBakeEventHandler;
+import com.zpig333.runesofwizardry.client.event.TextureStitchEventHandler;
 import com.zpig333.runesofwizardry.client.model.ModelDustStorage;
 import com.zpig333.runesofwizardry.client.render.RenderDustPlaced;
 import com.zpig333.runesofwizardry.core.References;

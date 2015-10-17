@@ -3,7 +3,7 @@
  *  
  *  this file was created by Xilef11 on 2015-09-06
  */
-package com.zpig333.runesofwizardry.client;
+package com.zpig333.runesofwizardry.client.event;
 
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.client.event.ModelBakeEvent;

@@ -37,9 +37,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		super(Material.circuits);
 		this.setStepSound(Block.soundTypeSand);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
-		this.setHardness(0.2F);
 		this.disableStats();
-		//TODO make unbreakable in creative
 		this.setBlockUnbreakable();
 		this.setUnlocalizedName(References.modid+"_dust_placed");
 		//Could also register with null ItemBlock instead of hiding it in NEI

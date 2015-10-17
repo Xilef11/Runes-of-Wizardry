@@ -1,4 +1,4 @@
-package com.zpig333.runesofwizardry.client;
+package com.zpig333.runesofwizardry.client.event;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
