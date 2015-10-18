@@ -50,8 +50,7 @@ public class ModelDustStorage implements IBakedModel {
 		fgColor+=0xFF000000;
 	  }
 	public static String getModelResourceLocationPath(IDustStorageBlock block, int meta){
-		//maybe block.getIdust().getmodid instead of refs.texturepath?
-		return References.texture_path+block.getName()+"_"+meta;
+		return block.getIDust().getmodid()+":"+block.getName()+"_"+meta;
 	}
 	public static ModelResourceLocation getModelResourceLocation(String path){
 		ModelResourceLocation current = resourceMap.get(path);
