@@ -7,13 +7,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -33,6 +30,8 @@ import com.zpig333.runesofwizardry.item.dust.DustDyed;
 import com.zpig333.runesofwizardry.item.dust.RWDusts;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class WizardryRegistry {
 

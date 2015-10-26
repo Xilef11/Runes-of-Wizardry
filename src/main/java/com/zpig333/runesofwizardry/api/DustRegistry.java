@@ -8,12 +8,12 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {

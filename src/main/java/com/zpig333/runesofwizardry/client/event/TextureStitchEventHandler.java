@@ -3,10 +3,11 @@ package com.zpig333.runesofwizardry.client.event;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class TextureStitchEventHandler {
 	private static TextureAtlasSprite dust_storage_bg, dust_storage_fg;

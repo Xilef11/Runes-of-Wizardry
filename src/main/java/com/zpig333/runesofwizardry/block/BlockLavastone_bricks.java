@@ -2,10 +2,11 @@ package com.zpig333.runesofwizardry.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BlockLavastone_bricks extends Block{
 	private final String name="lavastone_bricks";

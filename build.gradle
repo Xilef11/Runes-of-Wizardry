@@ -16,21 +16,21 @@ buildscript {
 }
 
 apply plugin: 'forge'
-version = "1.8-0.3"
+version = "1.7.10-0.3-backport"
 group= "com.zpig333.runesofwizardry"
 archivesBaseName = project.name
 
 minecraft {
-    version = "1.8-11.14.3.1450"
+    version = "1.7.10-10.13.4.1448-1.7.10"
 
-    runDir = "minecraft"
+    runDir = "minecraft-1.7.10"
 	
 	// the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20141130"
+    //mappings = "snapshot_20141130"
 	
 	replaceIn "RunesOfWizardry.java"
 	replace "@MOD_VERSION@", project.version
@@ -60,9 +60,9 @@ dependencies {
 	//classpath 'codechicken:CodeChickenLib:1.8-1.1.2.115:dev'
 	//classpath 'codechicken:NotEnoughItems:1.8-1.0.5.82:dev'
 		
-	compile 'codechicken:CodeChickenCore:1.8-1.0.5.34:dev'
-	compile 'codechicken:CodeChickenLib:1.8-1.1.2.115:dev'
-	compile 'codechicken:NotEnoughItems:1.8-1.0.5.82:dev'
+	compile 'codechicken:CodeChickenCore:1.7.10-1.0.4.29:dev'
+	//compile 'codechicken:CodeChickenLib:1.8-1.1.2.115:dev'
+	compile 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
 }
 
 	tasks.withType(JavaCompile) {

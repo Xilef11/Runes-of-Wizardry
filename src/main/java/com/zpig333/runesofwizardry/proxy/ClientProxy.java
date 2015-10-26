@@ -1,14 +1,8 @@
 package com.zpig333.runesofwizardry.proxy;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
@@ -19,6 +13,9 @@ import com.zpig333.runesofwizardry.client.render.RenderDustPlaced;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
+
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ClientProxy extends CommonProxy{
 

@@ -7,11 +7,10 @@ package com.zpig333.runesofwizardry.event;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * @author Xilef11

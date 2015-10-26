@@ -1,8 +1,8 @@
 package com.zpig333.runesofwizardry.core;
 
-import net.minecraftforge.fml.common.FMLLog;
-
 import org.apache.logging.log4j.Level;
+
+import cpw.mods.fml.common.FMLLog;
 
 public class WizardryLogger {
 

@@ -6,10 +6,11 @@
 package com.zpig333.runesofwizardry.item;
 
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 
 /** Class for all (simple) Items from this mod
  * @author Xilef11
