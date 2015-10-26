@@ -116,18 +116,6 @@ public class DustRegistry {
 	public static ItemStack getDustFromRecipe(ItemStack[] recipe){
 		return recipes.get(recipe);
 	}
-	/** Find if a given Block is placed Dust
-	 * @param blockState the block to check
-	 * @return {@code true} if the argument is placed dust
-	 **/
-	public static boolean isDust(IBlockState blockState){
-		if(blockState.getBlock() == WizardryRegistry.dust_placed){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
 
 }
 

@@ -54,7 +54,7 @@ public class GuiDustDye extends GuiContainer {
 	@Override
 	public void initGui(){
 		super.initGui();
-		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeRequestUpdatePacket(PARENT.getPos()));
+		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeRequestUpdatePacket(PARENT.xCoord,PARENT.yCoord,PARENT.zCoord));
 		Keyboard.enableRepeatEvents(true);
 		//posX, posY defines the top left pixel of the gui display
 		int posX = (this.width - textureX) /2;
@@ -64,7 +64,7 @@ public class GuiDustDye extends GuiContainer {
 		//GuiTextField(int id, FontRenderer font, int xPos, int yPos, int width, int height)
 		//id is useless apparently
 		//here, 0,0 is the top left of the texture...
-		textColor = new GuiTextField(0, this.fontRendererObj, 105, 14, 45, 12);
+		textColor = new GuiTextField(this.fontRendererObj, 105, 14, 45, 12);
 		textColor.setMaxStringLength(6);
 		textColor.setEnableBackgroundDrawing(false);
 		textColor.setVisible(true);
@@ -107,10 +107,9 @@ public class GuiDustDye extends GuiContainer {
 	 * 
 	 * @param par1
 	 * @param par2 
-	 * @throws IOException 
 	 */
 	@Override
-	protected void keyTyped(char par1, int par2) throws IOException{
+	protected void keyTyped(char par1, int par2){
 		if(textColor.textboxKeyTyped(par1, par2)){//if we are in the text box
 			updateColor();
 		}else{
@@ -123,7 +122,7 @@ public class GuiDustDye extends GuiContainer {
 	private void updateColor(){
 		colorString = textColor.getText();
 		PARENT.setColor(colorString);
-		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeTextPacket(colorString, PARENT.getPos()));
+		RunesOfWizardry.networkWrapper.sendToServer(new DustDyeTextPacket(colorString, PARENT.xCoord, PARENT.yCoord,PARENT.zCoord));
 		try{
 			//parsing in hexadecimal allows for a more natural, html-style color input
 			//that is, 2 (hex) digits per color (RGB)
@@ -152,11 +151,7 @@ public class GuiDustDye extends GuiContainer {
 		//colors
 		chooseColor(mouseX-posX,mouseY-posY,clickedButton);
 		
-		try {
-			super.mouseClicked(mouseX, mouseY, clickedButton);
-		} catch (IOException e) {
-			WizardryLogger.logException(Level.ERROR, e, "Mouse Click IO Error in GuiDustDye");
-		}
+		super.mouseClicked(mouseX, mouseY, clickedButton);
 	}
 	//use the color squares on the GUI to set the color
 	private void chooseColor(int mouseX, int mouseY, int clickedButton) {
@@ -171,43 +166,28 @@ public class GuiDustDye extends GuiContainer {
 		if(row==4)row=3;
 		WizardryLogger.logInfo("Selected a color, col: "+col+" row: "+row);
 		int color=0;
-//		final int white=0xffffff,
-//				orange=0xd87f33,
-//				magenta=0xb24cd8,
-//				light_blue=0x6699d8,
-//				yellow=0xe5e533,
-//				lime=0x7fcc19,
-//				pink=0xf27fa5,
-//				gray=0x4c4c4c,
-//				silver=0x999999,
-//				cyan=0x4c7f99,
-//				purple=0x7f3fb2,
-//				blue=0x334cb2,
-//				brown=0x664c33,
-//				green=0x667f33,
-//				red=0x993333,
-//				black=0x191919;
-		EnumDyeColor[] colors = EnumDyeColor.values();
+		final int[] colors={
+				0xffffff,//white
+				0xd87f33,//orange
+				0xb24cd8,//magenta
+				0x6699d8,//light blue
+				0xe5e533,//yellow
+				0x7fcc19,//lime
+				0xf27fa5,//pink
+				0x4c4c4c,//gray
+				0x999999,//silver
+				0x4c7f99,//cyan
+				0x7f3fb2,//purple
+				0x334cb2,//blue
+				0x664c33,//brown
+				0x667f33,//green
+				0x993333,//red
+				0x191919//black
+		};
 		int id = row*4 + col;
-		color=colors[id].getMapColor().colorValue;
+		color=colors[id];
 		//color+=0x050505; //Colors are off compared to wool colors FSR
-		/*
-		if(row==0){
-			switch(col){
-				case 0: color=white; break;
-				case 1: color=orange;break;
-				case 2: color=
-			}
-		}else if(row==1){
-			
-		}else if(row==2){
-			
-		}else if(row==3){
-			
-		}else{
-			WizardryLogger.logError("Wrong row number in GuiDustDye#chooseColor");
-		}
-		*/
+		
 		textColor.setText(Integer.toHexString(color));
 		updateColor();
 		
@@ -254,7 +234,7 @@ public class GuiDustDye extends GuiContainer {
 		switch(button.id){
 		case GUI_DYE_BUTTON: 
 			//send the selected colour to the server
-			RunesOfWizardry.networkWrapper.sendToServer(new DustDyeButtonPacket(colorInt,PARENT.getPos()));
+			RunesOfWizardry.networkWrapper.sendToServer(new DustDyeButtonPacket(colorInt,PARENT.xCoord, PARENT.yCoord,PARENT.zCoord));
 			break;
 		default: WizardryLogger.logDebug("Button clicked "+button.displayString+" "+button.id);
 		}

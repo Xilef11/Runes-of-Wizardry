@@ -33,7 +33,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 	 */ 
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double relativeX,
-			double relativeY, double relativeZ, float partialTicks, int blockDamageProgress) {
+			double relativeY, double relativeZ, float partialTicks) {
 
 		if (!(tileEntity instanceof TileEntityDustPlaced)) return;//should not happen
 		TileEntityDustPlaced teDust = (TileEntityDustPlaced)tileEntity;
@@ -43,11 +43,10 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 			GL11.glPushMatrix();
 			GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 
-			//move the reference point from the player to the position of the block
-			GlStateManager.translate(relativeX, relativeY, relativeZ);
 			//grab the tesselator
-			Tessellator tesselator = Tessellator.getInstance();
-			WorldRenderer worldrenderer = tesselator.getWorldRenderer();
+			Tessellator tesselator = Tessellator.instance;
+			//move the reference point from the player to the position of the block
+			tesselator.addTranslation((float)relativeX,(float) relativeY, (float)relativeZ);
 
 			//set texture
 			this.bindTexture(dustTexture);
@@ -65,18 +64,18 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 			for(int i=0;i<colors.length;i++){
 				for(int j=0;j<colors[i].length;j++){
 					if(colors[i][j]>=0){//negative colors indicate no rendering
-						drawCenterVertexWithUV(i, j, colors[i][j], worldrenderer, tesselator);
+						drawCenterVertexWithUV(i, j, colors[i][j], tesselator);
 					}
 				}
 			}
 			///the internal connectors
 			Set<int[]> connectors = teDust.getInternalConnectors();
 			for(int[] i : connectors){
-				drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], worldrenderer, tesselator);
+				drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], tesselator);
 			}
 			//external connectors
 			for(int[]i:teDust.getExternalConnectors()){
-				drawExternalConnector(i[0], i[1], i[2], EnumFacing.getFront(i[3]), worldrenderer, tesselator);
+				drawExternalConnector(i[0], i[1], i[2], EnumFacing.getFront(i[3]), tesselator);
 			}
 
 		}finally{//restore GL stuff
@@ -87,10 +86,11 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 	}
 	private static final double offset = 0.058;
 	final double y = 0.01;//y coordinate at which to draw the things
-	private void drawCenterVertexWithUV(int row, int col, int colorInt, WorldRenderer renderer, Tessellator tes){
-		Color color = new Color(colorInt);
-		GlStateManager.color((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
-		renderer.startDrawing(GL11.GL_QUADS);//our thing is quads (? the example uses triangles)
+	private void drawCenterVertexWithUV(int row, int col, int colorInt, Tessellator tes){
+		//Color color = new Color(colorInt);
+		//GlStateManager.color((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
+		tes.setColorOpaque_I(colorInt);
+		tes.startDrawing(GL11.GL_QUADS);//our thing is quads (? the example uses triangles)
 		double rowBegin = row/(float)TileEntityDustPlaced.ROWS + offset;
 		double rowEnd = (row+1)/(float)TileEntityDustPlaced.ROWS - offset;
 		double colBegin = col/(float)TileEntityDustPlaced.COLS + offset;
@@ -103,12 +103,12 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		};
 
 		for(double[] vertex:vertexTable){
-			renderer.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
+			tes.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
 		}
 		tes.draw();
 	}
 	private final static double thin = 0.02;
-	private void drawInternalConnector(int row1, int col1, int row2, int col2, int color1, int color2, WorldRenderer renderer, Tessellator tes){
+	private void drawInternalConnector(int row1, int col1, int row2, int col2, int color1, int color2, Tessellator tes){
 
 		double row1begin = row1/(float)TileEntityDustPlaced.ROWS + offset,
 				row1end = (row1+1)/(float)TileEntityDustPlaced.ROWS - offset,
@@ -155,23 +155,25 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		//safety
 		if(vertexTable1==null ||vertexTable2==null)return;
 
-		Color color = new Color(color1);
-		GlStateManager.color((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
-		renderer.startDrawingQuads();
+		//Color color = new Color(color1);
+		//GlStateManager.color((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
+		tes.setColorOpaque_I(color1);
+		tes.startDrawingQuads();
 		for(double vertex[]:vertexTable1){
-			renderer.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
+			tes.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
 		}
 		tes.draw();
 
-		color=new Color(color2);
-		GlStateManager.color((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
-		renderer.startDrawingQuads();
+		//color=new Color(color2);
+		//GlStateManager.color((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
+		tes.setColorOpaque_I(color2);
+		tes.startDrawingQuads();
 		for(double vertex[]:vertexTable2){
-			renderer.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
+			tes.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
 		}
 		tes.draw();
 	}
-	private void drawExternalConnector(int row, int col, int colorIn, EnumFacing direction, WorldRenderer renderer, Tessellator tes){
+	private void drawExternalConnector(int row, int col, int colorIn, EnumFacing direction, Tessellator tes){
 		double rowBegin = row/(float)TileEntityDustPlaced.ROWS + offset;
 		double rowEnd = (row+1)/(float)TileEntityDustPlaced.ROWS - offset;
 		double colBegin = col/(float)TileEntityDustPlaced.COLS + offset;
@@ -210,11 +212,12 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 			};
 		}
 		if(vertexTable==null)return;//should not happen
-		Color colour = new Color(colorIn);
-		GlStateManager.color((colour.getRed())/255F,(colour.getGreen())/255F,(colour.getBlue())/255F);
-		renderer.startDrawingQuads();
+		//Color colour = new Color(colorIn);
+		//GlStateManager.color((colour.getRed())/255F,(colour.getGreen())/255F,(colour.getBlue())/255F);
+		tes.setColorOpaque_I(colorIn);
+		tes.startDrawingQuads();
 		for(double vertex[]:vertexTable){
-			renderer.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
+			tes.addVertexWithUV(vertex[0],vertex[1],vertex[2],vertex[3],vertex[4]);
 		}
 		tes.draw();
 	}

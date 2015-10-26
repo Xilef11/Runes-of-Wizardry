@@ -26,6 +26,6 @@ public class DustAqua extends IDust {
 	@Override
 	public ItemStack[] getInfusionItems(ItemStack stack) {
 		//TODO Aqua infusion
-		return new ItemStack[]{new ItemStack(Items.dye,1,EnumDyeColor.BLUE.getDyeDamage()),new ItemStack(Items.water_bucket)};
+		return new ItemStack[]{new ItemStack(Items.dye,1,4),new ItemStack(Items.water_bucket)};
 	}
 }

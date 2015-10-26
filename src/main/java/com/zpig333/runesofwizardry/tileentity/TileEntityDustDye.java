@@ -113,29 +113,11 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 		return stack;
 	}
 
-	@Override
-	/**
-	 * Returns the name of the inventory
-	 */
-	public String getName()
-	{
-		return References.modid+".DustDye";
-	}
-
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return worldObj.getTileEntity(pos) == this &&
-				player.getDistanceSq(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) < 64;
-	}
-	//No clue what the next 2 methods 2 (NOT run when inv. opened)
-	@Override
-	public void openInventory(EntityPlayer p) {
-
-	}
-
-	@Override
-	public void closeInventory(EntityPlayer p) {
+		return worldObj.getTileEntity(xCoord,yCoord,zCoord) == this &&
+				player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64;
 	}
 
 	@Override
@@ -149,7 +131,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	}
 
 	@Override
-	public boolean hasCustomName() {
+	public boolean isCustomInventoryName() {
 		return true;
 	}
 	//might want to change the tag names to be variables for "safety" (nah, "safety" is overrated)
@@ -188,34 +170,19 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
-		//line from InventoryBasic
-		//might want to always return the translated version? (dosen't seem much used, leave as is.)
-		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
+	public String getInventoryName() {
+		return References.modid+".DustDye";
 	}
-	/*[refactor] the following methods are used to change the fields of the TileEntity.
-	 * we are already doing this in other ways, but we might want to switch to them eventually
-	 */
+
 	@Override
-	public int getField(int id) {
-		//not using this
-		return 0;
+	public void openChest() {
+		// TODO Auto-generated method stub
+		
 	}
 	@Override
-	public void setField(int id, int value) {
-		//not using this?
-	}
-	@Override
-	public int getFieldCount() {
-		//Not using this?
-		return 0;
-	}
-	@Override
-	public void clear() {
-		// let's just do the same thing as inventoryBasic
-		for(ItemStack i:contents){
-			i=null;
-		}
+	public void closeChest() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

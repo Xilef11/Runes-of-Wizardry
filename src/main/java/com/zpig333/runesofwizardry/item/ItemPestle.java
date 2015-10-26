@@ -8,7 +8,7 @@ public class ItemPestle extends WizardryItem {
 
 	public ItemPestle(){
 		super();
-		this.setMaxDamage(63);
+		this.setMaxDurability(63);
 		this.setMaxStackSize(1);
 		this.setNoRepair();
 
@@ -26,7 +26,7 @@ public class ItemPestle extends WizardryItem {
 
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack){
-		itemStack.setItemDamage(itemStack.getItemDamage() + 1);
+		itemStack.setMetadata(itemStack.getMetadata() + 1);
 		itemStack.stackSize = 1;
 		return itemStack;
 	}

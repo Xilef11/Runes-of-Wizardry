@@ -54,7 +54,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		return false;
 	}
 	@Override
-	public boolean isFullCube(){
+	public boolean isFullBlock(){
 		return false;
 	}
 	

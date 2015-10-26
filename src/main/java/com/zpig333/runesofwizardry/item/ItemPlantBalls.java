@@ -22,7 +22,7 @@ public class ItemPlantBalls extends WizardryItem {
 	}
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack){
-		int meta = itemStack.getItemDamage();
+		int meta = itemStack.getMetadata();
 		return super.getUnlocalizedName() + "_" + metaName[meta];
 	}
 

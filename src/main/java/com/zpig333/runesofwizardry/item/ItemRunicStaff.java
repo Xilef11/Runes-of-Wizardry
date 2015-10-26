@@ -12,7 +12,7 @@ public class ItemRunicStaff extends WizardryItem {
 	private final String name = "runic_staff";
 	public ItemRunicStaff(){
 		super();
-		this.setMaxDamage(50);
+		this.setMaxDurability(50);
 		this.setFull3D();
 	}
 	@Override
@@ -30,7 +30,7 @@ public class ItemRunicStaff extends WizardryItem {
 	//XXX still not happy with 3rd person attack animation
 	@Override
 	public EnumAction getItemUseAction(ItemStack stack) {
-		return EnumAction.BLOCK;
+		return EnumAction.block;
 	}
 	/**
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer

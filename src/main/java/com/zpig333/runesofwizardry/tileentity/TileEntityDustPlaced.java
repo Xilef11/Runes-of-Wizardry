@@ -127,57 +127,58 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	//update the external connectors
 	public void updateExternalConnectors(){
 		List<int[]> result = new LinkedList<int[]>();
-		if(worldObj.getBlockState(pos.north()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.north());
+		if(worldObj.getBlock(xCoord,yCoord,zCoord-1) == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(xCoord,yCoord,zCoord-1);
 			if(ted!=null){
 				for(int i=0;i<COLS;i++){
 					int id=getSlotIDfromPosition(0, i);
 					int otherSlot=id+((ROWS-1)*COLS);
 					if(contents[0][i]!=null){
 						if(dustsMatch(contents[0][i], ted.getStackInSlot(otherSlot))){
-							result.add(new int[]{0,i,DustRegistry.getDustFromItemStack(contents[0][i]).getPlacedColor(contents[0][i]),EnumFacing.NORTH.getIndex()});
+							//XXX not sure its the right thing to use for the enumFacing
+							result.add(new int[]{0,i,DustRegistry.getDustFromItemStack(contents[0][i]).getPlacedColor(contents[0][i]),EnumFacing.NORTH.ordinal()});
 						}
 					}
 				}
 			}
 		}
-		if(worldObj.getBlockState(pos.south()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.south());
+		if(worldObj.getBlock(xCoord,yCoord,zCoord+1) == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(xCoord,yCoord,zCoord-1);
 			if(ted!=null){
 				for(int i=0;i<COLS;i++){
 					int id=getSlotIDfromPosition(ROWS-1, i);
 					int otherSlot=id-((ROWS-1)*COLS);
 					if(contents[ROWS-1][i]!=null){
 						if(dustsMatch(contents[ROWS-1][i], ted.getStackInSlot(otherSlot))){
-							result.add(new int[]{ROWS-1,i,DustRegistry.getDustFromItemStack(contents[ROWS-1][i]).getPlacedColor(contents[ROWS-1][i]),EnumFacing.SOUTH.getIndex()});
+							result.add(new int[]{ROWS-1,i,DustRegistry.getDustFromItemStack(contents[ROWS-1][i]).getPlacedColor(contents[ROWS-1][i]),EnumFacing.SOUTH.ordinal()});
 						}
 					}
 				}
 			}
 		}
-		if(worldObj.getBlockState(pos.west()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.west());
+		if(worldObj.getBlock(xCoord-1,yCoord,zCoord) == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(xCoord-1,yCoord,zCoord);
 			if(ted!=null){
 				for(int i=0;i<ROWS;i++){
 					int id=getSlotIDfromPosition(i,0);
 					int otherSlot=id+(COLS-1);
 					if(contents[i][0]!=null){
 						if(dustsMatch(contents[i][0], ted.getStackInSlot(otherSlot))){
-							result.add(new int[]{i,0,DustRegistry.getDustFromItemStack(contents[i][0]).getPlacedColor(contents[i][0]),EnumFacing.WEST.getIndex()});
+							result.add(new int[]{i,0,DustRegistry.getDustFromItemStack(contents[i][0]).getPlacedColor(contents[i][0]),EnumFacing.WEST.ordinal()});
 						}
 					}
 				}
 			}
 		}
-		if(worldObj.getBlockState(pos.east()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.east());
+		if(worldObj.getBlock(xCoord+1,yCoord,zCoord) == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(xCoord+1,yCoord,zCoord);
 			if(ted!=null){
 				for(int i=0;i<ROWS;i++){
 					int id=getSlotIDfromPosition(i,COLS-1);
 					int otherSlot=id-(COLS-1);
 					if(contents[i][COLS-1]!=null){
 						if(dustsMatch(contents[i][COLS-1], ted.getStackInSlot(otherSlot))){//should be true OK
-							result.add(new int[]{i,COLS-1,DustRegistry.getDustFromItemStack(contents[i][COLS-1]).getPlacedColor(contents[i][COLS-1]),EnumFacing.EAST.getIndex()});
+							result.add(new int[]{i,COLS-1,DustRegistry.getDustFromItemStack(contents[i][COLS-1]).getPlacedColor(contents[i][COLS-1]),EnumFacing.EAST.ordinal()});
 						}
 					}
 				}
@@ -209,19 +210,13 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	};
 
 	@Override
-	public String getName() {
+	public String getInventoryName() {
 		return References.modid+".DustPlaced";
 	}
 
 	@Override
-	public boolean hasCustomName() {
+	public boolean isCustomInventoryName() {
 		return true;
-	}
-
-	@Override
-	public IChatComponent getDisplayName() {
-		//see TileEntityDustDye
-		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
 	}
 
 	@Override
@@ -300,7 +295,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 
 	}
 	public void updateNeighborConnectors(){
-		updateNeighborConnectors(getWorld(), getPos());
+		updateNeighborConnectors(getWorld(), xCoord,yCoord,zCoord);
 	}
 	public static void updateNeighborConnectors(World worldIn, int posX, int posY, int posZ){
 			TileEntity te =worldIn.getTileEntity(posX+1,posY,posZ);
@@ -341,7 +336,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		//what botania does
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
-		return new S35PacketUpdateTileEntity(pos, -999, tagCompound);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, -999, tagCompound);
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.tileentity.TileEntity#onDataPacket(net.minecraft.network.NetworkManager, net.minecraft.network.play.server.S35PacketUpdateTileEntity)
@@ -357,16 +352,6 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		updateNeighborConnectors();
 		//worldObj.notifyBlockOfStateChange(getPos(), getBlockType());
 		//worldObj.notifyNeighborsOfStateChange(getPos(), getBlockType());
-	}
-	@Override
-	public void openInventory(EntityPlayer player) {
-		// not using this
-
-	}
-
-	@Override
-	public void closeInventory(EntityPlayer player) {
-		//not using this
 	}
 
 	@Override
@@ -405,29 +390,14 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		tagCompound.setTag("Inventory", itemList);
 
 	}
-	//NOT using the following field methods
 	@Override
-	public int getField(int id) {
-		return 0;
+	public void openChest() {
+		// TODO Auto-generated method stub
+		
 	}
-
 	@Override
-	public void setField(int id, int value) {
-
-	}
-
-	@Override
-	public int getFieldCount() {
-		return 0;
-	}
-
-	@Override
-	public void clear() {
-		// let's just do the same thing as inventoryBasic
-		for(int i=0;i<contents.length;i++){
-			for(int j=0;j<contents[i].length;j++){
-				contents[i][j]=null;
-			}
-		}
+	public void closeChest() {
+		// TODO Auto-generated method stub
+		
 	}
 }
