@@ -16,11 +16,11 @@ public class DustDyeTextPacket implements IMessage{
 	private int x,y,z;//position of the tileentity
 
 	public DustDyeTextPacket(){}
-	public DustDyeTextPacket(String text, BlockPos pos){
+	public DustDyeTextPacket(String text, int x, int y, int z){
 		this.text=text;
-		this.x=pos.getX();
-		this.y=pos.getY();
-		this.z=pos.getZ();
+		this.x=x;
+		this.y=y;
+		this.z=z;
 	}
 	@Override
 	public void fromBytes(ByteBuf buf) {
@@ -42,7 +42,7 @@ public class DustDyeTextPacket implements IMessage{
 
 		@Override
 		public IMessage onMessage(DustDyeTextPacket message, MessageContext ctx) {
-			TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(message.x, message.y, message.z);
 			if(te instanceof TileEntityDustDye){
 				TileEntityDustDye ted = (TileEntityDustDye)te;
 				ted.setColor(message.text);

@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
@@ -114,26 +113,28 @@ public abstract class IDust extends Item {
 	 * 
 	 */
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
+		
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int posX, int posY, int posZ, int side, float hitX, float hitY, float hitZ){
 		//see ItemRedstone#onItemUse
 		if(world.isRemote){
 			return true;
 		}
 		else {
 			//can't place dust on certain blocks...
-			Block block = world.getBlockState(pos).getBlock();
+			Block block = world.getBlock(posX, posY, posZ);
 			if (block == Blocks.vine || block == Blocks.tallgrass || block == Blocks.deadbush || block == WizardryRegistry.dust_placed || block == Blocks.snow_layer) {
 				return false;
 			}if(block == WizardryRegistry.dust_placed){
 				return true;
 			}else{
-				world.setBlockState(pos.up(), WizardryRegistry.dust_placed.getDefaultState());
-				IBlockState state =  world.getBlockState(pos.up());
-				state.getBlock().onBlockActivated(world, pos.up(), state, player, side, hitX, hitY, hitZ);
+				world.setBlock(posX, posY+1, posZ, WizardryRegistry.dust_placed);
+				Block myBlock =  world.getBlock(posX, posY+1, posZ);
+				myBlock.onBlockActivated(world, posX,posY+1,posZ, player, side, hitX, hitY, hitZ);
 				return true;
 			}
 		}
 	}
+
 
 	/** sets the item's color based on the itemstack
 	 * 

@@ -15,10 +15,10 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class DustDyeRequestUpdatePacket implements IMessage{
 	int posX,posY,posZ;//position of the DustDye TE
 	public DustDyeRequestUpdatePacket(){}
-	public DustDyeRequestUpdatePacket(BlockPos source){
-		this.posX=source.getX();
-		this.posY=source.getY();
-		this.posZ=source.getZ();
+	public DustDyeRequestUpdatePacket(int x,int y, int z){
+		this.posX=x;
+		this.posY=y;
+		this.posZ=z;
 	}
 	@Override
 	public void fromBytes(ByteBuf buf) {
@@ -39,11 +39,10 @@ public class DustDyeRequestUpdatePacket implements IMessage{
 		@Override
 		public DustDyeUpdatePacket onMessage(DustDyeRequestUpdatePacket message, MessageContext ctx) {
 			EntityPlayer player = ctx.getServerHandler().playerEntity;
-			BlockPos position=new BlockPos(message.posX, message.posY, message.posZ);
-			TileEntity te = player.worldObj.getTileEntity(position);
+			TileEntity te = player.worldObj.getTileEntity(message.posX, message.posY, message.posZ);
 			if(te instanceof TileEntityDustDye){
 				TileEntityDustDye ted = (TileEntityDustDye)te;
-				return new DustDyeUpdatePacket(position, ted.getColorString());
+				return new DustDyeUpdatePacket(message.posX, message.posY, message.posZ, ted.getColorString());
 			}else{
 				throw new IllegalArgumentException("DustDyeRequestUpdatePacket.onMessage: tileEntity is not a Dust Dye");
 			}

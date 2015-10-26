@@ -17,10 +17,10 @@ public class DustDyeUpdatePacket implements IMessage {
 	String colorString;
 	int posX,posY,posZ;
 	public DustDyeUpdatePacket(){}
-	public DustDyeUpdatePacket(BlockPos pos, String colorS){
-		posX=pos.getX();
-		posY=pos.getY();
-		posX=pos.getZ();
+	public DustDyeUpdatePacket(int x, int y, int z, String colorS){
+		posX=x;
+		posY=y;
+		posX=z;
 		colorString=colorS;
 	}
 	@Override

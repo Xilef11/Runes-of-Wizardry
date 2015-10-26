@@ -23,10 +23,10 @@ public class DustDyeButtonPacket implements IMessage {
 	}
 
 
-	public DustDyeButtonPacket(int color,BlockPos pos){
-		this.x=pos.getX();
-		this.y=pos.getY();
-		this.z=pos.getZ();
+	public DustDyeButtonPacket(int color,int x, int y, int z){
+		this.x=x;
+		this.y=y;
+		this.z=z;
 		this.color=color;
 	}
 	@Override
@@ -50,7 +50,7 @@ public class DustDyeButtonPacket implements IMessage {
 
 		@Override
 		public IMessage onMessage(DustDyeButtonPacket message, MessageContext ctx) {
-			TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(new BlockPos(message.x, message.y, message.z));
+			TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(message.x, message.y, message.z);
 			if(te instanceof TileEntityDustDye){
 				TileEntityDustDye ted = (TileEntityDustDye)te;
 				ted.dye(message.color);

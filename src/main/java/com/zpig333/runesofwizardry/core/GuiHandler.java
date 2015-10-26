@@ -16,7 +16,7 @@ public class GuiHandler implements IGuiHandler {
 		if(id == 0){
 			//open gui container here
 		}else if (id==GuiDustDye.GUI_ID){
-			TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
+			TileEntity te = world.getTileEntity(x, y, z);
 			if (te instanceof TileEntityDustDye){
 				return new ContainerDustDye(player.inventory, (TileEntityDustDye)te);
 			}
@@ -30,7 +30,7 @@ public class GuiHandler implements IGuiHandler {
 		if(id == 0){
 			//open gui screen here
 		}else if (id==GuiDustDye.GUI_ID){
-			TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
+			TileEntity te = world.getTileEntity(x, y, z);
 			if (te instanceof TileEntityDustDye){
 				return new GuiDustDye(player.inventory, (TileEntityDustDye)te);
 			}

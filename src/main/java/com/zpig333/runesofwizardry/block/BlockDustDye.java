@@ -2,6 +2,7 @@ package com.zpig333.runesofwizardry.block;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
@@ -36,7 +37,7 @@ public class BlockDustDye extends BlockContainer{
 		return name;
 	}
 	@Override
-	public boolean canHarvestBlock(IBlockAccess world, net.minecraft.util.BlockPos pos, EntityPlayer player) {
+	public boolean canHarvestBlock(EntityPlayer player,int meta) {
 		return true;
 	};
 
@@ -56,8 +57,8 @@ public class BlockDustDye extends BlockContainer{
 
 	//drops the items when the block is broken (?)
 	@Override
-	public void breakBlock(World world, BlockPos pos, IBlockState state) {
-		TileEntityDustDye tileentityDustDye = (TileEntityDustDye) world.getTileEntity(pos);
+	public void breakBlock(World world, int posX, int posY, int posZ, Block block, int meta) {
+		TileEntityDustDye tileentityDustDye = (TileEntityDustDye) world.getTileEntity(posX,posY,posZ);
 
 		if (tileentityDustDye != null) {
 			for (int i1 = 0; i1 < tileentityDustDye.getSizeInventory(); ++i1) {
@@ -76,7 +77,7 @@ public class BlockDustDye extends BlockContainer{
 						}
 
 						itemstack.stackSize -= j1;
-						entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+						entityitem = new EntityItem(world, posX + f, posY + f1, posZ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getMetadata()));
 						float f3 = 0.05F;
 						entityitem.motionX = (float) this.random.nextGaussian() * f3;
 						entityitem.motionY = (float) this.random.nextGaussian() * f3 + 0.2F;
@@ -89,26 +90,26 @@ public class BlockDustDye extends BlockContainer{
 				}
 			}
 			//world.func_147453_f is updateNeighborsOnBlockChange(x, y, z, block)
-			world.notifyBlockOfStateChange(pos, state.getBlock());
+			world.updateNeighborsAboutBlockChange(posX, posY, posZ, block);
 		}
-		super.breakBlock(world, pos, state);
+		super.breakBlock(world, posX,posY,posZ,block,meta);
 
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos,IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World world, int posX,int posY,int posZ, EntityPlayer player, int meta, float hitX, float hitY, float hitZ){
 		if (world.isRemote)
 		{
 			return true;
 		}
 		else
 		{ 
-			TileEntityDustDye tileentityDD = (TileEntityDustDye)world.getTileEntity(pos);
+			TileEntityDustDye tileentityDD = (TileEntityDustDye)world.getTileEntity(posX,posY,posZ);
 
 			if (tileentityDD == null || player.isSneaking()) {
 				return false;
 			}
-			player.openGui(RunesOfWizardry.instance, GuiDustDye.GUI_ID, world, pos.getX(),pos.getY(),pos.getZ());            
+			player.openGui(RunesOfWizardry.instance, GuiDustDye.GUI_ID, world, posX,posY,posZ);            
 			return true;
 		}
 	}

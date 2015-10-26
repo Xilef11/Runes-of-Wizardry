@@ -302,13 +302,23 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public void updateNeighborConnectors(){
 		updateNeighborConnectors(getWorld(), getPos());
 	}
-	public static void updateNeighborConnectors(World worldIn, BlockPos pos){
-		for(EnumFacing dir : EnumFacing.HORIZONTALS){
-			TileEntity te =worldIn.getTileEntity(pos.offset(dir));
+	public static void updateNeighborConnectors(World worldIn, int posX, int posY, int posZ){
+			TileEntity te =worldIn.getTileEntity(posX+1,posY,posZ);
 			if(te !=null && te instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te).updateExternalConnectors();
 			}
-		}
+			te =worldIn.getTileEntity(posX-1,posY,posZ);
+			if(te !=null && te instanceof TileEntityDustPlaced){
+				((TileEntityDustPlaced)te).updateExternalConnectors();
+			}
+			te =worldIn.getTileEntity(posX,posY,posZ+1);
+			if(te !=null && te instanceof TileEntityDustPlaced){
+				((TileEntityDustPlaced)te).updateExternalConnectors();
+			}
+			te =worldIn.getTileEntity(posX,posY,posZ-1);
+			if(te !=null && te instanceof TileEntityDustPlaced){
+				((TileEntityDustPlaced)te).updateExternalConnectors();
+			}
 	}
 	@Override
 	public int getInventoryStackLimit() {

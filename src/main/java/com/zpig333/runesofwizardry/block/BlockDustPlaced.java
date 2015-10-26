@@ -57,11 +57,16 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	public boolean isFullCube(){
 		return false;
 	}
+	
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#getCollisionBoundingBoxFromPool(net.minecraft.world.World, int, int, int)
+	 */
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
-	{	//No collision
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World worldIn, int x,int y, int z) {
 		return null;
 	}
+
 
 	@Override
 	public int getRenderType(){
@@ -69,27 +74,31 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, int posX,int posY,int posZ) {
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
 	}
 
 
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#canHarvestBlock(net.minecraft.entity.player.EntityPlayer, int)
+	 */
 	@Override
-	public boolean canHarvestBlock(net.minecraft.world.IBlockAccess world, BlockPos pos, net.minecraft.entity.player.EntityPlayer player) {
-		//this block is never harvested
+	public boolean canHarvestBlock(EntityPlayer player, int meta) {
 		return false;
-	};
+	}
+
+
 	@Override
-	public boolean canPlaceBlockAt(World world, BlockPos pos)
+	public boolean canPlaceBlockAt(World world, int posX,int posY,int posZ)
 	{
 		//get the block 1 lower
-		Block block = world.getBlockState(pos.down()).getBlock();
+		Block block = world.getBlock(posX,posY,posZ);
 		if (block == null)
 		{
 			return false;
 		} else{
 			//FUTURE maybe tweak to use the oredict to allow other types of glass
-			return World.doesBlockHaveSolidTopSurface(world, pos.down()) || block == Blocks.glass;
+			return World.doesBlockHaveSolidTopSurface(world, posX,posY,posZ) || block == Blocks.glass;
 		}
 	}
 
@@ -98,9 +107,9 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		return new TileEntityDustPlaced();
 	}
 	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+	public void breakBlock(World worldIn, int posX,int posY,int posZ,Block block, int meta)
 	{	//drop the items
-		TileEntityDustPlaced tileentityDustPlaced = (TileEntityDustPlaced) worldIn.getTileEntity(pos);
+		TileEntityDustPlaced tileentityDustPlaced = (TileEntityDustPlaced) worldIn.getTileEntity(posX,posY,posZ);
 		if (tileentityDustPlaced != null) {
 			Random random = new Random();
 			for (int i1 = 0; i1 < tileentityDustPlaced.getSizeInventory(); i1++) {
@@ -119,7 +128,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 						}
 
 						itemstack.stackSize -= j1;
-						entityitem = new EntityItem(worldIn, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+						entityitem = new EntityItem(worldIn, posX + f, posY + f1, posZ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getMetadata()));
 						float f3 = 0.05F;
 						entityitem.motionX = (float) random.nextGaussian() * f3;
 						entityitem.motionY = (float) random.nextGaussian() * f3 + 0.2F;
@@ -131,20 +140,20 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 					}
 				}
 			}
-			worldIn.notifyNeighborsOfStateChange(pos, state.getBlock());
+			worldIn.updateNeighborsAboutBlockChange(posX, posY, posZ, block);
 		}
 
-		super.breakBlock(worldIn, pos, state);
-		worldIn.removeTileEntity(pos);
-		TileEntityDustPlaced.updateNeighborConnectors(worldIn, pos);
+		super.breakBlock(worldIn, posX, posY, posZ, block, meta);
+		worldIn.removeTileEntity(posX,posY,posZ);
+		TileEntityDustPlaced.updateNeighborConnectors(worldIn, posX,posY,posZ);
 	}
 
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#onBlockDestroyedByPlayer(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.block.state.IBlockState)
 	 */
 	@Override
-	public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos,IBlockState state) {
-		TileEntityDustPlaced.updateNeighborConnectors(worldIn, pos);
+	public void onBlockDestroyedByPlayer(World worldIn, int posX,int posY,int posZ,int meta) {
+		TileEntityDustPlaced.updateNeighborConnectors(worldIn, posX,posY,posZ);
 	}
 
 
@@ -152,18 +161,20 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	 * @see net.minecraft.block.Block#onBlockDestroyedByExplosion(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.world.Explosion)
 	 */
 	@Override
-	public void onBlockDestroyedByExplosion(World worldIn, BlockPos pos,Explosion explosionIn) {
-		TileEntityDustPlaced.updateNeighborConnectors(worldIn, pos);
+	public void onBlockDestroyedByExplosion(World worldIn, int posX, int posY, int posZ,Explosion explosionIn) {
+		TileEntityDustPlaced.updateNeighborConnectors(worldIn, posX,posY,posZ);
+	}
+
+	
+	@Override
+	public Item getItemDropped(int meta, Random random, int fortune) {
+		return null;
 	}
 
 
 	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune){
-		return null;//this block should not be dropped!
-	}
-	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side,	float hitX, float hitY, float hitZ) {
-		TileEntity tile = worldIn.getTileEntity(pos);
+	public boolean onBlockActivated(World worldIn, int posX, int posY, int posZ, EntityPlayer playerIn, int side,	float hitX, float hitY, float hitZ) {
+		TileEntity tile = worldIn.getTileEntity(posX,posY,posZ);
 		if(playerIn.isSneaking() || tile==null){
 			return false;
 		}
@@ -171,7 +182,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		//WizardryLogger.logInfo("DustPlaced block activated. pos= "+pos+" hitX: "+hitX+" hitY: "+hitY+" hitZ: "+hitZ);
 		if(! (tile instanceof TileEntityDustPlaced)){
 			//something is wrong
-			WizardryLogger.logError("The TileEntity attached to the BlockDustPlaced at "+pos+" has bad type: "+tile.getClass());
+			WizardryLogger.logError("The TileEntity attached to the BlockDustPlaced at "+posX+" "+posY+" "+posZ+" has bad type: "+tile.getClass());
 			return false;
 		}
 		TileEntityDustPlaced tileDust = (TileEntityDustPlaced) tile;
@@ -179,10 +190,10 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		//NE corner has hitX:0.9 hitZ 0.09
 		//SE Corner has hitX 0.9 hitZ 0.9
 		//SW corner has hitX:0.02 hitZ 0.9
-		float posX = hitX * TileEntityDustPlaced.COLS;
-		float posZ = hitZ * TileEntityDustPlaced.ROWS;
-		int row = (int) posZ;
-		int col = (int) posX;
+		float subposX = hitX * TileEntityDustPlaced.COLS;
+		float subposZ = hitZ * TileEntityDustPlaced.ROWS;
+		int row = (int) subposZ;
+		int col = (int) subposX;
 
 		//WizardryLogger.logInfo("Slot coords is "+row+" "+col);
 		//make sure we are within bounds
@@ -201,12 +212,12 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 				//XXX removing dusts with left-click would be better
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
-				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+				worldIn.playSoundEffect(posX + 0.5F, posY + 0.5F, posZ + 0.5F, Block.soundTypeSand.soundName, (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
 				//drop the itemStack
-				if(!playerIn.capabilities.isCreativeMode)spawnAsEntity(worldIn, pos, dustStack);
+				if(!playerIn.capabilities.isCreativeMode)worldIn.spawnEntityInWorld(new EntityItem(worldIn, posX,posY,posZ, dustStack));
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
-					this.breakBlock(worldIn, pos, state);
-					worldIn.setBlockToAir(pos);
+					this.breakBlock(worldIn, posX, posY, posZ, worldIn.getBlock(posX, posY, posZ), worldIn.getBlockMetadata(posX, posY, posZ));
+					worldIn.setBlockToAir(posX,posY,posZ);
 				}
 				return true;
 			}else{
@@ -224,7 +235,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 				newItem.stackSize=1;
 			}
 			tileDust.setInventorySlotContents(slotID, newItem);
-			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+			worldIn.playSoundEffect(posX + 0.5F, posY + 0.5F, posZ + 0.5F, Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
 			return true;
 		}
 
@@ -232,24 +243,20 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	}
 
 
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#onNeighborBlockChange(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.block.state.IBlockState, net.minecraft.block.Block)
-	 */
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos,IBlockState state, Block neighborBlock) {
-		if(worldIn.isAirBlock(pos.down())){
-			this.breakBlock(worldIn, pos, state);
-			worldIn.setBlockToAir(pos);
+	public void onNeighborBlockChange(World worldIn, int x, int y, int z,Block neighbor) {
+		if(worldIn.isAirBlock(x,y-1,z)){
+			this.breakBlock(worldIn, x,y,z,worldIn.getBlock(x, y, z),worldIn.getBlockMetadata(x, y, z));
+			worldIn.setBlockToAir(x,y,z);
 		}
 	}
-
 
 
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#onBlockClicked(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.entity.player.EntityPlayer)
 	 */
 	@Override
-	public void onBlockClicked(World worldIn, BlockPos pos,	EntityPlayer playerIn) {
+	public void onBlockClicked(World worldIn, int posX, int posT, int posZ,	EntityPlayer playerIn) {
 		//called when the block is left-clicked, but does not have hitX Y Z ...
 		// TODO Auto-generated method stub: onBlockClicked
 	}
@@ -258,7 +265,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	 * @see net.minecraft.block.Block#addDestroyEffects(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.client.particle.EffectRenderer)
 	 */
 	@Override
-	public boolean addDestroyEffects(World world, BlockPos pos,	EffectRenderer effectRenderer) {
+	public boolean addDestroyEffects(World world, int posX,int posY,int posZ,int meta,EffectRenderer effectRenderer) {
 		return true;//should remove the break particles
 	}
 	
