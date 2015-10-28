@@ -71,7 +71,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 
 	@Override
 	public int getRenderType(){
-		return 2;//render type 2 is TESR
+		return -1;
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 			//grab the tesselator
 			Tessellator tesselator = Tessellator.instance;
 			//move the reference point from the player to the position of the block
-			tesselator.addTranslation((float)relativeX,(float) relativeY, (float)relativeZ);
+			GL11.glTranslated(relativeX, relativeY, relativeZ);
 
 			//set texture
 			this.bindTexture(dustTexture);
@@ -87,9 +87,9 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 	private static final double offset = 0.058;
 	final double y = 0.01;//y coordinate at which to draw the things
 	private void drawCenterVertexWithUV(int row, int col, int colorInt, Tessellator tes){
-		//Color color = new Color(colorInt);
-		//GlStateManager.color((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
-		tes.setColorOpaque_I(colorInt);
+		Color color = new Color(colorInt);
+		GL11.glColor3f((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
+		//tes.setColorOpaque_I(colorInt);
 		tes.startDrawing(GL11.GL_QUADS);//our thing is quads (? the example uses triangles)
 		double rowBegin = row/(float)TileEntityDustPlaced.ROWS + offset;
 		double rowEnd = (row+1)/(float)TileEntityDustPlaced.ROWS - offset;
@@ -155,8 +155,8 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		//safety
 		if(vertexTable1==null ||vertexTable2==null)return;
 
-		//Color color = new Color(color1);
-		//GlStateManager.color((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
+		Color color = new Color(color1);
+		GL11.glColor3f((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
 		tes.setColorOpaque_I(color1);
 		tes.startDrawingQuads();
 		for(double vertex[]:vertexTable1){
@@ -164,8 +164,8 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 		}
 		tes.draw();
 
-		//color=new Color(color2);
-		//GlStateManager.color((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
+		color=new Color(color2);
+		GL11.glColor3f((color.getRed())/255F,(color.getGreen())/255F,(color.getBlue())/255F);
 		tes.setColorOpaque_I(color2);
 		tes.startDrawingQuads();
 		for(double vertex[]:vertexTable2){
@@ -212,8 +212,8 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 			};
 		}
 		if(vertexTable==null)return;//should not happen
-		//Color colour = new Color(colorIn);
-		//GlStateManager.color((colour.getRed())/255F,(colour.getGreen())/255F,(colour.getBlue())/255F);
+		Color colour = new Color(colorIn);
+		GL11.glColor3f((colour.getRed())/255F,(colour.getGreen())/255F,(colour.getBlue())/255F);
 		tes.setColorOpaque_I(colorIn);
 		tes.startDrawingQuads();
 		for(double vertex[]:vertexTable){
