@@ -33,21 +33,7 @@ public abstract class IDustStorageBlock extends BlockFalling {
 	public String getName(){
 		return getIDust().getName() + "_storage";
 	}
-	//this block has 1 property: the meta value
-	public static final PropertyInteger PROPERTYMETA = PropertyInteger.create("meta",0,15);
-	@Override
-	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(PROPERTYMETA, meta);
-	}
-	@Override
-	public int getMetaFromState(IBlockState state) {
-		return (Integer) state.getValue(PROPERTYMETA);
-		
-	}
-	@Override
-	protected BlockState createBlockState() {
-		return new BlockState(this, PROPERTYMETA);
-	}
+	
 	// create a list of the subBlocks available for this block, i.e. one for each colour
 	// ignores facings, because the facing is calculated when we place the item.
 	//  - used to populate items for the creative inventory
@@ -61,20 +47,6 @@ public abstract class IDustStorageBlock extends BlockFalling {
 		for(ItemStack i:dusts){
 			list.add(new ItemStack(itemIn,1,i.getMetadata()));
 		}
-	}
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#damageDropped(net.minecraft.block.state.IBlockState)
-	 */
-	@Override
-	public int damageDropped(IBlockState state) {
-		return (Integer) state.getValue(PROPERTYMETA);
-	}
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#getBlockLayer()
-	 */
-	@Override
-	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.CUTOUT;
 	}
 	
 }

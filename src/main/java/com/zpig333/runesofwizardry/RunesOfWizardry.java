@@ -39,7 +39,6 @@ public class RunesOfWizardry {
 		WizardryRegistry.initBlocks();
 		WizardryRegistry.initItems();
 		WizardryRegistry.initDusts();
-		proxy.registerDustStorageRendering();
 		//to set the placed dust block as unbreakable
 		MinecraftForge.EVENT_BUS.register(new BlockEventHandler());
 	}
@@ -50,13 +49,6 @@ public class RunesOfWizardry {
 		WizardryRegistry.registerDustInfusion();
 		proxy.registerRenderers();
 
-		// initialize the item renders
-		if (event.getSide() == Side.CLIENT) {
-			WizardryRegistry.initItemRenders();
-			WizardryRegistry.registerDustItemRendering();
-			WizardryRegistry.registerBlockRenders();
-			proxy.registerDustStorageItemRendering();
-		}
 
 		initNetwork();
 		// the GUI handler

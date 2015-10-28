@@ -8,12 +8,4 @@ public class CommonProxy {
 
 	}
 
-	public void registerDustStorageRendering() {
-		//Client only
-		
-	}
-	public void registerDustStorageItemRendering(){
-		//Client
-	}
-
 }

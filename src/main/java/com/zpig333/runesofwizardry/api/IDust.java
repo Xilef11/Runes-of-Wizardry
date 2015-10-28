@@ -61,8 +61,8 @@ public abstract class IDust extends Item {
 	 * NOTE: the default block is not a TileEntity and will not handle NBT for color.
 	 * @return true to disable the automatic generation of a storage block.
 	 */
-	public boolean hasCustomBlock(){
-		return false;
+	public final boolean hasCustomBlock(){
+		return true;
 	}
 
 	/**determines if this has a custom icon
