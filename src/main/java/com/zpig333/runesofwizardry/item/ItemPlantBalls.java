@@ -2,9 +2,16 @@ package com.zpig333.runesofwizardry.item;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+
+import com.zpig333.runesofwizardry.core.References;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemPlantBalls extends WizardryItem {
 	private final String name="plantball";
@@ -35,5 +42,17 @@ public class ItemPlantBalls extends WizardryItem {
 		list.add(new ItemStack(item, 1, 1));
 	}
 
+	private IIcon[] icons;
+	@Override
+    public IIcon getIconFromDamage(int meta){
+        return icons[meta];
+    }
+	@Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister ireg){
+        icons = new IIcon[2];
+        icons[0] = ireg.registerIcon(References.texture_path + "plantball_small");
+        icons[1] = ireg.registerIcon(References.texture_path + "plantball_large");
+    }
 
 }

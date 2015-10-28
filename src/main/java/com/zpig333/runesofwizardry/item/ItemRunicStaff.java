@@ -2,10 +2,13 @@ package com.zpig333.runesofwizardry.item;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import com.zpig333.runesofwizardry.core.References;
 
 
 public class ItemRunicStaff extends WizardryItem {
@@ -50,4 +53,8 @@ public class ItemRunicStaff extends WizardryItem {
 		return 72000;
 	}
 
+	 @Override
+	    public void registerIcons(IIconRegister ireg){
+	        this.itemIcon = ireg.registerIcon(References.texture_path + "wizards_staff");
+	    }
 }

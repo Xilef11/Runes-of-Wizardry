@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -41,15 +42,6 @@ public class BlockDustDye extends BlockContainer{
 		return true;
 	};
 
-
-
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.BlockContainer#getRenderType()
-	 */
-	@Override
-	public int getRenderType() {
-		return 3;
-	}
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityDustDye();
@@ -113,6 +105,14 @@ public class BlockDustDye extends BlockContainer{
 			return true;
 		}
 	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#registerIcons(net.minecraft.client.renderer.texture.IIconRegister)
+	 */
+	@Override
+	public void registerIcons(IIconRegister reg) {
+		this.blockIcon=reg.registerIcon(References.texture_path+"dust_dye");
+	}
+	
 
 }
 

@@ -2,8 +2,11 @@ package com.zpig333.runesofwizardry.item;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+
+import com.zpig333.runesofwizardry.core.References;
 
 
 public class ItemRunicDictionary extends WizardryItem {
@@ -25,5 +28,8 @@ public class ItemRunicDictionary extends WizardryItem {
 		tooltip.add("Unimplemented");
 	}
 	
-
+	 @Override
+	    public void registerIcons(IIconRegister ireg){
+	        this.itemIcon = ireg.registerIcon(References.texture_path + "wizardry_dictionary");
+	    }
 }

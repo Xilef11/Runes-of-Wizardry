@@ -1,6 +1,12 @@
 package com.zpig333.runesofwizardry.item;
 
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
+
+import com.zpig333.runesofwizardry.core.References;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemPestle extends WizardryItem {
 
@@ -31,4 +37,8 @@ public class ItemPestle extends WizardryItem {
 		return itemStack;
 	}
 
+	 @SideOnly(Side.CLIENT)
+	  public void registerIcons(IIconRegister ireg){
+	       this.itemIcon = ireg.registerIcon(References.texture_path + "pestle");
+	  }
 }

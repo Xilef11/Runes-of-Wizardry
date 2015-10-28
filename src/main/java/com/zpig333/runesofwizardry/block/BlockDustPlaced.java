@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -40,7 +41,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		this.setBlockUnbreakable();
 		this.setUnlocalizedName(References.modid+"_dust_placed");
 		//Could also register with null ItemBlock instead of hiding it in NEI
-		GameRegistry.registerBlock(this, "dust_placed");
+		GameRegistry.registerBlock(this,ItemBlockDustPlaced.class, "dust_placed");
 	}
 
 
@@ -285,5 +286,15 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		return false;
 	}
 
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#registerIcons(net.minecraft.client.renderer.texture.IIconRegister)
+	 */
+	@Override
+	public void registerIcons(IIconRegister reg) {
+		this.blockIcon= reg.registerIcon(References.texture_path+"dust_top");
+	}
+
+	
 
 }

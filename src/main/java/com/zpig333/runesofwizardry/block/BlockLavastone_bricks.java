@@ -2,6 +2,7 @@ package com.zpig333.runesofwizardry.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
@@ -25,6 +26,14 @@ public class BlockLavastone_bricks extends Block{
 	public String getName(){
 		return name;
 	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#registerIcons(net.minecraft.client.renderer.texture.IIconRegister)
+	 */
+	@Override
+	public void registerIcons(IIconRegister reg) {
+		this.blockIcon=reg.registerIcon(References.texture_path+"lavastone_bricks");
+	}
 
+	
 
 }
