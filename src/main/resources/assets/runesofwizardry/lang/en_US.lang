@@ -4,8 +4,8 @@ itemGroup.runesofwizardry_main=Runes of Wizardry
 #Dust storage blocks
 tile.runesofwizardry_dust_storage.inert.name=Dust Block
 tile.runesofwizardry_dust_storage.plant.name=Plant Infused Dust Block
-tile.runesofwizardry_dust_storage.aqua.name=Flame Infused Dust Block
-tile.runesofwizardry_dust_storage.flame.name=Water Infused Dust Block
+tile.runesofwizardry_dust_storage.aqua.name=Water Infused Dust Block
+tile.runesofwizardry_dust_storage.flame.name=Flame Infused Dust Block
 tile.runesofwizardry_dust_storage.glowstone.name=Glowstone Infused Dust Block
 tile.runesofwizardry_dust_storage.ender.name=Ender Infused Dust Block
 

@@ -135,6 +135,23 @@ public class WizardryRegistry {
 		//inert dust
 		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_inert), new ItemStack(Items.clay_ball),new ItemStack(Items.dye,1,15),new ItemStack(pestle));
 		
+		//Dust storages
+		GameRegistry.addShapedRecipe(new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.inert.ordinal()), "XXX","XXX","XXX", 'X', RWDusts.dust_inert);
+		GameRegistry.addShapedRecipe(new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.plant.ordinal()), "XXX","XXX","XXX", 'X', RWDusts.dust_plant);
+		GameRegistry.addShapedRecipe(new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.aqua.ordinal()), "XXX","XXX","XXX", 'X', RWDusts.dust_aqua);
+		GameRegistry.addShapedRecipe(new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.flame.ordinal()), "XXX","XXX","XXX", 'X', RWDusts.dust_blaze);
+		GameRegistry.addShapedRecipe(new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.glowstone.ordinal()), "XXX","XXX","XXX", 'X', RWDusts.dust_glowstone);
+		GameRegistry.addShapedRecipe(new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.ender.ordinal()), "XXX","XXX","XXX", 'X', RWDusts.dust_ender);
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_inert, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.inert.ordinal()));
+		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_plant, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.plant.ordinal()));
+		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_aqua, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.aqua.ordinal()));
+		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_blaze, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.flame.ordinal()));
+		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_glowstone, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.glowstone.ordinal()));
+		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_ender, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.ender.ordinal()));
+		
+		
+		
 	}
 
 	//registers the recipes for all dusts
@@ -149,6 +166,13 @@ public class WizardryRegistry {
 				}
 			}
 		}
+		//temp
+		ItemStack inert = new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.inert.ordinal());
+		DustRegistry.registerBlockInfusion(RWDusts.dust_plant.getInfusionItems(new ItemStack(RWDusts.dust_plant)), inert, new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.plant.ordinal()));
+		DustRegistry.registerBlockInfusion(RWDusts.dust_aqua.getInfusionItems(new ItemStack(RWDusts.dust_aqua)), inert, new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.aqua.ordinal()));
+		DustRegistry.registerBlockInfusion(RWDusts.dust_blaze.getInfusionItems(new ItemStack(RWDusts.dust_blaze)), inert, new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.flame.ordinal()));
+		DustRegistry.registerBlockInfusion(RWDusts.dust_glowstone.getInfusionItems(new ItemStack(RWDusts.dust_glowstone)), inert, new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.glowstone.ordinal()));
+		DustRegistry.registerBlockInfusion(RWDusts.dust_ender.getInfusionItems(new ItemStack(RWDusts.dust_ender)), inert, new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.ender.ordinal()));
 	}
 
 }
