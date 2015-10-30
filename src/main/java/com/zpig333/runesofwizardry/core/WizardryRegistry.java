@@ -19,6 +19,7 @@ import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
+import com.zpig333.runesofwizardry.block.BlockDustStorage;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
 import com.zpig333.runesofwizardry.item.ItemNetherPaste;
@@ -58,6 +59,8 @@ public class WizardryRegistry {
 		//placed dust
 		dust_placed=new BlockDustPlaced();
 		GameRegistry.registerTileEntity(TileEntityDustPlaced.class, "te_dust_placed");
+		
+		dust_blocks = new BlockDustStorage();
 
 	}
 
