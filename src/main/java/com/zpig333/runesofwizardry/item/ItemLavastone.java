@@ -1,8 +1,8 @@
 package com.zpig333.runesofwizardry.item;
 
-import com.zpig333.runesofwizardry.core.References;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
+
+import com.zpig333.runesofwizardry.core.References;
 
 
 public class ItemLavastone extends WizardryItem {
@@ -21,5 +21,5 @@ public class ItemLavastone extends WizardryItem {
 	public void registerIcons(IIconRegister register) {
 		this.itemIcon=register.registerIcon(References.texture_path+"lavastone");
 	}
-	
+
 }

@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
@@ -58,7 +57,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	public boolean isFullBlock(){
 		return false;
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#getCollisionBoundingBoxFromPool(net.minecraft.world.World, int, int, int)
@@ -166,7 +165,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		TileEntityDustPlaced.updateNeighborConnectors(worldIn, posX,posY,posZ);
 	}
 
-	
+
 	@Override
 	public Item getItemDropped(int meta, Random random, int fortune) {
 		return null;
@@ -261,7 +260,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		//called when the block is left-clicked, but does not have hitX Y Z ...
 		// TODO Auto-generated method stub: onBlockClicked
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#addDestroyEffects(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.client.particle.EffectRenderer)
 	 */
@@ -269,7 +268,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	public boolean addDestroyEffects(World world, int posX,int posY,int posZ,int meta,EffectRenderer effectRenderer) {
 		return true;//should remove the break particles
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#addHitEffects(net.minecraft.world.World, net.minecraft.util.MovingObjectPosition, net.minecraft.client.particle.EffectRenderer)
@@ -295,6 +294,6 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		this.blockIcon= reg.registerIcon(References.texture_path+"dust_top");
 	}
 
-	
+
 
 }

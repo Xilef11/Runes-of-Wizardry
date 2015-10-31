@@ -37,8 +37,9 @@ public class ItemPestle extends WizardryItem {
 		return itemStack;
 	}
 
-	 @SideOnly(Side.CLIENT)
-	  public void registerIcons(IIconRegister ireg){
-	       this.itemIcon = ireg.registerIcon(References.texture_path + "pestle");
-	  }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister ireg){
+		this.itemIcon = ireg.registerIcon(References.texture_path + "pestle");
+	}
 }

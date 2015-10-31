@@ -19,10 +19,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
@@ -298,22 +295,22 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		updateNeighborConnectors(getWorld(), xCoord,yCoord,zCoord);
 	}
 	public static void updateNeighborConnectors(World worldIn, int posX, int posY, int posZ){
-			TileEntity te =worldIn.getTileEntity(posX+1,posY,posZ);
-			if(te !=null && te instanceof TileEntityDustPlaced){
-				((TileEntityDustPlaced)te).updateExternalConnectors();
-			}
-			te =worldIn.getTileEntity(posX-1,posY,posZ);
-			if(te !=null && te instanceof TileEntityDustPlaced){
-				((TileEntityDustPlaced)te).updateExternalConnectors();
-			}
-			te =worldIn.getTileEntity(posX,posY,posZ+1);
-			if(te !=null && te instanceof TileEntityDustPlaced){
-				((TileEntityDustPlaced)te).updateExternalConnectors();
-			}
-			te =worldIn.getTileEntity(posX,posY,posZ-1);
-			if(te !=null && te instanceof TileEntityDustPlaced){
-				((TileEntityDustPlaced)te).updateExternalConnectors();
-			}
+		TileEntity te =worldIn.getTileEntity(posX+1,posY,posZ);
+		if(te !=null && te instanceof TileEntityDustPlaced){
+			((TileEntityDustPlaced)te).updateExternalConnectors();
+		}
+		te =worldIn.getTileEntity(posX-1,posY,posZ);
+		if(te !=null && te instanceof TileEntityDustPlaced){
+			((TileEntityDustPlaced)te).updateExternalConnectors();
+		}
+		te =worldIn.getTileEntity(posX,posY,posZ+1);
+		if(te !=null && te instanceof TileEntityDustPlaced){
+			((TileEntityDustPlaced)te).updateExternalConnectors();
+		}
+		te =worldIn.getTileEntity(posX,posY,posZ-1);
+		if(te !=null && te instanceof TileEntityDustPlaced){
+			((TileEntityDustPlaced)te).updateExternalConnectors();
+		}
 	}
 	@Override
 	public int getInventoryStackLimit() {
@@ -392,12 +389,12 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	}
 	@Override
 	public void openChest() {
-		// TODO Auto-generated method stub
-		
+		// Not using?
+
 	}
 	@Override
 	public void closeChest() {
-		// TODO Auto-generated method stub
-		
+		// Not using?
+
 	}
 }

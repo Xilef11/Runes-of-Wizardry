@@ -5,11 +5,11 @@
  */
 package com.zpig333.runesofwizardry.block;
 
-import com.zpig333.runesofwizardry.core.References;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemBlock;
+
+import com.zpig333.runesofwizardry.core.References;
 
 /** For the purposes of having an appropriate texture in NEI/WAILA
  * 
@@ -20,7 +20,6 @@ public class ItemBlockDustPlaced extends ItemBlock {
 
 	public ItemBlockDustPlaced(Block p_i45328_1_) {
 		super(p_i45328_1_);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
@@ -30,7 +29,7 @@ public class ItemBlockDustPlaced extends ItemBlock {
 	public void registerIcons(IIconRegister register) {
 		this.itemIcon=register.registerIcon(References.texture_path+"dust_top");
 	}
-	
-	
+
+
 
 }

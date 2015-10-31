@@ -10,9 +10,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /** Dust API registry.  All dust registry methods are found here. */
@@ -76,7 +73,7 @@ public class DustRegistry {
 				GameRegistry.addShapedRecipe(new ItemStack(dustBlock, 1, i), 
 						new Object[]{"XXX","XXX","XXX",'X',dust});
 				GameRegistry.addShapelessRecipe(new ItemStack(dustclass,9,i), new ItemStack(dustBlock, 1, i));
-				
+
 			}
 		}
 	}

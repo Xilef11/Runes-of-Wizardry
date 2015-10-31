@@ -1,12 +1,7 @@
 package com.zpig333.runesofwizardry.core;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -14,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
@@ -59,7 +53,7 @@ public class WizardryRegistry {
 		//placed dust
 		dust_placed=new BlockDustPlaced();
 		GameRegistry.registerTileEntity(TileEntityDustPlaced.class, "te_dust_placed");
-		
+
 		dust_blocks = new BlockDustStorage();
 
 	}
@@ -134,7 +128,7 @@ public class WizardryRegistry {
 		GameRegistry.addShapedRecipe(new ItemStack(dust_dye), "XXX","XYX","XXX",'X',new ItemStack(Items.dye,1,OreDictionary.WILDCARD_VALUE),'Y',new ItemStack(dust_dyed));
 		//inert dust
 		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_inert), new ItemStack(Items.clay_ball),new ItemStack(Items.dye,1,15),new ItemStack(pestle));
-		
+
 		//Dust storages
 		GameRegistry.addShapedRecipe(new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.inert.ordinal()), "XXX","XXX","XXX", 'X', RWDusts.dust_inert);
 		GameRegistry.addShapedRecipe(new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.plant.ordinal()), "XXX","XXX","XXX", 'X', RWDusts.dust_plant);
@@ -142,16 +136,16 @@ public class WizardryRegistry {
 		GameRegistry.addShapedRecipe(new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.flame.ordinal()), "XXX","XXX","XXX", 'X', RWDusts.dust_blaze);
 		GameRegistry.addShapedRecipe(new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.glowstone.ordinal()), "XXX","XXX","XXX", 'X', RWDusts.dust_glowstone);
 		GameRegistry.addShapedRecipe(new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.ender.ordinal()), "XXX","XXX","XXX", 'X', RWDusts.dust_ender);
-		
+
 		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_inert, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.inert.ordinal()));
 		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_plant, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.plant.ordinal()));
 		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_aqua, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.aqua.ordinal()));
 		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_blaze, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.flame.ordinal()));
 		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_glowstone, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.glowstone.ordinal()));
 		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_ender, 9), new ItemStack(dust_blocks, 1, BlockDustStorage.dustTypes.ender.ordinal()));
-		
-		
-		
+
+
+
 	}
 
 	//registers the recipes for all dusts

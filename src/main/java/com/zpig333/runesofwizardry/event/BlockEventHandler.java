@@ -22,7 +22,7 @@ public class BlockEventHandler {
 	 * 
 	 */
 	public BlockEventHandler() {
-		
+
 	}
 	/**
 	 *  Used to set placed dust block as unbreakable

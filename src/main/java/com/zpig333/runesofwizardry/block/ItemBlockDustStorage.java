@@ -42,6 +42,6 @@ public class ItemBlockDustStorage extends ItemBlock {
 				hitZ, stack.getMetadata());
 	}
 
-	
+
 
 }

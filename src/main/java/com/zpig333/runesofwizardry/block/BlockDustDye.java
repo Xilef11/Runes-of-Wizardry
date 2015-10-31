@@ -11,8 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
@@ -112,7 +110,7 @@ public class BlockDustDye extends BlockContainer{
 	public void registerIcons(IIconRegister reg) {
 		this.blockIcon=reg.registerIcon(References.texture_path+"dust_dye");
 	}
-	
+
 
 }
 

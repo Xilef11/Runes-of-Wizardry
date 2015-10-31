@@ -34,6 +34,6 @@ public class BlockLavastone_bricks extends Block{
 		this.blockIcon=reg.registerIcon(References.texture_path+"lavastone_bricks");
 	}
 
-	
+
 
 }

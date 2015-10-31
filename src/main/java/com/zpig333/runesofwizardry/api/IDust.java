@@ -115,7 +115,7 @@ public abstract class IDust extends Item {
 	 * 
 	 */
 	@Override
-		
+
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int posX, int posY, int posZ, int side, float hitX, float hitY, float hitZ){
 		//see ItemRedstone#onItemUse
 		if(world.isRemote){
@@ -152,46 +152,46 @@ public abstract class IDust extends Item {
 		return pass == 0 ? dust.getPrimaryColor(stack) : dust.getSecondaryColor(stack);
 
 	}
-	
+
 	//ICONS
 	//Stuff from ItemDustPieces
-    private IIcon icon_foreground;
-    private IIcon icon_background;
-    
-    /**Gets an icon index based on an item's damage value and the given render pass. 
-     * <br/>Override this if your custom dust uses metadata/render pass to change its icon
-     * 
-     */
-    @Override
-    public IIcon getIconFromDamageForRenderPass(int meta, int pass){
-    	if(this.hasCustomIcon())return this.itemIcon;
-        if(pass == 0){
-            return icon_background;
-        }else {
-            return icon_foreground;
-        }
-    }
-    /** does the item require multiple render passes?
-     * @return (default) true
-     */
-    @SideOnly(Side.CLIENT)
-    @Override
-    public boolean requiresMultipleRenderPasses()
-    {
-        return true;
-    }
-    /** sets the icon of the dust.
-     * default is based on the primary and secondary colors. 
-     * override for custom icon
-     * 
-     * @param ireg 
-     */
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IIconRegister ireg){
-        //just the plain one for now
-        icon_foreground = ireg.registerIcon(References.texture_path + "dust_item_fore");
-        icon_background = ireg.registerIcon(References.texture_path + "dust_item_back");
-    }
+	private IIcon icon_foreground;
+	private IIcon icon_background;
+
+	/**Gets an icon index based on an item's damage value and the given render pass. 
+	 * <br/>Override this if your custom dust uses metadata/render pass to change its icon
+	 * 
+	 */
+	@Override
+	public IIcon getIconFromDamageForRenderPass(int meta, int pass){
+		if(this.hasCustomIcon())return this.itemIcon;
+		if(pass == 0){
+			return icon_background;
+		}else {
+			return icon_foreground;
+		}
+	}
+	/** does the item require multiple render passes?
+	 * @return (default) true
+	 */
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean requiresMultipleRenderPasses()
+	{
+		return true;
+	}
+	/** sets the icon of the dust.
+	 * default is based on the primary and secondary colors. 
+	 * override for custom icon
+	 * 
+	 * @param ireg 
+	 */
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IIconRegister ireg){
+		//just the plain one for now
+		icon_foreground = ireg.registerIcon(References.texture_path + "dust_item_fore");
+		icon_background = ireg.registerIcon(References.texture_path + "dust_item_back");
+	}
 
 }

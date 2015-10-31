@@ -44,15 +44,15 @@ public class ItemPlantBalls extends WizardryItem {
 
 	private IIcon[] icons;
 	@Override
-    public IIcon getIconFromDamage(int meta){
-        return icons[meta];
-    }
+	public IIcon getIconFromDamage(int meta){
+		return icons[meta];
+	}
 	@Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister ireg){
-        icons = new IIcon[2];
-        icons[0] = ireg.registerIcon(References.texture_path + "plantball_small");
-        icons[1] = ireg.registerIcon(References.texture_path + "plantball_large");
-    }
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister ireg){
+		icons = new IIcon[2];
+		icons[0] = ireg.registerIcon(References.texture_path + "plantball_small");
+		icons[1] = ireg.registerIcon(References.texture_path + "plantball_large");
+	}
 
 }

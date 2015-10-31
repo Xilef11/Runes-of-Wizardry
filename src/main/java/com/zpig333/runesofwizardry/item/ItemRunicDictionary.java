@@ -27,9 +27,9 @@ public class ItemRunicDictionary extends WizardryItem {
 	public void addInformation(ItemStack stack, EntityPlayer playerIn,List tooltip, boolean advanced) {
 		tooltip.add("Unimplemented");
 	}
-	
-	 @Override
-	    public void registerIcons(IIconRegister ireg){
-	        this.itemIcon = ireg.registerIcon(References.texture_path + "wizardry_dictionary");
-	    }
+
+	@Override
+	public void registerIcons(IIconRegister ireg){
+		this.itemIcon = ireg.registerIcon(References.texture_path + "wizardry_dictionary");
+	}
 }

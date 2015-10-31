@@ -19,7 +19,6 @@ import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -40,37 +39,37 @@ public class BlockDustStorage extends BlockFalling {
 		this.setHardness(0.5F);
 		GameRegistry.registerBlock(this, ItemBlockDustStorage.class, name);
 	}
-	
+
 	@Override
-    public IIcon getIcon(int side, int meta){
-        if(meta < 0 || meta >= icons.length){
-            return null;
-        }
-        else{
-            return icons[meta];
-        }
-    }
-	
+	public IIcon getIcon(int side, int meta){
+		if(meta < 0 || meta >= icons.length){
+			return null;
+		}
+		else{
+			return icons[meta];
+		}
+	}
 
-    @Override
-    public int damageDropped(int i)
-    {
-        return i;
-    }
 
-    
-    @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list){
-        for(int i = 0; i < dustTypes.values().length; ++i){
-            list.add(new ItemStack(item, 1, i));
-        }
-    }
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister ireg){
-        icons = new IIcon[dustTypes.values().length];
-        for(int i = 0; i < icons.length; ++i){
-            icons[i] = ireg.registerIcon(References.texture_path + "dust_storage_" + dustTypes.values()[i]);
-        }
-    }
+	@Override
+	public int damageDropped(int i)
+	{
+		return i;
+	}
+
+
+	@Override
+	public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list){
+		for(int i = 0; i < dustTypes.values().length; ++i){
+			list.add(new ItemStack(item, 1, i));
+		}
+	}
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister ireg){
+		icons = new IIcon[dustTypes.values().length];
+		for(int i = 0; i < icons.length; ++i){
+			icons[i] = ireg.registerIcon(References.texture_path + "dust_storage_" + dustTypes.values()[i]);
+		}
+	}
 }

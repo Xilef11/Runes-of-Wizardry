@@ -6,9 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
 
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
@@ -176,13 +173,13 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 
 	@Override
 	public void openChest() {
-		// TODO Auto-generated method stub
-		
+		// Not using this?
+
 	}
 	@Override
 	public void closeChest() {
-		// TODO Auto-generated method stub
-		
+		// not using this?
+
 	}
 
 }

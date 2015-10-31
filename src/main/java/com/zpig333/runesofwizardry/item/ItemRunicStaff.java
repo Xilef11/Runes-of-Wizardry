@@ -53,8 +53,8 @@ public class ItemRunicStaff extends WizardryItem {
 		return 72000;
 	}
 
-	 @Override
-	    public void registerIcons(IIconRegister ireg){
-	        this.itemIcon = ireg.registerIcon(References.texture_path + "wizards_staff");
-	    }
+	@Override
+	public void registerIcons(IIconRegister ireg){
+		this.itemIcon = ireg.registerIcon(References.texture_path + "wizards_staff");
+	}
 }

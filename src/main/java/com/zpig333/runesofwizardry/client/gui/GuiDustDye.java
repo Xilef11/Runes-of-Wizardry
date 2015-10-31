@@ -1,7 +1,6 @@
 package com.zpig333.runesofwizardry.client.gui;
 
 import java.awt.Color;
-import java.io.IOException;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -10,7 +9,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-import org.apache.logging.log4j.Level;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -83,7 +81,7 @@ public class GuiDustDye extends GuiContainer {
 		//id, x, y, width, height, text
 		//note: height seems to need to be 20 to display full button texture
 		buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+99,posY+55,50,20,StatCollector.translateToLocal(References.Lang.DYE)));//MC's buttonList does not use generic types, ignore the warning
-		
+
 	}
 	/** returns the Tile Entity this GUI is bound to
 	 * 
@@ -150,7 +148,7 @@ public class GuiDustDye extends GuiContainer {
 		textColor.mouseClicked(mouseX-posX, mouseY-posY, clickedButton);
 		//colors
 		chooseColor(mouseX-posX,mouseY-posY,clickedButton);
-		
+
 		super.mouseClicked(mouseX, mouseY, clickedButton);
 	}
 	//use the color squares on the GUI to set the color
@@ -187,10 +185,10 @@ public class GuiDustDye extends GuiContainer {
 		int id = row*4 + col;
 		color=colors[id];
 		//color+=0x050505; //Colors are off compared to wool colors FSR
-		
+
 		textColor.setText(Integer.toHexString(color));
 		updateColor();
-		
+
 	}
 	/** runs while the GUI is open
 	 * 

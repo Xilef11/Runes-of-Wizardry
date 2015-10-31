@@ -33,7 +33,7 @@ public abstract class IDustStorageBlock extends BlockFalling {
 	public String getName(){
 		return getIDust().getName() + "_storage";
 	}
-	
+
 	// create a list of the subBlocks available for this block, i.e. one for each colour
 	// ignores facings, because the facing is calculated when we place the item.
 	//  - used to populate items for the creative inventory
@@ -48,5 +48,5 @@ public abstract class IDustStorageBlock extends BlockFalling {
 			list.add(new ItemStack(itemIn,1,i.getMetadata()));
 		}
 	}
-	
+
 }
