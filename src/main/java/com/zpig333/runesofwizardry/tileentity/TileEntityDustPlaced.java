@@ -132,7 +132,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 					int otherSlot=id+((ROWS-1)*COLS);
 					if(contents[0][i]!=null){
 						if(dustsMatch(contents[0][i], ted.getStackInSlot(otherSlot))){
-							//XXX not sure its the right thing to use for the enumFacing
+							//not sure its the right thing to use for the enumFacing, but it works
 							result.add(new int[]{0,i,DustRegistry.getDustFromItemStack(contents[0][i]).getPlacedColor(contents[0][i]),EnumFacing.NORTH.ordinal()});
 						}
 					}
@@ -140,7 +140,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 			}
 		}
 		if(worldObj.getBlock(xCoord,yCoord,zCoord+1) == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(xCoord,yCoord,zCoord-1);
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(xCoord,yCoord,zCoord+1);
 			if(ted!=null){
 				for(int i=0;i<COLS;i++){
 					int id=getSlotIDfromPosition(ROWS-1, i);
