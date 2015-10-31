@@ -49,10 +49,9 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 
 			//set texture
 			this.bindTexture(dustTexture);
-
 			//setup flags
-			GL11.glDisable(GL11.GL_LIGHTING);//we want lighting (?)
-			GL11.glEnable(GL11.GL_BLEND);//we want transparency blending(?)
+			GL11.glDisable(GL11.GL_LIGHTING);//we want lighting (?) NO. Makes everything dark
+			GL11.glDisable(GL11.GL_BLEND);//we want transparency blending(?) NO. makes dust translucent sometimes (not in eclipse though)
 			GL11.glDisable(GL11.GL_CULL_FACE);//visible from both faces (might solve being invisible)
 			GL11.glDepthMask(false);//hidden behind other objects
 
