@@ -2,6 +2,7 @@
 gradle
 .gradle
 minecraft
+minecraft-1.7.10
 
 #intelliJ things
 .idea
