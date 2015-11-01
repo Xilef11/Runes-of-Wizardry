@@ -29,10 +29,18 @@ public class ItemPestle extends WizardryItem {
 	public boolean hasContainerItem(ItemStack itemStack){
 		return true;
 	}
+	
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#doesContainerItemLeaveCraftingGrid(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public boolean doesContainerItemLeaveCraftingGrid(ItemStack p_77630_1_) {
+		return false;
+	}
 
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack){
-		itemStack.setMetadata(itemStack.getMetadata() + 1);
+		//itemStack.setMetadata(itemStack.getMetadata() + 1);
 		itemStack.stackSize = 1;
 		return itemStack;
 	}
