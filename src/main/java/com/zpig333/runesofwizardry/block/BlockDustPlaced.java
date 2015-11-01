@@ -178,7 +178,6 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		if(playerIn.isSneaking() || tile==null){
 			return false;
 		}
-
 		//WizardryLogger.logInfo("DustPlaced block activated. pos= "+pos+" hitX: "+hitX+" hitY: "+hitY+" hitZ: "+hitZ);
 		if(! (tile instanceof TileEntityDustPlaced)){
 			//something is wrong
@@ -214,7 +213,14 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 				tileDust.setInventorySlotContents(slotID, null);
 				worldIn.playSoundEffect(posX + 0.5F, posY + 0.5F, posZ + 0.5F, Block.soundTypeSand.soundName, (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
 				//drop the itemStack
-				if(!playerIn.capabilities.isCreativeMode)worldIn.spawnEntityInWorld(new EntityItem(worldIn, posX,posY,posZ, dustStack));
+				if(!playerIn.capabilities.isCreativeMode && !worldIn.isRemote){
+					EntityItem entityitem = new EntityItem(worldIn, posX + hitX,posY+hitY,posZ+hitZ, dustStack);
+					entityitem.motionX=0;
+					entityitem.motionY=0;
+					entityitem.motionZ=0;
+					worldIn.spawnEntityInWorld(entityitem);
+				}
+				//if(!playerIn.capabilities.isCreativeMode)playerIn.dropPlayerItemWithRandomChoice(dustStack, true);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, posX, posY, posZ, worldIn.getBlock(posX, posY, posZ), worldIn.getBlockMetadata(posX, posY, posZ));
 					worldIn.setBlockToAir(posX,posY,posZ);
