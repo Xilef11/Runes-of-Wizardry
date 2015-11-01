@@ -121,19 +121,19 @@ public class WizardryRegistry {
 
 		//lavastone
 		GameRegistry.addShapelessRecipe(new ItemStack(nether_paste,1),
-				new ItemStack(Blocks.netherrack),new ItemStack(pestle),new ItemStack(Items.blaze_powder));
+				new ItemStack(Blocks.netherrack),new ItemStack(pestle,1,OreDictionary.WILDCARD_VALUE),new ItemStack(Items.blaze_powder));
 		GameRegistry.addSmelting(nether_paste, new ItemStack(lavastone,1), 0.2F);
 		GameRegistry.addRecipe(new ItemStack(lavastone_bricks,4),new Object[]{
 			"XX","XX",'X',new ItemStack(lavastone,1)
 		});
 
 		//the dyed dusts
-		GameRegistry.addShapelessRecipe(new ItemStack(dust_dyed,32), new ItemStack(Items.brick, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1));
+		GameRegistry.addShapelessRecipe(new ItemStack(dust_dyed,32), new ItemStack(Items.brick, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(pestle, 1,OreDictionary.WILDCARD_VALUE));
 		GameRegistry.addShapedRecipe(new ItemStack(dust_dye), "XXX","XYX","XXX",'X',new ItemStack(Items.dye,1,OreDictionary.WILDCARD_VALUE),'Y',new ItemStack(dust_dyed));
 		//inert dust
-		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_inert), new ItemStack(Items.clay_ball),new ItemStack(Items.dye,1,15),new ItemStack(pestle));
-		
+		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_inert), new ItemStack(Items.clay_ball),new ItemStack(Items.dye,1,15),new ItemStack(pestle,1, OreDictionary.WILDCARD_VALUE));
 	}
+
 
 
 	public static void initItemRenders() {
