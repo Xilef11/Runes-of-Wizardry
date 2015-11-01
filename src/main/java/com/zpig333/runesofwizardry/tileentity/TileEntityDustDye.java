@@ -5,6 +5,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
@@ -12,6 +13,7 @@ import net.minecraft.util.IChatComponent;
 
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
+import com.zpig333.runesofwizardry.network.guipackets.DustDyeUpdatePacket;
 
 
 public class TileEntityDustDye extends TileEntity implements IInventory{
@@ -26,7 +28,14 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 		//colorString=StatCollector.translateToLocal(References.Lang.COLOR);
 	}
 	public void dye(int color){
-		contents[0].getTagCompound().setInteger("color", color);
+		if(contents[0]==null)return;
+		//NPE was because tagCompound is null...
+		NBTTagCompound compound = contents[0].getTagCompound();
+		if(compound == null){
+			compound = new NBTTagCompound();
+			contents[0].setTagCompound(compound);
+		}
+		compound.setInteger("color", color);
 		setColor(Integer.toHexString(color));
 	}
 	/**
@@ -47,7 +56,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	public int getSizeInventory() {
 		return contents.length;
 	}
-
+	
 	@Override
 	public ItemStack getStackInSlot(int i1) {
 		return contents[i1];
