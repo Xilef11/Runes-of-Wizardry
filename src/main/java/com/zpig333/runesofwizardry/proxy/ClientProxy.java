@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.client.event.ModelBakeEventHandler;
 import com.zpig333.runesofwizardry.client.event.TextureStitchEventHandler;
 import com.zpig333.runesofwizardry.client.model.ModelDustStorage;
@@ -41,16 +42,18 @@ public class ClientProxy extends CommonProxy{
 		// For the camouflage block, we ignore the iBlockState completely and always return the same ModelResourceLocation,
 		//   which is done using the anonymous class below
 		for(final IDustStorageBlock block : DustRegistry.getAllBlocks()){
-			WizardryLogger.logInfo("Creating StateMapper for "+block.getName());
-			StateMapperBase mapper = new StateMapperBase() {
-				@Override
-				protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
-					int meta = (Integer) iBlockState.getValue(IDustStorageBlock.PROPERTYMETA);
-					//TODO: avoid getting ModelResourceLocations for unused meta values (returning null dosen't work)
-					return ModelDustStorage.getModelResourceLocation(block, meta);
-				}
-			};
-			ModelLoader.setCustomStateMapper(block, mapper);
+			if(!block.getIDust().hasCustomBlock()){
+				WizardryLogger.logInfo("Creating StateMapper for "+block.getName());
+				StateMapperBase mapper = new StateMapperBase() {
+					@Override
+					protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
+						int meta = (Integer) iBlockState.getValue(ADustStorageBlock.PROPERTYMETA);
+						//TODO: avoid getting ModelResourceLocations for unused meta values (returning null dosen't work)
+						return ModelDustStorage.getModelResourceLocation(block, meta);
+					}
+				};
+				ModelLoader.setCustomStateMapper(block.getInstance(), mapper);
+			}
 		}
 
 		// ModelBakeEvent will be used to add our ISmartBlockModel to the ModelManager's registry (the
@@ -73,13 +76,15 @@ public class ClientProxy extends CommonProxy{
 	    //   of any extra items you have created.  Hence you have to do it manually.  This will probably change in future.
 	    // It must be done in the init phase, not preinit, and must be done on client only.
 		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
-			WizardryLogger.logDebug("Processing item: "+b.getName());
-			Item itemBlockDustStorage = GameRegistry.findItem(References.modid, b.getName());
-			for(int meta: b.getIDust().getMetaValues()){
-				WizardryLogger.logDebug("meta: "+meta);
-				//ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(ModelDustStorage.getModelResourceLocationPath(b, meta), "inventory");
-				ModelResourceLocation itemModelResourceLocation = ModelDustStorage.getModelResourceLocation(b, meta);				
-				Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlockDustStorage, meta, itemModelResourceLocation);
+			if(!b.getIDust().hasCustomBlock()){
+				WizardryLogger.logDebug("Processing item: "+b.getName());
+				Item itemBlockDustStorage = GameRegistry.findItem(References.modid, b.getName());
+				for(int meta: b.getIDust().getMetaValues()){
+					WizardryLogger.logDebug("meta: "+meta);
+					//ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(ModelDustStorage.getModelResourceLocationPath(b, meta), "inventory");
+					ModelResourceLocation itemModelResourceLocation = ModelDustStorage.getModelResourceLocation(b, meta);				
+					Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlockDustStorage, meta, itemModelResourceLocation);
+				}
 			}
 		}
 	}

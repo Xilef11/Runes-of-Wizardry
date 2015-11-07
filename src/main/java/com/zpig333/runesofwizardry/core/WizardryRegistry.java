@@ -226,9 +226,9 @@ public class WizardryRegistry {
 		for(IDust dust:DustRegistry.getAllDusts()){
 			for(int meta:dust.getMetaValues()){
 				ItemStack[] recipe = dust.getInfusionItems(new ItemStack(dust, 1, meta));
-				if(recipe!=null && DustRegistry.getDefaultBlock(dust)!=null){
-					ItemStack output = new ItemStack(DustRegistry.getDefaultBlock(dust),1,meta);
-					ItemStack input = new ItemStack(DustRegistry.getDefaultBlock(RWDusts.dust_inert));
+				if(recipe!=null && DustRegistry.getBlock(dust)!=null){
+					ItemStack output = new ItemStack(DustRegistry.getBlock(dust).getInstance(),1,meta);
+					ItemStack input = new ItemStack(DustRegistry.getBlock(RWDusts.dust_inert).getInstance());
 					DustRegistry.registerBlockInfusion(recipe,input, output);
 				}
 			}
