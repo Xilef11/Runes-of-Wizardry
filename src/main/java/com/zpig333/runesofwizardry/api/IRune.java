@@ -13,6 +13,11 @@ import net.minecraft.item.ItemStack;
  *
  */
 public interface IRune {
+	/** Returns the name of this rune
+	 * 
+	 * @return the (unlocalized) name of this rune
+	 */
+	public String getName();
 	/** Returns a n*4 by m*4 array of ItemStacks, where n and m are the number of 
 	 *  rows and columns of Minecraft Blocks that make up this Rune.<br/>
 	 *  Note that the ItemStacks MUST be stacks of IDust.

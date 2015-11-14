@@ -14,7 +14,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
+import com.zpig333.runesofwizardry.core.RunesUtil;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.core.RunesUtil.InvalidRuneException;
 
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
@@ -25,14 +27,23 @@ public class DustRegistry {
 	private static Map<IDust,IDustStorageBlock> blocks = new HashMap<IDust,IDustStorageBlock>();
 	/** Map of all the infusion recipes **/
 	//TODO use a RecipeHandler for this
-	private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
-
-	/** returns a list of all the registered dusts
+	//private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
+	/**List of all registered runes**/
+	private static List<IRune> runes = new LinkedList<IRune>();
+	
+	/** returns a list of all the registered dusts.
 	 * 
 	 * @return a LinkedList of all the dusts, in the order they were registered
 	 */
 	public static List<IDust> getAllDusts(){
 		return new LinkedList<IDust>(dusts);
+	}
+	/** returns all the registered runes
+	 * 
+	 * @return a LinkedList of all runes, in the order they were registered
+	 */
+	public static List<IRune> getAllRunes(){
+		return new LinkedList<IRune>(runes);
 	}
 	/** Given a dust, returns the block that was created in registerDust
 	 * 
@@ -87,6 +98,15 @@ public class DustRegistry {
 		}
 		
 	}
+	/** Validates and registers a rune in the RunesOfWizardry system.
+	 * 
+	 * @param rune the rune to register
+	 * @throws InvalidRuneException if the given rune is invalid
+	 */
+	public static void registerRune(final IRune rune){
+		RunesUtil.validateRune(rune);
+		runes.add(rune);
+	}
 	/**
 	 * 
 	 * @param materials the recipe to infuse the dust 
@@ -120,9 +140,10 @@ public class DustRegistry {
 	 * @param recipe the infusion recipe to look up
 	 * @return the (dust) ItemStack associated with this recipe
 	 */
-	public static ItemStack getDustFromRecipe(ItemStack[] recipe){
-		return recipes.get(recipe);
-	}
+	//XXX
+//	public static ItemStack getDustFromRecipe(ItemStack[] recipe){
+//		return recipes.get(recipe);
+//	}
 	/** Find if a given Block is placed Dust
 	 * @param blockState the block to check
 	 * @return {@code true} if the argument is placed dust
