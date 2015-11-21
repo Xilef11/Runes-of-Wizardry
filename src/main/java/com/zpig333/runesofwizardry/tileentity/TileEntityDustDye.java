@@ -126,7 +126,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	/**
 	 * Returns the name of the inventory
 	 */
-	public String getName()
+	public String getCommandSenderName()
 	{
 		return References.modid+".DustDye";
 	}
@@ -200,7 +200,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	public IChatComponent getDisplayName() {
 		//line from InventoryBasic
 		//might want to always return the translated version? (dosen't seem much used, leave as is.)
-		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
+		return this.hasCustomName() ? new ChatComponentText(this.getCommandSenderName()) : new ChatComponentTranslation(this.getCommandSenderName(), new Object[0]);
 	}
 	/*[refactor] the following methods are used to change the fields of the TileEntity.
 	 * we are already doing this in other ways, but we might want to switch to them eventually
