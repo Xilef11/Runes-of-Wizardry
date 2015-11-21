@@ -15,6 +15,7 @@ import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.event.BlockEventHandler;
+import com.zpig333.runesofwizardry.guide.GuideWizardry;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
@@ -60,6 +61,8 @@ public class RunesOfWizardry {
 		initNetwork();
 		// the GUI handler
 		NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance,new GuiHandler());
+		//basic guide book
+		GuideWizardry.buildGuide();
 	}
 
 	public static void initNetwork() {

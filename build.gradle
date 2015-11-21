@@ -42,6 +42,9 @@ repositories{
 				name = 'CodeChicken'
 				url = 'http://chickenbones.net/maven/'
 			}
+	maven { 
+				url 'http://tehnut.info/maven/' 
+			}
 }
 dependencies {
     // you may put jars on which you depend on in ./libs
@@ -63,6 +66,8 @@ dependencies {
 	compile 'codechicken:CodeChickenCore:1.8-1.0.5.34:dev'
 	compile 'codechicken:CodeChickenLib:1.8-1.1.2.115:dev'
 	compile 'codechicken:NotEnoughItems:1.8-1.0.5.82:dev'
+	
+	compile "info.amerifrance.guideapi:Guide-API:1.8-1.0.0-21:deobf"
 }
 
 	tasks.withType(JavaCompile) {
