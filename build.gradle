@@ -16,7 +16,7 @@ buildscript {
 }
 
 apply plugin: 'forge'
-version = "1.8-0.4.0-dev"
+version = "1.8-0.4.0-dev-guideAPI"
 group= "com.zpig333.runesofwizardry"
 archivesBaseName = project.name
 
@@ -62,10 +62,11 @@ dependencies {
 	//classpath 'codechicken:CodeChickenCore:1.8-1.0.5.34:dev'
 	//classpath 'codechicken:CodeChickenLib:1.8-1.1.2.115:dev'
 	//classpath 'codechicken:NotEnoughItems:1.8-1.0.5.82:dev'
-		
-	compile 'codechicken:CodeChickenCore:1.8-1.0.5.34:dev'
-	compile 'codechicken:CodeChickenLib:1.8-1.1.2.115:dev'
-	compile 'codechicken:NotEnoughItems:1.8-1.0.5.82:dev'
+	
+	//if these don't get loaded when running in eclipse, try adding -Dfml.coreMods.load=mypackage.mycoremod.MyCoreModLoadingPlugin to run conf. (and messing with -noCoreSearch)
+	compile 'codechicken:CodeChickenCore:1.8-1.0.5.36:dev'
+	compile 'codechicken:CodeChickenLib:1.8-1.1.2.132:dev'
+	compile 'codechicken:NotEnoughItems:1.8-1.0.5.104:dev'
 	
 	compile "info.amerifrance.guideapi:Guide-API:1.8-1.0.0-21:deobf"
 }
