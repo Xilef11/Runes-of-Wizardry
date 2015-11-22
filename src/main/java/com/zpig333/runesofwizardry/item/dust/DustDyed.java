@@ -63,4 +63,13 @@ public class DustDyed extends IDust{
 	public boolean hasCustomBlock(){
 		return true;//no block at all, actually...
 	}
+
+	@Override
+	public String getDescription(int meta) {
+		return "runesofwizardry.guide.description.dust_dyed";
+	}
+	@Override
+	public boolean appearsInGuideBook(){
+		return false;
+	}
 }

@@ -18,6 +18,13 @@ public interface IRune {
 	 * @return the (unlocalized) name of this rune
 	 */
 	public String getName();
+	
+	/** Returns the description of this Rune for the Runic Dictionary
+	 * 
+	 * @return the unlocalized String for the description
+	 */
+	public abstract String getDescription();
+	
 	/** Returns a n*4 by m*4 array of ItemStacks, where n and m are the number of 
 	 *  rows and columns of Minecraft Blocks that make up this Rune.<br/>
 	 *  Note that the ItemStacks MUST be stacks of IDust.

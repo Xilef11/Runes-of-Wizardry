@@ -34,4 +34,8 @@ public class DustGlowstone extends IDust {
 		//TODO Glowstone infusion
 		return new ItemStack[]{new ItemStack(Blocks.glowstone)};
 	}
+	@Override
+	public String getDescription(int meta) {
+		return "runesofwizardry.guide.description.dust_glowstone";
+	}
 }

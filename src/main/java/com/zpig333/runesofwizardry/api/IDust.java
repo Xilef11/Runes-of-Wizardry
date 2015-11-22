@@ -1,5 +1,8 @@
 package com.zpig333.runesofwizardry.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,6 +15,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import amerifrance.guideapi.api.abstraction.IPage;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
@@ -32,6 +36,12 @@ public abstract class IDust extends Item {
 	 * @return the dust name
 	 */
 	public abstract String getDustName();
+	/** Returns the description of this dust for the Runic Dictionary
+	 * @param meta the metadata value for the dust with this description
+	 * @return the unlocalized String for the description
+	 */
+	public abstract String getDescription(int meta);
+	
 	/**returns the primary color of the dust (can be based on metadata/nbt)
 	 * 
 	 * @return the primary color of the dust (0xRRGGBB is the suggested format to make your life easier)
@@ -52,7 +62,8 @@ public abstract class IDust extends Item {
 
 	/** returns the items used to obtain this dust by infusing inert dust. /!\ MAX OF 8 Stacks for now
 	 * @note If you want to use NBT to have different dust types, return {@code null} here, since the registering method does not handle it, 
-	 * and manually call {@link DustRegistry#registerBlockInfusion(ItemStack[], ItemStack, ItemStack)}
+	 * and manually call {@link DustRegistry#registerBlockInfusion(ItemStack[], ItemStack, ItemStack)}<br/>
+	 * Also, Note that the block to be infused will always show up in the guide book as an inert dust block
 	 * @return - the items used to infuse this dust. (has to be an ItemStack for metadata)
 	 * <br/>- <code>null</code> for custom crafting mechanics
 	 */
@@ -117,6 +128,14 @@ public abstract class IDust extends Item {
 		if(!(thisDust.getItem() instanceof IDust && otherDust.getItem() instanceof IDust))return false;
 		return ItemStack.areItemStacksEqual(thisDust, otherDust);
 	}
+	/** returns pages (from Guide-API) for the additional crafting steps (other than the infusion) 
+	 *  required for this dust. They will get added between the description of the dust and the infusion
+	 * @param the metadata value (from {@link IDust#getMetaValues()}) for these pages
+	 * @return a list of IPage to add between description and infusion. an empty ArrayList by default.
+	 */
+	public List<IPage> getAdditionalCraftingPages(int meta){
+		return new ArrayList<IPage>();
+	}
 	/** what happens when the dust is used. places the dust by default,<br/>
 	 *  override for custom behaviour, but don't forget to call super.onItemUse()
 	 * 
@@ -156,6 +175,13 @@ public abstract class IDust extends Item {
 		IDust dust = DustRegistry.getDustFromItemStack(stack);
 		return pass == 0 ? dust.getPrimaryColor(stack) : dust.getSecondaryColor(stack);
 
+	}
+	/** DOes this dust appear in the "dusts" category of the guide?
+	 * 
+	 * @return true by default
+	 */
+	public boolean appearsInGuideBook() {
+		return true;
 	}
 
 }

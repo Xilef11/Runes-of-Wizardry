@@ -35,4 +35,8 @@ public class DustEnder extends IDust {
 		//TODO Ender infusion
 		return new ItemStack[]{new ItemStack(Items.ender_pearl),new ItemStack(Blocks.obsidian)};
 	}
+	@Override
+	public String getDescription(int meta) {
+		return "runesofwizardry.guide.description.dust_ender";
+	}
 }

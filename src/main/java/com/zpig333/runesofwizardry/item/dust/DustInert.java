@@ -28,4 +28,12 @@ public class DustInert extends IDust {
 	public ItemStack[] getInfusionItems(ItemStack stack) {
 		return null;
 	}
+	@Override
+	public String getDescription(int meta) {
+		return "runesofwizardry.guide.description.dust_inert";
+	}
+	@Override
+	public boolean appearsInGuideBook(){
+		return false;
+	}
 }

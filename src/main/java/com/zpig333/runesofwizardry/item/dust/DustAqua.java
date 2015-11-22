@@ -29,4 +29,8 @@ public class DustAqua extends IDust {
 		//TODO Aqua infusion
 		return new ItemStack[]{new ItemStack(Items.dye,1,EnumDyeColor.BLUE.getDyeDamage()),new ItemStack(Items.water_bucket)};
 	}
+	@Override
+	public String getDescription(int meta) {
+		return "runesofwizardry.guide.description.dust_aqua";
+	}
 }

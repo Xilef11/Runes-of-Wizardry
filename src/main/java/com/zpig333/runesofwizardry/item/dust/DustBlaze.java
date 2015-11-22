@@ -34,4 +34,8 @@ public class DustBlaze extends IDust{
 		ItemStack[] items = {new ItemStack(WizardryRegistry.lavastone,1)};
 		return items;
 	}
+	@Override
+	public String getDescription(int meta) {
+		return "runesofwizardry.guide.description.dust_blaze";
+	}
 }

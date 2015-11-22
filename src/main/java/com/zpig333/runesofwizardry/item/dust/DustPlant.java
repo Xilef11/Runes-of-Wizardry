@@ -30,4 +30,8 @@ public class DustPlant extends IDust {
 		ItemStack[] items={new ItemStack(WizardryRegistry.plantballs, 1, 1)};
 		return items;
 	}
+	@Override
+	public String getDescription(int meta) {
+		return "runesofwizardry.guide.description.dust_plant";
+	}
 }
