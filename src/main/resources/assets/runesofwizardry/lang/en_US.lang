@@ -40,3 +40,16 @@ tile.runesofwizardry_dust_placed.name=Runic Dust
 #misc words
 runesofwizardry.lang.color=Color
 runesofwizardry.lang.dye=Dye
+
+# guide book
+runesofwizardry.guide.categories.basics=Basics
+runesofwizardry.guide.categories.dusts=Runic Dusts
+runesofwizardry.guide.categories.decoration=Decoration
+
+runesofwizardry.guide.welcomemessage=
+runesofwizardry.guide.descriptions.pestle=To work with dusts, one must first make dust. A pestle of bone and stone should be able to handle that...
+runesofwizardry.guide.descriptions.dust_inert=By mixing clay and bonemeal, it is possible to create a base that may be infused with arcane abilities.
+
+runesofwizardry.guide.descriptions.dust_dyed=Using baked bricks instead of soft clay when making dust yields a significantly larger amount of it. However, it seems unresponsive to most types of Magic.
+runesofwizardry.guide.descriptions.dust_dye=This device allows to dye Chalk Dust into any possible color.
+
