@@ -4,6 +4,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.guide.GuideWizardry;
 
 public class DustGlowstone extends IDust {
 	public DustGlowstone(){
@@ -36,6 +37,6 @@ public class DustGlowstone extends IDust {
 	}
 	@Override
 	public String getDescription(int meta) {
-		return "runesofwizardry.guide.description.dust_glowstone";
+		return GuideWizardry.DESC+".dust_glowstone";
 	}
 }

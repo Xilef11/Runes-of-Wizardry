@@ -47,7 +47,7 @@ public class WizardryRegistry {
 	public static Item runic_staff;
 
 	//dyed dust
-	public static Item dust_dyed;
+	public static IDust dust_dyed;
 	/**create the instances for all the blocks**/
 	public static void initBlocks(){
 

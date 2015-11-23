@@ -5,6 +5,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.guide.GuideWizardry;
 
 public class DustAqua extends IDust {
 	@Override
@@ -31,6 +32,6 @@ public class DustAqua extends IDust {
 	}
 	@Override
 	public String getDescription(int meta) {
-		return "runesofwizardry.guide.description.dust_aqua";
+		return GuideWizardry.DESC+".dust_aqua";
 	}
 }

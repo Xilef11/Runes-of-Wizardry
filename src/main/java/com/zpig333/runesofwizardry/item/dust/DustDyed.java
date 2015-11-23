@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.guide.GuideWizardry;
 
 public class DustDyed extends IDust{
 
@@ -66,7 +67,7 @@ public class DustDyed extends IDust{
 
 	@Override
 	public String getDescription(int meta) {
-		return "runesofwizardry.guide.description.dust_dyed";
+		return GuideWizardry.DESC+".dust_dyed";
 	}
 	@Override
 	public boolean appearsInGuideBook(){

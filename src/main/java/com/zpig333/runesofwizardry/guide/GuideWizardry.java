@@ -21,12 +21,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import amerifrance.guideapi.api.abstraction.CategoryAbstract;
 import amerifrance.guideapi.api.abstraction.EntryAbstract;
 import amerifrance.guideapi.api.abstraction.IPage;
 import amerifrance.guideapi.api.base.Book;
+import amerifrance.guideapi.api.base.CategoryBase;
 import amerifrance.guideapi.api.registry.GuideRegistry;
 import amerifrance.guideapi.api.util.BookBuilder;
 import amerifrance.guideapi.categories.CategoryItemStack;
@@ -34,6 +36,7 @@ import amerifrance.guideapi.entries.EntryText;
 import amerifrance.guideapi.pages.PageFurnaceRecipe;
 import amerifrance.guideapi.pages.PageIRecipe;
 import amerifrance.guideapi.pages.PageLocText;
+import amerifrance.guideapi.pages.PageUnlocItemStack;
 import amerifrance.guideapi.pages.PageUnlocText;
 
 /** Builds a basic book from Guide-API
@@ -41,7 +44,7 @@ import amerifrance.guideapi.pages.PageUnlocText;
  *
  */
 public class GuideWizardry {
-	private final static String GUIDE = "runesofwizardry.guide",
+	public final static String GUIDE = "runesofwizardry.guide",
 								CATEGORIES = GUIDE+".categories",
 								DESC = GUIDE+".descriptions";
 	public static Book myBook;
@@ -78,6 +81,10 @@ public class GuideWizardry {
 		categories.add(new CategoryItemStack(basicEntries, CATEGORIES+".basics", new ItemStack(WizardryRegistry.pestle)));
 		//dusts
 		categories.add(new CategoryItemStack(getDustEntries(), CATEGORIES+".dusts", new ItemStack(RWDusts.dust_inert)));
+		//decoration
+		categories.add(new CategoryItemStack(getDecorationEntries(), CATEGORIES+".decoration", new ItemStack(WizardryRegistry.dust_dye)));
+		//CategoryBase isn't drawn...
+		categories.add(new CategoryBase(getDecorationEntries(), CATEGORIES+".decoration"));
 		
 		BookBuilder builder = new BookBuilder();
 		builder.setCategories(categories);
@@ -94,15 +101,19 @@ public class GuideWizardry {
 		
 		//list of pages for the pestle
 		List<IPage> pestlePages = new LinkedList<IPage>();
-		pestlePages.add(new PageUnlocText(DESC+".pestle"));
-		//hopefully this works
+		pestlePages.add(new PageUnlocItemStack(DESC+".pestle", WizardryRegistry.pestle));
 		pestlePages.add(new PageIRecipe(new ShapedOreRecipe(WizardryRegistry.pestle, new Object[]{
 			" Y ", "X X", " X ", 'X',new ItemStack(Blocks.stone),'Y',new ItemStack(Items.bone)
 		})));
 		entries.add(new EntryText(pestlePages, WizardryRegistry.pestle.getUnlocalizedName()+".name"));
-		//TODO inert dust should be here
-		
-		
+		//inert dust
+		List<IPage> inertPages = new LinkedList<IPage>();
+		inertPages.add(new PageUnlocItemStack(RWDusts.dust_inert.getDescription(0), RWDusts.dust_inert));
+		inertPages.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(RWDusts.dust_inert), new ItemStack(Items.clay_ball),new ItemStack(Items.dye,1,15),new ItemStack(WizardryRegistry.pestle))));
+		inertPages.add(new PageIRecipe(new ShapedOreRecipe(DustRegistry.getBlock(RWDusts.dust_inert).getInstance(), 
+				new Object[]{"XXX","XXX","XXX",'X',RWDusts.dust_inert})));
+		inertPages.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(RWDusts.dust_inert,9), DustRegistry.getBlock(RWDusts.dust_inert))));
+		entries.add(new EntryText(inertPages, RWDusts.dust_inert.getUnlocalizedName()+".name"));
 		return entries;
 	}
 	//returns the entries for all dusts
@@ -111,10 +122,10 @@ public class GuideWizardry {
 		for(IDust dust: DustRegistry.getAllDusts()){
 			if(dust.appearsInGuideBook()){
 				for(int meta:dust.getMetaValues()){
-					List<IPage> dustPages = new LinkedList<IPage>();
-					dustPages.add(new PageUnlocText(dust.getDescription(meta)));
-					dustPages.addAll(dust.getAdditionalCraftingPages(meta));
 					ItemStack dustStack = new ItemStack(dust,1,meta);
+					List<IPage> dustPages = new LinkedList<IPage>();
+					dustPages.add(new PageUnlocItemStack(dust.getDescription(meta),dustStack));
+					dustPages.addAll(dust.getAdditionalCraftingPages(meta));
 					if(dust.getInfusionItems(dustStack)!=null){
 						if(dust.hasCustomBlock() && dust.getCustomBlock()==null){
 							//NOP
@@ -135,14 +146,39 @@ public class GuideWizardry {
 							}
 							recipe[materials.length]=new ItemStack(DustRegistry.getBlock(RWDusts.dust_inert).getInstance());
 							//FIXME shows up as "shaped crafting"
-							dustPages.add(new PageIRecipe(new ShapelessOreRecipe(block.getInstance(), (Object[])recipe)));
-							//TODO add block <-> dust recipe pages
+							dustPages.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(block.getInstance(),1,meta), (Object[])recipe)));
+							//add block <-> dust recipe pages
+							//FIXME the *9 dosen't appear for the result
+							dustPages.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(dust,9,meta), new ItemStack(block.getInstance(), 1, meta))));
+							dustPages.add(new PageIRecipe(new ShapedOreRecipe(new ItemStack(block.getInstance(), 1, meta), 
+											new Object[]{"XXX","XXX","XXX",'X',dustStack})));
 						}
 					}
-					entries.add(new EntryText(dustPages, dust.getUnlocalizedName(dustStack)));
+					entries.add(new EntryText(dustPages, dust.getUnlocalizedName(dustStack)+".name"));
 				}
 			}
 		}
+		return entries;
+	}
+	//return entries for decorative stuff
+	private static List<EntryAbstract> getDecorationEntries(){
+		List<EntryAbstract> entries = new LinkedList<EntryAbstract>();
+		//Chalk dust
+		List<IPage> chalkPages = new LinkedList<IPage>();
+		chalkPages.add(new PageUnlocItemStack(WizardryRegistry.dust_dyed.getDescription(0), WizardryRegistry.dust_dyed));
+		chalkPages.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(WizardryRegistry.dust_dyed,32), new ItemStack(Items.brick, 1), new ItemStack(Items.dye, 1, 15), new ItemStack(WizardryRegistry.pestle))));
+		entries.add(new EntryText(chalkPages, WizardryRegistry.dust_dyed.getUnlocalizedName()+".name"));
+		//dust dye
+		List<IPage> dyePages = new LinkedList<IPage>();
+		dyePages.add(new PageUnlocItemStack(DESC+".dustDye", WizardryRegistry.dust_dye));
+		dyePages.add(new PageIRecipe(new ShapedOreRecipe(new ItemStack(WizardryRegistry.dust_dye), "XXX","XYX","XXX",'X',new ItemStack(Items.dye,1,OreDictionary.WILDCARD_VALUE),'Y',new ItemStack(WizardryRegistry.dust_dyed))));
+		entries.add(new EntryText(dyePages, WizardryRegistry.dust_dye.getUnlocalizedName()+".name"));
+		//lavastone bricks
+		List<IPage> bricksPages = new LinkedList<IPage>();
+		bricksPages.add(new PageUnlocItemStack(DESC+".lavastone_bricks", WizardryRegistry.lavastone_bricks));
+		bricksPages.add(new PageIRecipe(new ShapedOreRecipe(new ItemStack(WizardryRegistry.lavastone_bricks,4),new Object[]{
+			"XX","XX",'X',new ItemStack(WizardryRegistry.lavastone,1)
+		})));
 		return entries;
 	}
 }

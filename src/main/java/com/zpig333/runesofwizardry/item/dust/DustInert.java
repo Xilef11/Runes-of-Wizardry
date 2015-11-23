@@ -3,6 +3,7 @@ package com.zpig333.runesofwizardry.item.dust;
 import net.minecraft.item.ItemStack;
 
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.guide.GuideWizardry;
 
 public class DustInert extends IDust {
 	public DustInert(){
@@ -30,7 +31,7 @@ public class DustInert extends IDust {
 	}
 	@Override
 	public String getDescription(int meta) {
-		return "runesofwizardry.guide.description.dust_inert";
+		return GuideWizardry.DESC+".dust_inert";
 	}
 	@Override
 	public boolean appearsInGuideBook(){

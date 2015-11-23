@@ -5,6 +5,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.guide.GuideWizardry;
 
 public class DustEnder extends IDust {
 	public DustEnder(){
@@ -37,6 +38,6 @@ public class DustEnder extends IDust {
 	}
 	@Override
 	public String getDescription(int meta) {
-		return "runesofwizardry.guide.description.dust_ender";
+		return GuideWizardry.DESC+".dust_ender";
 	}
 }
