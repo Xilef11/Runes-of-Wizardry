@@ -46,10 +46,18 @@ runesofwizardry.guide.categories.basics=Basics
 runesofwizardry.guide.categories.dusts=Runic Dusts
 runesofwizardry.guide.categories.decoration=Decoration
 
-runesofwizardry.guide.welcomemessage=
+runesofwizardry.guide.welcomemessage=Welcome to Runes of Wizardry. This Dictionary will guide you through most of what you need to know to work with Runic Dusts.
 runesofwizardry.guide.descriptions.pestle=To work with dusts, one must first make dust. A pestle of bone and stone should be able to handle that...
 runesofwizardry.guide.descriptions.dust_inert=By mixing clay and bonemeal, it is possible to create a base that may be infused with arcane abilities.
 
 runesofwizardry.guide.descriptions.dust_dyed=Using baked bricks instead of soft clay when making dust yields a significantly larger amount of it. However, it seems unresponsive to most types of Magic.
-runesofwizardry.guide.descriptions.dust_dye=This device allows to dye Chalk Dust into any possible color.
+runesofwizardry.guide.descriptions.dustDye=This device allows to dye Chalk Dust into any possible color. Note that any color of dye may be used to craft it.
+runesofwizardry.guide.descriptions.lavastone_bricks=The fiery Lavastone also makes a great decorative block!
+
+runesofwizardry.guide.descriptions.dust_plant=The base of all Magic usually comes from Nature. Quite a lot of mashed plants are necessary to concentrate enough energy to infuse dust with the power of Plants. Note that any type of leaves, tall grass or sapling may be used.
+runesofwizardry.guide.descriptions.dust_aqua=Using Lapis Lazuli as a catalyst makes infusing dust with the properties of Water quite simple.
+runesofwizardry.guide.descriptions.dust_blaze=Capturing the fiery energy of the Nether may prove to be tricky, but it yields a quite powerful dust.
+runesofwizardry.guide.descriptions.dust_glowstone=It is unknown what energy makes Glowstone shine, but it may be useful to capture it in a dust.
+runesofwizardry.guide.descriptions.dust_ender=The End may be a mystery, but it is known that its power fuels the teleportation of Endermen. Perhaps it may also fuel your magic?
+
 

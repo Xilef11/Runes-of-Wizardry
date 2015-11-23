@@ -3,6 +3,7 @@ package com.zpig333.runesofwizardry.item.dust;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -55,11 +56,12 @@ public class DustPlant extends IDust {
 		craftingSteps.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(WizardryRegistry.plantballs, 1, 0), new ItemStack(Blocks.red_flower), new ItemStack(WizardryRegistry.pestle))));
 		//craftingSteps.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(WizardryRegistry.plantballs, 1, 0), new ItemStack(Blocks.yellow_flower, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(WizardryRegistry.pestle))));
 		//tall grass
-		craftingSteps.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(WizardryRegistry.plantballs, 1, 0), new ItemStack(Blocks.tallgrass), new ItemStack(WizardryRegistry.pestle))));
+		craftingSteps.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(WizardryRegistry.plantballs, 1, 0), new ItemStack(Blocks.tallgrass, 1, BlockTallGrass.EnumType.GRASS.getMeta()), new ItemStack(WizardryRegistry.pestle))));
 		//Leaves
-		craftingSteps.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(WizardryRegistry.plantballs, 1, 0), "treeLeaves", new ItemStack(WizardryRegistry.pestle))));
+		//oredict name dosen't work for icon
+		craftingSteps.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(WizardryRegistry.plantballs, 1, 0), Blocks.leaves, new ItemStack(WizardryRegistry.pestle))));
 		//saplings
-		craftingSteps.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(WizardryRegistry.plantballs, 1, 0), "treeSapling", new ItemStack(WizardryRegistry.pestle))));
+		craftingSteps.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(WizardryRegistry.plantballs, 1, 0), Blocks.sapling, new ItemStack(WizardryRegistry.pestle))));
 		//small -> large
 		craftingSteps.add(new PageIRecipe(new ShapedOreRecipe(new ItemStack(WizardryRegistry.plantballs, 1, 1), new Object[]{
 			"XXX", "XXX", "XXX", 'X', new ItemStack(WizardryRegistry.plantballs, 1, 0)

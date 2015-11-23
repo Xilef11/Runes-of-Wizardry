@@ -171,7 +171,7 @@ public class GuideWizardry {
 		//dust dye
 		List<IPage> dyePages = new LinkedList<IPage>();
 		dyePages.add(new PageUnlocItemStack(DESC+".dustDye", WizardryRegistry.dust_dye));
-		dyePages.add(new PageIRecipe(new ShapedOreRecipe(new ItemStack(WizardryRegistry.dust_dye), "XXX","XYX","XXX",'X',new ItemStack(Items.dye,1,OreDictionary.WILDCARD_VALUE),'Y',new ItemStack(WizardryRegistry.dust_dyed))));
+		dyePages.add(new PageIRecipe(new ShapedOreRecipe(new ItemStack(WizardryRegistry.dust_dye), "XXX","XYX","XXX",'X',new ItemStack(Items.dye),'Y',new ItemStack(WizardryRegistry.dust_dyed))));
 		entries.add(new EntryText(dyePages, WizardryRegistry.dust_dye.getUnlocalizedName()+".name"));
 		//lavastone bricks
 		List<IPage> bricksPages = new LinkedList<IPage>();
@@ -179,6 +179,11 @@ public class GuideWizardry {
 		bricksPages.add(new PageIRecipe(new ShapedOreRecipe(new ItemStack(WizardryRegistry.lavastone_bricks,4),new Object[]{
 			"XX","XX",'X',new ItemStack(WizardryRegistry.lavastone,1)
 		})));
+		bricksPages.add(new PageIRecipe(new ShapelessOreRecipe(new ItemStack(WizardryRegistry.nether_paste,1),
+				new ItemStack(Blocks.netherrack),new ItemStack(WizardryRegistry.pestle),new ItemStack(Items.blaze_powder))));
+		bricksPages.add(new PageFurnaceRecipe(WizardryRegistry.nether_paste));
+		entries.add(new EntryText(bricksPages,WizardryRegistry.lavastone_bricks.getUnlocalizedName()+".name"));
+		
 		return entries;
 	}
 }
