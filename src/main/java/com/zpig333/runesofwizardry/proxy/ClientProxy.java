@@ -9,6 +9,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import amerifrance.guideapi.api.registry.GuideRegistry;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
@@ -19,6 +20,9 @@ import com.zpig333.runesofwizardry.client.model.ModelDustStorage;
 import com.zpig333.runesofwizardry.client.render.RenderDustPlaced;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.guide.GuideWizardry;
+import com.zpig333.runesofwizardry.item.ItemRunicDictionary;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 public class ClientProxy extends CommonProxy{
@@ -88,5 +92,15 @@ public class ClientProxy extends CommonProxy{
 			}
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.proxy.CommonProxy#registerGuideModel()
+	 */
+	@Override
+	public void registerGuideModel() {
+		GuideRegistry.registerBookModel(GuideWizardry.myBook, References.texture_path + ((ItemRunicDictionary) WizardryRegistry.runic_dictionary).getName());
+	}
+	
+	
 
 }

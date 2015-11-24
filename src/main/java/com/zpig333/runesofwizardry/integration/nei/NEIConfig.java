@@ -6,11 +6,14 @@
 package com.zpig333.runesofwizardry.integration.nei;
 
 import net.minecraft.item.ItemStack;
+import amerifrance.guideapi.api.registry.GuideRegistry;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.guide.GuideWizardry;
 
 /**
  * @author Xilef11
@@ -41,6 +44,10 @@ public class NEIConfig implements IConfigureNEI {
 	public void loadConfig() {
 		// We do our stuff here
 		API.hideItem(new ItemStack(WizardryRegistry.dust_placed));
+		if(RunesOfWizardry.guideApiLoaded){
+			//we get in here, but it is not hidden...
+			API.hideItem(GuideRegistry.getItemStackForBook(GuideWizardry.myBook));
+		}
 	}
 
 }

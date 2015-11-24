@@ -2,8 +2,14 @@ package com.zpig333.runesofwizardry.item;
 
 import java.util.List;
 
+import amerifrance.guideapi.api.registry.GuideRegistry;
+
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.guide.GuideWizardry;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 
 public class ItemRunicDictionary extends WizardryItem {
@@ -22,8 +28,24 @@ public class ItemRunicDictionary extends WizardryItem {
 	 */
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn,List tooltip, boolean advanced) {
-		tooltip.add("Unimplemented");
+		if(!RunesOfWizardry.guideApiLoaded){
+			tooltip.add("Install Guide-API to activate");
+		}
 	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#onItemRightClick(net.minecraft.item.ItemStack, net.minecraft.world.World, net.minecraft.entity.player.EntityPlayer)
+	 */
+	@Override
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn,EntityPlayer playerIn) {
+		if(RunesOfWizardry.guideApiLoaded){
+			//trade this for the Guide-API version, and open it.
+			ItemStack guideBook = GuideRegistry.getItemStackForBook(GuideWizardry.myBook);
+			return guideBook.getItem().onItemRightClick(guideBook, worldIn, playerIn);
+		}
+		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
+	}
+	
+	
 	
 
 }

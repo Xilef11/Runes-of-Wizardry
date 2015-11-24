@@ -24,7 +24,7 @@ public class ItemRunicStaff extends WizardryItem {
 	 */
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn,List tooltip, boolean advanced) {
-		tooltip.add("Unimplemented");
+		//tooltip.add("Unimplemented");
 	}
 	//the following methods are for rendering and may be temporary
 	//XXX still not happy with 3rd person attack animation

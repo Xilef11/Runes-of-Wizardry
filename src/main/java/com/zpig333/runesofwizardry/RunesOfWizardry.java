@@ -3,6 +3,7 @@ package com.zpig333.runesofwizardry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -25,6 +26,8 @@ import com.zpig333.runesofwizardry.proxy.CommonProxy;
 @Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@")
 public class RunesOfWizardry {
 
+	public static boolean guideApiLoaded;
+	
 	@SidedProxy(clientSide = References.client_proxy, serverSide = References.server_proxy)
 	public static CommonProxy proxy;
 
@@ -36,6 +39,7 @@ public class RunesOfWizardry {
 
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
+		guideApiLoaded = Loader.isModLoaded("guideapi");
 		WizardryRegistry.initBlocks();
 		WizardryRegistry.initItems();
 		WizardryRegistry.initDusts();
@@ -62,9 +66,14 @@ public class RunesOfWizardry {
 		// the GUI handler
 		NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance,new GuiHandler());
 		//basic guide book
-		GuideWizardry.buildGuide();
+		if(guideApiLoaded)GuideWizardry.buildGuide();
 	}
-
+	@Mod.EventHandler
+	public void postInit(FMLInitializationEvent event){
+		if(guideApiLoaded){
+			proxy.registerGuideModel();
+		}
+	}
 	public static void initNetwork() {
 		networkWrapper = NetworkRegistry.INSTANCE
 				.newSimpleChannel(References.modid);

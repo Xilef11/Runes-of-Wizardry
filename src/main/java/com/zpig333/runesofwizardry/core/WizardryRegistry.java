@@ -132,6 +132,13 @@ public class WizardryRegistry {
 		GameRegistry.addShapedRecipe(new ItemStack(dust_dye), "XXX","XYX","XXX",'X',new ItemStack(Items.dye,1,OreDictionary.WILDCARD_VALUE),'Y',new ItemStack(dust_dyed));
 		//inert dust
 		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_inert), new ItemStack(Items.clay_ball),new ItemStack(Items.dye,1,15),new ItemStack(pestle,1, OreDictionary.WILDCARD_VALUE));
+		//staff (subject to balance changes)
+		GameRegistry.addShapedRecipe(new ItemStack(WizardryRegistry.runic_staff), " WX", " YW", "Z  ",
+				'X',new ItemStack(Items.diamond),'Y',new ItemStack(Items.stick),
+				'Z',new ItemStack(Items.gold_ingot),'W',new ItemStack(Items.gold_nugget));
+		//Guide
+		GameRegistry.addShapelessRecipe(new ItemStack(WizardryRegistry.runic_dictionary), new ItemStack(Items.book),new ItemStack(WizardryRegistry.runic_staff));
+		
 	}
 
 

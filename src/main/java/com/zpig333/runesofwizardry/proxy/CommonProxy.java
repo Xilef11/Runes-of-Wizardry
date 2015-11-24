@@ -16,4 +16,8 @@ public class CommonProxy {
 		//Client
 	}
 
+	public void registerGuideModel() {
+		// Client only
+	}
+
 }
