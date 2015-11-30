@@ -98,7 +98,7 @@ public class ClientProxy extends CommonProxy{
 	 */
 	@Override
 	public void registerGuideModel() {
-		GuideRegistry.registerBookModel(GuideWizardry.myBook, References.texture_path + ((ItemRunicDictionary) WizardryRegistry.runic_dictionary).getName());
+		GuideRegistry.registerBookModel(GuideWizardry.guideBook, References.texture_path + ((ItemRunicDictionary) WizardryRegistry.runic_dictionary).getName());
 	}
 	
 	

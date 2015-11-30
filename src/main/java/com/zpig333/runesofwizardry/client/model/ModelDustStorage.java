@@ -24,7 +24,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.client.event.TextureStitchEventHandler;
-import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 /**

@@ -2,14 +2,13 @@ package com.zpig333.runesofwizardry.item;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import amerifrance.guideapi.api.registry.GuideRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.guide.GuideWizardry;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
 
 public class ItemRunicDictionary extends WizardryItem {
@@ -39,7 +38,7 @@ public class ItemRunicDictionary extends WizardryItem {
 	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn,EntityPlayer playerIn) {
 		if(RunesOfWizardry.guideApiLoaded){
 			//trade this for the Guide-API version, and open it.
-			ItemStack guideBook = GuideRegistry.getItemStackForBook(GuideWizardry.myBook);
+			ItemStack guideBook = GuideRegistry.getItemStackForBook(GuideWizardry.guideBook);
 			return guideBook.getItem().onItemRightClick(guideBook, worldIn, playerIn);
 		}
 		return super.onItemRightClick(itemStackIn, worldIn, playerIn);

@@ -5,23 +5,12 @@
  */
 package com.zpig333.runesofwizardry.guide;
 
-import java.awt.Color;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.api.IDustStorageBlock;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.item.dust.RWDusts;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import amerifrance.guideapi.api.abstraction.CategoryAbstract;
@@ -35,9 +24,13 @@ import amerifrance.guideapi.categories.CategoryItemStack;
 import amerifrance.guideapi.entries.EntryText;
 import amerifrance.guideapi.pages.PageFurnaceRecipe;
 import amerifrance.guideapi.pages.PageIRecipe;
-import amerifrance.guideapi.pages.PageLocText;
 import amerifrance.guideapi.pages.PageUnlocItemStack;
-import amerifrance.guideapi.pages.PageUnlocText;
+
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.dust.RWDusts;
 
 /** Builds a basic book from Guide-API
  * @author Xilef11
@@ -47,7 +40,7 @@ public class GuideWizardry {
 	public final static String GUIDE = "runesofwizardry.guide",
 								CATEGORIES = GUIDE+".categories",
 								DESC = GUIDE+".descriptions";
-	public static Book myBook;
+	public static Book guideBook;
 	
 	public static void buildGuide(){
 		List<CategoryAbstract> categories = new LinkedList<CategoryAbstract>();
@@ -67,8 +60,8 @@ public class GuideWizardry {
 		builder.setUnlocDisplayName(WizardryRegistry.runic_dictionary.getUnlocalizedName()+".name");
 		builder.setUnlocWelcomeMessage(GUIDE+".welcomemessage");
 		builder.setHasCustomModel(true);
-		myBook = builder.build();
-		GuideRegistry.registerBook(myBook);
+		guideBook = builder.build();
+		GuideRegistry.registerBook(guideBook);
 	}
 	//returns the entries for the "basics" category
 	private static List<EntryAbstract> getBasicsEntries(){

@@ -90,7 +90,7 @@ public class WizardryRegistry {
 		DustRegistry.registerDust(RWDusts.dust_glowstone);
 		DustRegistry.registerDust(RWDusts.dust_ender);
 
-		DustRegistry.registerDust((IDust) dust_dyed);
+		DustRegistry.registerDust(dust_dyed);
 	}
 	/**Create the (vanilla) recipes**/
 	public static void initCrafting(){

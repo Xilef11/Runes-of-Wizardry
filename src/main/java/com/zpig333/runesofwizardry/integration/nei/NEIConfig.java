@@ -46,7 +46,7 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(WizardryRegistry.dust_placed));
 		if(RunesOfWizardry.guideApiLoaded){
 			//we get in here, but it is not hidden...
-			API.hideItem(GuideRegistry.getItemStackForBook(GuideWizardry.myBook));
+			API.hideItem(GuideRegistry.getItemStackForBook(GuideWizardry.guideBook));
 		}
 	}
 
