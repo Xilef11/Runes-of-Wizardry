@@ -28,4 +28,8 @@ public class DustInert extends IDust {
 	public ItemStack[] getInfusionItems(ItemStack stack) {
 		return null;
 	}
+	@Override
+	public boolean isMagicDust(ItemStack stack){
+		return false;
+	}
 }

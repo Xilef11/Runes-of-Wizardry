@@ -63,4 +63,8 @@ public class DustDyed extends IDust{
 	public boolean hasCustomBlock(){
 		return true;//no block at all, actually...
 	}
+	@Override
+	public boolean isMagicDust(ItemStack stack){
+		return false;
+	}
 }

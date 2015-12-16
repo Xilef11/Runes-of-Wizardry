@@ -14,9 +14,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
-import com.zpig333.runesofwizardry.core.RunesUtil;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.core.RunesUtil.InvalidRuneException;
+import com.zpig333.runesofwizardry.core.rune.RunesUtil;
+import com.zpig333.runesofwizardry.core.rune.RunesUtil.InvalidRuneException;
 
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
@@ -30,7 +30,59 @@ public class DustRegistry {
 	//private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
 	/**List of all registered runes**/
 	private static List<IRune> runes = new LinkedList<IRune>();
-	
+	//Special constants
+	/**
+	 * Represents any "magic" dust
+	 */
+	public static final IDust MAGIC_DUST = new IDust() {
+		
+		@Override
+		public int getSecondaryColor(ItemStack stack) {
+			return 0;
+		}
+		
+		@Override
+		public int getPrimaryColor(ItemStack stack) {
+			return 0;
+		}
+		
+		@Override
+		public ItemStack[] getInfusionItems(ItemStack stack) {
+			return null;
+		}
+		
+		@Override
+		public String getDustName() {
+			return "magic";
+		}
+	};
+	/** represents any dust **/
+	public static final IDust ANY_DUST = new IDust() {
+		
+		@Override
+		public int getSecondaryColor(ItemStack stack) {
+			return 0;
+		}
+		
+		@Override
+		public int getPrimaryColor(ItemStack stack) {
+			return 0;
+		}
+		
+		@Override
+		public ItemStack[] getInfusionItems(ItemStack stack) {
+			return null;
+		}
+		
+		@Override
+		public String getDustName() {
+			return "any";
+		}
+		@Override
+		public boolean isMagicDust(ItemStack stack){
+			return false;
+		}
+	};
 	/** returns a list of all the registered dusts.
 	 * 
 	 * @return a LinkedList of all the dusts, in the order they were registered

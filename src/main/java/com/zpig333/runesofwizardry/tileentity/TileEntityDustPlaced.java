@@ -68,6 +68,13 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public TileEntityDustPlaced() {
 		super();
 	}
+	/**
+	 * Returns the Contents of this TE (not a copy)
+	 * @return
+	 */
+	public ItemStack[][] getContents(){
+		return contents;
+	}
 	/**returns the color of all center points**/
 	public int[][] getCenterColors(){
 		if(centralColors==null)updateCenterColors();

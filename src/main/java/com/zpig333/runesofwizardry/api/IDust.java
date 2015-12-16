@@ -32,6 +32,7 @@ public abstract class IDust extends Item {
 	 * @return the dust name
 	 */
 	public abstract String getDustName();
+	
 	/**returns the primary color of the dust (can be based on metadata/nbt)
 	 * 
 	 * @return the primary color of the dust (0xRRGGBB is the suggested format to make your life easier)
@@ -49,7 +50,14 @@ public abstract class IDust extends Item {
 	public int getPlacedColor(ItemStack stack){
 		return getPrimaryColor(stack);
 	}
-
+	/**
+	 * Returns wether this dust should be matched with DustRegistry.MAGIC_DUST in runes
+	 * @param stack the stack that contains this dust
+	 * @return true by default
+	 */
+	public boolean isMagicDust(ItemStack stack){
+		return true;
+	}
 	/** returns the items used to obtain this dust by infusing inert dust. /!\ MAX OF 8 Stacks for now
 	 * @note If you want to use NBT to have different dust types, return {@code null} here, since the registering method does not handle it, 
 	 * and manually call {@link DustRegistry#registerBlockInfusion(ItemStack[], ItemStack, ItemStack)}
@@ -116,6 +124,25 @@ public abstract class IDust extends Item {
 		if(thisDust==null || otherDust==null)return false;
 		if(!(thisDust.getItem() instanceof IDust && otherDust.getItem() instanceof IDust))return false;
 		return ItemStack.areItemStacksEqual(thisDust, otherDust);
+	}
+	/**
+	 *  Returns wether the dusts in the stacks are equal for rune purposes
+	 * @param thisDust the first dust to compare
+	 * @param other the second dust to compare
+	 * @return true if both stacks contain dusts and they match, false otherwise
+	 */
+	public boolean dustsMatch(ItemStack thisDust, ItemStack other){
+		if(thisDust==null && other == null)return true;
+		if(thisDust==null || other == null)return false;//only one is null
+		//none is null
+		if(!(thisDust.getItem() instanceof IDust && other.getItem() instanceof IDust))return false;
+		if(ItemStack.areItemStacksEqual(thisDust, other))return true;
+		IDust first = (IDust)thisDust.getItem();
+		IDust second = (IDust)other.getItem();
+		if(first==DustRegistry.ANY_DUST || second == DustRegistry.ANY_DUST)return true;
+		if(first.isMagicDust(thisDust)&& second==DustRegistry.MAGIC_DUST)return true;
+		if(second.isMagicDust(thisDust)&& first==DustRegistry.MAGIC_DUST)return true;
+		return false;
 	}
 	/** what happens when the dust is used. places the dust by default,<br/>
 	 *  override for custom behaviour, but don't forget to call super.onItemUse()

@@ -26,10 +26,12 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.core.rune.RunesUtil;
+import com.zpig333.runesofwizardry.item.ItemRunicStaff;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 /**
  * This class creates the block that holds placed dust
- * [refactor] to be fixed when we figure out how to place dusts
+ * 
  */
 //public class BlockDustPlaced extends BlockContainer {
 public class BlockDustPlaced extends Block implements ITileEntityProvider{
@@ -168,7 +170,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		if(playerIn.isSneaking() || tile==null){
 			return false;
 		}
-
+		
 		//WizardryLogger.logInfo("DustPlaced block activated. pos= "+pos+" hitX: "+hitX+" hitY: "+hitY+" hitZ: "+hitZ);
 		if(! (tile instanceof TileEntityDustPlaced)){
 			//something is wrong
@@ -227,6 +229,10 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 			tileDust.setInventorySlotContents(slotID, newItem);
 			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
 			return true;
+		}
+		//activate the rune with the staff
+		if(playerStack.getItem() instanceof ItemRunicStaff){
+			RunesUtil.activateRune(worldIn, pos, playerIn);
 		}
 
 		return false;

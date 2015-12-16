@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
+import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
@@ -20,6 +21,7 @@ import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeUpdatePacket;
 import com.zpig333.runesofwizardry.proxy.CommonProxy;
+import com.zpig333.runesofwizardry.runes.RuneTesting;
 
 @Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@")
 public class RunesOfWizardry {
@@ -56,7 +58,8 @@ public class RunesOfWizardry {
 			WizardryRegistry.registerBlockRenders();
 			proxy.registerDustStorageItemRendering();
 		}
-
+		//XXX testing.
+		DustRegistry.registerRune(new RuneTesting());
 		initNetwork();
 		// the GUI handler
 		NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance,new GuiHandler());

@@ -6,6 +6,7 @@
 package com.zpig333.runesofwizardry.api;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Vec3;
 
 /** This Interface defines a rune created by placing patterns of arcane dust.<br>
  * This should be a singleton class like Items and Blocks.
@@ -34,7 +35,16 @@ public interface IRune {
 	 * @return an ItemStack(IDust) matrix that represents the pattern to place to create the rune
 	 */
 	public ItemStack[][] getPattern();
-	
+	/** returns the position of the entity for this Rune, 
+	 * as an offset from the top-left corner (0,0) in the pattern<br/>
+	 * Note that these are NOT using the same axis as Minecraft.
+	 * <br/>Returning (0,0,0) will place the entity at the top-left corner of the top-left block 
+	 * of dust, on the same level as the ground. 
+	 * @return a vector where the X element is the horizontal offset from the top-left
+	 * corner of the pattern, the y element is the vertical offset from that corner and
+	 * the z element is the offset on the axis normal to the pattern
+	 */
+	public Vec3 getEntityPosition();
 	/** Returns the items needed to activate this Rune
 	 * 
 	 * @return the ItemStacks that must be dropped on the Rune for it to activate

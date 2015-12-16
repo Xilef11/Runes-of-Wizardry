@@ -60,7 +60,6 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 			GL11.glDepthMask(false);//hidden behind other objects
 
 			//drawing logic here
-			//FIXME still sometimes invisible when first placed
 			//the central spots
 			int[][] colors = teDust.getCenterColors();
 			for(int i=0;i<colors.length;i++){
