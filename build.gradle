@@ -1,27 +1,31 @@
+/*
+// For those who want the bleeding edge
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.0-SNAPSHOT'
     }
 }
+apply plugin: 'net.minecraftforge.gradle.forge'
+*/
 
-apply plugin: 'forge'
+// for people who want stable
+plugins {
+    id "net.minecraftforge.gradle.forge" version "2.0.2"
+}
+
 version = "1.8-0.4.0-dev"
 group= "com.zpig333.runesofwizardry"
 archivesBaseName = project.name
 
 minecraft {
-    version = "1.8-11.14.3.1450"
+    version = "1.8-11.14.4.1563"
 
     runDir = "minecraft"
 	
@@ -30,7 +34,9 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20141130"
+    //mappings = "snapshot_20141130" //default
+	mappings = "snapshot_20151120"
+	//NEI uses mappings = "snapshot_nodoc_20150404"
 	
 	replaceIn "RunesOfWizardry.java"
 	replace "@MOD_VERSION@", project.version
@@ -53,22 +59,32 @@ dependencies {
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
+    // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
+    //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
+    // the deobf configurations:  'deobfCompile' and 'deobfProvided' are the same as the normal compile and provided,
+    // except that these dependencies get remapped to your current MCP mappings
+    //deobfCompile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    //deobfProvided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-	//classpath 'codechicken:CodeChickenCore:1.8-1.0.5.34:dev'
+	
+	//classpath 'codechicken:CodeChickenCore:1.8-1.0.5.36:dev'
 	//classpath 'codechicken:CodeChickenLib:1.8-1.1.2.115:dev'
 	//classpath 'codechicken:NotEnoughItems:1.8-1.0.5.82:dev'
 		
-	compile 'codechicken:CodeChickenCore:1.8-1.0.5.34:dev'
-	compile 'codechicken:CodeChickenLib:1.8-1.1.2.115:dev'
-	compile 'codechicken:NotEnoughItems:1.8-1.0.5.82:dev'
+	//if these don't get loaded when running in eclipse, try adding -Dfml.coreMods.load=mypackage.mycoremod.MyCoreModLoadingPlugin to run conf. (and messing with -noCoreSearch)
+	compile 'codechicken:CodeChickenCore:1.8-1.0.5.36:dev'
+	compile 'codechicken:CodeChickenLib:1.8-1.1.2.132:dev'
+	compile 'codechicken:NotEnoughItems:1.8-1.0.5.104:dev'
 }
-
+/*
 	tasks.withType(JavaCompile) {
         options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     }
-
+*/
 processResources
 {
     // this will ensure that this task is redone when the versions change.

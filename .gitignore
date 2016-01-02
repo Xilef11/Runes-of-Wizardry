@@ -19,6 +19,7 @@ Runes-of-Wizardry.ipr
 .settings
 eclipse/
 /bin/
+*.launch
 
 #build
 build
