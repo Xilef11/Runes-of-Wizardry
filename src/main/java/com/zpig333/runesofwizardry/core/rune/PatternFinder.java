@@ -142,7 +142,7 @@ public class PatternFinder {
 		private DustElement(BlockPos pos){
 			this.pos=pos;
 			TileEntity ent = world.getTileEntity(pos);
-			if(ent!=null && ent instanceof TileEntityDustPlaced){
+			if(ent instanceof TileEntityDustPlaced){
 				TileEntityDustPlaced ted = (TileEntityDustPlaced)ent;
 				//XXX this if might not be necessary, because the TE will be removed if it's empty. remove it if performance problems
 				dusts= !ted.isEmpty()? ted.getContents() : null;

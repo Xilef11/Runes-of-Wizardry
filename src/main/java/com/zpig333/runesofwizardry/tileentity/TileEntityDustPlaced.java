@@ -312,7 +312,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public static void updateNeighborConnectors(World worldIn, BlockPos pos){
 		for(EnumFacing dir : EnumFacing.HORIZONTALS){
 			TileEntity te =worldIn.getTileEntity(pos.offset(dir));
-			if(te !=null && te instanceof TileEntityDustPlaced){
+			if(te instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te).updateExternalConnectors();
 			}
 		}
