@@ -317,6 +317,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 			}
 		}
 	}
+
 	@Override
 	public int getInventoryStackLimit() {
 		// only 1 item per slot (does this even do anything?)
@@ -374,7 +375,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound){
 		super.readFromNBT(tagCompound);
-
+		this.clear();//Necessary because null stacks don't get saved to NBT, causing removed items to stay on the client until reload
 		NBTTagList tagList = tagCompound.getTagList("Inventory",10);
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = tagList.getCompoundTagAt(i);

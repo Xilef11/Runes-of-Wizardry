@@ -3,6 +3,7 @@ package com.zpig333.runesofwizardry.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSign;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -18,6 +19,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -29,6 +31,7 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
+import com.zpig333.runesofwizardry.util.RayTracer;
 /**
  * This class creates the block that holds placed dust
  * 
@@ -201,7 +204,6 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 
 		if(playerStack==null){
 			if (dustStack !=null){
-				//XXX removing dusts with left-click would be better
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
 				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
@@ -233,6 +235,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		//activate the rune with the staff
 		if(playerStack.getItem() instanceof ItemRunicStaff){
 			RunesUtil.activateRune(worldIn, pos, playerIn);
+			return true;
 		}
 
 		return false;
@@ -258,7 +261,48 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	@Override
 	public void onBlockClicked(World worldIn, BlockPos pos,	EntityPlayer playerIn) {
 		//called when the block is left-clicked, but does not have hitX Y Z ...
-		// TODO Auto-generated method stub: onBlockClicked
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if(! (tile instanceof TileEntityDustPlaced)){
+			WizardryLogger.logError("The TileEntity attached to the BlockDustPlaced at "+pos+" has bad type: "+tile.getClass());
+		}
+		TileEntityDustPlaced tileDust = (TileEntityDustPlaced) tile;
+		if(!worldIn.isRemote){
+			//Raytrace for the hit position
+			MovingObjectPosition hitPos = RayTracer.retraceBlock(worldIn, playerIn, pos);
+			Vec3 hit = hitPos.hitVec;//this is null client side
+			//WizardryLogger.logInfo("DustPlaced block clicked. pos= "+pos+" lookX: "+look.xCoord+" lookY: "+look.yCoord+" lookZ: "+look.zCoord);
+
+			//make it relative to the block hit and find the row/column hit
+			double posX = (hit.xCoord - pos.getX() )* (double)TileEntityDustPlaced.COLS;
+			double posZ = (hit.zCoord - pos.getZ() )* (double)TileEntityDustPlaced.ROWS;
+			int row = (int) posZ;
+			int col = (int) posX;
+
+			//WizardryLogger.logInfo("Slot coords is "+row+" "+col);
+			//make sure we are within bounds
+			if(row<0)row=0;
+			if(row>TileEntityDustPlaced.ROWS-1)row=TileEntityDustPlaced.ROWS-1;
+			if(col<0)col=0;
+			if(col>TileEntityDustPlaced.COLS-1)col=TileEntityDustPlaced.COLS-1;
+
+			int slotID = TileEntityDustPlaced.getSlotIDfromPosition(row, col);
+
+			ItemStack dustStack = tileDust.getStackInSlot(slotID);
+
+			if (dustStack !=null){
+				//drop the dust piece
+				tileDust.setInventorySlotContents(slotID, null);
+				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+				//drop the itemStack
+				if(!playerIn.capabilities.isCreativeMode)spawnAsEntity(worldIn, pos, dustStack);
+				if(tileDust.isEmpty()){//if there is no more dust, break the block
+					this.breakBlock(worldIn, pos, worldIn.getBlockState(pos));
+					worldIn.setBlockToAir(pos);
+				}
+			}
+			//update the client
+			worldIn.markBlockForUpdate(pos);
+		}
 	}
 	
 	/* (non-Javadoc)
