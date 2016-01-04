@@ -3,7 +3,6 @@ package com.zpig333.runesofwizardry.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSign;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -29,6 +28,7 @@ import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
+import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.RayTracer;
@@ -231,6 +231,11 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 			tileDust.setInventorySlotContents(slotID, newItem);
 			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
 			return true;
+		}
+		if(playerStack.getItem() instanceof ItemBroom && ! worldIn.isRemote){
+			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+			this.breakBlock(worldIn, pos, state);
+			worldIn.setBlockToAir(pos);
 		}
 		//activate the rune with the staff
 		if(playerStack.getItem() instanceof ItemRunicStaff){

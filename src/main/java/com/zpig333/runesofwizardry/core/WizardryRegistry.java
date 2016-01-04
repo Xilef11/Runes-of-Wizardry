@@ -23,6 +23,7 @@ import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
+import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
 import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
@@ -45,6 +46,7 @@ public class WizardryRegistry {
 	public static Item nether_paste, lavastone;
 	public static Item runic_dictionary;
 	public static Item runic_staff;
+	public static Item broom;
 
 	//dyed dust
 	public static Item dust_dyed;
@@ -77,6 +79,7 @@ public class WizardryRegistry {
 
 		runic_staff = new ItemRunicStaff();
 
+		broom = new ItemBroom();
 		//dyed dust
 		dust_dyed = new DustDyed();
 	}
@@ -132,6 +135,8 @@ public class WizardryRegistry {
 		GameRegistry.addShapedRecipe(new ItemStack(dust_dye), "XXX","XYX","XXX",'X',new ItemStack(Items.dye,1,OreDictionary.WILDCARD_VALUE),'Y',new ItemStack(dust_dyed));
 		//inert dust
 		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_inert), new ItemStack(Items.clay_ball),new ItemStack(Items.dye,1,15),new ItemStack(pestle,1, OreDictionary.WILDCARD_VALUE));
+		//broom
+		GameRegistry.addShapedRecipe(new ItemStack(broom), "  X"," Y ", 'X',new ItemStack(Items.wheat),'Y',new ItemStack(Items.stick));
 	}
 
 
@@ -173,6 +178,12 @@ public class WizardryRegistry {
 				0,
 				new ModelResourceLocation(References.texture_path
 						+ ((ItemRunicStaff) WizardryRegistry.runic_staff)
+						.getName(), "inventory"));
+		renderItem.getItemModelMesher().register(
+				WizardryRegistry.broom,
+				0,
+				new ModelResourceLocation(References.texture_path
+						+ ((ItemBroom) WizardryRegistry.broom)
 						.getName(), "inventory"));
 		// plant balls - try changing the meta number only?
 		ItemPlantBalls plantballs = (ItemPlantBalls) WizardryRegistry.plantballs;
