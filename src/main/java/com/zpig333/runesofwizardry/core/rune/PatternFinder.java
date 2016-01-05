@@ -7,8 +7,8 @@ package com.zpig333.runesofwizardry.core.rune;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -16,7 +16,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 /**
@@ -127,7 +126,14 @@ public class PatternFinder {
 	public BlockPos getNE(){
 		return new BlockPos(eastMost.getX(), westMost.getY(),northMost.getZ());
 	}
-	
+	/** returns the number of dust blocks found**/
+	public int getNumBlocks(){
+		return map.size();
+	}
+	/**returns the positions of the found blocks of dust**/
+	public Set<BlockPos> getDustPositions(){
+		return map.keySet();
+	}
 	/**
 	 * Represents an element in the doubly linked structure that finds dust patterns
 	 * @author Xilef11
