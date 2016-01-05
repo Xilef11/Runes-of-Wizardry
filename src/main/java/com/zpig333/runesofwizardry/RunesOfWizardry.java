@@ -2,16 +2,19 @@ package com.zpig333.runesofwizardry;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.command.CommandExportPattern;
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
@@ -51,12 +54,14 @@ public class RunesOfWizardry {
 		WizardryRegistry.registerDustInfusion();
 		proxy.registerRenderers();
 
-		// initialize the item renders
 		if (event.getSide() == Side.CLIENT) {
+			// initialize the item renders
 			WizardryRegistry.initItemRenders();
 			WizardryRegistry.registerDustItemRendering();
 			WizardryRegistry.registerBlockRenders();
 			proxy.registerDustStorageItemRendering();
+			//client commands
+			ClientCommandHandler.instance.registerCommand(new CommandExportPattern());
 		}
 		//XXX testing.
 		DustRegistry.registerRune(new RuneTesting());
@@ -64,8 +69,8 @@ public class RunesOfWizardry {
 		// the GUI handler
 		NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance,new GuiHandler());
 	}
-
-	public static void initNetwork() {
+	
+	public void initNetwork() {
 		networkWrapper = NetworkRegistry.INSTANCE
 				.newSimpleChannel(References.modid);
 		networkWrapper.registerMessage(DustDyeButtonPacket.Handler.class,
@@ -78,6 +83,7 @@ public class RunesOfWizardry {
 		networkWrapper.registerMessage(DustDyeUpdatePacket.Handler.class,
 				DustDyeUpdatePacket.class, 3, Side.CLIENT);
 	}
+	
 	/** the tab in the Creative inventory for our stuff**/
 	public static CreativeTabs wizardry_tab = new CreativeTabs(References.modid+"_main") {
 		@Override

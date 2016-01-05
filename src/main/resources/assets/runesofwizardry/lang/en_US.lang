@@ -37,6 +37,9 @@ tile.runesofwizardry_dust_dye.name=Arcane Dye
 
 #placed dust, so NEI/WAILA show something useful
 tile.runesofwizardry_dust_placed.name=Runic Dust
+
+#commands
+runesofwizardry.command.export.usage=<name> : Exports the dust pattern the player is looking at as <name>
 #misc words
 runesofwizardry.lang.color=Color
 runesofwizardry.lang.dye=Dye
