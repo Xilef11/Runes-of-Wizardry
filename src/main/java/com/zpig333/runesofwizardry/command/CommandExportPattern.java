@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.PatternFinder;
-import com.zpig333.runesofwizardry.util.ArrayUtils;
+import com.zpig333.runesofwizardry.core.rune.PatternUtils;
 import com.zpig333.runesofwizardry.util.RayTracer;
 
 /**
@@ -99,7 +99,7 @@ public class CommandExportPattern implements ICommand {
 			finder.search();
 			ItemStack[][] pattern = finder.toArray();
 			//Rotate the array so the direction the player is facing is top
-			pattern = rotateToFacing(pattern, playerFacing);
+			pattern = PatternUtils.rotateToFacing(pattern, playerFacing);
 			
 			//WizardryLogger.logInfo(ArrayUtils.printMatrix(pattern));
 			//TODO export to JSON
@@ -133,23 +133,5 @@ public class CommandExportPattern implements ICommand {
 	@Override
 	public boolean isUsernameIndex(String[] args, int index) {
 		return false;
-	}
-	/*Rotates the pattern so the given facing is at top
-	 * (TODO move to some utility class...)
-	 */
-	private ItemStack[][] rotateToFacing(ItemStack[][] patternIn, EnumFacing facing){
-		ItemStack[][] result;
-		switch(facing){
-		case NORTH: result = patternIn;
-					break;//no need to do anything
-		case WEST: result = ArrayUtils.rotateCW(patternIn);
-				   break;
-		case SOUTH: result = ArrayUtils.rotate180(patternIn);
-					break;
-		case EAST: result = ArrayUtils.rotateCCW(patternIn);
-					break;
-		default: throw new IllegalArgumentException("Facing: "+facing+" is not horizontal!");
-		}
-		return result;
 	}
 }

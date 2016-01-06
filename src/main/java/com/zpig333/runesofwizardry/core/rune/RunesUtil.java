@@ -107,35 +107,18 @@ public class RunesUtil {
 		for(IRune rune : DustRegistry.getAllRunes()){
 			ItemStack[][] pattern = rune.getPattern();
 			//NORTH check
-			if(patternsEqual(pattern, dusts)) return new RuneFacing(rune, EnumFacing.NORTH);
+			if(PatternUtils.patternsEqual(pattern, dusts)) return new RuneFacing(rune, EnumFacing.NORTH);
 			//EAST
 			pattern = ArrayUtils.rotateCW(pattern);
-			if(patternsEqual(pattern, dusts)) return new RuneFacing(rune, EnumFacing.EAST);
+			if(PatternUtils.patternsEqual(pattern, dusts)) return new RuneFacing(rune, EnumFacing.EAST);
 			//SOUTH
 			pattern = ArrayUtils.rotateCW(pattern);
-			if(patternsEqual(pattern, dusts)) return new RuneFacing(rune, EnumFacing.SOUTH);
+			if(PatternUtils.patternsEqual(pattern, dusts)) return new RuneFacing(rune, EnumFacing.SOUTH);
 			//WEST
 			pattern = ArrayUtils.rotateCW(pattern);
-			if(patternsEqual(pattern, dusts)) return new RuneFacing(rune, EnumFacing.WEST);
+			if(PatternUtils.patternsEqual(pattern, dusts)) return new RuneFacing(rune, EnumFacing.WEST);
 		}
 		return null;
-	}
-	private static boolean patternsEqual(ItemStack[][] first, ItemStack[][] second){
-		if(first.length!=second.length)return false;
-		if(first[0].length!=second[0].length)return false;
-		for(int r=0;r<first.length;r++){
-			for(int c=0;c<first[0].length;c++){
-				ItemStack secStack = second[r][c];
-				ItemStack firstStack = first[r][c];
-				if(secStack!=null){
-					IDust dust = DustRegistry.getDustFromItemStack(secStack);
-					if(!dust.dustsMatch(secStack, firstStack))return false;
-				}else if(firstStack!=null){
-					return false;
-				}
-			}
-		}
-		return true;
 	}
 	/**
 	 * Represents a pair of IRune and EnumFacing, where the EnumFacing represents the direction of the "top" of the IRune pattern
