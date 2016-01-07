@@ -5,12 +5,23 @@
  */
 package com.zpig333.runesofwizardry.core.rune;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.stream.JsonWriter;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.util.ArrayUtils;
+import com.zpig333.runesofwizardry.util.json.JsonUtils;
 
 /** This class contains utility methods for managing the ItemStack[][] patterns
  * @author Xilef11
@@ -64,5 +75,28 @@ public class PatternUtils {
 		}
 		return true;
 	}
-
+	/**
+	 *  Writes an ItemStack[][] pattern to a JSON file, which is <MC run dir>/runesofwizardry_exported_patterns/<name>.json.
+	 *  <br/> Note that if a file with that name already exists, it is saved as <name>_n.json, i.e example_2.json
+	 * @param pattern The pattern to save
+	 * @param name the name of the file to write
+	 * @return the File object representing the written JSON file 
+	 * @throws JsonIOException
+	 * @throws IOException
+	 */
+	public static File exportPatternJson(ItemStack[][] pattern, String name) throws JsonIOException, IOException{
+		File exportFolder = new File(References.modid+"_exported_patterns");
+		exportFolder.mkdir();
+		Gson gson = JsonUtils.getItemStackGson();
+		File file = new File(exportFolder,name+".json");
+		//add file number if it exists
+		int n=2;
+		while(!file.createNewFile()){
+			file = new File(exportFolder, name+"_"+n+".json");
+		}
+		Writer out = new BufferedWriter(new FileWriter(file)); 
+		gson.toJson(pattern,out);
+		out.close();
+		return file;
+	}
 }

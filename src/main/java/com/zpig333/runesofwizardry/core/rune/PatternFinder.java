@@ -90,7 +90,7 @@ public class PatternFinder {
 		int blocksX = (seCorner.getX() - nwCorner.getX())+1;
 		//vertical number of blocks
 		int blocksZ = (seCorner.getZ() - nwCorner.getZ())+1;
-		WizardryLogger.logInfo("Converting to array: there are "+blocksX+" horizontal blocks and "+blocksZ+" vertical blocks.\nNW corner is "+nwCorner+" and SE corner is "+seCorner);
+		WizardryLogger.logInfo("Converting to array: there are "+blocksX+" horizontal blocks and "+blocksZ+" vertical blocks. NW corner is "+nwCorner+" and SE corner is "+seCorner);
 		ItemStack[][] result = new ItemStack[blocksZ*TileEntityDustPlaced.ROWS][blocksX*TileEntityDustPlaced.COLS];
 		for(int i=0;i<blocksZ;i++){//for each row of blocks
 			for(int j=0;j<blocksX;j++){//for each column of blocks

@@ -37,6 +37,7 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
 	public JsonElement serialize(NBTTagCompound src, Type typeOfSrc,JsonSerializationContext context) {
 		JsonObject object = new JsonObject();
 		JsonObject tagMap = new JsonObject();
+		//FIXME might have to do something for obfuscation...
 		Map map = ReflectionHelper.getPrivateValue(NBTTagCompound.class,src,"tagMap");
 		for(Object o: map.entrySet()){
 			if(o instanceof Map.Entry){

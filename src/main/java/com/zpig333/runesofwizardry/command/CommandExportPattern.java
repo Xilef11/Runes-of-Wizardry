@@ -5,6 +5,8 @@
  */
 package com.zpig333.runesofwizardry.command;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,26 +16,25 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.event.ClickEvent;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.apache.logging.log4j.Level;
+
+import com.google.gson.JsonIOException;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.PatternFinder;
 import com.zpig333.runesofwizardry.core.rune.PatternUtils;
-import com.zpig333.runesofwizardry.util.ArrayUtils;
 import com.zpig333.runesofwizardry.util.RayTracer;
-import com.zpig333.runesofwizardry.util.json.ItemStackJson;
 import com.zpig333.runesofwizardry.util.json.JsonUtils;
-import com.zpig333.runesofwizardry.util.json.NBTJson;
 
 /**
  * @author Xilef11
@@ -108,25 +109,23 @@ public class CommandExportPattern implements ICommand {
 			//Rotate the array so the direction the player is facing is top
 			pattern = PatternUtils.rotateToFacing(pattern, playerFacing);
 			
-			//WizardryLogger.logInfo(ArrayUtils.printMatrix(pattern));
-			//get the JSON representation
-			Gson gson = JsonUtils.getItemStackGson();
-			String test = gson.toJson(pattern);
-			//TODO save file + cleanup testing code
-			WizardryLogger.logInfo(ArrayUtils.printMatrix(pattern));
-			WizardryLogger.logInfo(test);
-			ItemStack[][] result = gson.fromJson(test, ItemStack[][].class);
-			WizardryLogger.logInfo(ArrayUtils.printMatrix(result));
-			WizardryLogger.logInfo(PatternUtils.patternsEqual(pattern, result));
-			//info message TODO link for filename
-			/* code for screenshot
-			 ImageIO.write(bufferedimage, "png", file3);
-            ChatComponentText chatcomponenttext = new ChatComponentText(file3.getName());
-            chatcomponenttext.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file3.getAbsolutePath()));
-            chatcomponenttext.getChatStyle().setUnderlined(Boolean.valueOf(true));
-            return new ChatComponentTranslation("screenshot.success", new Object[] {chatcomponenttext});
-			 */
-			player.addChatMessage(new ChatComponentTranslation(locKey+".message", finder.getNumBlocks(), args[0]));
+			//save pattern to JSON
+			File output;
+			try {
+				output = PatternUtils.exportPatternJson(pattern, args[0]);
+				JsonUtils.clearItemStackJson();
+			} catch (JsonIOException e) {
+				WizardryLogger.logException(Level.ERROR, e, "Unable to save pattern");
+				throw new CommandException(locKey+".message.error");
+			} catch (IOException e) {
+				WizardryLogger.logException(Level.ERROR, e, "Unable to save pattern");
+				throw new CommandException(locKey+".message.error");
+			}
+			//info message with link
+			ChatComponentText filename = new ChatComponentText(output.getName());
+			filename.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, output.getAbsolutePath()));
+			filename.getChatStyle().setUnderlined(true);
+			player.addChatMessage(new ChatComponentTranslation(locKey+".message", finder.getNumBlocks(), filename));
 		}
 	}
 
