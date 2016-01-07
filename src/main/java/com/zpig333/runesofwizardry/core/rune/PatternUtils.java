@@ -5,18 +5,24 @@
  */
 package com.zpig333.runesofwizardry.core.rune;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.io.Writer;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
-import com.google.gson.stream.JsonWriter;
+import com.google.gson.JsonSyntaxException;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.core.References;
@@ -98,5 +104,22 @@ public class PatternUtils {
 		gson.toJson(pattern,out);
 		out.close();
 		return file;
+	}
+	/**
+	 * Returns the ItemStack[][] pattern described by the json file at a ResourceLocation<br/>
+	 * Note that the JSON file must have been created by PatternUtils#exportPatternJson (i.e the rw_export command)
+	 * @param location the ResourceLocation of the json file, i.e: modid:patterns/pattern.json would point to assets/modid/patterns/pattern.json inside your jar
+	 * @return the ItemStack[][] pattern described by the file at <location>
+	 * @throws IOException
+	 * @throws JsonSyntaxException
+	 * @throws JsonIOException
+	 */
+	public static ItemStack[][] importFromJson(ResourceLocation location) throws IOException, JsonSyntaxException, JsonIOException{
+		InputStream in = Minecraft.getMinecraft().getResourceManager().getResource(location).getInputStream();
+		Gson gson = JsonUtils.getItemStackGson();
+		Reader read = new BufferedReader(new InputStreamReader(in));
+		ItemStack[][] stack = gson.fromJson(read, ItemStack[][].class);
+		read.close();
+		return stack;
 	}
 }

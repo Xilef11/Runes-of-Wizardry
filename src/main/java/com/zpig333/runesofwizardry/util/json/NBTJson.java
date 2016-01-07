@@ -1,7 +1,11 @@
 package com.zpig333.runesofwizardry.util.json;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Map;
+
+import org.apache.logging.log4j.Level;
 
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTBase;
@@ -27,6 +31,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 /**
  * Converts a NBTTagCompound to and from a JsonObject
  * @author Xilef11
@@ -37,8 +42,8 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
 	public JsonElement serialize(NBTTagCompound src, Type typeOfSrc,JsonSerializationContext context) {
 		JsonObject object = new JsonObject();
 		JsonObject tagMap = new JsonObject();
-		//FIXME might have to do something for obfuscation...
-		Map map = ReflectionHelper.getPrivateValue(NBTTagCompound.class,src,"tagMap");
+		//XXX recheck the names when updating Forge version
+		Map map = ReflectionHelper.getPrivateValue(NBTTagCompound.class,src,"tagMap","field_74784_a");
 		for(Object o: map.entrySet()){
 			if(o instanceof Map.Entry){
 				Map.Entry e = (Map.Entry)o;
@@ -65,7 +70,13 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
 			JsonObject tag = e.getValue().getAsJsonObject();
 			byte type = tag.get("type").getAsByte();
 			JsonElement val = tag.get("tag");
-			NBTBase value = deserializeType(type, val, context);
+			NBTBase value;
+			try {
+				value = deserializewithReflection(type, tag, context);
+			} catch (Exception e1) {
+				WizardryLogger.logException(Level.ERROR, e1, "Could not deserialize NBT using reflection");
+				value = deserializeType(type, val, context);
+			}
 			tagCompound.setTag(key, value);
 		}
 		return tagCompound;
@@ -114,5 +125,11 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
         default: value = context.deserialize(tag, NBTBase.class);
 		}
 		return value;
+	}
+	private NBTBase deserializewithReflection(byte type, JsonElement tag, JsonDeserializationContext context) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+		Method create = ReflectionHelper.findMethod(NBTBase.class, null, new String[]{"createNewByType","func_150284_a"}, NBTBase.class);
+		Class<?> nbtClass = null;
+		nbtClass = create.invoke(null, type).getClass();
+		return context.deserialize(tag, nbtClass);
 	}
 }

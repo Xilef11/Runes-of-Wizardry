@@ -24,6 +24,7 @@ import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeUpdatePacket;
 import com.zpig333.runesofwizardry.proxy.CommonProxy;
+import com.zpig333.runesofwizardry.runes.RuneTest2;
 import com.zpig333.runesofwizardry.runes.RuneTesting;
 
 @Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@")
@@ -65,6 +66,7 @@ public class RunesOfWizardry {
 		}
 		//XXX testing.
 		DustRegistry.registerRune(new RuneTesting());
+		DustRegistry.registerRune(new RuneTest2());
 		initNetwork();
 		// the GUI handler
 		NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance,new GuiHandler());
