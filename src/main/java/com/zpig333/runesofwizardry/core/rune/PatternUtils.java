@@ -8,6 +8,7 @@ package com.zpig333.runesofwizardry.core.rune;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +16,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Writer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -115,7 +115,16 @@ public class PatternUtils {
 	 * @throws JsonIOException
 	 */
 	public static ItemStack[][] importFromJson(ResourceLocation location) throws IOException, JsonSyntaxException, JsonIOException{
-		InputStream in = Minecraft.getMinecraft().getResourceManager().getResource(location).getInputStream();
+
+		String path = "assets/"+location.getResourceDomain()+"/"+location.getResourcePath();
+
+		//Supposedly the "normal" way to do it, but always return null
+		//InputStream in = Loader.instance().getModClassLoader().getResourceAsStream(path);
+		//This works (with no initial / only). (seems to work even if not our jar)
+		InputStream in = PatternUtils.class.getClassLoader().getResourceAsStream(path);
+		
+		if(in==null)throw new FileNotFoundException("Could not find file: "+path);
+		
 		Gson gson = JsonUtils.getItemStackGson();
 		Reader read = new BufferedReader(new InputStreamReader(in));
 		ItemStack[][] stack = gson.fromJson(read, ItemStack[][].class);
