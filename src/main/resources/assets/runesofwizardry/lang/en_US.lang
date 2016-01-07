@@ -41,6 +41,8 @@ tile.runesofwizardry_dust_placed.name=Runic Dust
 #commands
 runesofwizardry.command.export.usage=<name> : Exports the dust pattern the player is looking at as <name>
 runesofwizardry.command.export.nodust=You must be looking at placed dust to use this command!
+#first arg is number of blocks, second is filename
+runesofwizardry.command.export.message=Exported %s blocks as %s.json
 #misc words
 runesofwizardry.lang.color=Color
 runesofwizardry.lang.dye=Dye
