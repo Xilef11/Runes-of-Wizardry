@@ -7,8 +7,8 @@ package com.zpig333.runesofwizardry.core.rune;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -16,7 +16,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 /**
@@ -91,7 +90,7 @@ public class PatternFinder {
 		int blocksX = (seCorner.getX() - nwCorner.getX())+1;
 		//vertical number of blocks
 		int blocksZ = (seCorner.getZ() - nwCorner.getZ())+1;
-		WizardryLogger.logInfo("Converting to array: there are "+blocksX+" horizontal blocks and "+blocksZ+" vertical blocks.\nNW corner is "+nwCorner+" and SE corner is "+seCorner);
+		WizardryLogger.logInfo("Converting to array: there are "+blocksX+" horizontal blocks and "+blocksZ+" vertical blocks. NW corner is "+nwCorner+" and SE corner is "+seCorner);
 		ItemStack[][] result = new ItemStack[blocksZ*TileEntityDustPlaced.ROWS][blocksX*TileEntityDustPlaced.COLS];
 		for(int i=0;i<blocksZ;i++){//for each row of blocks
 			for(int j=0;j<blocksX;j++){//for each column of blocks
@@ -127,7 +126,14 @@ public class PatternFinder {
 	public BlockPos getNE(){
 		return new BlockPos(eastMost.getX(), westMost.getY(),northMost.getZ());
 	}
-	
+	/** returns the number of dust blocks found**/
+	public int getNumBlocks(){
+		return map.size();
+	}
+	/**returns the positions of the found blocks of dust**/
+	public Set<BlockPos> getDustPositions(){
+		return map.keySet();
+	}
 	/**
 	 * Represents an element in the doubly linked structure that finds dust patterns
 	 * @author Xilef11
