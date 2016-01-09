@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
@@ -100,7 +101,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileEntityDustPlaced();
 	}
 	@Override
@@ -108,10 +109,12 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 	{	//drop the items
 		TileEntityDustPlaced tileentityDustPlaced = (TileEntityDustPlaced) worldIn.getTileEntity(pos);
 		if (tileentityDustPlaced != null) {
+			if(tileentityDustPlaced.isInRune()){
+				tileentityDustPlaced.getRune().onPatternBroken();
+			}
 			Random random = new Random();
 			for (int i1 = 0; i1 < tileentityDustPlaced.getSizeInventory(); i1++) {
 				ItemStack itemstack = tileentityDustPlaced.getStackInSlot(i1);
-
 				if (itemstack != null) {
 					float f = random.nextFloat() * 0.8F + 0.1F;
 					float f1 = random.nextFloat() * 0.8F + 0.1F;
@@ -181,6 +184,10 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 			return false;
 		}
 		TileEntityDustPlaced tileDust = (TileEntityDustPlaced) tile;
+		if(tileDust.isInRune()){
+			RuneEntity rune = tileDust.getRune();
+			if(rune.handleRightClick(worldIn,pos, state, playerIn, side, hitX, hitY, hitZ)) return true;
+		}
 		//NW corner has hitX:0.09 hitZ:0.09
 		//NE corner has hitX:0.9 hitZ 0.09
 		//SE Corner has hitX 0.9 hitZ 0.9
@@ -207,8 +214,12 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
 				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
-				//drop the itemStack
-				if(!playerIn.capabilities.isCreativeMode)spawnAsEntity(worldIn, pos, dustStack);
+				if(tileDust.isInRune()){
+					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
+				}else{
+					//drop the itemStack
+					if(!playerIn.capabilities.isCreativeMode)spawnAsEntity(worldIn, pos, dustStack);
+				}
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, state);
 					worldIn.setBlockToAir(pos);
@@ -230,15 +241,21 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 			}
 			tileDust.setInventorySlotContents(slotID, newItem);
 			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+			if(tileDust.isInRune()){
+				tileDust.getRune().onPatternBrokenByPlayer(playerIn);
+			}
 			return true;
 		}
 		if(playerStack.getItem() instanceof ItemBroom && ! worldIn.isRemote){
+			if(tileDust.isInRune()){
+				tileDust.getRune().onPatternBrokenByPlayer(playerIn);
+			}
 			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
 			this.breakBlock(worldIn, pos, state);
 			worldIn.setBlockToAir(pos);
 		}
 		//activate the rune with the staff
-		if(playerStack.getItem() instanceof ItemRunicStaff){
+		if(!tileDust.isInRune() && playerStack.getItem() instanceof ItemRunicStaff){
 			RunesUtil.activateRune(worldIn, pos, playerIn);
 			return true;
 		}
@@ -276,7 +293,10 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 			MovingObjectPosition hitPos = RayTracer.retraceBlock(worldIn, playerIn, pos);
 			Vec3 hit = hitPos.hitVec;//this is null client side
 			//WizardryLogger.logInfo("DustPlaced block clicked. pos= "+pos+" lookX: "+look.xCoord+" lookY: "+look.yCoord+" lookZ: "+look.zCoord);
-
+			if(tileDust.isInRune()){
+				RuneEntity rune = tileDust.getRune();
+				if(rune.handleLeftClick(worldIn, pos, playerIn, hit))return;
+			}
 			//make it relative to the block hit and find the row/column hit
 			double posX = (hit.xCoord - pos.getX() )* (double)TileEntityDustPlaced.COLS;
 			double posZ = (hit.zCoord - pos.getZ() )* (double)TileEntityDustPlaced.ROWS;
@@ -298,8 +318,12 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
 				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
-				//drop the itemStack
-				if(!playerIn.capabilities.isCreativeMode)spawnAsEntity(worldIn, pos, dustStack);
+				if(tileDust.isInRune()){
+					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
+				}else{
+					//drop the itemStack
+					if(!playerIn.capabilities.isCreativeMode)spawnAsEntity(worldIn, pos, dustStack);
+				}
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, worldIn.getBlockState(pos));
 					worldIn.setBlockToAir(pos);

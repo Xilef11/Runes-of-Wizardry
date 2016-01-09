@@ -30,6 +30,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
@@ -41,7 +42,8 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public static final int ROWS=4, COLS=4;
 
 	//the dusts placed in this block
-	private ItemStack[][] contents = new ItemStack[ROWS][COLS];
+	protected ItemStack[][] contents = new ItemStack[ROWS][COLS];
+	protected RuneEntity rune=null;
 	//the colors for rendering the center of the dusts
 	private int[][] centralColors;
 	//the internal connector data
@@ -75,13 +77,17 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public ItemStack[][] getContents(){
 		return contents;
 	}
+	/** returns the rune associated with this dust**/
+	public RuneEntity getRune(){
+		return rune;
+	}
 	/**returns the color of all center points**/
 	public int[][] getCenterColors(){
 		if(centralColors==null)updateCenterColors();
 		return centralColors;
 	}
 	//updates the array of central colors
-	private void updateCenterColors(){
+	protected void updateCenterColors(){
 		int[][]result = new int[ROWS][COLS];
 		for(int i=0;i<result.length;i++){
 			for(int j=0;j<result[i].length;j++){
@@ -103,7 +109,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		return internalConnectors;
 	}
 	//update the data for the internal connectors
-	private void updateInternalConnectors(){
+	protected void updateInternalConnectors(){
 		HashSet<int[]> result = new HashSet<int[]>();
 		for(int i=0;i<contents.length;i++){
 			for(int j=0;j<contents[i].length;j++){
@@ -239,6 +245,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	@Override
 	public ItemStack getStackInSlot(int index) {
 		int[] coords=getPositionFromSlotID(index);
+		//TODO return null if contents is dead dust
 		return contents[coords[0]][coords[1]];
 	}
 	/** returns true if there are no more itemStacks in**/
@@ -249,6 +256,10 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 			}
 		}
 		return true;
+	}
+	/** returns true if this block is part of a rune**/
+	public boolean isInRune(){
+		return rune!=null;
 	}
 	@Override
 	public ItemStack decrStackSize(int index, int count) {

@@ -14,7 +14,7 @@ import net.minecraft.util.Vec3;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.zpig333.runesofwizardry.api.IRune;
-import com.zpig333.runesofwizardry.api.TERune;
+import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.rune.PatternUtils;
 
@@ -80,7 +80,7 @@ public class RuneTest2 implements IRune {
 	 * @see com.zpig333.runesofwizardry.api.IRune#getRune()
 	 */
 	@Override
-	public Class<TERune> getRune() {
+	public Class<RuneEntity> getRune() {
 		// TODO Auto-generated method stub
 		return null;
 	}

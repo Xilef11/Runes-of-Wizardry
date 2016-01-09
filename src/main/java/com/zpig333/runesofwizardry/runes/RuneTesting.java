@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 
 import com.zpig333.runesofwizardry.api.IRune;
-import com.zpig333.runesofwizardry.api.TERune;
+import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.item.dust.RWDusts;
 
 /**
@@ -44,7 +44,7 @@ public class RuneTesting implements IRune {
 	}
 
 	@Override
-	public Class<TERune> getRune() {
+	public Class<RuneEntity> getRune() {
 		return null;
 	}
 	@Override

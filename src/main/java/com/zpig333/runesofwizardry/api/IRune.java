@@ -55,6 +55,6 @@ public interface IRune {
 	 *<br/> Note that the sacrifice Items will be consumed before the TileEntity is created.
 	 * @return
 	 */
-	public Class<TERune> getRune();
+	public Class<RuneEntity> getRune();
 	
 }
