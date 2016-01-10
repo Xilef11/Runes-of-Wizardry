@@ -7,12 +7,12 @@ package com.zpig333.runesofwizardry.api;
 
 import java.util.Set;
 
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
+
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 /** This Interface defines a rune created by placing patterns of arcane dust.<br>
  * This should be a singleton class like Items and Blocks.
@@ -62,6 +62,6 @@ public interface IRune {
 	 *<br/> Note that the sacrifice Items will be consumed before the TileEntity is created.
 	 * @return
 	 */
-	public RuneEntity createRune(ItemStack[][] actualPattern, Set<BlockPos> dusts, TileEntityDustActive entity);
+	public RuneEntity createRune(ItemStack[][] actualPattern,EnumFacing front, Set<BlockPos> dusts, TileEntityDustActive entity);
 	
 }

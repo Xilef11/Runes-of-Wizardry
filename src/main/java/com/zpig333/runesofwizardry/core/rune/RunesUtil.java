@@ -13,12 +13,15 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
+import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.ArrayUtils;
@@ -88,27 +91,13 @@ public class RunesUtil {
 		RuneFacing match = matchPattern(pattern);
 		if(match==null)return;//might want to eventually do something
 		//TODO sacrifice
-		
+		ItemStack[] sacrifice=null;
+		//OreDictionary.itemMatches(target, input, strict)
 		//find the "top-left" corner
 		BlockPos topLeft;
 		BlockPos entityPos;//BlockPos seems to only have ints, maybe we need to use something else?
 		//NORTH is Z-, EAST is X+, UP is Y+
 		Vec3i offset = match.rune.getEntityPosition();
-//		switch(match.top){
-//		case NORTH: topLeft = finder.getNW();
-//					entityPos = topLeft.add(offset.getX(), 0, offset.getY());
-//			break;
-//		case EAST: topLeft = finder.getNE();
-//				   entityPos = topLeft.add(-(offset.getY()-1), 0, offset.getX());
-//			break;
-//		case SOUTH: topLeft = finder.getSE();
-//					entityPos = topLeft.add(-(offset.getX()-1),0,-(offset.getY()-1));
-//			break;
-//		case WEST:topLeft = finder.getSW();
-//				  entityPos = topLeft.add(offset.getY(),0,-(offset.getX()-1));
-//			break;
-//		default: throw new IllegalStateException("A rune is facing in an invalid direction: "+match.rune.getName()+" at "+pos+" facing "+match.top);
-//		}
 		switch(match.top){
 		case NORTH: topLeft = finder.getNW();
 					entityPos = topLeft.add(offset.getX(), 0, offset.getY());
@@ -134,11 +123,18 @@ public class RunesUtil {
 			throw new IllegalStateException("The TileEntity at "+entityPos+" isn't placed dust!");
 		}
 		TileEntityDustPlaced toReplace = (TileEntityDustPlaced)tile;
+		ItemStack[][] contents = toReplace.getContents();
 		//place the rune
-		TileEntityDustActive entity = new TileEntityDustActive(toReplace);
+		world.removeTileEntity(entityPos);
+		
+		world.setBlockState(entityPos, WizardryRegistry.dust_placed.getDefaultState().withProperty(BlockDustPlaced.PROPERTYACTIVE, true));
+		TileEntity te = world.getTileEntity(entityPos);
+		if(!(te instanceof TileEntityDustActive))throw new IllegalStateException("TileEntity not formed!");
+		TileEntityDustActive entity = (TileEntityDustActive)te;
+		entity.setContents(contents);
 		//create the entity
-		RuneEntity runeEnt = match.rune.createRune(pattern, finder.getDustPositions(), entity);
-		world.setTileEntity(entityPos, entity);
+		RuneEntity runeEnt = match.rune.createRune(pattern,match.top, finder.getDustPositions(), entity);
+		entity.setRune(runeEnt);
 		for(BlockPos p:finder.getDustPositions()){
 			TileEntityDustPlaced t = (TileEntityDustPlaced)world.getTileEntity(p);
 			t.setRune(runeEnt);
@@ -146,7 +142,7 @@ public class RunesUtil {
 		//entity.setRune(runeEnt);
 		entity.updateRendering();
 		player.addChatMessage(new ChatComponentText("Formed Rune: "+match.rune.getName()+" facing "+match.top));
-		runeEnt.onRuneActivatedbyPlayer(player);
+		runeEnt.onRuneActivatedbyPlayer(player,sacrifice);
 	}
 	/**
 	 * Returns the IRune that matches a given ItemStack[][] pattern, or null if there isn't one

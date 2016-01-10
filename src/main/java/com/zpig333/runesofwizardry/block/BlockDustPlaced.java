@@ -5,6 +5,9 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.entity.item.EntityItem;
@@ -31,6 +34,7 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.RayTracer;
 /**
@@ -38,7 +42,7 @@ import com.zpig333.runesofwizardry.util.RayTracer;
  * 
  */
 //public class BlockDustPlaced extends BlockContainer {
-public class BlockDustPlaced extends Block implements ITileEntityProvider{
+public class BlockDustPlaced extends Block{
 	public BlockDustPlaced(){
 		super(Material.circuits);
 		this.setStepSound(Block.soundTypeSand);
@@ -48,6 +52,7 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 		this.setUnlocalizedName(References.modid+"_dust_placed");
 		//Could also register with null ItemBlock instead of hiding it in NEI
 		GameRegistry.registerBlock(this, "dust_placed");
+		this.setDefaultState(getDefaultState().withProperty(PROPERTYACTIVE, false));
 	}
 
 
@@ -99,11 +104,47 @@ public class BlockDustPlaced extends Block implements ITileEntityProvider{
 			return World.doesBlockHaveSolidTopSurface(world, pos.down()) || block == Blocks.glass;
 		}
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#hasTileEntity(net.minecraft.block.state.IBlockState)
+	 */
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityDustPlaced();
+	public boolean hasTileEntity(IBlockState state) {
+		if(state.getBlock()==this)return true;
+		return false;
 	}
+
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#createTileEntity(net.minecraft.world.World, net.minecraft.block.state.IBlockState)
+	 */
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state) {
+		if(state.getBlock()==this){
+			if((Boolean)state.getValue(PROPERTYACTIVE)){
+				return new TileEntityDustActive();
+			}else{
+				return new TileEntityDustPlaced();
+			}
+		}
+		return super.createTileEntity(world, state);
+	}
+	//this block has 1 property: active or not.
+		public static final PropertyBool PROPERTYACTIVE = PropertyBool.create("active");
+		@Override
+		public IBlockState getStateFromMeta(int meta) {
+			return meta==0? this.getDefaultState().withProperty(PROPERTYACTIVE, false) : this.getDefaultState().withProperty(PROPERTYACTIVE, true);
+		}
+		@Override
+		public int getMetaFromState(IBlockState state) {
+			return (Boolean)state.getValue(PROPERTYACTIVE)?1:0;
+		}
+		@Override
+		protected BlockState createBlockState() {
+			return new BlockState(this, PROPERTYACTIVE);
+		}
+		
+
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
 	{	//drop the items

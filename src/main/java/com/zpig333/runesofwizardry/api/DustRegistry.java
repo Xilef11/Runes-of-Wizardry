@@ -15,6 +15,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
@@ -171,7 +172,7 @@ public class DustRegistry {
 	 */
 	public static void registerRune(final IRune rune){
 		RunesUtil.validateRune(rune);
-		String name=rune.createRune(new ItemStack[][]{}, null, null).getRuneID();
+		String name=rune.createRune(new ItemStack[][]{},EnumFacing.NORTH, null, null).getRuneID();
 		
 		//maybe do crash report (or skip registration)
 		if(runes.containsKey(name))throw new IllegalArgumentException("A rune with the name: "+name+" Already exists!");

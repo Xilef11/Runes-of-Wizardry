@@ -17,12 +17,15 @@ import org.apache.logging.log4j.Level;
 
 import scala.collection.mutable.ArrayBuilder;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
@@ -35,12 +38,6 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
  */
 public class TileEntityDustActive extends TileEntityDustPlaced implements IUpdatePlayerListBox {
 
-	public TileEntityDustActive(TileEntityDustPlaced oldTE){
-		super();
-		//copy all fields from old TE
-		this.contents=oldTE.contents;
-		//this.worldObj=oldTE.getWorld();
-	}
 	public TileEntityDustActive() {
 		super();
 	}
@@ -50,7 +47,8 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements IUpdat
 	 */
 	@Override
 	public void update() {
-		rune.update();
+		if(!initialised)init();
+		if(rune!=null)rune.update();
 	}
 
 	/* (non-Javadoc)
@@ -90,30 +88,42 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements IUpdat
 		for(ArrayElement a:items){
 			stacks[a.row][a.col]=a.stack;
 		}
-		
+		EnumFacing facing = EnumFacing.byName(tagCompound.getString("Facing"));
 		//re-create the rune
 		IRune rune = DustRegistry.getRuneByID(runeID);
-		RuneEntity entity = rune.createRune(stacks, posSet, this);
+		RuneEntity entity = rune.createRune(stacks,facing, posSet, this);
 		this.rune=entity;
-		for(BlockPos p : posSet){
-			//FIXME NPE WTF
+//		for(BlockPos p : posSet){
+//			TileEntity te = worldObj.getTileEntity(p); //WorldObj may be null here
+//			if(te instanceof TileEntityDustPlaced){
+//				((TileEntityDustPlaced)te).setRune(entity);
+//			}else{
+//				WizardryLogger.logError("TileEntity at pos: "+p+" wasn't placed dust! (TEDustActive#readFromNBT)");
+//			}
+//		}
+		this.rune.readFromNBT(tagCompound);
+	}
+	private boolean initialised=false;
+	private void init(){
+		if(initialised || rune==null || worldObj==null)return;
+		for(BlockPos p : rune.dustPositions){
 			TileEntity te = worldObj.getTileEntity(p);
 			if(te instanceof TileEntityDustPlaced){
-				((TileEntityDustPlaced)te).setRune(entity);
+				((TileEntityDustPlaced)te).setRune(rune);
 			}else{
 				WizardryLogger.logError("TileEntity at pos: "+p+" wasn't placed dust! (TEDustActive#readFromNBT)");
 			}
 		}
-		this.rune.readFromNBT(tagCompound);
+		initialised=true;
 	}
-
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced#writeToNBT(net.minecraft.nbt.NBTTagCompound)
 	 */
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
-		rune.writeToNBT(tagCompound);
+		if(rune!=null){
+			rune.writeToNBT(tagCompound);
 		tagCompound.setString("runeID", rune.getRuneID());
 		//write the rune's blockpos set
 		NBTTagList positions = new NBTTagList();
@@ -137,6 +147,8 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements IUpdat
 			}
 		}
 		tagCompound.setTag("Pattern", itemList);
+		tagCompound.setTag("Facing", new NBTTagString(rune.face.getName()));
+		}
 	}
 	//
 	private class ArrayElement{

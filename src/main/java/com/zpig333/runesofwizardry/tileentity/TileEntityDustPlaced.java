@@ -77,6 +77,14 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public ItemStack[][] getContents(){
 		return contents;
 	}
+	/**sets the contents of this TE
+	 * 
+	 * @throws IllegalArgumentException if the given ItemStack[][] is not of the right size
+	 */
+	public void setContents(ItemStack[][] stacks){
+		if(stacks.length!=ROWS || stacks[0].length!=COLS)throw new IllegalArgumentException("Contents must be "+ROWS+" by "+COLS );
+		this.contents=stacks;
+	}
 	/** returns the rune associated with this dust**/
 	public RuneEntity getRune(){
 		return rune;

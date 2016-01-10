@@ -30,6 +30,7 @@ public abstract class RuneEntity{
 	 * The pattern that was actually placed in the world to create this Rune. This contains real dusts instead of the special constants
 	 */
 	public final ItemStack[][] placedPattern;
+	public final EnumFacing face;
 	public final TileEntityDustActive entity;
 	public final Set<BlockPos> dustPositions;
 	/**
@@ -38,10 +39,11 @@ public abstract class RuneEntity{
 	 * @param dusts the positions of all placed dust blocks in this rune
 	 * @param entity the TileEntity that hosts this rune
 	 */
-	public RuneEntity(ItemStack[][] actualPattern, Set<BlockPos> dusts, TileEntityDustActive entity){
+	public RuneEntity(ItemStack[][] actualPattern,EnumFacing facing, Set<BlockPos> dusts, TileEntityDustActive entity){
 		this.placedPattern=actualPattern;
 		this.entity = entity;
 		this.dustPositions=dusts;
+		this.face=facing;
 		if(entity!=null)entity.setRune(this);
 	}
 	/**
@@ -53,8 +55,9 @@ public abstract class RuneEntity{
 	/**
 	 * This will be called once when the rune is activated.
 	 * @param player The player that activated the rune
+	 * @param sacrifice the itemStacks used to activate this rune. they have already been taken, but you can return them if activation requires specific conditions (i.e nighttime)
 	 */
-	public abstract void onRuneActivatedbyPlayer(EntityPlayer player);
+	public abstract void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice);
 	/** This is called when right-clicking on a block of placed dust that is part of this rune.
 	 * If this returns true, the normal right-click handling will not happen.
 	 * @return true to prevent normal right-click handling (false by default)

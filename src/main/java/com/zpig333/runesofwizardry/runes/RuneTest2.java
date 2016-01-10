@@ -10,6 +10,7 @@ import java.util.Set;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3i;
 
@@ -83,8 +84,8 @@ public class RuneTest2 implements IRune {
 	 * @see com.zpig333.runesofwizardry.api.IRune#getRune()
 	 */
 	@Override
-	public RuneEntity createRune(ItemStack[][] actualPattern, Set<BlockPos> dusts, TileEntityDustActive entity) {
-		return new RuneTest2Entity(actualPattern,dusts,entity);
+	public RuneEntity createRune(ItemStack[][] actualPattern, EnumFacing face,Set<BlockPos> dusts, TileEntityDustActive entity) {
+		return new RuneTest2Entity(actualPattern,face,dusts,entity);
 	}
 
 }
