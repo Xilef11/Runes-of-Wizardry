@@ -80,9 +80,9 @@ public class RuneTest2 implements IRune {
 	 * @see com.zpig333.runesofwizardry.api.IRune#getRune()
 	 */
 	@Override
-	public Class<RuneEntity> getRune() {
+	public Class<RuneTest2Entity> getRune() {
 		// TODO Auto-generated method stub
-		return null;
+		return RuneTest2Entity.class;
 	}
 
 }

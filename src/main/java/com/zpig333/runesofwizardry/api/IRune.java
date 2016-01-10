@@ -19,6 +19,7 @@ public interface IRune {
 	 * @return the (unlocalized) name of this rune
 	 */
 	public String getName();
+	
 	/** Returns a n*4 by m*4 array of ItemStacks, where n and m are the number of 
 	 *  rows and columns of Minecraft Blocks that make up this Rune.<br/>
 	 *  Note that the ItemStacks MUST be stacks of IDust.
@@ -55,6 +56,6 @@ public interface IRune {
 	 *<br/> Note that the sacrifice Items will be consumed before the TileEntity is created.
 	 * @return
 	 */
-	public Class<RuneEntity> getRune();
+	public Class<? extends RuneEntity> getRune();
 	
 }

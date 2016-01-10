@@ -81,6 +81,9 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public RuneEntity getRune(){
 		return rune;
 	}
+	public void setRune(RuneEntity rune){
+		this.rune=rune;
+	}
 	/**returns the color of all center points**/
 	public int[][] getCenterColors(){
 		if(centralColors==null)updateCenterColors();

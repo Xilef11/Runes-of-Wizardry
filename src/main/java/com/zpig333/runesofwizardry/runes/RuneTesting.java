@@ -44,8 +44,8 @@ public class RuneTesting implements IRune {
 	}
 
 	@Override
-	public Class<RuneEntity> getRune() {
-		return null;
+	public Class<RuneTestEntity> getRune() {
+		return RuneTestEntity.class;
 	}
 	@Override
 	public Vec3 getEntityPosition(){

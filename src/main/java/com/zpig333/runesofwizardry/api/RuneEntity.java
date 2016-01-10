@@ -31,18 +31,31 @@ public abstract class RuneEntity extends TileEntity implements IUpdatePlayerList
 	 */
 	public final ItemStack[][] placedPattern;
 	public final TileEntityDustActive entity;
-	private final Set<BlockPos> dustPositions;
-	
-	protected RuneEntity(ItemStack[][] actualPattern, Set<BlockPos> dusts, TileEntityDustActive entity){
+	public final Set<BlockPos> dustPositions;
+	/**
+	 * This no-arg constructor MUST exist and will be called during dust registration.
+	 */
+	public RuneEntity(){
+		placedPattern=null;
+		entity=null;
+		dustPositions=null;
+	}
+	/**
+	 * This constructor is called during normal activation of a rune
+	 * @param actualPattern the pattern of ItemStacks that was found
+	 * @param dusts the positions of all placed dust blocks in this rune
+	 * @param entity the TileEntity that hosts this rune
+	 */
+	public RuneEntity(ItemStack[][] actualPattern, Set<BlockPos> dusts, TileEntityDustActive entity){
 		this.placedPattern=actualPattern;
 		this.entity = entity;
 		this.dustPositions=dusts;
 	}
 	/**
-	 * Returns the Rune associated with this TileEntity
-	 * @return the IRune associated with this TileEntity
+	 * Returns a unique identifier for this type of rune. it should be prefixed with your modid.
+	 * @return the unique ID for this rune
 	 */
-	public abstract IRune getRune();//this should be static, but Java can't do that 
+	public abstract String getRuneID();//this should be static, but Java can't do that 
 	
 	/**
 	 * This will be called once when the rune is activated.
