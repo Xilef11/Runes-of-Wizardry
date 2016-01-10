@@ -32,6 +32,7 @@ import com.zpig333.runesofwizardry.item.ItemRunicDictionary;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
 import com.zpig333.runesofwizardry.item.dust.RWDusts;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
@@ -61,6 +62,7 @@ public class WizardryRegistry {
 		//placed dust
 		dust_placed=new BlockDustPlaced();
 		GameRegistry.registerTileEntity(TileEntityDustPlaced.class, "te_dust_placed");
+		GameRegistry.registerTileEntity(TileEntityDustActive.class, "te_dust_active");
 
 	}
 

@@ -171,18 +171,8 @@ public class DustRegistry {
 	 */
 	public static void registerRune(final IRune rune){
 		RunesUtil.validateRune(rune);
-		String name=null;
-		Class<? extends RuneEntity> clazz=null;
-		try {
-			clazz =rune.getRune();
-			name=clazz.newInstance().getRuneID();
-		} catch (InstantiationException e) {
-			WizardryLogger.logException(Level.ERROR, e, "Couldn't get rune ID for class: "+clazz.getSimpleName() +". Skipping registration (did you forget the no-arg constructor?)");
-			return;
-		} catch (IllegalAccessException e) {
-			WizardryLogger.logException(Level.ERROR, e, "Couldn't get rune ID for class: "+clazz.getSimpleName() +". Skipping registration (did you forget the no-arg constructor?)");
-			return;
-		} 
+		String name=rune.createRune(new ItemStack[][]{}, null, null).getRuneID();
+		
 		//maybe do crash report (or skip registration)
 		if(runes.containsKey(name))throw new IllegalArgumentException("A rune with the name: "+name+" Already exists!");
 		runes.put(name,rune);

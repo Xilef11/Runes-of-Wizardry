@@ -130,6 +130,11 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 
 		internalConnectors = result;
 	}
+	public void updateRendering(){
+		this.updateCenterColors();
+		this.updateExternalConnectors();
+		this.updateInternalConnectors();
+	}
 	/**returns the data on the external connectors
 	 * @return a Linked List of int[] in the following format: [row,col,color, index of the facing]
 	 * @see EnumFacing#getIndex()

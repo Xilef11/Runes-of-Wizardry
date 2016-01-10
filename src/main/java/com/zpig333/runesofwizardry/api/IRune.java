@@ -5,8 +5,14 @@
  */
 package com.zpig333.runesofwizardry.api;
 
+import java.util.Set;
+
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3i;
 
 /** This Interface defines a rune created by placing patterns of arcane dust.<br>
  * This should be a singleton class like Items and Blocks.
@@ -40,22 +46,22 @@ public interface IRune {
 	 * as an offset from the top-left corner (0,0) in the pattern<br/>
 	 * Note that these are NOT using the same axis as Minecraft.
 	 * <br/>Returning (0,0,0) will place the entity at the top-left corner of the top-left block 
-	 * of dust, on the same level as the ground. 
+	 * of dust, on the same level as the ground. The z element will be ignored.
 	 * @return a vector where the X element is the horizontal offset from the top-left
 	 * corner of the pattern, the y element is the vertical offset from that corner and
 	 * the z element is the offset on the axis normal to the pattern
 	 */
-	public Vec3 getEntityPosition();
+	public Vec3i getEntityPosition();
 	/** Returns the items needed to activate this Rune
 	 * 
 	 * @return the ItemStacks that must be dropped on the Rune for it to activate
 	 */
 	public ItemStack[] getSacrifice();
 	/**
-	 * Returns the TERune TileEntity that is created when this rune is formed and activated.
+	 * Returns a new instance of the RuneEntity that is created when this rune is formed and activated.
 	 *<br/> Note that the sacrifice Items will be consumed before the TileEntity is created.
 	 * @return
 	 */
-	public Class<? extends RuneEntity> getRune();
+	public RuneEntity createRune(ItemStack[][] actualPattern, Set<BlockPos> dusts, TileEntityDustActive entity);
 	
 }

@@ -8,10 +8,14 @@ package com.zpig333.runesofwizardry.tileentity;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Level;
 
+import scala.collection.mutable.ArrayBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
@@ -32,13 +36,13 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
 public class TileEntityDustActive extends TileEntityDustPlaced implements IUpdatePlayerListBox {
 
 	public TileEntityDustActive(TileEntityDustPlaced oldTE){
+		super();
 		//copy all fields from old TE
 		this.contents=oldTE.contents;
-		this.rune=oldTE.rune;
-		//get the rendering
-		this.updateCenterColors();
-		this.updateExternalConnectors();
-		this.updateInternalConnectors();
+		//this.worldObj=oldTE.getWorld();
+	}
+	public TileEntityDustActive() {
+		super();
 	}
 	
 	/* (non-Javadoc)
@@ -65,33 +69,34 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements IUpdat
 		}
 		//read the Rune's ItemStacks
 		NBTTagList tagList = tagCompound.getTagList("Pattern",10);
-		ArrayList<ArrayList<ItemStack>> pattern = new ArrayList<ArrayList<ItemStack>>();
+		List<ArrayElement> items = new LinkedList<ArrayElement>();
+		int maxRow=0,maxCol=0;
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = tagList.getCompoundTagAt(i);
 			int r = tag.getInteger("Row");
 			int c = tag.getInteger("Col");
-			if(pattern.get(r)==null)pattern.set(r, new ArrayList<ItemStack>());
-			pattern.get(r).set(c, ItemStack.loadItemStackFromNBT(tag));
+			ItemStack s = ItemStack.loadItemStackFromNBT(tag);
+			items.add(new ArrayElement(r, c, s));
+			if(r>maxRow)maxRow=r;
+			if(c>maxCol)maxCol=c;
 		}
-		pattern.trimToSize();
-		ItemStack[][] stacks = new ItemStack[pattern.size()][pattern.get(0).size()];
-		for(int i=0;i<stacks.length;i++){
-			pattern.get(i).trimToSize();
-			stacks[i]=pattern.get(i).toArray(new ItemStack[]{});
+		//make sure its the right size
+		int modR = maxRow%TileEntityDustPlaced.ROWS;
+		if(modR!=0)maxRow+=(TileEntityDustPlaced.ROWS-modR);
+		int modC = maxCol%TileEntityDustPlaced.COLS;
+		if(modC!=0)maxCol+=(TileEntityDustPlaced.COLS-modC);
+		ItemStack[][] stacks = new ItemStack[maxRow][maxCol];
+		
+		for(ArrayElement a:items){
+			stacks[a.row][a.col]=a.stack;
 		}
 		
 		//re-create the rune
 		IRune rune = DustRegistry.getRuneByID(runeID);
-		Class<? extends RuneEntity> clazz = rune.getRune();
-		RuneEntity entity = null;
-		try {
-			clazz.getConstructor(ItemStack[][].class, Set.class,TileEntityDustActive.class).newInstance(stacks,posSet,this);
-		} catch (Exception e) {
-			WizardryLogger.logException(Level.ERROR, e, "Couldn't create RuneEntity of type: "+clazz.getSimpleName()+" while reading from NBT");
-			//crash report or something
-		}
+		RuneEntity entity = rune.createRune(stacks, posSet, this);
 		this.rune=entity;
 		for(BlockPos p : posSet){
+			//FIXME NPE WTF
 			TileEntity te = worldObj.getTileEntity(p);
 			if(te instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te).setRune(entity);
@@ -122,11 +127,11 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements IUpdat
 		for (int r = 0; r < rune.placedPattern.length; r++) {
 			for(int c=0;c<rune.placedPattern[r].length;c++){
 				ItemStack stack = rune.placedPattern[r][c];
+				NBTTagCompound tag = new NBTTagCompound();
 				if (stack != null) {
-					NBTTagCompound tag = new NBTTagCompound();
+					stack.writeToNBT(tag);
 					tag.setInteger("Row", r);
 					tag.setInteger("Col", c);
-					stack.writeToNBT(tag);
 					itemList.appendTag(tag);
 				}
 			}
@@ -134,5 +139,15 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements IUpdat
 		tagCompound.setTag("Pattern", itemList);
 	}
 	//
+	private class ArrayElement{
+		private int row;
+		private int col;
+		private ItemStack stack;
+		private ArrayElement(int r, int c, ItemStack s){
+			row=r;
+			col=c;
+			stack=s;
+		}
+	}
 	
 }

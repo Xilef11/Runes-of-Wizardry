@@ -25,7 +25,7 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
  * @author Xilef11
  *
  */
-public abstract class RuneEntity extends TileEntity implements IUpdatePlayerListBox{
+public abstract class RuneEntity{
 	/**
 	 * The pattern that was actually placed in the world to create this Rune. This contains real dusts instead of the special constants
 	 */
@@ -33,15 +33,7 @@ public abstract class RuneEntity extends TileEntity implements IUpdatePlayerList
 	public final TileEntityDustActive entity;
 	public final Set<BlockPos> dustPositions;
 	/**
-	 * This no-arg constructor MUST exist and will be called during dust registration.
-	 */
-	public RuneEntity(){
-		placedPattern=null;
-		entity=null;
-		dustPositions=null;
-	}
-	/**
-	 * This constructor is called during normal activation of a rune
+	 * This constructor is called during normal activation of a rune, and may be called with null values
 	 * @param actualPattern the pattern of ItemStacks that was found
 	 * @param dusts the positions of all placed dust blocks in this rune
 	 * @param entity the TileEntity that hosts this rune
@@ -50,6 +42,7 @@ public abstract class RuneEntity extends TileEntity implements IUpdatePlayerList
 		this.placedPattern=actualPattern;
 		this.entity = entity;
 		this.dustPositions=dusts;
+		if(entity!=null)entity.setRune(this);
 	}
 	/**
 	 * Returns a unique identifier for this type of rune. it should be prefixed with your modid.
@@ -94,30 +87,22 @@ public abstract class RuneEntity extends TileEntity implements IUpdatePlayerList
 	/* (non-Javadoc)
 	 * @see net.minecraft.server.gui.IUpdatePlayerListBox#update()
 	 */
-	@Override
 	public void update() {
 		// TODO Auto-generated method stub
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.tileentity.TileEntity#readFromNBT(net.minecraft.nbt.NBTTagCompound)
 	 */
-	@Override
 	public void readFromNBT(NBTTagCompound compound) {
-		// TODO Auto-generated method stub
-		super.readFromNBT(compound);
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.tileentity.TileEntity#writeToNBT(net.minecraft.nbt.NBTTagCompound)
 	 */
-	@Override
 	public void writeToNBT(NBTTagCompound compound) {
-		// TODO Auto-generated method stub
-		super.writeToNBT(compound);
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.tileentity.TileEntity#getPos()
 	 */
-	@Override
 	public BlockPos getPos() {
 		return entity.getPos();
 	}

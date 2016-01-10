@@ -6,10 +6,12 @@
 package com.zpig333.runesofwizardry.runes;
 
 import java.io.IOException;
+import java.util.Set;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.Vec3i;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -17,6 +19,7 @@ import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.rune.PatternUtils;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 /**
  * @author Xilef11
@@ -63,8 +66,8 @@ public class RuneTest2 implements IRune {
 	 * @see com.zpig333.runesofwizardry.api.IRune#getEntityPosition()
 	 */
 	@Override
-	public Vec3 getEntityPosition() {
-		return new Vec3(0,0,0);
+	public Vec3i getEntityPosition() {
+		return new Vec3i(0,0,0);
 	}
 
 	/* (non-Javadoc)
@@ -80,9 +83,8 @@ public class RuneTest2 implements IRune {
 	 * @see com.zpig333.runesofwizardry.api.IRune#getRune()
 	 */
 	@Override
-	public Class<RuneTest2Entity> getRune() {
-		// TODO Auto-generated method stub
-		return RuneTest2Entity.class;
+	public RuneEntity createRune(ItemStack[][] actualPattern, Set<BlockPos> dusts, TileEntityDustActive entity) {
+		return new RuneTest2Entity(actualPattern,dusts,entity);
 	}
 
 }
