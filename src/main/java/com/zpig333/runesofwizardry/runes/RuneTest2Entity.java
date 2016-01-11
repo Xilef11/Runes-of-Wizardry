@@ -27,7 +27,7 @@ public class RuneTest2Entity extends RuneEntity {
 
 	@Override
 	public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice) {
-		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 500));
+		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 20));
 	}
 	private int ticks=0;
 	/* (non-Javadoc)
@@ -36,7 +36,7 @@ public class RuneTest2Entity extends RuneEntity {
 	@Override
 	public void update() {
 		ticks++;
-		if(ticks==100){
+		if(ticks==20){
 			entity.getWorld().spawnParticle(EnumParticleTypes.REDSTONE, entity.getPos().getX(), entity.getPos().getY()+1, entity.getPos().getZ(), 0, 0, 0, 500);
 			ticks=0;
 		}

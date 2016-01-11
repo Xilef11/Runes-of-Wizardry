@@ -8,6 +8,7 @@ package com.zpig333.runesofwizardry.runes;
 import java.io.IOException;
 import java.util.Set;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -26,7 +27,7 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
  * @author Xilef11
  *
  */
-public class RuneTest2 implements IRune {
+public class RuneTest2 extends IRune {
 	private ItemStack[][] pattern=null;
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.api.IRune#getName()
@@ -76,8 +77,9 @@ public class RuneTest2 implements IRune {
 	 */
 	@Override
 	public ItemStack[] getSacrifice() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ItemStack[]{
+				new ItemStack(Items.redstone,2),new ItemStack(Items.arrow)
+		};
 	}
 
 	/* (non-Javadoc)

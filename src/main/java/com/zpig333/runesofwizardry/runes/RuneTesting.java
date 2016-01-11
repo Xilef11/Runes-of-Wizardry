@@ -21,7 +21,7 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
  * @author Xilef11
  *
  */
-public class RuneTesting implements IRune {
+public class RuneTesting extends IRune {
 
 	@Override
 	public String getName() {

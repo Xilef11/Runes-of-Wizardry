@@ -10,6 +10,7 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -26,6 +27,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.RuneEntity;
@@ -72,8 +74,28 @@ public class BlockDustPlaced extends Block{
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
 	{	//No collision
-		return null;
+		return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
+		//return null;
 	}
+	
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#onEntityCollidedWithBlock(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.entity.Entity)
+	 */
+	@Override
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos,Entity entityIn) {
+		//FIXME this never gets called
+		if(entityIn instanceof EntityItem){
+			EntityItem ei = (EntityItem)entityIn;
+			ei.setVelocity(0, 0, 0);
+			ei.setNoDespawn();
+			ReflectionHelper.setPrivateValue(EntityItem.class, ei, 0, "age","field_70292_b");
+			ei.setPickupDelay(200);
+		}else{
+			super.onEntityCollidedWithBlock(worldIn, pos, entityIn);
+		}
+	}
+
 
 	@Override
 	public int getRenderType(){

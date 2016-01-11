@@ -5,26 +5,31 @@
  */
 package com.zpig333.runesofwizardry.api;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
+import net.minecraftforge.oredict.OreDictionary;
 
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+import com.zpig333.runesofwizardry.util.Utils;
 
-/** This Interface defines a rune created by placing patterns of arcane dust.<br>
+/** This Abstract class defines a rune created by placing patterns of arcane dust.<br>
  * This should be a singleton class like Items and Blocks.
  * @author Xilef11
  *
  */
-public interface IRune {
+public abstract class IRune {
 	/** Returns the name of this rune
 	 * 
 	 * @return the (unlocalized) name of this rune
 	 */
-	public String getName();
+	public abstract String getName();
 	
 	/** Returns a n*4 by m*4 array of ItemStacks, where n and m are the number of 
 	 *  rows and columns of Minecraft Blocks that make up this Rune.<br/>
@@ -41,7 +46,7 @@ public interface IRune {
 	 * 
 	 * @return an ItemStack(IDust) matrix that represents the pattern to place to create the rune
 	 */
-	public ItemStack[][] getPattern();
+	public abstract ItemStack[][] getPattern();
 	/** returns the position of the entity for this Rune, 
 	 * as an offset from the top-left corner (0,0) in the pattern<br/>
 	 * Note that these are NOT using the same axis as Minecraft.
@@ -51,17 +56,35 @@ public interface IRune {
 	 * corner of the pattern, the y element is the vertical offset from that corner and
 	 * the z element is the offset on the axis normal to the pattern
 	 */
-	public Vec3i getEntityPosition();
+	public abstract Vec3i getEntityPosition();
 	/** Returns the items needed to activate this Rune
 	 * 
 	 * @return the ItemStacks that must be dropped on the Rune for it to activate
 	 */
-	public ItemStack[] getSacrifice();
+	public abstract ItemStack[] getSacrifice();
 	/**
 	 * Returns a new instance of the RuneEntity that is created when this rune is formed and activated.
 	 *<br/> Note that the sacrifice Items will be consumed before the TileEntity is created.
 	 * @return
 	 */
-	public RuneEntity createRune(ItemStack[][] actualPattern,EnumFacing front, Set<BlockPos> dusts, TileEntityDustActive entity);
-	
+	public abstract RuneEntity createRune(ItemStack[][] actualPattern,EnumFacing front, Set<BlockPos> dusts, TileEntityDustActive entity);
+	/**
+	 * This Method checks if the dropped ItemStacks match the sacrifice for this rune.
+	 * <br/>The given list and required sacrifice are sorted to improve performance.
+	 * @param droppedItems the items that were found on the rune
+	 * @return true if the sacrifice may activate the rune
+	 */
+	public boolean sacrificeMatches(List<ItemStack> droppedItems){
+		if(this.getSacrifice()==null)return true;
+		List<ItemStack> wanted = Arrays.asList(this.getSacrifice());
+		if(droppedItems==null)return false;
+		wanted = Utils.sortAndMergeStacks(wanted);
+		droppedItems = Utils.sortAndMergeStacks(droppedItems);
+		WizardryLogger.logInfo("Comparing sacrifices: "+Arrays.deepToString(wanted.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));
+		if(wanted.size()!=droppedItems.size())return false;
+		for(int i=0;i<wanted.size();i++){
+			if(! ItemStack.areItemStacksEqual(wanted.get(i), droppedItems.get(i)))return false;
+		}
+		return true;
+	}
 }

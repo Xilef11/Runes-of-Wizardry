@@ -5,21 +5,30 @@
  */
 package com.zpig333.runesofwizardry.core.rune;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Arrays;
+
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
+import akka.util.Collections;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
@@ -89,9 +98,35 @@ public class RunesUtil {
 		finder.search();
 		ItemStack pattern[][] = finder.toArray();
 		RuneFacing match = matchPattern(pattern);
-		if(match==null)return;//might want to eventually do something
+		if(match==null){
+			player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.norune"));
+			return;
+		}
 		//TODO sacrifice
 		ItemStack[] sacrifice=null;
+		List<EntityItem> sacList=null;
+		for(BlockPos p: finder.getDustPositions()){
+			//FIXME this isn't picking up anything
+			if(sacList==null){
+				sacList = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(p,p.up()));
+			}else{
+				sacList.addAll(world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(p,p.up())));
+			}
+		}
+		List<ItemStack> stacks= new LinkedList<ItemStack>();
+		for(EntityItem e: sacList){
+			stacks.add(e.getEntityItem());
+		}
+		WizardryLogger.logInfo("Found sacrifice: "+Arrays.deepToString(stacks.toArray(new ItemStack[0])));
+		//check if sacrifice matches rune
+		if(!match.rune.sacrificeMatches(stacks)){
+			player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.badsacrifice", StatCollector.translateToLocal(match.rune.getName())));
+			return;
+		}
+		//kill the items
+		for(EntityItem e:sacList){
+			e.setDead();
+		}
 		//OreDictionary.itemMatches(target, input, strict)
 		//find the "top-left" corner
 		BlockPos topLeft;
