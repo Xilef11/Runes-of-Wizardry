@@ -44,6 +44,7 @@ public abstract class IRune {
 	 *  		{dust,dust,dust,dust}<br/>
 	 *  	} 
 	 * 
+	 *  @Note You can also override IRune#sacrificeMatches(List<ItemStack>) for more complex sacrifice mechanics and oreDictionnary support
 	 * @return an ItemStack(IDust) matrix that represents the pattern to place to create the rune
 	 */
 	public abstract ItemStack[][] getPattern();
@@ -64,7 +65,7 @@ public abstract class IRune {
 	public abstract ItemStack[] getSacrifice();
 	/**
 	 * Returns a new instance of the RuneEntity that is created when this rune is formed and activated.
-	 *<br/> Note that the sacrifice Items will be consumed before the TileEntity is created.
+	 *<br/> Note that the sacrifice Items will be consumed before the Entity is created.
 	 * @return
 	 */
 	public abstract RuneEntity createRune(ItemStack[][] actualPattern,EnumFacing front, Set<BlockPos> dusts, TileEntityDustActive entity);

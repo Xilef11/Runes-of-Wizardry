@@ -18,6 +18,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 /** This class is the superclass for all TileEntities that create the effects of runes.
@@ -82,17 +83,16 @@ public abstract class RuneEntity{
 	}
 	/** Called when the pattern changes after this rune is formed **/
 	public void onPatternBroken(){
-		//TODO change all dusts in pattern to "dead dust" (in RunesUtils)
+		//deactivate rune
+		RunesUtil.killAllDustsInRune(this);
+		RunesUtil.deactivateRune(this);
 	}
-	//TODO
 	
 	//Normal TE methods
 	/* (non-Javadoc)
 	 * @see net.minecraft.server.gui.IUpdatePlayerListBox#update()
 	 */
-	public void update() {
-		// TODO Auto-generated method stub
-	}
+	public abstract void update();
 	/* (non-Javadoc)
 	 * @see net.minecraft.tileentity.TileEntity#readFromNBT(net.minecraft.nbt.NBTTagCompound)
 	 */

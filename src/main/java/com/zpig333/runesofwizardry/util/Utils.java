@@ -41,7 +41,7 @@ public class Utils {
 						current.stackSize+=is2.stackSize;
 					}
 					i++;
-					is2=sorted.get(i);
+					if(i<sorted.size())is2=sorted.get(i);
 				}
 			}else{
 				i++;

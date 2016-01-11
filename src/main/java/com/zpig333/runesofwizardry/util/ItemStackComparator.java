@@ -22,7 +22,6 @@ public class ItemStackComparator implements Comparator<ItemStack> {
 	public int compare(ItemStack arg0, ItemStack arg1) {
 		String item0 = Item.itemRegistry.getNameForObject(arg0.getItem()).toString();
 		String item1 = Item.itemRegistry.getNameForObject(arg1.getItem()).toString();
-		WizardryLogger.logInfo("Comparing items: "+item0+" and "+item1);
 		int result = item0.compareTo(item1);
 		if(result==0){
 			Integer meta0 = arg0.getItemDamage();

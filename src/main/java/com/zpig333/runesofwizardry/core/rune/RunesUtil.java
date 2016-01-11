@@ -5,12 +5,15 @@
  */
 package com.zpig333.runesofwizardry.core.rune;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Arrays;
+import java.util.Set;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -18,17 +21,16 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
-import akka.util.Collections;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
-import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
@@ -102,16 +104,11 @@ public class RunesUtil {
 			player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.norune"));
 			return;
 		}
-		//TODO sacrifice
+		//sacrifice
 		ItemStack[] sacrifice=null;
-		List<EntityItem> sacList=null;
+		Set<EntityItem> sacList=new HashSet<EntityItem>();
 		for(BlockPos p: finder.getDustPositions()){
-			//FIXME this isn't picking up anything
-			if(sacList==null){
-				sacList = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(p,p.up()));
-			}else{
-				sacList.addAll(world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(p,p.up())));
-			}
+			sacList.addAll(world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(p,p.add(1,1,1))));
 		}
 		List<ItemStack> stacks= new LinkedList<ItemStack>();
 		for(EntityItem e: sacList){
@@ -125,9 +122,10 @@ public class RunesUtil {
 		}
 		//kill the items
 		for(EntityItem e:sacList){
+			world.spawnParticle(EnumParticleTypes.CLOUD, e.posX, e.posY, e.posZ, 0, 0, 0, 10);
 			e.setDead();
 		}
-		//OreDictionary.itemMatches(target, input, strict)
+		world.playSoundAtEntity(player, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 		//find the "top-left" corner
 		BlockPos topLeft;
 		BlockPos entityPos;//BlockPos seems to only have ints, maybe we need to use something else?
@@ -199,6 +197,62 @@ public class RunesUtil {
 			if(PatternUtils.patternsEqual(pattern, dusts)) return new RuneFacing(rune, EnumFacing.WEST);
 		}
 		return null;
+	}
+	/**
+	 * This method changes the TileEntityDustActive associated to a rune to a TileEntityDustPlaced with the same contents, effectively deactivating the rune.
+	 * @param rune the rune to deactivate
+	 */
+	public static void deactivateRune(RuneEntity rune){
+		ItemStack[][] contents = rune.entity.getContents();
+		BlockPos pos = rune.getPos();
+		World world = rune.entity.getWorld();
+		world.removeTileEntity(pos);
+		world.setBlockState(pos,WizardryRegistry.dust_placed.getDefaultState());
+		TileEntity te = world.getTileEntity(pos);
+		if(te instanceof TileEntityDustPlaced){
+			((TileEntityDustPlaced)te).setContents(contents);
+		}else{
+			throw new IllegalStateException("TileEntity wasn't placed dust: "+te);
+		}
+		//set all entities as not in a rune
+		for(BlockPos p:rune.dustPositions){
+			TileEntity te1 = world.getTileEntity(p);
+			if(te1 instanceof TileEntityDustPlaced){
+				((TileEntityDustPlaced)te1).setRune(null);
+			}else{
+				throw new IllegalStateException("TileEntity wasn't placed dust: "+te1);
+			}
+		}
+	}
+	//FIXME this dosen't seem to work properly in multiblock runes...
+	/**
+	 * Sets all the dust blocks connected to a Rune to dead dust
+	 * @param rune the rune for wich to kill all dusts
+	 */
+	public static void killAllDustsInRune(RuneEntity rune){
+		for(BlockPos p: rune.dustPositions){
+			killDustforEntity(rune.entity.getWorld(), p);
+		}
+	}
+	/**
+	 * Replaces all dusts in the TileEntityDustPlaced given by <worldIn> and <pos> to dead dust
+	 * @param worldIn
+	 * @param pos
+	 */
+	public static void killDustforEntity(World worldIn,BlockPos pos){
+		TileEntity en = worldIn.getTileEntity(pos);
+		if(en instanceof TileEntityDustPlaced){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)en;
+			ItemStack[][] contents = ted.getContents();
+			for(int i=0;i<contents.length;i++){
+				for(int j=0;j<contents[i].length;j++){
+					if(contents[i][j]!=null)contents[i][j]=new ItemStack(WizardryRegistry.dust_dead);
+				}
+			}
+			ted.updateRendering();
+		}else{
+			WizardryLogger.logError("killDustForEntity was called with a BlockPos that does not have a TileEntityDustPlaced! :"+pos);
+		}
 	}
 	/**
 	 * Represents a pair of IRune and EnumFacing, where the EnumFacing represents the direction of the "top" of the IRune pattern

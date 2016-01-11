@@ -33,6 +33,7 @@ import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
@@ -74,25 +75,37 @@ public class BlockDustPlaced extends Block{
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
 	{	//No collision
-		return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
-		//return null;
+		//return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX()+1, pos.getY()+0.0625F, pos.getZ()+1.0F);
+		//return new AxisAlignedBB(pos, pos.add(1,1,1));
+		return null;
+		//return super.getCollisionBoundingBox(worldIn, pos, state);
 	}
 	
-
 	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#onEntityCollidedWithBlock(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.entity.Entity)
+	 * @see net.minecraft.block.Block#onEntityCollidedWithBlock(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.block.state.IBlockState, net.minecraft.entity.Entity)
 	 */
 	@Override
-	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos,Entity entityIn) {
-		//FIXME this never gets called
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos,IBlockState state, Entity entityIn) {
 		if(entityIn instanceof EntityItem){
-			EntityItem ei = (EntityItem)entityIn;
-			ei.setVelocity(0, 0, 0);
-			ei.setNoDespawn();
-			ReflectionHelper.setPrivateValue(EntityItem.class, ei, 0, "age","field_70292_b");
-			ei.setPickupDelay(200);
+			EntityItem ei = (EntityItem) entityIn;
+			//these make the item look "stuck" and glitchy
+			//ReflectionHelper.setPrivateValue(EntityItem.class, ei, 0, "age","field_70292_b");
+			//ei.setNoDespawn();
+			EntityPlayer p = worldIn.getClosestPlayerToEntity(ei, 0.4);
+
+			if (p == null) {//if there is no player near enough, keep resetting the pickup delay
+				ei.setPickupDelay(20);
+			}else{
+				double dist = p.getDistanceToEntity(ei);
+				WizardryLogger.logInfo("Distance: "+dist);
+				Integer pickupDelay = ReflectionHelper.getPrivateValue(EntityItem.class, ei, "delayBeforeCanPickup","field_145804_b");
+				if (pickupDelay > 10) {
+					ei.setPickupDelay(10);//10 is the default, but there's no getDefaultPickupDelay, so its better to hardcode it in both uses
+					//ei.setDefaultPickupDelay();
+				}
+			}
 		}else{
-			super.onEntityCollidedWithBlock(worldIn, pos, entityIn);
+			super.onEntityCollidedWithBlock(worldIn, pos, state, entityIn);
 		}
 	}
 
@@ -178,7 +191,7 @@ public class BlockDustPlaced extends Block{
 			Random random = new Random();
 			for (int i1 = 0; i1 < tileentityDustPlaced.getSizeInventory(); i1++) {
 				ItemStack itemstack = tileentityDustPlaced.getStackInSlot(i1);
-				if (itemstack != null) {
+				if (itemstack != null && itemstack.getItem()!=WizardryRegistry.dust_dead) {
 					float f = random.nextFloat() * 0.8F + 0.1F;
 					float f1 = random.nextFloat() * 0.8F + 0.1F;
 					EntityItem entityitem;
@@ -281,7 +294,7 @@ public class BlockDustPlaced extends Block{
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 				}else{
 					//drop the itemStack
-					if(!playerIn.capabilities.isCreativeMode)spawnAsEntity(worldIn, pos, dustStack);
+					if(!playerIn.capabilities.isCreativeMode&& dustStack.getItem()!=WizardryRegistry.dust_dead)spawnAsEntity(worldIn, pos, dustStack);
 				}
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, state);
@@ -293,7 +306,7 @@ public class BlockDustPlaced extends Block{
 			}
 		}
 
-		if(playerStack.getItem() instanceof IDust && dustStack ==null){
+		if(playerStack.getItem() instanceof IDust && (dustStack ==null||dustStack.getItem()==WizardryRegistry.dust_dead)){
 			//place dust in the inventory
 			ItemStack newItem=null;
 			if(!playerIn.capabilities.isCreativeMode){
@@ -385,7 +398,7 @@ public class BlockDustPlaced extends Block{
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 				}else{
 					//drop the itemStack
-					if(!playerIn.capabilities.isCreativeMode)spawnAsEntity(worldIn, pos, dustStack);
+					if(!playerIn.capabilities.isCreativeMode && dustStack.getItem()!=WizardryRegistry.dust_dead)spawnAsEntity(worldIn, pos, dustStack);
 				}
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, worldIn.getBlockState(pos));

@@ -78,7 +78,7 @@ public class RuneTest2 extends IRune {
 	@Override
 	public ItemStack[] getSacrifice() {
 		return new ItemStack[]{
-				new ItemStack(Items.redstone,2),new ItemStack(Items.arrow)
+				new ItemStack(Items.redstone),new ItemStack(Items.arrow),new ItemStack(Items.redstone)
 		};
 	}
 
