@@ -261,7 +261,6 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	@Override
 	public ItemStack getStackInSlot(int index) {
 		int[] coords=getPositionFromSlotID(index);
-		//TODO return null if contents is dead dust
 		return contents[coords[0]][coords[1]];
 	}
 	/** returns true if there are no more itemStacks in**/

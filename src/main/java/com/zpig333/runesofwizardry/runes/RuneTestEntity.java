@@ -15,7 +15,6 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 public class RuneTestEntity extends RuneEntity {
 	public RuneTestEntity(ItemStack[][] actualPattern, EnumFacing face,Set<BlockPos> dusts,	TileEntityDustActive entity) {
 		super(actualPattern, face,dusts, entity);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -25,7 +24,6 @@ public class RuneTestEntity extends RuneEntity {
 
 	@Override
 	public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -120,12 +120,15 @@ public class RunesUtil {
 			player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.badsacrifice", StatCollector.translateToLocal(match.rune.getName())));
 			return;
 		}
+		//TODO tweak particles + sound
 		//kill the items
 		for(EntityItem e:sacList){
-			world.spawnParticle(EnumParticleTypes.CLOUD, e.posX, e.posY, e.posZ, 0, 0, 0, 10);
+			//FIXME not spawning?
+			world.spawnParticle(EnumParticleTypes.LAVA, e.posX, e.posY, e.posZ, 0, 0.8, 0, 1000);
 			e.setDead();
 		}
 		world.playSoundAtEntity(player, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+		
 		//find the "top-left" corner
 		BlockPos topLeft;
 		BlockPos entityPos;//BlockPos seems to only have ints, maybe we need to use something else?
@@ -224,14 +227,16 @@ public class RunesUtil {
 			}
 		}
 	}
-	//FIXME this dosen't seem to work properly in multiblock runes...
 	/**
 	 * Sets all the dust blocks connected to a Rune to dead dust
 	 * @param rune the rune for wich to kill all dusts
 	 */
 	public static void killAllDustsInRune(RuneEntity rune){
-		for(BlockPos p: rune.dustPositions){
-			killDustforEntity(rune.entity.getWorld(), p);
+		World world = rune.entity.getWorld();
+		if(!world.isRemote){
+			for(BlockPos p: rune.dustPositions){
+				killDustforEntity(world, p);
+			}
 		}
 	}
 	/**
@@ -240,6 +245,7 @@ public class RunesUtil {
 	 * @param pos
 	 */
 	public static void killDustforEntity(World worldIn,BlockPos pos){
+		if(worldIn.isRemote)return;//no need to do work on both client and server if we're going to update
 		TileEntity en = worldIn.getTileEntity(pos);
 		if(en instanceof TileEntityDustPlaced){
 			TileEntityDustPlaced ted = (TileEntityDustPlaced)en;
@@ -249,7 +255,8 @@ public class RunesUtil {
 					if(contents[i][j]!=null)contents[i][j]=new ItemStack(WizardryRegistry.dust_dead);
 				}
 			}
-			ted.updateRendering();
+			//TODO particles?
+			worldIn.markBlockForUpdate(pos);
 		}else{
 			WizardryLogger.logError("killDustForEntity was called with a BlockPos that does not have a TileEntityDustPlaced! :"+pos);
 		}

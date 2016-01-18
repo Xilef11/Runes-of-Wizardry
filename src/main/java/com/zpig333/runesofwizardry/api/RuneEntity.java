@@ -8,6 +8,7 @@ package com.zpig333.runesofwizardry.api;
 import java.util.Set;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,8 +22,7 @@ import net.minecraft.world.World;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
-/** This class is the superclass for all TileEntities that create the effects of runes.
- * TODO do not extend /implement anything, just provide the interface + defaults
+/** This class is the superclass for all "Entities" that create the effects of runes.
  * @author Xilef11
  *
  */
@@ -73,6 +73,13 @@ public abstract class RuneEntity{
 	 */
 	public boolean handleLeftClick(World worldIn, BlockPos pos,	EntityPlayer playerIn, Vec3 hit){
 		return false;
+	}
+	/**
+	 * This is called from Block#onEntityCollidedWithBlock if the block is part of this rune.
+	 * @return true to prevent normal collision handling (i.e items sticking) (true by default)
+	 */
+	public boolean handleEntityCollision(World worldIn, BlockPos pos,IBlockState state, Entity entityIn){
+		return true;
 	}
 	/** Called when the pattern changes after this rune is formed
 	 * 

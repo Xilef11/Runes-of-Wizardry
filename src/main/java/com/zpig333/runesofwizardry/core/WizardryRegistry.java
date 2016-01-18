@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -116,6 +117,15 @@ public class WizardryRegistry {
 			public void addInformation(ItemStack stack, EntityPlayer playerIn,List tooltip, boolean advanced) {
 				tooltip.add(StatCollector.translateToLocal(References.Lang.USELESS));
 			}
+
+			/* (non-Javadoc)
+			 * @see com.zpig333.runesofwizardry.api.IDust#creativeTab()
+			 */
+			@Override
+			public CreativeTabs creativeTab() {
+				return null;
+			}
+			
 			
 		};
 	}

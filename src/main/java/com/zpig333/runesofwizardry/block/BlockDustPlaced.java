@@ -86,6 +86,11 @@ public class BlockDustPlaced extends Block{
 	 */
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos,IBlockState state, Entity entityIn) {
+		TileEntity te = worldIn.getTileEntity(pos);
+		if(te instanceof TileEntityDustPlaced){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)te;
+			if(ted.isInRune() && ted.getRune().handleEntityCollision(worldIn, pos, state, entityIn))return;
+		}
 		if(entityIn instanceof EntityItem){
 			EntityItem ei = (EntityItem) entityIn;
 			//these make the item look "stuck" and glitchy
