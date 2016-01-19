@@ -15,6 +15,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -25,6 +26,8 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.WorldServerMulti;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
@@ -106,28 +109,37 @@ public class RunesUtil {
 		}
 		//sacrifice
 		ItemStack[] sacrifice=null;
+		boolean negated=false;
 		Set<EntityItem> sacList=new HashSet<EntityItem>();
 		for(BlockPos p: finder.getDustPositions()){
 			sacList.addAll(world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(p,p.add(1,1,1))));
 		}
 		List<ItemStack> stacks= new LinkedList<ItemStack>();
 		for(EntityItem e: sacList){
-			stacks.add(e.getEntityItem());
+			ItemStack s =e.getEntityItem(); 
+			stacks.add(s);
+			if(s.getItem()==WizardryRegistry.sacrifice_negator){
+				negated=true;
+			}
 		}
 		WizardryLogger.logInfo("Found sacrifice: "+Arrays.deepToString(stacks.toArray(new ItemStack[0])));
 		//check if sacrifice matches rune
-		if(!match.rune.sacrificeMatches(stacks)){
-			player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.badsacrifice", StatCollector.translateToLocal(match.rune.getName())));
-			return;
+		if(!negated){
+			if(!match.rune.sacrificeMatches(stacks)){
+				player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.badsacrifice", StatCollector.translateToLocal(match.rune.getName())));
+				return;
+			}
+			//kill the items
+			for(EntityItem e:sacList){
+				BlockPos p = e.getPosition();
+				if(world instanceof WorldServer){
+					//SPELL_MOB or SPELL_WITCH or SMOKE_LARGE are also options
+					((WorldServer)world).spawnParticle(EnumParticleTypes.SMOKE_NORMAL, false, e.posX, e.posY, e.posZ, 1, 0d, 0.5d, 0d, 0d);
+				}
+				e.setDead();
+			}
+			if(!sacList.isEmpty())world.playSoundAtEntity(player, "mob.chicken.plop", 0.5F, 0.8F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 		}
-		//TODO tweak particles + sound
-		//kill the items
-		for(EntityItem e:sacList){
-			//FIXME not spawning?
-			world.spawnParticle(EnumParticleTypes.LAVA, e.posX, e.posY, e.posZ, 0, 0.8, 0, 1000);
-			e.setDead();
-		}
-		world.playSoundAtEntity(player, "random.fizz", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 		
 		//find the "top-left" corner
 		BlockPos topLeft;
@@ -177,7 +189,7 @@ public class RunesUtil {
 		}
 		//entity.setRune(runeEnt);
 		entity.updateRendering();
-		player.addChatMessage(new ChatComponentText("Formed Rune: "+match.rune.getName()+" facing "+match.top));
+		WizardryLogger.logInfo("Formed Rune: "+match.rune.getName()+" facing "+match.top+" by "+player.getDisplayNameString());
 		runeEnt.onRuneActivatedbyPlayer(player,sacrifice);
 	}
 	/**

@@ -33,6 +33,7 @@ import com.zpig333.runesofwizardry.item.ItemPestle;
 import com.zpig333.runesofwizardry.item.ItemPlantBalls;
 import com.zpig333.runesofwizardry.item.ItemRunicDictionary;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
+import com.zpig333.runesofwizardry.item.ItemSacrificeNegator;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
 import com.zpig333.runesofwizardry.item.dust.RWDusts;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
@@ -51,6 +52,7 @@ public class WizardryRegistry {
 	public static Item runic_dictionary;
 	public static Item runic_staff;
 	public static Item broom;
+	public static Item sacrifice_negator;
 	public static IDust dust_dead;
 
 	//dyed dust
@@ -86,6 +88,7 @@ public class WizardryRegistry {
 		runic_staff = new ItemRunicStaff();
 
 		broom = new ItemBroom();
+		sacrifice_negator = new ItemSacrificeNegator();
 		//dyed dust
 		dust_dyed = new DustDyed();
 		dust_dead = new IDust() {
@@ -231,6 +234,12 @@ public class WizardryRegistry {
 				0,
 				new ModelResourceLocation(References.texture_path
 						+ ((ItemBroom) WizardryRegistry.broom)
+						.getName(), "inventory"));
+		renderItem.getItemModelMesher().register(
+				WizardryRegistry.sacrifice_negator,
+				0,
+				new ModelResourceLocation(References.texture_path
+						+ ((ItemSacrificeNegator) WizardryRegistry.sacrifice_negator)
 						.getName(), "inventory"));
 		// plant balls - try changing the meta number only?
 		ItemPlantBalls plantballs = (ItemPlantBalls) WizardryRegistry.plantballs;
