@@ -1,14 +1,12 @@
 package com.zpig333.runesofwizardry.util;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
+
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 public class Utils {
 	private Utils(){}

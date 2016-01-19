@@ -5,19 +5,12 @@
  */
 package com.zpig333.runesofwizardry.tileentity;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.Level;
-
-import scala.collection.mutable.ArrayBuilder;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;

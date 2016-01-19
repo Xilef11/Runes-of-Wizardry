@@ -3,10 +3,8 @@ package com.zpig333.runesofwizardry.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
@@ -379,8 +377,8 @@ public class BlockDustPlaced extends Block{
 				if(rune.handleLeftClick(worldIn, pos, playerIn, hit))return;
 			}
 			//make it relative to the block hit and find the row/column hit
-			double posX = (hit.xCoord - pos.getX() )* (double)TileEntityDustPlaced.COLS;
-			double posZ = (hit.zCoord - pos.getZ() )* (double)TileEntityDustPlaced.ROWS;
+			double posX = (hit.xCoord - pos.getX() )* TileEntityDustPlaced.COLS;
+			double posZ = (hit.zCoord - pos.getZ() )* TileEntityDustPlaced.ROWS;
 			int row = (int) posZ;
 			int col = (int) posX;
 

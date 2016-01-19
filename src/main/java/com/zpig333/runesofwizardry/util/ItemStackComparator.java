@@ -7,8 +7,6 @@ package com.zpig333.runesofwizardry.util;
 
 import java.util.Comparator;
 
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 

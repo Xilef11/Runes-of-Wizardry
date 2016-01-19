@@ -1,15 +1,11 @@
 package com.zpig333.runesofwizardry.api;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import org.apache.logging.log4j.Level;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -19,11 +15,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.InvalidRuneException;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
@@ -173,7 +167,6 @@ public class DustRegistry {
 	public static void registerRune(final IRune rune){
 		RunesUtil.validateRune(rune);
 		String name=rune.createRune(new ItemStack[][]{},EnumFacing.NORTH, null, null).getRuneID();
-		
 		//maybe do crash report (or skip registration)
 		if(runes.containsKey(name))throw new IllegalArgumentException("A rune with the name: "+name+" Already exists!");
 		runes.put(name,rune);
