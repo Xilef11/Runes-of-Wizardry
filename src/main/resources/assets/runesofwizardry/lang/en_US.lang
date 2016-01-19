@@ -16,12 +16,13 @@ item.runesofwizardry_dust_aqua.name=Aqua Runic Dust
 item.runesofwizardry_dust_fire.name=Blaze Runic Dust
 item.runesofwizardry_dust_glowstone.name=Glowstone Runic Dust
 item.runesofwizardry_dust_ender.name=Ender Runic Dust
-item.runesofwizardry.dust_dead.name=Dead Dust
+item.runesofwizardry_dust_dead.name=Dead Dust
 
 #Items
 item.runesofwizardry_runic_dictionary.name=Runic Dictionary
 item.runesofwizardry_runic_staff.name=Runic Staff
 item.runesofwizardry_broom.name=Dust Broom
+item.runesofwizardry_sacrifice_negator.name=Sacrifice Negator
 
 #Misc crafting items
 item.runesofwizardry_plantball_large.name=Plant Ball

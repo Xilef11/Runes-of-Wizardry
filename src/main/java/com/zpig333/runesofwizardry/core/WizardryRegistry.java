@@ -128,6 +128,22 @@ public class WizardryRegistry {
 			public CreativeTabs creativeTab() {
 				return null;
 			}
+
+			/* (non-Javadoc)
+			 * @see com.zpig333.runesofwizardry.api.IDust#isMagicDust(net.minecraft.item.ItemStack)
+			 */
+			@Override
+			public boolean isMagicDust(ItemStack stack) {
+				return false;
+			}
+
+			/* (non-Javadoc)
+			 * @see com.zpig333.runesofwizardry.api.IDust#hasCustomBlock()
+			 */
+			@Override
+			public boolean hasCustomBlock() {
+				return true;
+			}
 			
 			
 		};

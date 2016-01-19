@@ -136,9 +136,10 @@ public abstract class IDust extends Item {
 		if(thisDust==null || other == null)return false;//only one is null
 		//none is null
 		if(!(thisDust.getItem() instanceof IDust && other.getItem() instanceof IDust))return false;
-		if(ItemStack.areItemStacksEqual(thisDust, other))return true;
 		IDust first = (IDust)thisDust.getItem();
 		IDust second = (IDust)other.getItem();
+		if(first==WizardryRegistry.dust_dead || second==WizardryRegistry.dust_dead)return false;
+		if(ItemStack.areItemStacksEqual(thisDust, other))return true;
 		if(first==DustRegistry.ANY_DUST || second == DustRegistry.ANY_DUST)return true;
 		if(first.isMagicDust(thisDust)&& second==DustRegistry.MAGIC_DUST)return true;
 		if(second.isMagicDust(thisDust)&& first==DustRegistry.MAGIC_DUST)return true;

@@ -28,7 +28,8 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 /**
  * @author Xilef11
- *
+ * TODO this could be replaced by forge multi-layer JSON or something
+ * look at https://gist.github.com/gigaherz/514ef345c65289e3630e
  */
 public class ModelDustStorage implements IBakedModel {
 	private static Map<String,ModelResourceLocation> resourceMap = new HashMap<String, ModelResourceLocation>();
@@ -187,7 +188,7 @@ public class ModelDustStorage implements IBakedModel {
 	public boolean isBuiltInRenderer() {
 		return false;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see net.minecraft.client.resources.model.IBakedModel#getTexture()
 	 */
