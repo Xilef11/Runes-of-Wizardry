@@ -193,7 +193,7 @@ public class ModelDustStorage implements IBakedModel {
 	 * @see net.minecraft.client.resources.model.IBakedModel#getTexture()
 	 */
 	@Override
-	public TextureAtlasSprite getTexture() {
+	public TextureAtlasSprite getParticleTexture() {
 		//XXX getTexture might need to get tweaked, but we'll leave it as grey for now
 		//mostly affects breaking animation
 		TextureAtlasSprite sprite =TextureStitchEventHandler.getDustStorageBG(); 

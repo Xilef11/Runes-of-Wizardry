@@ -38,16 +38,15 @@ minecraft {
 	
 	replaceIn "RunesOfWizardry.java"
 	replace "@MOD_VERSION@", project.version
-
+	//JEI
+	useDepAts = true
 }
-/*
-repositories{
-	maven {
-				name = 'CodeChicken'
-				url = 'http://chickenbones.net/maven/'
-			}
+repositories {
+  //JEI
+  maven {
+    url "http://dvs1.progwml6.com/files/maven"
+  }
 }
-*/
 dependencies {
        // you may put jars on which you depend on in ./libs
     // or you may define them like so..
@@ -69,6 +68,8 @@ dependencies {
     // for more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+	//JEI
+	deobfCompile "mezz.jei:jei_1.8.9:2.19.0.93"
 }
 /*
 	tasks.withType(JavaCompile) {

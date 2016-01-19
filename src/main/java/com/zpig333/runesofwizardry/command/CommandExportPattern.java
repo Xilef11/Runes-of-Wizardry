@@ -52,7 +52,7 @@ public class CommandExportPattern implements ICommand {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
-	public int compareTo(Object arg0) {
+	public int compareTo(ICommand arg0) {
 		//for sorting commands I guess?
 		return 0;
 	}

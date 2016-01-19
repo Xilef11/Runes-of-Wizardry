@@ -238,7 +238,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	};
 
 	@Override
-	public String getCommandSenderName() {
+	public String getName() {
 		return References.modid+".DustPlaced";
 	}
 
@@ -250,7 +250,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	@Override
 	public IChatComponent getDisplayName() {
 		//see TileEntityDustDye
-		return this.hasCustomName() ? new ChatComponentText(this.getCommandSenderName()) : new ChatComponentTranslation(this.getCommandSenderName(), new Object[0]);
+		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
 	}
 
 	@Override
@@ -308,7 +308,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int index) {
+	public ItemStack removeStackFromSlot(int index) {
 		ItemStack stack = getStackInSlot(index);
 		if (stack != null) {
 			setInventorySlotContents(index, null);
