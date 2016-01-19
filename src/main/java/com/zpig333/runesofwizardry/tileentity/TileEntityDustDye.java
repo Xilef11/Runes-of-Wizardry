@@ -5,7 +5,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
@@ -13,7 +12,6 @@ import net.minecraft.util.IChatComponent;
 
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
-import com.zpig333.runesofwizardry.network.guipackets.DustDyeUpdatePacket;
 
 
 public class TileEntityDustDye extends TileEntity implements IInventory{

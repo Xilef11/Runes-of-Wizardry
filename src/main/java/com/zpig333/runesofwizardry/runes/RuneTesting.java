@@ -5,18 +5,23 @@
  */
 package com.zpig333.runesofwizardry.runes;
 
+import java.util.Set;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3i;
 
 import com.zpig333.runesofwizardry.api.IRune;
-import com.zpig333.runesofwizardry.api.TERune;
+import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.item.dust.RWDusts;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 /**
  * @author Xilef11
  *
  */
-public class RuneTesting implements IRune {
+public class RuneTesting extends IRune {
 
 	@Override
 	public String getName() {
@@ -44,12 +49,12 @@ public class RuneTesting implements IRune {
 	}
 
 	@Override
-	public Class<TERune> getRune() {
-		return null;
+	public RuneEntity createRune(ItemStack[][] actualPattern,EnumFacing face, Set<BlockPos> dusts, TileEntityDustActive entity) {
+		return new RuneTestEntity(actualPattern,face,dusts,entity);
 	}
 	@Override
-	public Vec3 getEntityPosition(){
-		return new Vec3(1.5, 1.5, 1.5);
+	public Vec3i getEntityPosition(){
+		return new Vec3i(1, 1, 1);
 	}
 
 }

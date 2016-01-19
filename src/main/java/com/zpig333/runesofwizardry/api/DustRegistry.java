@@ -2,15 +2,16 @@ package com.zpig333.runesofwizardry.api;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
@@ -29,7 +30,7 @@ public class DustRegistry {
 	//TODO use a RecipeHandler for this
 	//private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
 	/**List of all registered runes**/
-	private static List<IRune> runes = new LinkedList<IRune>();
+	private static Map<String,IRune> runes = new LinkedHashMap<String,IRune>();
 	//Special constants
 	/**
 	 * Represents any "magic" dust
@@ -95,7 +96,15 @@ public class DustRegistry {
 	 * @return a LinkedList of all runes, in the order they were registered
 	 */
 	public static List<IRune> getAllRunes(){
-		return new LinkedList<IRune>(runes);
+		return new LinkedList(runes.values());
+	}
+	/**
+	 * Returns the rune registered as the given id
+	 * @param id the id to get the rune for
+	 * @return the rune registered as <id>
+	 */
+	public static IRune getRuneByID(String id){
+		return runes.get(id);
 	}
 	/** Given a dust, returns the block that was created in registerDust
 	 * 
@@ -157,7 +166,10 @@ public class DustRegistry {
 	 */
 	public static void registerRune(final IRune rune){
 		RunesUtil.validateRune(rune);
-		runes.add(rune);
+		String name=rune.createRune(new ItemStack[][]{},EnumFacing.NORTH, null, null).getRuneID();
+		//maybe do crash report (or skip registration)
+		if(runes.containsKey(name))throw new IllegalArgumentException("A rune with the name: "+name+" Already exists!");
+		runes.put(name,rune);
 	}
 	/**
 	 * 

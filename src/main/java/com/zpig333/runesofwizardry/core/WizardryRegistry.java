@@ -9,10 +9,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -30,8 +33,10 @@ import com.zpig333.runesofwizardry.item.ItemPestle;
 import com.zpig333.runesofwizardry.item.ItemPlantBalls;
 import com.zpig333.runesofwizardry.item.ItemRunicDictionary;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
+import com.zpig333.runesofwizardry.item.ItemSacrificeNegator;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
 import com.zpig333.runesofwizardry.item.dust.RWDusts;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
@@ -47,6 +52,8 @@ public class WizardryRegistry {
 	public static Item runic_dictionary;
 	public static Item runic_staff;
 	public static Item broom;
+	public static Item sacrifice_negator;
+	public static IDust dust_dead;
 
 	//dyed dust
 	public static Item dust_dyed;
@@ -61,6 +68,7 @@ public class WizardryRegistry {
 		//placed dust
 		dust_placed=new BlockDustPlaced();
 		GameRegistry.registerTileEntity(TileEntityDustPlaced.class, "te_dust_placed");
+		GameRegistry.registerTileEntity(TileEntityDustActive.class, "te_dust_active");
 
 	}
 
@@ -80,8 +88,49 @@ public class WizardryRegistry {
 		runic_staff = new ItemRunicStaff();
 
 		broom = new ItemBroom();
+		sacrifice_negator = new ItemSacrificeNegator();
 		//dyed dust
 		dust_dyed = new DustDyed();
+		dust_dead = new IDust() {
+			
+			@Override
+			public int getSecondaryColor(ItemStack stack) {
+				return getPrimaryColor(stack);
+			}
+			
+			@Override
+			public int getPrimaryColor(ItemStack stack) {
+				return 0xbebebe;
+			}
+			
+			@Override
+			public ItemStack[] getInfusionItems(ItemStack stack) {
+				return null;
+			}
+			
+			@Override
+			public String getDustName() {
+				return "dead";
+			}
+
+			/* (non-Javadoc)
+			 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
+			 */
+			@Override
+			public void addInformation(ItemStack stack, EntityPlayer playerIn,List tooltip, boolean advanced) {
+				tooltip.add(StatCollector.translateToLocal(References.Lang.USELESS));
+			}
+
+			/* (non-Javadoc)
+			 * @see com.zpig333.runesofwizardry.api.IDust#creativeTab()
+			 */
+			@Override
+			public CreativeTabs creativeTab() {
+				return null;
+			}
+			
+			
+		};
 	}
 
 	/**Registers all our dusts with the DustRegistry**/
@@ -94,6 +143,7 @@ public class WizardryRegistry {
 		DustRegistry.registerDust(RWDusts.dust_ender);
 
 		DustRegistry.registerDust((IDust) dust_dyed);
+		DustRegistry.registerDust(dust_dead);
 	}
 	/**Create the (vanilla) recipes**/
 	public static void initCrafting(){
@@ -184,6 +234,12 @@ public class WizardryRegistry {
 				0,
 				new ModelResourceLocation(References.texture_path
 						+ ((ItemBroom) WizardryRegistry.broom)
+						.getName(), "inventory"));
+		renderItem.getItemModelMesher().register(
+				WizardryRegistry.sacrifice_negator,
+				0,
+				new ModelResourceLocation(References.texture_path
+						+ ((ItemSacrificeNegator) WizardryRegistry.sacrifice_negator)
 						.getName(), "inventory"));
 		// plant balls - try changing the meta number only?
 		ItemPlantBalls plantballs = (ItemPlantBalls) WizardryRegistry.plantballs;

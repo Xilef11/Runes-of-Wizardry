@@ -5,19 +5,35 @@
  */
 package com.zpig333.runesofwizardry.core.rune;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.StatCollector;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
+import net.minecraft.world.WorldServer;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IRune;
+import com.zpig333.runesofwizardry.api.RuneEntity;
+import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.ArrayUtils;
 
 /** internal Utility/logic methods for Runes
@@ -65,39 +81,112 @@ public class RunesUtil {
 		
 	}
 	/**
-	 * Finds and activates (if appropriate) a rune statring at pos
+	 * Finds and activates (if appropriate) a rune starting at pos
 	 * @param pos the position around which to search for a rune
 	 * @param world the world in which to search for a rune
 	 */
 	public static void activateRune(World world, BlockPos pos, EntityPlayer player){
+		if(world.isRemote)return;//work on the server only
+		TileEntity initial = world.getTileEntity(pos);
+		if(initial instanceof TileEntityDustPlaced){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced) initial;
+			if(ted.isInRune())return;//maybe add message or something
+		}else{
+			WizardryLogger.logError("activateRune was called on a BlockPos that isn't placed dust!");
+			//return;
+		}
 		PatternFinder finder = new PatternFinder(world, pos);
 		finder.search();
-		ItemStack contents[][] = finder.toArray();
-		RuneFacing match = matchPattern(contents);
-		if(match==null)return;//might want to eventually do something
-		player.addChatMessage(new ChatComponentText("Formed Rune: "+match.rune.getName()+" facing "+match.top));
+		ItemStack pattern[][] = finder.toArray();
+		RuneFacing match = matchPattern(pattern);
+		if(match==null){
+			player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.norune"));
+			return;
+		}
+		//sacrifice
+		ItemStack[] sacrifice=null;
+		boolean negated=false;
+		Set<EntityItem> sacList=new HashSet<EntityItem>();
+		for(BlockPos p: finder.getDustPositions()){
+			sacList.addAll(world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(p,p.add(1,1,1))));
+		}
+		List<ItemStack> stacks= new LinkedList<ItemStack>();
+		for(EntityItem e: sacList){
+			ItemStack s =e.getEntityItem(); 
+			stacks.add(s);
+			if(s.getItem()==WizardryRegistry.sacrifice_negator){
+				negated=true;
+			}
+		}
+		WizardryLogger.logInfo("Found sacrifice: "+Arrays.deepToString(stacks.toArray(new ItemStack[0])));
+		//check if sacrifice matches rune
+		if(!negated){
+			if(!match.rune.sacrificeMatches(stacks)){
+				player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.badsacrifice", StatCollector.translateToLocal(match.rune.getName())));
+				return;
+			}
+			//kill the items
+			for(EntityItem e:sacList){
+				BlockPos p = e.getPosition();
+				if(world instanceof WorldServer){
+					//SPELL_MOB or SPELL_WITCH or SMOKE_LARGE are also options
+					((WorldServer)world).spawnParticle(EnumParticleTypes.SMOKE_NORMAL, false, e.posX, e.posY, e.posZ, 1, 0d, 0.5d, 0d, 0d);
+				}
+				e.setDead();
+			}
+			if(!sacList.isEmpty())world.playSoundAtEntity(player, "mob.chicken.plop", 0.5F, 0.8F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+		}
+		
 		//find the "top-left" corner
 		BlockPos topLeft;
-		Vec3 entityPos;//BlockPos seems to only have ints, maybe we need to use something else?
+		BlockPos entityPos;//BlockPos seems to only have ints, maybe we need to use something else?
 		//NORTH is Z-, EAST is X+, UP is Y+
-		Vec3 offset = match.rune.getEntityPosition();
+		Vec3i offset = match.rune.getEntityPosition();
 		switch(match.top){
 		case NORTH: topLeft = finder.getNW();
-					entityPos = new Vec3(topLeft.getX(),topLeft.getY(),topLeft.getZ()).addVector(offset.xCoord, offset.zCoord-1, offset.yCoord);
+					entityPos = topLeft.add(offset.getX(), 0, offset.getY());
 			break;
 		case EAST: topLeft = finder.getNE();
-				   entityPos = new Vec3(topLeft.getX(),topLeft.getY(),topLeft.getZ()).addVector(-(offset.yCoord-1), offset.zCoord-1, offset.xCoord);
+				   entityPos = topLeft.add(-(offset.getY()), 0, offset.getX());
 			break;
 		case SOUTH: topLeft = finder.getSE();
-					entityPos = new Vec3(topLeft.getX(),topLeft.getY(),topLeft.getZ()).addVector(-(offset.xCoord-1),offset.zCoord-1,-(offset.yCoord-1));
+					entityPos = topLeft.add(-(offset.getX()),0,-(offset.getY()));
 			break;
 		case WEST:topLeft = finder.getSW();
-				  entityPos = new Vec3(topLeft.getX(),topLeft.getY(),topLeft.getZ()).addVector(offset.yCoord,offset.zCoord-1,-(offset.xCoord-1));
+				  entityPos = topLeft.add(offset.getY(),0,-(offset.getX()));
 			break;
 		default: throw new IllegalStateException("A rune is facing in an invalid direction: "+match.rune.getName()+" at "+pos+" facing "+match.top);
 		}
 		WizardryLogger.logInfo("Top-left block is :"+topLeft+" and entity Pos is: "+entityPos);
+		//check that the entity position is valid
+		if(!finder.getDustPositions().contains(entityPos)){
+			throw new IllegalStateException("Tried to create a Rune with invalid entity position"); 
+		}
+		TileEntity tile = world.getTileEntity(entityPos);
+		if(!(tile instanceof TileEntityDustPlaced)){
+			throw new IllegalStateException("The TileEntity at "+entityPos+" isn't placed dust!");
+		}
+		TileEntityDustPlaced toReplace = (TileEntityDustPlaced)tile;
+		ItemStack[][] contents = toReplace.getContents();
+		//place the rune
+		world.removeTileEntity(entityPos);
 		
+		world.setBlockState(entityPos, WizardryRegistry.dust_placed.getDefaultState().withProperty(BlockDustPlaced.PROPERTYACTIVE, true));
+		TileEntity te = world.getTileEntity(entityPos);
+		if(!(te instanceof TileEntityDustActive))throw new IllegalStateException("TileEntity not formed!");
+		TileEntityDustActive entity = (TileEntityDustActive)te;
+		entity.setContents(contents);
+		//create the entity
+		RuneEntity runeEnt = match.rune.createRune(pattern,match.top, finder.getDustPositions(), entity);
+		entity.setRune(runeEnt);
+		for(BlockPos p:finder.getDustPositions()){
+			TileEntityDustPlaced t = (TileEntityDustPlaced)world.getTileEntity(p);
+			t.setRune(runeEnt);
+		}
+		//entity.setRune(runeEnt);
+		entity.updateRendering();
+		WizardryLogger.logInfo("Formed Rune: "+match.rune.getName()+" facing "+match.top+" by "+player.getDisplayNameString());
+		runeEnt.onRuneActivatedbyPlayer(player,sacrifice);
 	}
 	/**
 	 * Returns the IRune that matches a given ItemStack[][] pattern, or null if there isn't one
@@ -119,6 +208,66 @@ public class RunesUtil {
 			if(PatternUtils.patternsEqual(pattern, dusts)) return new RuneFacing(rune, EnumFacing.WEST);
 		}
 		return null;
+	}
+	/**
+	 * This method changes the TileEntityDustActive associated to a rune to a TileEntityDustPlaced with the same contents, effectively deactivating the rune.
+	 * @param rune the rune to deactivate
+	 */
+	public static void deactivateRune(RuneEntity rune){
+		ItemStack[][] contents = rune.entity.getContents();
+		BlockPos pos = rune.getPos();
+		World world = rune.entity.getWorld();
+		world.removeTileEntity(pos);
+		world.setBlockState(pos,WizardryRegistry.dust_placed.getDefaultState());
+		TileEntity te = world.getTileEntity(pos);
+		if(te instanceof TileEntityDustPlaced){
+			((TileEntityDustPlaced)te).setContents(contents);
+		}else{
+			throw new IllegalStateException("TileEntity wasn't placed dust: "+te);
+		}
+		//set all entities as not in a rune
+		for(BlockPos p:rune.dustPositions){
+			TileEntity te1 = world.getTileEntity(p);
+			if(te1 instanceof TileEntityDustPlaced){
+				((TileEntityDustPlaced)te1).setRune(null);
+			}else{
+				throw new IllegalStateException("TileEntity wasn't placed dust: "+te1);
+			}
+		}
+	}
+	/**
+	 * Sets all the dust blocks connected to a Rune to dead dust
+	 * @param rune the rune for wich to kill all dusts
+	 */
+	public static void killAllDustsInRune(RuneEntity rune){
+		World world = rune.entity.getWorld();
+		if(!world.isRemote){
+			for(BlockPos p: rune.dustPositions){
+				killDustforEntity(world, p);
+			}
+		}
+	}
+	/**
+	 * Replaces all dusts in the TileEntityDustPlaced given by <worldIn> and <pos> to dead dust
+	 * @param worldIn
+	 * @param pos
+	 */
+	public static void killDustforEntity(World worldIn,BlockPos pos){
+		if(worldIn.isRemote)return;//no need to do work on both client and server if we're going to update
+		TileEntity en = worldIn.getTileEntity(pos);
+		if(en instanceof TileEntityDustPlaced){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)en;
+			ItemStack[][] contents = ted.getContents();
+			for(int i=0;i<contents.length;i++){
+				for(int j=0;j<contents[i].length;j++){
+					if(contents[i][j]!=null)contents[i][j]=new ItemStack(WizardryRegistry.dust_dead);
+				}
+			}
+			//TODO particles?
+			worldIn.markBlockForUpdate(pos);
+		}else{
+			WizardryLogger.logError("killDustForEntity was called with a BlockPos that does not have a TileEntityDustPlaced! :"+pos);
+		}
 	}
 	/**
 	 * Represents a pair of IRune and EnumFacing, where the EnumFacing represents the direction of the "top" of the IRune pattern

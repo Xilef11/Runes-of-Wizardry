@@ -8,8 +8,6 @@ package com.zpig333.runesofwizardry.util;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-import net.minecraft.item.ItemStack;
-
 /** This class holds utilities for manipulating arrays.
  * @author Xilef11
  *

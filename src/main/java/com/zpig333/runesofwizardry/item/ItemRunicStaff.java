@@ -14,6 +14,7 @@ public class ItemRunicStaff extends WizardryItem {
 		super();
 		this.setMaxDamage(50);
 		this.setFull3D();
+		this.setMaxStackSize(1);
 	}
 	@Override
 	public String getName(){
