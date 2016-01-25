@@ -71,11 +71,11 @@ dependencies {
 	//JEI
 	deobfCompile "mezz.jei:jei_1.8.9:2.19.0.93"
 }
-/*
+
 	tasks.withType(JavaCompile) {
         options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     }
-*/
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.

@@ -226,6 +226,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		return false;//if not at least one is a non-null IDust, should not connect.
 
 	}
+    
 	@SideOnly(Side.CLIENT)
 	@Override
 	public double getMaxRenderDistanceSquared() {

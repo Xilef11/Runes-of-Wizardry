@@ -42,7 +42,6 @@ import com.zpig333.runesofwizardry.util.RayTracer;
  * This class creates the block that holds placed dust
  * 
  */
-//public class BlockDustPlaced extends BlockContainer {
 public class BlockDustPlaced extends Block{
 	public BlockDustPlaced(){
 		super(Material.circuits);
