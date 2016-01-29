@@ -32,7 +32,7 @@ public class DustEnder extends IDust {
 
 	@Override
 	public ItemStack[] getInfusionItems(ItemStack stack) {
-		//TODO Ender infusion
+		//FUTURE Ender infusion
 		return new ItemStack[]{new ItemStack(Items.ender_pearl),new ItemStack(Blocks.obsidian)};
 	}
 }
