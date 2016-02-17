@@ -1,6 +1,7 @@
 package com.zpig333.runesofwizardry.util;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Utils {
 	public static List<ItemStack> sortAndMergeStacks(List<ItemStack> in){
 		List<ItemStack> sorted = new LinkedList<ItemStack>(in);
 		Comparator<ItemStack> cmp = new ItemStackComparator();
-		sorted.sort(cmp);//FIXME gradle build complaining about this FSR
+		Collections.sort(sorted, cmp);
 		WizardryLogger.logInfo("Sorted list: "+Arrays.deepToString(sorted.toArray(new ItemStack[0])));
 		//merge not happening correctly (fixed?)
 		List<ItemStack> merged = new LinkedList<ItemStack>();

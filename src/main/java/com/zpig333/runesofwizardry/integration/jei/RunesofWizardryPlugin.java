@@ -7,6 +7,7 @@ package com.zpig333.runesofwizardry.integration.jei;
 
 import mezz.jei.api.IItemRegistry;
 import mezz.jei.api.IJeiHelpers;
+import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.IRecipeRegistry;
@@ -53,8 +54,15 @@ public class RunesofWizardryPlugin implements IModPlugin {
 	/* (non-Javadoc)
 	 * @see mezz.jei.api.IModPlugin#onRecipeRegistryAvailable(mezz.jei.api.IRecipeRegistry)
 	 */
+	@Deprecated
 	@Override
 	public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {
+	}
+
+	@Override
+	public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

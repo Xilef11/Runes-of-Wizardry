@@ -15,6 +15,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -270,8 +271,9 @@ public class WizardryRegistry {
 				new ModelResourceLocation(References.texture_path
 						+ plantballs.getFullName(1), "inventory"));
 		//maybe we need to setup variants?
-		ModelBakery.addVariantName(WizardryRegistry.plantballs, References.texture_path+plantballs.getFullName(0),
-				References.texture_path+plantballs.getFullName(1));
+//		ModelBakery.addVariantName(WizardryRegistry.plantballs, References.texture_path+plantballs.getFullName(0),
+//				References.texture_path+plantballs.getFullName(1));
+		ModelBakery.registerItemVariants(WizardryRegistry.plantballs, new ResourceLocation(References.texture_path+plantballs.getFullName(0)),new ResourceLocation(References.texture_path+plantballs.getFullName(1)));
 	}
 	/**Register the rendering/icon for all dusts that use the default model**/
 	public static void registerDustItemRendering(){
@@ -288,8 +290,8 @@ public class WizardryRegistry {
 					//ModelLoader.setCustomModelResourceLocation(d, i.getMetadata(), dustModel);
 					renderItem.getItemModelMesher().register(d, i.getMetadata(), dustModel);
 				}
-
-				ModelBakery.addVariantName(d, References.texture_path+"default_dusts");
+				//ModelBakery.addVariantName(d, References.texture_path+"default_dusts");
+				ModelBakery.registerItemVariants(d, new ResourceLocation(References.texture_path+"default_dusts"));
 			}
 
 		}
