@@ -117,7 +117,7 @@ public class WizardryRegistry {
 			 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 			 */
 			@Override
-			public void addInformation(ItemStack stack, EntityPlayer playerIn,List tooltip, boolean advanced) {
+			public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
 				tooltip.add(StatCollector.translateToLocal(References.Lang.USELESS));
 			}
 

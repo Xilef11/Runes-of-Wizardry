@@ -96,7 +96,7 @@ public class DustRegistry {
 	 * @return a LinkedList of all runes, in the order they were registered
 	 */
 	public static List<IRune> getAllRunes(){
-		return new LinkedList(runes.values());
+		return new LinkedList<IRune>(runes.values());
 	}
 	/**
 	 * Returns the rune registered as the given id

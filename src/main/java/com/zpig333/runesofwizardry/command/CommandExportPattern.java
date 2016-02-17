@@ -77,7 +77,7 @@ public class CommandExportPattern implements ICommand {
 	 * @see net.minecraft.command.ICommand#getCommandAliases()
 	 */
 	@Override
-	public List getCommandAliases() {
+	public List<String> getCommandAliases() {
 		return aliases;
 	}
 
@@ -142,7 +142,7 @@ public class CommandExportPattern implements ICommand {
 	 * @see net.minecraft.command.ICommand#addTabCompletionOptions(net.minecraft.command.ICommandSender, java.lang.String[], net.minecraft.util.BlockPos)
 	 */
 	@Override
-	public List addTabCompletionOptions(ICommandSender sender, String[] args,BlockPos pos) {
+	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args,BlockPos pos) {
 		return null;
 	}
 

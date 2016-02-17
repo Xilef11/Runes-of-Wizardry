@@ -26,7 +26,7 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 /** Renders the placed dust
  * @author Xilef11
  */
-public class RenderDustPlaced extends TileEntitySpecialRenderer {
+public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPlaced> {
 
 	private static final ResourceLocation dustTexture = new ResourceLocation(References.texture_path + "textures/blocks/dust_top.png");
 	/* (non-Javadoc)
@@ -34,10 +34,11 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer {
 	 * see http://github.com/TheGreyGhost/MinecraftByExample/ MBE21 TESR
 	 */ 
 	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double relativeX,
+	public void renderTileEntityAt(TileEntityDustPlaced tileEntity, double relativeX,
 			double relativeY, double relativeZ, float partialTicks, int blockDamageProgress) {
-		if (!(tileEntity instanceof TileEntityDustPlaced)) return;//should not happen
-		TileEntityDustPlaced teDust = (TileEntityDustPlaced)tileEntity;
+//		if (!(tileEntity instanceof TileEntityDustPlaced)) return;//should not happen
+//		TileEntityDustPlaced teDust = (TileEntityDustPlaced)tileEntity;
+		TileEntityDustPlaced teDust = tileEntity;
 
 		try{
 			//save GL state

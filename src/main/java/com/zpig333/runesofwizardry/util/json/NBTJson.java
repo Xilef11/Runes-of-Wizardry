@@ -41,10 +41,10 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
 		JsonObject object = new JsonObject();
 		JsonObject tagMap = new JsonObject();
 		//XXX recheck the names when updating Forge version
-		Map map = ReflectionHelper.getPrivateValue(NBTTagCompound.class,src,"tagMap","field_74784_a");
-		for(Object o: map.entrySet()){
-			if(o instanceof Map.Entry){
-				Map.Entry e = (Map.Entry)o;
+		Map<?, ?> map = ReflectionHelper.getPrivateValue(NBTTagCompound.class,src,"tagMap","field_74784_a");
+		for(Map.Entry<?,?> e: map.entrySet()){
+			//if(o instanceof Map.Entry){
+				//Map.Entry e = (Map.Entry)o;
 				//key is String, value is NBTBase
 				JsonObject tag = new JsonObject();
 				String key = (String)e.getKey();
@@ -54,7 +54,7 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
 				JsonElement value = context.serialize(val);
 				tag.add("tag",value);
 				tagMap.add(key, tag);
-			}
+			//}
 		}
 		object.add("tagMap", tagMap);
 		return object;

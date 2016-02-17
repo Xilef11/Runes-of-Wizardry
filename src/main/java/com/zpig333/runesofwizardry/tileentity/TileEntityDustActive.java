@@ -52,7 +52,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		super.readFromNBT(tagCompound);
 		String runeID = tagCompound.getString("runeID");
 		//read the blockpos
-		Set<BlockPos> posSet = new LinkedHashSet();
+		Set<BlockPos> posSet = new LinkedHashSet<BlockPos>();
 		NBTTagList positions = tagCompound.getTagList("dustPositions", 11);//11 is int array
 		for(int i=0;i<positions.tagCount();i++){
 			int[] p = positions.getIntArrayAt(i);

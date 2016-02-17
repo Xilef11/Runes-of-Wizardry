@@ -362,7 +362,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	 * @see net.minecraft.tileentity.TileEntity#getDescriptionPacket()
 	 */
 	@Override
-	public Packet getDescriptionPacket() {
+	public Packet<?> getDescriptionPacket() {
 		//what botania does
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);

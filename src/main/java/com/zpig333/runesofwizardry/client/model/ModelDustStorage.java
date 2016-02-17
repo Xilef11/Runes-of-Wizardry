@@ -68,7 +68,7 @@ public class ModelDustStorage implements IBakedModel {
 	 * @see net.minecraft.client.resources.model.IBakedModel#getFaceQuads(net.minecraft.util.EnumFacing)
 	 */
 	@Override
-	public List getFaceQuads(EnumFacing face) {
+	public List<BakedQuad> getFaceQuads(EnumFacing face) {
 		//could probably be optimised
 		List<BakedQuad> result = new LinkedList<BakedQuad>();
 		int[] bg =null;
@@ -150,12 +150,12 @@ public class ModelDustStorage implements IBakedModel {
 		result.add( new ColoredBakedQuad(fg, -1, face));
 		return result;
 	}
-	private static ArrayList dummy=new ArrayList(0);
+	private static ArrayList<BakedQuad> dummy=new ArrayList<BakedQuad>(0);
 	/* (non-Javadoc)
 	 * @see net.minecraft.client.resources.model.IBakedModel#getGeneralQuads()
 	 */
 	@Override
-	public List getGeneralQuads() {
+	public List<BakedQuad> getGeneralQuads() {
 //		List<BakedQuad> res = new LinkedList<BakedQuad>();
 //		for(EnumFacing face : EnumFacing.VALUES){
 //			res.addAll(getFaceQuads(face));
@@ -204,6 +204,7 @@ public class ModelDustStorage implements IBakedModel {
 	/* (non-Javadoc)
 	 * @see net.minecraft.client.resources.model.IBakedModel#getItemCameraTransforms()
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public ItemCameraTransforms getItemCameraTransforms() {
 		return ItemCameraTransforms.DEFAULT;
