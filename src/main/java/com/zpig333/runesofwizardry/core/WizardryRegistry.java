@@ -5,7 +5,9 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -17,6 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -24,6 +27,8 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
@@ -305,6 +310,17 @@ public class WizardryRegistry {
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.texture_path+((BlockDustDye)dust_dye).getName(),"inventory"));
 		//placed dust. for NEI/WAILA purposes
 		renderItem.getItemModelMesher().register(Item.getItemFromBlock(dust_placed), 0, new ModelResourceLocation(References.texture_path+"dust_placed","inventory"));
+		//dust storage items
+		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
+			if(b.getInstance() instanceof ADustStorageBlock){
+				IDust dust = b.getIDust();
+				for(int meta:dust.getMetaValues()){
+					ItemStack stack = new ItemStack(dust,1,meta);
+					renderItem.getItemModelMesher().register(Item.getItemFromBlock(b.getInstance()), meta, new ModelResourceLocation(References.texture_path+"dust_storage","inventory"));
+				}
+				ModelBakery.registerItemVariants(Item.getItemFromBlock(b.getInstance()), new ResourceLocation(References.texture_path+"dust_storage"));
+			}
+		}
 	}
 	//registers the recipes for all dusts
 	public static void registerDustInfusion() {

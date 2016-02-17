@@ -1,8 +1,12 @@
 package com.zpig333.runesofwizardry;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -13,9 +17,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.command.CommandExportPattern;
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.event.BlockEventHandler;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
@@ -43,7 +51,7 @@ public class RunesOfWizardry {
 		WizardryRegistry.initBlocks();
 		WizardryRegistry.initItems();
 		WizardryRegistry.initDusts();
-		proxy.registerDustStorageRendering();
+		proxy.registerDustStorageStateMapper();
 		//to set the placed dust block as unbreakable
 		MinecraftForge.EVENT_BUS.register(new BlockEventHandler());
 	}
@@ -59,7 +67,6 @@ public class RunesOfWizardry {
 			WizardryRegistry.initItemRenders();
 			WizardryRegistry.registerDustItemRendering();
 			WizardryRegistry.registerBlockRenders();
-			proxy.registerDustStorageItemRendering();
 			//client commands
 			ClientCommandHandler.instance.registerCommand(new CommandExportPattern());
 		}
