@@ -227,16 +227,20 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 
 	}
     
+	@Override
+	public boolean shouldRenderInPass(int pass) {
+		return pass==1;
+	}
 	@SideOnly(Side.CLIENT)
 	@Override
 	public double getMaxRenderDistanceSquared() {
 		return 32*32;
 	};
-	@SideOnly(Side.CLIENT)
-	@Override
-	public net.minecraft.util.AxisAlignedBB getRenderBoundingBox() {
-		return INFINITE_EXTENT_AABB;
-	};
+//	@SideOnly(Side.CLIENT)
+//	@Override
+//	public net.minecraft.util.AxisAlignedBB getRenderBoundingBox() {
+//		return INFINITE_EXTENT_AABB;
+//	};
 
 	@Override
 	public String getName() {

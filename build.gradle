@@ -24,7 +24,7 @@ group= "com.zpig333.runesofwizardry"
 archivesBaseName = project.name
 
 minecraft {
-    version = "1.8.9-11.15.1.1747"
+    version = "1.8.9-11.15.1.1750"
 
     runDir = "minecraft"
 	

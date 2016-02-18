@@ -1,5 +1,6 @@
 {
     "textures": {
+		"particle": "runesofwizardry:blocks/dustStorage_bg",
         "bg": "runesofwizardry:blocks/dustStorage_bg",
         "fg": "runesofwizardry:blocks/dustStorage_fg"
     },
