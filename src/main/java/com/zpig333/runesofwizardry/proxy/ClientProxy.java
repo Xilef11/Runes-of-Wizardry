@@ -19,13 +19,13 @@ public class ClientProxy extends CommonProxy{
 
 	//Renderers go here (client-only!!!)
 	@Override
-	public void registerRenderers(){
+	public void registerTESRs(){
 		//TESR for placed dust
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDustPlaced.class, new RenderDustPlaced());
 	}
 
 	@Override
-	public void registerDustStorageStateMapper() {
+	public void createDustStorageStateMappers() {
 		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
 			if(b.getInstance() instanceof ADustStorageBlock){
 				IDust dust = b.getIDust();
