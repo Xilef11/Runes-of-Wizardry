@@ -1,24 +1,32 @@
 {
     "textures": {
-        "bg": "runesofwizardry:blocks/dust_storage_bg",
-        "fg": "runesofwizardry:blocks/dust_storage_fg"
+		"particle": "runesofwizardry:blocks/dustStorage_bg",
+        "bg": "runesofwizardry:blocks/dustStorage_bg",
+        "fg": "runesofwizardry:blocks/dustStorage_fg"
     },
     "elements": [
-        {   "from": [ 0, 0, 0 ],
+        {   "name": "back",
+            "from": [ 0, 0, 0 ],
             "to": [ 16, 16, 16 ],
             "faces": {
                 "down":  { "texture": "#bg", "cullface": "down", "tintindex": 0 },
-                "down2":  { "texture": "#fg", "cullface": "down", "tintindex": 1 },
                 "up":    { "texture": "#bg", "cullface": "up", "tintindex": 0 },
-                "up2":    { "texture": "#bg", "cullface": "up", "tintindex": 1 },
                 "north": { "texture": "#bg", "cullface": "north", "tintindex": 0 },
-                "north2": { "texture": "#bg", "cullface": "north", "tintindex": 1 },
                 "south": { "texture": "#bg", "cullface": "south", "tintindex": 0 },
-                "south2": { "texture": "#bg", "cullface": "south", "tintindex": 1 },
                 "west":  { "texture": "#bg", "cullface": "west", "tintindex": 0 },
-                "west2":  { "texture": "#bg", "cullface": "west", "tintindex": 1 },
-                "east":  { "texture": "#bg", "cullface": "east", "tintindex": 0 },
-                "east2":  { "texture": "#bg", "cullface": "east", "tintindex": 1 }
+                "east":  { "texture": "#bg", "cullface": "east", "tintindex": 0 }
+            }
+        },
+        {   "name": "front",
+            "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "texture": "#fg", "cullface": "down", "tintindex": 1 },
+                "up":    { "texture": "#fg", "cullface": "up", "tintindex": 1 },
+                "north": { "texture": "#fg", "cullface": "north", "tintindex": 1 },
+                "south": { "texture": "#fg", "cullface": "south", "tintindex": 1 },
+                "west":  { "texture": "#fg", "cullface": "west", "tintindex": 1 },
+                "east":  { "texture": "#fg", "cullface": "east", "tintindex": 1 }
             }
         }
     ]

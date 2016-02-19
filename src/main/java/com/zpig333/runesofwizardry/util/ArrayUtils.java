@@ -35,7 +35,8 @@ public class ArrayUtils {
 	    	if(clazz!=null)break;
 	    }
 	    if(clazz==null)return mat;//all items are null, so rotating changes nothing
-	    T[][] ret = (T[][])Array.newInstance(clazz, new int[]{N,M});
+	    @SuppressWarnings("unchecked")
+		T[][] ret = (T[][])Array.newInstance(clazz, new int[]{N,M});
 	    //System.out.println(mat.getClass()+":::::"+mat[0][0].getClass()+":::::"+ret.getClass());
 	    for (int r = 0; r < M; r++) {
 	        for (int c = 0; c < N; c++) {
@@ -64,7 +65,8 @@ public class ArrayUtils {
 	    	if(clazz!=null)break;
 	    }
 	    if(clazz==null)return mat;//all items are null, so rotating changes nothing
-	    T[][] ret = (T[][])Array.newInstance(clazz, new int[]{N,M});
+	    @SuppressWarnings("unchecked")
+		T[][] ret = (T[][])Array.newInstance(clazz, new int[]{N,M});
 	    for (int r = 0; r < N; r++) {
 	        for (int c = 0; c < M; c++) {
 	            //ret[c][M-1-r] = mat[r][c];
@@ -89,7 +91,8 @@ public class ArrayUtils {
 	    	if(clazz!=null)break;
 	    }
 	    if(clazz==null)return mat;//all items are null, so rotating changes nothing
-	    T[][] ret = (T[][])Array.newInstance(clazz, new int[]{M,N});
+	    @SuppressWarnings("unchecked")
+		T[][] ret = (T[][])Array.newInstance(clazz, new int[]{M,N});
 	    for(int r=0;r<M;r++){
 	    	for(int c=0;c<N;c++){
 	    		ret[r][c] = mat[M-1-r][N-1-c];

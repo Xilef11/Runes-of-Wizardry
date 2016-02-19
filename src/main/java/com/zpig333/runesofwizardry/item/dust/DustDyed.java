@@ -11,9 +11,8 @@ import com.zpig333.runesofwizardry.api.IDust;
 public class DustDyed extends IDust{
 
 	//add tooltip
-	@SuppressWarnings({ "rawtypes", "unchecked" })//data is a list of Strings, but Item does not use generics
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List data, boolean bool){
+	public void addInformation(ItemStack stack, EntityPlayer player, List<String> data, boolean bool){
 		//if the stack has no tag compound, create one and set the color to white
 		if(stack.getTagCompound()==null){
 			NBTTagCompound compound = new NBTTagCompound();

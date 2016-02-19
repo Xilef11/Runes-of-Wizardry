@@ -27,7 +27,7 @@ public class DustRegistry {
 	/** map of all the storage blocks**/
 	private static Map<IDust,IDustStorageBlock> blocks = new HashMap<IDust,IDustStorageBlock>();
 	/** Map of all the infusion recipes **/
-	//TODO use a RecipeHandler for this
+	//FUTURE use a custom IRecipe or something
 	//private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
 	/**List of all registered runes**/
 	private static Map<String,IRune> runes = new LinkedHashMap<String,IRune>();
@@ -96,7 +96,7 @@ public class DustRegistry {
 	 * @return a LinkedList of all runes, in the order they were registered
 	 */
 	public static List<IRune> getAllRunes(){
-		return new LinkedList(runes.values());
+		return new LinkedList<IRune>(runes.values());
 	}
 	/**
 	 * Returns the rune registered as the given id
@@ -178,7 +178,7 @@ public class DustRegistry {
 	 * @param blockOut the result (usually a block of your dust)
 	 */
 	public static void registerBlockInfusion(ItemStack[] materials, ItemStack blockIn, ItemStack blockOut){
-		//XXX temporary until we figure out what we want
+		//FUTURE temporary until we figure out what we want
 		ItemStack[] recipe = new ItemStack[materials.length+1];
 		for(int i=0;i<materials.length;i++){
 			recipe[i]=materials[i];
@@ -200,14 +200,6 @@ public class DustRegistry {
 		}
 	}
 
-	/** Returns the dust associated with an infusion recipe
-	 * @param recipe the infusion recipe to look up
-	 * @return the (dust) ItemStack associated with this recipe
-	 */
-	//XXX
-//	public static ItemStack getDustFromRecipe(ItemStack[] recipe){
-//		return recipes.get(recipe);
-//	}
 	/** Find if a given Block is placed Dust
 	 * @param blockState the block to check
 	 * @return {@code true} if the argument is placed dust

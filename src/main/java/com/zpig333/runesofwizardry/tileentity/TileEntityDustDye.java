@@ -112,7 +112,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	 * like when you close a workbench GUI.
 	 * <br/>NOT to be used for the Dust Dye container
 	 */
-	public ItemStack getStackInSlotOnClosing(int slot) {
+	public ItemStack removeStackFromSlot(int slot) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
 			setInventorySlotContents(slot, null);
@@ -124,7 +124,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	/**
 	 * Returns the name of the inventory
 	 */
-	public String getCommandSenderName()
+	public String getName()
 	{
 		return References.modid+".DustDye";
 	}
@@ -198,7 +198,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	public IChatComponent getDisplayName() {
 		//line from InventoryBasic
 		//might want to always return the translated version? (dosen't seem much used, leave as is.)
-		return this.hasCustomName() ? new ChatComponentText(this.getCommandSenderName()) : new ChatComponentTranslation(this.getCommandSenderName(), new Object[0]);
+		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName());
 	}
 	/*[refactor] the following methods are used to change the fields of the TileEntity.
 	 * we are already doing this in other ways, but we might want to switch to them eventually

@@ -15,10 +15,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
@@ -29,7 +29,7 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
  * @author Xilef11
  *
  */
-public class TileEntityDustActive extends TileEntityDustPlaced implements IUpdatePlayerListBox {
+public class TileEntityDustActive extends TileEntityDustPlaced implements ITickable {
 
 	public TileEntityDustActive() {
 		super();
@@ -52,7 +52,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements IUpdat
 		super.readFromNBT(tagCompound);
 		String runeID = tagCompound.getString("runeID");
 		//read the blockpos
-		Set<BlockPos> posSet = new LinkedHashSet();
+		Set<BlockPos> posSet = new LinkedHashSet<BlockPos>();
 		NBTTagList positions = tagCompound.getTagList("dustPositions", 11);//11 is int array
 		for(int i=0;i<positions.tagCount();i++){
 			int[] p = positions.getIntArrayAt(i);

@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "active=true": { "model": "runesofwizardry:dust_placed" },
+        "active=false": { "model": "runesofwizardry:dust_placed" }
+    }
+}

@@ -28,9 +28,8 @@ public class ItemPlantBalls extends WizardryItem {
 
 
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })//MC does not use generics... (List is a list of ItemStacks)
 	@Override
-	public void getSubItems(Item item, CreativeTabs tabs, List list){
+	public void getSubItems(Item item, CreativeTabs tabs, List<ItemStack> list){
 		list.add(new ItemStack(item, 1, 0));
 		list.add(new ItemStack(item, 1, 1));
 	}

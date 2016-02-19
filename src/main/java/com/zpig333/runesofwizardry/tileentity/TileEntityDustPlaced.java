@@ -226,19 +226,24 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		return false;//if not at least one is a non-null IDust, should not connect.
 
 	}
+    
+	@Override
+	public boolean shouldRenderInPass(int pass) {
+		return pass==1;
+	}
 	@SideOnly(Side.CLIENT)
 	@Override
 	public double getMaxRenderDistanceSquared() {
 		return 32*32;
 	};
-	@SideOnly(Side.CLIENT)
-	@Override
-	public net.minecraft.util.AxisAlignedBB getRenderBoundingBox() {
-		return INFINITE_EXTENT_AABB;
-	};
+//	@SideOnly(Side.CLIENT)
+//	@Override
+//	public net.minecraft.util.AxisAlignedBB getRenderBoundingBox() {
+//		return INFINITE_EXTENT_AABB;
+//	};
 
 	@Override
-	public String getCommandSenderName() {
+	public String getName() {
 		return References.modid+".DustPlaced";
 	}
 
@@ -250,7 +255,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	@Override
 	public IChatComponent getDisplayName() {
 		//see TileEntityDustDye
-		return this.hasCustomName() ? new ChatComponentText(this.getCommandSenderName()) : new ChatComponentTranslation(this.getCommandSenderName(), new Object[0]);
+		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
 	}
 
 	@Override
@@ -308,7 +313,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int index) {
+	public ItemStack removeStackFromSlot(int index) {
 		ItemStack stack = getStackInSlot(index);
 		if (stack != null) {
 			setInventorySlotContents(index, null);
@@ -361,7 +366,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	 * @see net.minecraft.tileentity.TileEntity#getDescriptionPacket()
 	 */
 	@Override
-	public Packet getDescriptionPacket() {
+	public Packet<?> getDescriptionPacket() {
 		//what botania does
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);

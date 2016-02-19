@@ -1,6 +1,8 @@
 package com.zpig333.runesofwizardry.util;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,10 +19,11 @@ public class Utils {
 	 */
 	public static List<ItemStack> sortAndMergeStacks(List<ItemStack> in){
 		List<ItemStack> sorted = new LinkedList<ItemStack>(in);
-		sorted.sort(new ItemStackComparator());
+		Comparator<ItemStack> cmp = new ItemStackComparator();
+		Collections.sort(sorted, cmp);
 		WizardryLogger.logInfo("Sorted list: "+Arrays.deepToString(sorted.toArray(new ItemStack[0])));
 		//merge not happening correctly (fixed?)
-		List merged = new LinkedList();
+		List<ItemStack> merged = new LinkedList<ItemStack>();
 		int i=0;
 		while(i<sorted.size()){
 			ItemStack current = sorted.get(i);

@@ -21,7 +21,7 @@ public class ItemRunicDictionary extends WizardryItem {
 	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 	 */
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn,List tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
 		tooltip.add("Unimplemented");
 	}
 	

@@ -4,16 +4,13 @@ package com.zpig333.runesofwizardry.proxy;
 public class CommonProxy {
 
 	//Client-side only!!
-	public void registerRenderers(){
+	public void registerTESRs(){
 
 	}
 
-	public void registerDustStorageRendering() {
+	public void createDustStorageStateMappers() {
 		//Client only
 		
-	}
-	public void registerDustStorageItemRendering(){
-		//Client
 	}
 
 }

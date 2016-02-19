@@ -51,7 +51,6 @@ public class GuiDustDye extends GuiContainer {
 	/** runs once every time the GUI is opened
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui(){
 		super.initGui();
@@ -83,8 +82,7 @@ public class GuiDustDye extends GuiContainer {
 		textColor.setCanLoseFocus(true);
 		//id, x, y, width, height, text
 		//note: height seems to need to be 20 to display full button texture
-		buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+99,posY+55,50,20,StatCollector.translateToLocal(References.Lang.DYE)));//MC's buttonList does not use generic types, ignore the warning
-		
+		buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+99,posY+55,50,20,StatCollector.translateToLocal(References.Lang.DYE)));
 	}
 	/** returns the Tile Entity this GUI is bound to
 	 * 
