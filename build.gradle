@@ -19,12 +19,12 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "1.8.9-0.4.0-dev"
+version = "1.8.9-0.4.0"
 group= "com.zpig333.runesofwizardry"
 archivesBaseName = project.name
 
 minecraft {
-    version = "1.8.9-11.15.1.1750"
+    version = "1.8.9-11.15.1.1752"
 
     runDir = "minecraft"
 	
