@@ -31,7 +31,7 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 		setStepSound(Block.soundTypeSand);
 		setHarvestLevel("shovel", 0);
 		setUnlocalizedName(getIDust().getmodid()+"_"+getName());
-		GameRegistry.registerBlock(this, DustStorageItemBlock.class, getName());
+		GameRegistry.registerBlock(this, DustStorageItemBlock.class, getIDust().getmodid()+":"+getName());
 	}
 	
 	/* (non-Javadoc)
@@ -116,5 +116,7 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 		}
 		return super.colorMultiplier(worldIn, pos, tintindex);
 	}
+	
+	
 	
 }

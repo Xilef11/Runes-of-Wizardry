@@ -1,5 +1,7 @@
 package com.zpig333.runesofwizardry.api;
 
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -186,4 +188,27 @@ public abstract class IDust extends Item {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#getUnlocalizedName(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		String base = super.getUnlocalizedName(stack);
+		if(getMetaValues().length>1){
+			base+="."+stack.getMetadata();
+		}
+		return base;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#getSubItems(net.minecraft.item.Item, net.minecraft.creativetab.CreativeTabs, java.util.List)
+	 */
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void getSubItems(Item itemIn, CreativeTabs tab,List<ItemStack> subItems) {
+		for(int meta:getMetaValues()){
+			subItems.add(new ItemStack(itemIn,1,meta));
+		}
+	}
+	
 }

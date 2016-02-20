@@ -5,11 +5,12 @@
  */
 package com.zpig333.runesofwizardry.block;
 
-import com.zpig333.runesofwizardry.api.IDust;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 
 /**
  * @author Xilef11
@@ -28,6 +29,29 @@ public class DustStorageItemBlock extends ItemBlock {
 			return dust.getColorFromItemStack(new ItemStack(dust, 1,stack.getMetadata()),renderPass);
 		}
 		return super.getColorFromItemStack(stack, renderPass);
+	}
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.ItemBlock#getUnlocalizedName(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		String base = super.getUnlocalizedName(stack);
+		if(this.getHasSubtypes()){
+			base += "."+stack.getMetadata();
+		}
+		return base;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#getHasSubtypes()
+	 */
+	@Override
+	public boolean getHasSubtypes() {
+		if(block instanceof IDustStorageBlock){
+			return ((IDustStorageBlock)block).getIDust().getHasSubtypes();
+		}
+		return super.getHasSubtypes();
 	}
 	
 

@@ -127,11 +127,15 @@ public class DustRegistry {
 
 		dustclass.setUnlocalizedName(dustclass.getmodid()+"_"+dustclass.getName());
 		dustclass.setCreativeTab(dustclass.creativeTab());
-
-		GameRegistry.registerItem(dustclass, dustclass.getName());
-
 		//list of subItems
 		int[] metavalues = dustclass.getMetaValues();
+		//if we have meta-based subdusts, mark it as such
+		if(metavalues.length>1){
+			dustclass.setHasSubtypes(true);
+		}
+		//register the dust item with the appropriate modid
+		GameRegistry.registerItem(dustclass, dustclass.getmodid()+":"+dustclass.getName());
+
 		//create the block form of the dust
 		IDustStorageBlock dustBlock;
 		if(!dustclass.hasCustomBlock()){
