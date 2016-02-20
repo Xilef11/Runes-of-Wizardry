@@ -127,7 +127,6 @@ public class RunesUtil {
 			}
 			//kill the items
 			for(EntityItem e:sacList){
-				BlockPos p = e.getPosition();
 				if(world instanceof WorldServer){
 					//SPELL_MOB or SPELL_WITCH or SMOKE_LARGE are also options
 					((WorldServer)world).spawnParticle(EnumParticleTypes.SMOKE_NORMAL, false, e.posX, e.posY, e.posZ, 1, 0d, 0.5d, 0d, 0d);
@@ -287,6 +286,8 @@ public class RunesUtil {
 	 *
 	 */
 	public static class InvalidRuneException extends RuntimeException{
+		private static final long serialVersionUID = -2125761965795670536L;
+
 		/** constructs an InvalidException with the message and name of the rune
 		 * 
 		 * @param rune the rune that caused the exception

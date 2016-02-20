@@ -220,8 +220,8 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	@Override
 	public void clear() {
 		// let's just do the same thing as inventoryBasic
-		for(ItemStack i:contents){
-			i=null;
+		for(int i=0;i<contents.length;i++){
+			contents[i]=null;
 		}
 	}
 

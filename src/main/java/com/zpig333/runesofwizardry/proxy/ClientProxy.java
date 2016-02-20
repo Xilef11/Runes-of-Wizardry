@@ -7,7 +7,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.client.render.RenderDustPlaced;
@@ -28,7 +27,6 @@ public class ClientProxy extends CommonProxy{
 	public void createDustStorageStateMappers() {
 		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
 			if(b.getInstance() instanceof ADustStorageBlock){
-				IDust dust = b.getIDust();
 				WizardryLogger.logInfo("Creating StateMapper for "+b.getName());
 				StateMapperBase mapper = new StateMapperBase() {
 					@Override

@@ -295,7 +295,6 @@ public class WizardryRegistry {
 			if(b.getInstance() instanceof ADustStorageBlock){
 				IDust dust = b.getIDust();
 				for(int meta:dust.getMetaValues()){
-					ItemStack stack = new ItemStack(dust,1,meta);
 					ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b.getInstance()), meta, location);
 				}
 			}
