@@ -101,7 +101,6 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 
 	@Override
 	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos,int tintindex) {
-		// TODO Auto-generated method stub
 		IBlockState state = worldIn.getBlockState(pos);
 		Block b = state.getBlock();
 		if(b instanceof IDustStorageBlock){

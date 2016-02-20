@@ -53,6 +53,18 @@ public class DustStorageItemBlock extends ItemBlock {
 		}
 		return super.getHasSubtypes();
 	}
+
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#getMetadata(int)
+	 * 
+	 *This is called with the meta value of the Block's ItemStack when placing the block.
+	 *The result is then passed to Block#getStateFromMeta
+	 *The super implementation returns 0 FSR
+	 */
+	@Override
+	public int getMetadata(int damage) {
+		return damage;
+	}
 	
 
 }
