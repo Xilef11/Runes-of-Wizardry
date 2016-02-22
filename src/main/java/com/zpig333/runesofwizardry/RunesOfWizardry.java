@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.command.CommandExportPattern;
+import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
@@ -40,6 +41,8 @@ public class RunesOfWizardry {
 
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
+		//config
+		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		WizardryRegistry.initBlocks();
 		WizardryRegistry.initItems();
 		WizardryRegistry.initDusts();

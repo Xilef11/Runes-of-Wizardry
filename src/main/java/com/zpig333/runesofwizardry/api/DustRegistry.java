@@ -18,6 +18,7 @@ import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.InvalidRuneException;
+import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
@@ -35,53 +36,28 @@ public class DustRegistry {
 	/**
 	 * Represents any "magic" dust
 	 */
-	public static final IDust MAGIC_DUST = new IDust() {
-		
+	public static final IDust MAGIC_DUST = new DustPlaceholder("magic", 0xff00e0, true){
+
+		/* (non-Javadoc)
+		 * @see com.zpig333.runesofwizardry.api.IDust#dustsMatch(net.minecraft.item.ItemStack, net.minecraft.item.ItemStack)
+		 */
 		@Override
-		public int getSecondaryColor(ItemStack stack) {
-			return 0;
+		public boolean dustsMatch(ItemStack thisDust, ItemStack other) {
+			IDust otherDust = getDustFromItemStack(other); 
+			return otherDust.isMagicDust(other) && !(otherDust instanceof DustPlaceholder);
 		}
 		
-		@Override
-		public int getPrimaryColor(ItemStack stack) {
-			return 0;
-		}
-		
-		@Override
-		public ItemStack[] getInfusionItems(ItemStack stack) {
-			return null;
-		}
-		
-		@Override
-		public String getDustName() {
-			return "magic";
-		}
 	};
 	/** represents any dust **/
-	public static final IDust ANY_DUST = new IDust() {
-		
+	public static final IDust ANY_DUST = new DustPlaceholder("any", 0x00ffff, false){
+
+		/* (non-Javadoc)
+		 * @see com.zpig333.runesofwizardry.api.IDust#dustsMatch(net.minecraft.item.ItemStack, net.minecraft.item.ItemStack)
+		 */
 		@Override
-		public int getSecondaryColor(ItemStack stack) {
-			return 0;
-		}
-		
-		@Override
-		public int getPrimaryColor(ItemStack stack) {
-			return 0;
-		}
-		
-		@Override
-		public ItemStack[] getInfusionItems(ItemStack stack) {
-			return null;
-		}
-		
-		@Override
-		public String getDustName() {
-			return "any";
-		}
-		@Override
-		public boolean isMagicDust(ItemStack stack){
-			return false;
+		public boolean dustsMatch(ItemStack thisDust, ItemStack other) {
+			IDust oDust = getDustFromItemStack(other);
+			return !(oDust instanceof DustPlaceholder);
 		}
 	};
 	/** returns a list of all the registered dusts.

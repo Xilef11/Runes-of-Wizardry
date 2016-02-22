@@ -15,5 +15,6 @@ public final class References {
 		public static final String COLOR=misc+"color";
 		public static final String DYE=misc+"dye";
 		public static final String USELESS=misc+"useless";
+		public static final String PLACEHOLDER = misc+"placeholder_dust";
 	}
 }

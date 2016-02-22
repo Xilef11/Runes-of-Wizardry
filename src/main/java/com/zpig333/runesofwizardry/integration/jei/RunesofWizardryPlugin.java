@@ -15,6 +15,8 @@ import mezz.jei.api.JEIPlugin;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 /** This class configures JEI
@@ -48,7 +50,11 @@ public class RunesofWizardryPlugin implements IModPlugin {
 	public void register(IModRegistry registry) {
 		//blacklist stuff
 		helper.getItemBlacklist().addItemToBlacklist(new ItemStack(WizardryRegistry.dust_placed,1,OreDictionary.WILDCARD_VALUE));
-		helper.getItemBlacklist().addItemToBlacklist(new ItemStack(WizardryRegistry.dust_dead));
+		if(!ConfigHandler.showPlaceholders){
+			helper.getItemBlacklist().addItemToBlacklist(new ItemStack(WizardryRegistry.dust_dead));
+			helper.getItemBlacklist().addItemToBlacklist(new ItemStack(DustRegistry.MAGIC_DUST));
+			helper.getItemBlacklist().addItemToBlacklist(new ItemStack(DustRegistry.ANY_DUST));
+		}
 	}
 
 	/* (non-Javadoc)

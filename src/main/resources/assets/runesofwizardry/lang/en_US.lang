@@ -17,6 +17,8 @@ item.runesofwizardry_dust_fire.name=Blaze Runic Dust
 item.runesofwizardry_dust_glowstone.name=Glowstone Runic Dust
 item.runesofwizardry_dust_ender.name=Ender Runic Dust
 item.runesofwizardry_dust_dead.name=Dead Dust
+item.runesofwizardry_dust_magic.name=Placeholder Magic Dust
+item.runesofwizardry_dust_all.name=Placeholder Any Dust
 
 #Items
 item.runesofwizardry_runic_dictionary.name=Runic Dictionary

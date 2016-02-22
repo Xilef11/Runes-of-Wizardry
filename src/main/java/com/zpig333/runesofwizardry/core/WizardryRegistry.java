@@ -6,7 +6,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -35,6 +34,7 @@ import com.zpig333.runesofwizardry.item.ItemRunicDictionary;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
 import com.zpig333.runesofwizardry.item.ItemSacrificeNegator;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
+import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 import com.zpig333.runesofwizardry.item.dust.RWDusts;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
@@ -91,30 +91,9 @@ public class WizardryRegistry {
 		sacrifice_negator = new ItemSacrificeNegator();
 		//dyed dust
 		dust_dyed = new DustDyed();
-		dust_dead = new IDust() {
-			
-			@Override
-			public int getSecondaryColor(ItemStack stack) {
-				return getPrimaryColor(stack);
-			}
-			
-			@Override
-			public int getPrimaryColor(ItemStack stack) {
-				return 0xbebebe;
-			}
-			
-			@Override
-			public ItemStack[] getInfusionItems(ItemStack stack) {
-				return null;
-			}
-			
-			@Override
-			public String getDustName() {
-				return "dead";
-			}
-
+		dust_dead = new DustPlaceholder("dead", 0xbebebe, false){
 			/* (non-Javadoc)
-			 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
+			 * @see com.zpig333.runesofwizardry.item.dust.DustPlaceholder#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 			 */
 			@Override
 			public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
@@ -122,30 +101,13 @@ public class WizardryRegistry {
 			}
 
 			/* (non-Javadoc)
-			 * @see com.zpig333.runesofwizardry.api.IDust#creativeTab()
+			 * @see com.zpig333.runesofwizardry.api.IDust#dustsMatch(net.minecraft.item.ItemStack, net.minecraft.item.ItemStack)
+			 * Will only match dead dust
 			 */
 			@Override
-			public CreativeTabs creativeTab() {
-				return null;
+			public boolean dustsMatch(ItemStack thisDust, ItemStack other) {
+				return other.getItem()==thisDust.getItem();
 			}
-
-			/* (non-Javadoc)
-			 * @see com.zpig333.runesofwizardry.api.IDust#isMagicDust(net.minecraft.item.ItemStack)
-			 */
-			@Override
-			public boolean isMagicDust(ItemStack stack) {
-				return false;
-			}
-
-			/* (non-Javadoc)
-			 * @see com.zpig333.runesofwizardry.api.IDust#hasCustomBlock()
-			 */
-			@Override
-			public boolean hasCustomBlock() {
-				return true;
-			}
-			
-			
 		};
 	}
 
@@ -160,6 +122,8 @@ public class WizardryRegistry {
 
 		DustRegistry.registerDust((IDust) dust_dyed);
 		DustRegistry.registerDust(dust_dead);
+		DustRegistry.registerDust(DustRegistry.MAGIC_DUST);
+		DustRegistry.registerDust(DustRegistry.ANY_DUST);
 	}
 	/**Create the (vanilla) recipes**/
 	public static void initCrafting(){

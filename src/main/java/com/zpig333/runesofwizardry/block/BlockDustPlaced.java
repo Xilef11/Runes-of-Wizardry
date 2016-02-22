@@ -35,6 +35,7 @@ import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
+import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.RayTracer;
@@ -296,7 +297,7 @@ public class BlockDustPlaced extends Block{
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 				}else{
 					//drop the itemStack
-					if(!playerIn.capabilities.isCreativeMode&& dustStack.getItem()!=WizardryRegistry.dust_dead)spawnAsEntity(worldIn, pos, dustStack);
+					if(!playerIn.capabilities.isCreativeMode&& !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
 				}
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, state);
@@ -308,7 +309,7 @@ public class BlockDustPlaced extends Block{
 			}
 		}
 
-		if(playerStack.getItem() instanceof IDust && (dustStack ==null||dustStack.getItem()==WizardryRegistry.dust_dead)){
+		if(playerStack.getItem() instanceof IDust && (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){
 			//place dust in the inventory
 			ItemStack newItem=null;
 			if(!playerIn.capabilities.isCreativeMode){
@@ -400,7 +401,7 @@ public class BlockDustPlaced extends Block{
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 				}else{
 					//drop the itemStack
-					if(!playerIn.capabilities.isCreativeMode && dustStack.getItem()!=WizardryRegistry.dust_dead)spawnAsEntity(worldIn, pos, dustStack);
+					if(!playerIn.capabilities.isCreativeMode && !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
 				}
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, worldIn.getBlockState(pos));

@@ -71,10 +71,10 @@ public class PatternUtils {
 			for(int c=0;c<first[0].length;c++){
 				ItemStack secStack = second[r][c];
 				ItemStack firstStack = first[r][c];
-				if(secStack!=null){
-					IDust dust = DustRegistry.getDustFromItemStack(secStack);
-					if(!dust.dustsMatch(secStack, firstStack))return false;
-				}else if(firstStack!=null){
+				if(firstStack!=null){
+					IDust dust = DustRegistry.getDustFromItemStack(firstStack);
+					if(!dust.dustsMatch(firstStack, secStack))return false;
+				}else if(secStack!=null){
 					return false;
 				}
 			}
