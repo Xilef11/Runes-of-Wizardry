@@ -134,18 +134,11 @@ public abstract class IDust extends Item {
 	 * @return true if both stacks contain dusts and they match, false otherwise
 	 */
 	public boolean dustsMatch(ItemStack thisDust, ItemStack other){
-		if(thisDust==null && other == null)return true;
+		if(thisDust==other)return true;//efficiency
 		if(thisDust==null || other == null)return false;//only one is null
-		//none is null
+		//make sure both are dusts
 		if(!(thisDust.getItem() instanceof IDust && other.getItem() instanceof IDust))return false;
-		IDust first = (IDust)thisDust.getItem();
-		IDust second = (IDust)other.getItem();
-		if(first==WizardryRegistry.dust_dead || second==WizardryRegistry.dust_dead)return false;
-		if(ItemStack.areItemStacksEqual(thisDust, other))return true;
-		if(first==DustRegistry.ANY_DUST || second == DustRegistry.ANY_DUST)return true;
-		if(first.isMagicDust(thisDust)&& second==DustRegistry.MAGIC_DUST)return true;
-		if(second.isMagicDust(thisDust)&& first==DustRegistry.MAGIC_DUST)return true;
-		return false;
+		return (ItemStack.areItemStacksEqual(thisDust, other));
 	}
 	/** what happens when the dust is used. places the dust by default,<br/>
 	 *  override for custom behaviour, but don't forget to call super.onItemUse()

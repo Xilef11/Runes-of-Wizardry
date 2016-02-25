@@ -65,17 +65,25 @@ public class PatternUtils {
 	 * @return true if the patterns match, false otherwise (including if any of the ItemStacks do not contain IDusts)
 	 */
 	public static boolean patternsEqual(ItemStack[][] first, ItemStack[][] second){
+		if(first==second)return true;//for efficiency, but should not happen.
+		//check the size of the patterns to make sure they match
 		if(first.length!=second.length)return false;
 		if(first[0].length!=second[0].length)return false;
+		//check all dust sets in the pattern
 		for(int r=0;r<first.length;r++){
 			for(int c=0;c<first[0].length;c++){
 				ItemStack secStack = second[r][c];
 				ItemStack firstStack = first[r][c];
-				if(firstStack!=null){
-					IDust dust = DustRegistry.getDustFromItemStack(firstStack);
-					if(!dust.dustsMatch(firstStack, secStack))return false;
-				}else if(secStack!=null){
-					return false;
+				if(firstStack!=secStack){//efficiency again
+					//if one is null, its not equal to the other (because null==null above)
+					if(firstStack==null || secStack == null)return false;
+					IDust dust1 = DustRegistry.getDustFromItemStack(firstStack);
+					IDust dust2 = DustRegistry.getDustFromItemStack(secStack);
+					//if at least one of the dusts accepts the other as a match, its OK.
+					if(!(dust1.dustsMatch(firstStack, secStack)
+							||dust2.dustsMatch(secStack, firstStack))){
+						return false;
+					}
 				}
 			}
 		}

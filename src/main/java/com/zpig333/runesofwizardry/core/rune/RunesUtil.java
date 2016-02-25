@@ -242,7 +242,7 @@ public class RunesUtil {
 		World world = rune.entity.getWorld();
 		if(!world.isRemote){
 			for(BlockPos p: rune.dustPositions){
-				killDustforEntity(world, p);
+				killDusts(world, p);
 			}
 		}
 	}
@@ -251,7 +251,7 @@ public class RunesUtil {
 	 * @param worldIn
 	 * @param pos
 	 */
-	public static void killDustforEntity(World worldIn,BlockPos pos){
+	public static void killDusts(World worldIn,BlockPos pos){
 		if(worldIn.isRemote)return;//no need to do work on both client and server if we're going to update
 		TileEntity en = worldIn.getTileEntity(pos);
 		if(en instanceof TileEntityDustPlaced){

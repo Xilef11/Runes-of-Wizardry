@@ -19,10 +19,11 @@ import com.zpig333.runesofwizardry.core.References;
 
 /** This class is used for dusts that are to serve as constants/placeholders, i.e "dead", "magic" and "any" dusts
  *	These can be replaced directly in the world and may not be used in runes.
+ *  Note that this is not very useful if it dosen't override dustsMatch, because the default will only match the EXACT itemStack.
  * @author Xilef11
  *
  */
-public class DustPlaceholder extends IDust {
+public abstract class DustPlaceholder extends IDust {
 	private final int color;
 	private final String name;
 	private final boolean magic;
@@ -97,6 +98,11 @@ public class DustPlaceholder extends IDust {
 	public CreativeTabs creativeTab() {
 		return ConfigHandler.showPlaceholders? super.creativeTab() : null;
 	}
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.api.IDust#dustsMatch(net.minecraft.item.ItemStack, net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public abstract boolean dustsMatch(ItemStack thisDust, ItemStack other);
 	
 	
 }
