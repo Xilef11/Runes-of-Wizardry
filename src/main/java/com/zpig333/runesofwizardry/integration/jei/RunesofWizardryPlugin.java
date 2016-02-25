@@ -18,6 +18,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 
 /** This class configures JEI
  * @author Xilef11
@@ -51,9 +52,11 @@ public class RunesofWizardryPlugin implements IModPlugin {
 		//blacklist stuff
 		helper.getItemBlacklist().addItemToBlacklist(new ItemStack(WizardryRegistry.dust_placed,1,OreDictionary.WILDCARD_VALUE));
 		if(!ConfigHandler.showPlaceholders){
-			helper.getItemBlacklist().addItemToBlacklist(new ItemStack(WizardryRegistry.dust_dead));
-			helper.getItemBlacklist().addItemToBlacklist(new ItemStack(DustRegistry.MAGIC_DUST));
-			helper.getItemBlacklist().addItemToBlacklist(new ItemStack(DustRegistry.ANY_DUST));
+			for(DustPlaceholder d:DustRegistry.getPlaceholders()){
+				for(int meta:d.getMetaValues()){
+					helper.getItemBlacklist().addItemToBlacklist(new ItemStack(d,1,meta));
+				}
+			}
 		}
 	}
 

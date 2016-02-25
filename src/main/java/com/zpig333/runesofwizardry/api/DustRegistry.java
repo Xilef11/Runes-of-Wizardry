@@ -25,6 +25,7 @@ public class DustRegistry {
 
 	/** List of all registered dusts **/
 	private static List<IDust> dusts = new LinkedList<IDust>();
+	private static List<DustPlaceholder> placeholders = new LinkedList<DustPlaceholder>();
 	/** map of all the storage blocks**/
 	private static Map<IDust,IDustStorageBlock> blocks = new HashMap<IDust,IDustStorageBlock>();
 	/** Map of all the infusion recipes **/
@@ -67,6 +68,13 @@ public class DustRegistry {
 	public static List<IDust> getAllDusts(){
 		return new LinkedList<IDust>(dusts);
 	}
+	/**
+	 * returns all registered placeholder dusts
+	 * @return a LinkedList of the placeholder dusts, in the order of registration
+	 */
+	public static List<DustPlaceholder> getPlaceholders(){
+		return new LinkedList<DustPlaceholder>(placeholders);
+	}
 	/** returns all the registered runes
 	 * 
 	 * @return a LinkedList of all runes, in the order they were registered
@@ -100,6 +108,9 @@ public class DustRegistry {
 	public static void registerDust(final IDust dustclass) {
 		//add it to our list of dusts
 		dusts.add(dustclass);
+		if(dustclass instanceof DustPlaceholder){
+			placeholders.add((DustPlaceholder) dustclass);
+		}
 
 		dustclass.setUnlocalizedName(dustclass.getmodid()+"_"+dustclass.getName());
 		dustclass.setCreativeTab(dustclass.creativeTab());
