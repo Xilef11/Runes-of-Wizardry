@@ -19,6 +19,7 @@ import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.InvalidRuneException;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
+import com.zpig333.runesofwizardry.util.Utils;
 
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
@@ -111,8 +112,8 @@ public class DustRegistry {
 		if(dustclass instanceof DustPlaceholder){
 			placeholders.add((DustPlaceholder) dustclass);
 		}
-
-		dustclass.setUnlocalizedName(dustclass.getmodid()+"_"+dustclass.getName());
+		String modID = Utils.getCurrentModID();
+		dustclass.setUnlocalizedName(modID+"_"+dustclass.getName());
 		dustclass.setCreativeTab(dustclass.creativeTab());
 		//list of subItems
 		int[] metavalues = dustclass.getMetaValues();
@@ -121,12 +122,12 @@ public class DustRegistry {
 			dustclass.setHasSubtypes(true);
 		}
 		//register the dust item with the appropriate modid
-		GameRegistry.registerItem(dustclass, dustclass.getmodid()+":"+dustclass.getName());
+		GameRegistry.registerItem(dustclass, modID+":"+dustclass.getName());
 
 		//create the block form of the dust
 		IDustStorageBlock dustBlock;
 		if(!dustclass.hasCustomBlock()){
-			dustBlock = new ADustStorageBlock(Material.sand) {
+			dustBlock = new ADustStorageBlock(Material.sand,modID) {
 
 				@Override
 				public IDust getIDust() {

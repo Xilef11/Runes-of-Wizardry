@@ -16,7 +16,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 
@@ -104,12 +103,6 @@ public abstract class IDust extends Item {
 		return "dust_"+getDustName();
 	}
 
-	/**return the modid under which to register this dust. 
-	 * @return (default) to runesofwizardry
-	 **/
-	public String getmodid(){
-		return References.modid;
-	}
 	/** return the creative tab for this dust. not to be confused with {@link Item#getCreativeTab()}
 	 * @return (default) the Runes of Wizardry creative tab
 	 **/

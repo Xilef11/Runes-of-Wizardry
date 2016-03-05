@@ -24,14 +24,14 @@ import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 
 public abstract class ADustStorageBlock extends BlockFalling implements IDustStorageBlock {
 
-	public ADustStorageBlock(Material mat){
+	public ADustStorageBlock(Material mat,String modID){
 		super(mat);
 		setHardness(0.5F);
 		setCreativeTab(getIDust().creativeTab());
 		setStepSound(Block.soundTypeSand);
 		setHarvestLevel("shovel", 0);
-		setUnlocalizedName(getIDust().getmodid()+"_"+getName());
-		GameRegistry.registerBlock(this, DustStorageItemBlock.class, getIDust().getmodid()+":"+getName());
+		setUnlocalizedName(modID+"_"+getName());
+		GameRegistry.registerBlock(this, DustStorageItemBlock.class, modID+":"+getName());
 	}
 	
 	/* (non-Javadoc)

@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 
@@ -51,5 +53,18 @@ public class Utils {
 		}
 		WizardryLogger.logInfo("Merged list: "+Arrays.deepToString(merged.toArray(new ItemStack[0])));
 		return merged;
+	}
+	public static String getCurrentModID(){
+		ModContainer mc = Loader.instance().activeModContainer();
+		String prefix;
+	    if (mc != null)
+	    {
+	        prefix = mc.getModId().toLowerCase();
+	    }
+	    else // no mod container,  assume minecraft
+	    {
+	        prefix = "minecraft";
+	    }
+	    return prefix;
 	}
 }
