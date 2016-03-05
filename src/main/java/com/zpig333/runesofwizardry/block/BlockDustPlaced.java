@@ -330,6 +330,7 @@ public class BlockDustPlaced extends Block{
 				tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 			}
 			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+			if(playerIn.capabilities.isCreativeMode)RunesUtil.killDusts(worldIn, pos);
 			this.breakBlock(worldIn, pos, state);
 			worldIn.setBlockToAir(pos);
 		}

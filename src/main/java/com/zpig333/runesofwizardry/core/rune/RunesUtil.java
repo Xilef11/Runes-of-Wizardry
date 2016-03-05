@@ -247,7 +247,7 @@ public class RunesUtil {
 		}
 	}
 	/**
-	 * Replaces all dusts in the TileEntityDustPlaced given by <worldIn> and <pos> to dead dust
+	 * Replaces all dusts in the TileEntityDustPlaced given by {@code worldIn} and {@code pos} to dead dust
 	 * @param worldIn
 	 * @param pos
 	 */
