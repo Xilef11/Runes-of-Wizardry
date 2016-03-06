@@ -158,7 +158,8 @@ public class DustRegistry {
 	 */
 	public static void registerRune(final IRune rune){
 		RunesUtil.validateRune(rune);
-		String name=rune.createRune(new ItemStack[][]{},EnumFacing.NORTH, null, null).getRuneID();
+		String modID = Utils.getCurrentModID();
+		String name=modID+":"+rune.createRune(new ItemStack[][]{},EnumFacing.NORTH, null, null).getRuneID();
 		//maybe do crash report (or skip registration)
 		if(runes.containsKey(name))throw new IllegalArgumentException("A rune with the name: "+name+" Already exists!");
 		runes.put(name,rune);

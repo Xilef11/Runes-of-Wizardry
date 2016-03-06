@@ -9,7 +9,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
 import com.zpig333.runesofwizardry.api.RuneEntity;
-import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 public class RuneTestEntity extends RuneEntity {
@@ -19,9 +18,8 @@ public class RuneTestEntity extends RuneEntity {
 
 	@Override
 	public String getRuneID() {
-		return References.modid+":runetesting";
+		return "runetesting";
 	}
-
 	@Override
 	public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice) {
 

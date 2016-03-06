@@ -11,7 +11,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 
 import com.zpig333.runesofwizardry.api.RuneEntity;
-import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 public class RuneTest2Entity extends RuneEntity {
@@ -19,12 +18,10 @@ public class RuneTest2Entity extends RuneEntity {
 	public RuneTest2Entity(ItemStack[][] actualPattern,EnumFacing face, Set<BlockPos> dusts,TileEntityDustActive entity) {
 		super(actualPattern,face, dusts, entity);
 	}
-
 	@Override
 	public String getRuneID() {
-		return References.modid+":runeTest2";
+		return "runeTest2";
 	}
-
 	@Override
 	public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice) {
 		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 20));

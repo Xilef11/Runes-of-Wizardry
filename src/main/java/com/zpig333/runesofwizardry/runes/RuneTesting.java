@@ -27,7 +27,6 @@ public class RuneTesting extends IRune {
 	public String getName() {
 		return "Rune of Testing";
 	}
-
 	@Override
 	public ItemStack[][] getPattern() {
 		ItemStack blaze = new ItemStack(RWDusts.dust_blaze);

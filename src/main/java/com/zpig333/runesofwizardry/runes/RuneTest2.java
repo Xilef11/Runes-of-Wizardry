@@ -36,7 +36,7 @@ public class RuneTest2 extends IRune {
 	public String getName() {
 		return "Rune of JSON";
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.api.IRune#getPattern()
 	 */

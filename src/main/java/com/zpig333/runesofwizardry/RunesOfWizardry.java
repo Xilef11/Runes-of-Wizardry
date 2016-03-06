@@ -8,12 +8,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.command.CommandExportPattern;
+import com.zpig333.runesofwizardry.command.CommandImportPattern;
 import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
@@ -74,7 +76,10 @@ public class RunesOfWizardry {
 		// the GUI handler
 		NetworkRegistry.INSTANCE.registerGuiHandler(RunesOfWizardry.instance,new GuiHandler());
 	}
-	
+	@Mod.EventHandler
+	public void serverLoad(FMLServerStartingEvent event){
+		event.registerServerCommand(new CommandImportPattern());
+	}
 	public void initNetwork() {
 		networkWrapper = NetworkRegistry.INSTANCE
 				.newSimpleChannel(References.modid);

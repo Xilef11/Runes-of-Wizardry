@@ -46,9 +46,10 @@ public abstract class RuneEntity{
 		if(entity!=null)entity.setRune(this);
 	}
 	/**
-	 * Returns a unique identifier for this type of rune. it should be prefixed with your modid.
+	 * Returns a mod-unique identifier for this type of rune. it will be prefixed with your modid.
 	 * @return the unique ID for this rune
 	 */
+	//Note: this is here instead of in IRune to be able to link the rune entity (in placed dust TE) to the IRune class
 	public abstract String getRuneID();//this should be static, but Java can't do that 
 	
 	/**

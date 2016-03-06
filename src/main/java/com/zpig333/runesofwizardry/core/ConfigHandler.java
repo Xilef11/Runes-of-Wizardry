@@ -17,6 +17,9 @@ public class ConfigHandler {
 	//dev options
 	public static final String CAT_DEV="development";
 	public static boolean showPlaceholders;
+	//permissions for commands
+	public static final String PERMISSIONS_ALL="ALL", PERMISSIONS_OP="OP", PERMISSIONS_NONE="NONE";
+	public static String CommandImportPermission;
 	
 	public static Configuration config;
 	public static void init(File configFile){
@@ -29,7 +32,7 @@ public class ConfigHandler {
 		//dev
 		config.setCategoryComment(CAT_DEV, "Options for addon developers");
 		showPlaceholders=config.getBoolean("show placeholders", CAT_DEV, false, "Show the placeholder dusts in the creative menu/JEI");
-		
+		CommandImportPermission = config.getString("Import pattern command permissions", Configuration.CATEGORY_GENERAL, PERMISSIONS_ALL, "Who can use the import pattern (rw_import) command.", new String[]{PERMISSIONS_ALL,PERMISSIONS_OP,PERMISSIONS_NONE});
 		if(config.hasChanged()){
 			config.save();
 		}		
