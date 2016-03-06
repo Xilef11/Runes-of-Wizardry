@@ -18,12 +18,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import scala.actors.threadpool.Arrays;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
@@ -84,76 +82,86 @@ public class CommandImportPattern implements ICommand {
 	 */
 	@Override
 	public void processCommand(ICommandSender sender, String[] args)throws CommandException {
-		// TODO Auto-generated method stub
-		sender.addChatMessage(new ChatComponentText(Arrays.toString(MinecraftServer.getServer().getConfigurationManager().getOppedPlayerNames())));
 		World world = sender.getEntityWorld();
 		//server-side only... for now
-		if(!world.isRemote && sender instanceof EntityPlayer){
-			EntityPlayer player = (EntityPlayer) sender;
-			if(args.length==0)throw new WrongUsageException(getCommandUsage(sender));
-			//get the pattern from args
-			ItemStack[][] pattern = null;
-			if(args[0].contains(":")){//if its a rune
-				IRune rune = DustRegistry.getRuneByID(args[0]);
-				if(rune==null)throw new CommandException(StatCollector.translateToLocal(locKey+".nosuchrune"));
-				pattern = rune.getPattern();
-			}else{
-				//TODO if its a JSON on the client, we'll need a packet to send the pattern...
-				throw new WrongUsageException(StatCollector.translateToLocal(locKey+".runesonly"));
-			}
-			//Find the block looked at + facing
-			MovingObjectPosition look = RayTracer.retrace(player);
-			BlockPos lookPos = look.getBlockPos();
-			Block block = world.getBlockState(lookPos).getBlock();
-			EnumFacing playerFacing = player.getHorizontalFacing();
-			WizardryLogger.logInfo("Import Pattern: Looking at block: "+block.getUnlocalizedName()+" at "+lookPos+" facing: "+playerFacing);
-			//TODO move the following somewhere else as placePatternFromTopLeft(pattern,pos, facing)
-			//get the pattern in the right direction
-			ItemStack[][] rotatedPattern = PatternUtils.rotateAgainstFacing(pattern, playerFacing);
-			//convert to contents array
-			ItemStack[][][][] contents = PatternUtils.toContentsArray(rotatedPattern);
-			//get the pos for the NW block (an offset from the look/"top-left" block)
-			BlockPos nw=lookPos.up();
-			switch(playerFacing){
-			case EAST: nw = nw.offset(EnumFacing.WEST,contents[0].length-1);
+		if(!world.isRemote){
+			if(sender instanceof EntityPlayer){
+				EntityPlayer player = (EntityPlayer) sender;
+				if(args.length==0)throw new WrongUsageException(getCommandUsage(sender));
+				//get the pattern from args
+				ItemStack[][] pattern = null;
+				if(args[0].contains(":")){//if its a rune
+					IRune rune = DustRegistry.getRuneByID(args[0]);
+					if(rune==null)throw new CommandException(StatCollector.translateToLocal(locKey+".nosuchrune"));
+					ItemStack[][] runepattern = rune.getPattern();
+					//COPY the pattern to avoid changing it by mistake (everything is mutable...)
+					pattern = new ItemStack[runepattern.length][runepattern[0].length];
+					for(int r=0;r<pattern.length;r++){
+						for(int c=0;c<pattern[r].length;c++){
+							pattern[r][c]=ItemStack.copyItemStack(runepattern[r][c]);
+						}
+					}
+				}else{
+					//TODO Check for JSON on the server
+					throw new WrongUsageException(StatCollector.translateToLocal(locKey+".runesonly"));
+				}
+
+				//Find the block looked at + facing
+				MovingObjectPosition look = RayTracer.retrace(player);
+				BlockPos lookPos = look.getBlockPos();
+				Block block = world.getBlockState(lookPos).getBlock();
+				EnumFacing playerFacing = player.getHorizontalFacing();
+				WizardryLogger.logInfo("Import Pattern: Looking at block: "+block.getUnlocalizedName()+" at "+lookPos+" facing: "+playerFacing);
+				//TODO move the following somewhere else as placePatternFromTopLeft(pattern,pos, facing)
+				//get the pattern in the right direction
+				ItemStack[][] rotatedPattern = PatternUtils.rotateAgainstFacing(pattern, playerFacing);
+				//convert to contents array
+				ItemStack[][][][] contents = PatternUtils.toContentsArray(rotatedPattern);
+				//get the pos for the NW block (an offset from the look/"top-left" block)
+				BlockPos nw=lookPos.up();
+				switch(playerFacing){
+				case EAST: nw = nw.offset(EnumFacing.WEST,contents[0].length-1);
 				break;
-			case NORTH: //no change needed
+				case NORTH: //no change needed
+					break;
+				case SOUTH: nw=nw.offset(EnumFacing.WEST,contents[0].length-1).offset(EnumFacing.NORTH,contents.length-1);
 				break;
-			case SOUTH: nw=nw.offset(EnumFacing.WEST,contents[0].length-1).offset(EnumFacing.NORTH,contents.length-1);
+				case WEST:nw = nw.offset(EnumFacing.NORTH,contents.length-1);
 				break;
-			case WEST:nw = nw.offset(EnumFacing.NORTH,contents.length-1);
-				break;
-			default: throw new IllegalStateException("Import command: Facing is not horizontal");
-			}
-			//contents[0][0] is always NW most block
-			for(int r=0;r<contents.length;r++){
-				for(int c=0;c<contents[r].length;c++){
-					BlockPos current = nw.offset(EnumFacing.EAST, c).offset(EnumFacing.SOUTH, r);
-					if(world.isAirBlock(current) && !PatternUtils.isEmpty(contents[r][c])){
-						world.setBlockState(current, WizardryRegistry.dust_placed.getDefaultState());
-						TileEntity ent = world.getTileEntity(current);
-						if(ent instanceof TileEntityDustPlaced){//no reason why it isn't
-							TileEntityDustPlaced ted = (TileEntityDustPlaced)ent;
-							//ItemStack[][] pat = PatternUtils.rotateAgainstFacing(contents[r][c], playerFacing);
-							//ted.setContents(pat);
-							ted.setContents(contents[r][c]);
-							world.markBlockForUpdate(current);
-							//remove from player's inventory if not creative
-							if(false && !player.capabilities.isCreativeMode){
-								for(ItemStack[] i:contents[r][c]){
-									for(ItemStack s:i){
-										//FIXME NPE
-										player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.stackSize, s.getTagCompound());
+				default: throw new IllegalStateException("Import command: Facing is not horizontal");
+				}
+				//contents[0][0] is always NW most block
+				for(int r=0;r<contents.length;r++){
+					for(int c=0;c<contents[r].length;c++){
+						BlockPos current = nw.offset(EnumFacing.EAST, c).offset(EnumFacing.SOUTH, r);
+						if(world.isAirBlock(current) && !PatternUtils.isEmpty(contents[r][c])){
+							world.setBlockState(current, WizardryRegistry.dust_placed.getDefaultState());
+							TileEntity ent = world.getTileEntity(current);
+							if(ent instanceof TileEntityDustPlaced){//no reason why it isn't
+								TileEntityDustPlaced ted = (TileEntityDustPlaced)ent;
+								//ItemStack[][] pat = PatternUtils.rotateAgainstFacing(contents[r][c], playerFacing);
+								//ted.setContents(pat);
+								ted.setContents(contents[r][c]);
+								world.markBlockForUpdate(current);
+								//remove from player's inventory if not creative
+								if(!player.capabilities.isCreativeMode){
+									for(ItemStack[] i:contents[r][c]){
+										for(ItemStack s:i){
+											if(s!=null){
+												player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.stackSize, s.getTagCompound());
+											}
+										}
 									}
 								}
+							}else{
+								throw new IllegalStateException("import command: TE was not placed dust");
 							}
-						}else{
-							throw new IllegalStateException("import command: TE was not placed dust");
 						}
 					}
 				}
 			}
-			
+		}else{
+			//TODO JSON on the client. we will need a packet of some sort.
 		}
 	}
 
