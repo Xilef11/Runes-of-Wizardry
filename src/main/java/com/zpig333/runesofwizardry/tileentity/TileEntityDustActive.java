@@ -24,6 +24,7 @@ import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.util.Utils;
 
 /** This TileEntity replaces a TileEntityDustPlaced when a rune is formed.
  * @author Xilef11
@@ -117,7 +118,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		super.writeToNBT(tagCompound);
 		if(rune!=null){
 			rune.writeToNBT(tagCompound);
-		tagCompound.setString("runeID", rune.getRuneID());
+		tagCompound.setString("runeID", Utils.getCurrentModID()+":"+rune.getRuneID());
 		//write the rune's blockpos set
 		NBTTagList positions = new NBTTagList();
 		for(BlockPos p: rune.dustPositions){
