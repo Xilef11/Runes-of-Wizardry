@@ -26,6 +26,7 @@ import com.google.gson.JsonSyntaxException;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.ArrayUtils;
 import com.zpig333.runesofwizardry.util.json.JsonUtils;
 
@@ -58,6 +59,28 @@ public class PatternUtils {
 		}
 		return result;
 	}
+	/** Rotates a pattern so that what was at the top (north) is now in the provided direction.
+	 *  i.e if the facing is EAST, the east column will contain the "top" row of the pattern.
+	 *  This effectively reverses {@link #rotateToFacing(ItemStack[][], EnumFacing)}  
+	 * @param patternIn the pattern to rotate
+	 * @param facing the direction in which to rotate the pattern
+	 * @return a copy of {@code patternIn}, rotated in the {@code facing} direction
+	 */
+	public static ItemStack[][] rotateAgainstFacing(ItemStack[][] patternIn, EnumFacing facing){
+		ItemStack[][] result;
+		switch(facing){
+		case NORTH: result = patternIn;
+					break;//no need to do anything
+		case WEST: result = ArrayUtils.rotateCCW(patternIn);
+				   break;
+		case SOUTH: result = ArrayUtils.rotate180(patternIn);
+					break;
+		case EAST: result = ArrayUtils.rotateCW(patternIn);
+					break;
+		default: throw new IllegalArgumentException("Facing: "+facing+" is not horizontal!");
+		}
+		return result;
+	}
 	/** Checks if two ItemStack[][] patterns of IDust are equal (for rune purposes)
 	 * 
 	 * @param first the first pattern to compare
@@ -85,6 +108,19 @@ public class PatternUtils {
 						return false;
 					}
 				}
+			}
+		}
+		return true;
+	}
+	/**
+	 * Checks if a pattern is empty
+	 * @param pattern the pattern to check
+	 * @return true if all ItemStacks are null
+	 */
+	public static boolean isEmpty(ItemStack[][] pattern){
+		for(ItemStack[] i:pattern){
+			for(ItemStack s:i){
+				if(s!=null)return false;
 			}
 		}
 		return true;
@@ -138,5 +174,22 @@ public class PatternUtils {
 		ItemStack[][] stack = gson.fromJson(read, ItemStack[][].class);
 		read.close();
 		return stack;
+	}
+	/**
+	 * Converts an ItemStack pattern to an array of TileEntityDustPlaced's contents that form the pattern.
+	 * It should be assumed that the top-left contents is the north-west corner.
+	 * @param pattern the pattern to convert
+	 * @return the contents of the TileEntityDustPlaced required to form the pattern
+	 */
+	public static ItemStack[][][][] toContentsArray(ItemStack[][] pattern){
+		int dustrows = pattern.length, dustcols = pattern[0].length;
+		int rows = dustrows/TileEntityDustPlaced.ROWS, cols = dustcols/TileEntityDustPlaced.COLS;
+		ItemStack[][][][] result = new ItemStack[rows][cols][TileEntityDustPlaced.ROWS][TileEntityDustPlaced.COLS];
+		for(int r=0;r<dustrows;r++){
+			for(int c=0;c<dustcols;c++){
+				result[r/TileEntityDustPlaced.ROWS][c/TileEntityDustPlaced.COLS][r%TileEntityDustPlaced.ROWS][c%TileEntityDustPlaced.COLS]=pattern[r][c];
+			}
+		}
+		return result;
 	}
 }

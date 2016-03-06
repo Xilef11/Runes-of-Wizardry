@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -84,12 +85,19 @@ public class DustRegistry {
 		return new LinkedList<IRune>(runes.values());
 	}
 	/**
-	 * Returns the rune registered as the given id
+	 * Returns the rune registered as the given id, or null if the ID is not found
 	 * @param id the id to get the rune for
-	 * @return the rune registered as <id>
+	 * @return the rune registered as {@code id}, or {@code null} if it dosen't exist
 	 */
 	public static IRune getRuneByID(String id){
 		return runes.get(id);
+	}
+	/**
+	 * Returns all registered rune IDs
+	 * @return a set of the registered rune IDs (modid:runeID)
+	 */
+	public static Set<String> getRuneIDs(){
+		return runes.keySet();
 	}
 	/** Given a dust, returns the block that was created in registerDust
 	 * 
