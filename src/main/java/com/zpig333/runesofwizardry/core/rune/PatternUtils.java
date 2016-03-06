@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -135,10 +136,11 @@ public class PatternUtils {
 	 * @throws IOException
 	 */
 	public static File exportPatternJson(ItemStack[][] pattern, String name) throws JsonIOException, IOException{
-		File exportFolder = new File(References.modid+"_exported_patterns");
+		File exportFolder = new File(References.export_folder);
 		exportFolder.mkdir();
 		Gson gson = JsonUtils.getItemStackGson();
-		File file = new File(exportFolder,name+".json");
+		if(!(name.endsWith(".json")||name.endsWith(".JSON")))name+=".json";
+		File file = new File(exportFolder,name);
 		//add file number if it exists
 		int n=2;
 		while(!file.createNewFile()){
@@ -174,6 +176,32 @@ public class PatternUtils {
 		ItemStack[][] stack = gson.fromJson(read, ItemStack[][].class);
 		read.close();
 		return stack;
+	}
+	/**
+	 * Returns the ItemStack[][] pattern described by the json file {@code filename} in the export dir (runesofwizardry_patterns)
+	 * Note that the JSON file must have been created by PatternUtils#exportPatternJson (i.e the rw_export command)
+	 * 
+	 * @param filename the name of the file to import. .json will be appended to it if it isn't already
+	 * @return the ItemStack[][] pattern described by the file supplied
+	 * @throws IOException If the file can't be closed after reading
+	 * @throws FileNotFoundException if the supplied filename can't be found
+	 */
+	public static ItemStack[][] importFromJson(String filename)throws IOException,FileNotFoundException{
+		File infile = new File(References.export_folder,filename);
+		if(!infile.exists()){
+			infile = new File(References.export_folder,filename+".json");
+			if(!infile.exists()){
+				infile = new File(References.export_folder,filename+".JSON");
+				if(!infile.exists()){
+					throw new FileNotFoundException("Could not find "+filename+", "+filename+".json, or "+filename+".JSON");
+				}
+			}
+		}
+		Reader read = new FileReader(infile);
+		Gson gson = JsonUtils.getItemStackGson();
+		ItemStack[][] stacks = gson.fromJson(read, ItemStack[][].class);
+		read.close();
+		return stacks;
 	}
 	/**
 	 * Converts an ItemStack pattern to an array of TileEntityDustPlaced's contents that form the pattern.

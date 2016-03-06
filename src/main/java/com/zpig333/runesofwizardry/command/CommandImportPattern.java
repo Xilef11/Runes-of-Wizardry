@@ -5,8 +5,12 @@
  */
 package com.zpig333.runesofwizardry.command;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.logging.log4j.Level;
 
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
@@ -18,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
@@ -31,6 +36,7 @@ import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.PatternUtils;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.RayTracer;
+import com.zpig333.runesofwizardry.util.json.JsonUtils;
 
 /**
  * @author Xilef11
@@ -92,7 +98,7 @@ public class CommandImportPattern implements ICommand {
 				ItemStack[][] pattern = null;
 				if(args[0].contains(":")){//if its a rune
 					IRune rune = DustRegistry.getRuneByID(args[0]);
-					if(rune==null)throw new CommandException(StatCollector.translateToLocal(locKey+".nosuchrune"));
+					if(rune==null)throw new CommandException(StatCollector.translateToLocalFormatted(locKey+".nosuchrune",args[0]));
 					ItemStack[][] runepattern = rune.getPattern();
 					//COPY the pattern to avoid changing it by mistake (everything is mutable...)
 					pattern = new ItemStack[runepattern.length][runepattern[0].length];
@@ -102,8 +108,16 @@ public class CommandImportPattern implements ICommand {
 						}
 					}
 				}else{
-					//TODO Check for JSON on the server
-					throw new WrongUsageException(StatCollector.translateToLocal(locKey+".runesonly"));
+					//Check for JSON on the server
+					try {
+						pattern = PatternUtils.importFromJson(args[0]);
+						JsonUtils.clearItemStackJson();
+					} catch (FileNotFoundException e) {
+						sender.addChatMessage(new ChatComponentTranslation(locKey+".serverfilenotfound", args[0], args[0], args[0]));
+						return;
+					} catch (IOException e) {
+						WizardryLogger.logException(Level.ERROR, e, "Error while importing pattern from JSON");
+					}
 				}
 
 				//Find the block looked at + facing

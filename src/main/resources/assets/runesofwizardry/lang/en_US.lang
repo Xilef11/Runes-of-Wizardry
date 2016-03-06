@@ -51,6 +51,9 @@ runesofwizardry.command.export.message.error=Could not export pattern. See log f
 #arg is name of the rune
 runesofwizardry.message.badsacrifice=Invalid sacrifice for rune: %s!
 runesofwizardry.message.norune=Invalid pattern!
+runesofwizardry.command.import.usage=[runeID|filename] : Imports the pattern described by the rune's ID (modid:runeid) or a JSON file in runesofwizardry_patterns
+runesofwizardry.command.import.nosuchrune=No Rune exists with ID: %s
+runesofwizardry.command.import.serverfilenotfound=Could not find %s, %s.json, or %s.JSON on the server
 #misc words
 runesofwizardry.lang.color=Color
 runesofwizardry.lang.dye=Dye
