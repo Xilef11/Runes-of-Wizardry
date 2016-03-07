@@ -155,18 +155,28 @@ public class CommandImportPattern implements ICommand {
 								TileEntityDustPlaced ted = (TileEntityDustPlaced)ent;
 								//ItemStack[][] pat = PatternUtils.rotateAgainstFacing(contents[r][c], playerFacing);
 								//ted.setContents(pat);
-								ted.setContents(contents[r][c]);
-								world.markBlockForUpdate(current);
 								//remove from player's inventory if not creative
 								if(!player.capabilities.isCreativeMode){
-									for(ItemStack[] i:contents[r][c]){
-										for(ItemStack s:i){
+									ItemStack[][] itemStacks = contents[r][c];
+									//check one item at a time...
+									for (int row = 0; row < itemStacks.length; row++) {
+										ItemStack[] stacks = itemStacks[row];
+										for (int col = 0; col < stacks.length; col++) {
+											ItemStack s = stacks[col];
+											int n=0;
 											if(s!=null){
-												player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.stackSize, s.getTagCompound());
+												//n is the number of matching items
+												n=player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.stackSize, s.getTagCompound());
 											}
+											//XXX this will update rendering all the time so it might be slow
+											if(n>0||s==null)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), ItemStack.copyItemStack(s));
+											//XXX maybe send a message if dust is missing
 										}
 									}
+								}else{//in creative mode, just set the contents.
+									ted.setContents(contents[r][c]);
 								}
+								world.markBlockForUpdate(current);
 							}else{
 								throw new IllegalStateException("import command: TE was not placed dust");
 							}
