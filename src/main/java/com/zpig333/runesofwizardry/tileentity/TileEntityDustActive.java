@@ -85,17 +85,22 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		EnumFacing facing = EnumFacing.byName(tagCompound.getString("Facing"));
 		//re-create the rune
 		IRune rune = DustRegistry.getRuneByID(runeID);
-		RuneEntity entity = rune.createRune(stacks,facing, posSet, this);
-		this.rune=entity;
-//		for(BlockPos p : posSet){
-//			TileEntity te = worldObj.getTileEntity(p); //WorldObj may be null here
-//			if(te instanceof TileEntityDustPlaced){
-//				((TileEntityDustPlaced)te).setRune(entity);
-//			}else{
-//				WizardryLogger.logError("TileEntity at pos: "+p+" wasn't placed dust! (TEDustActive#readFromNBT)");
-//			}
-//		}
-		this.rune.readFromNBT(tagCompound);
+		if(rune==null){
+			WizardryLogger.logError("Active Dust loaded invalid runeID "+runeID+" from NBT");
+			this.rune=null;//this should make the rune do nothing.
+		}else{
+			RuneEntity entity = rune.createRune(stacks,facing, posSet, this);
+			this.rune=entity;
+			//		for(BlockPos p : posSet){
+			//			TileEntity te = worldObj.getTileEntity(p); //WorldObj may be null here
+			//			if(te instanceof TileEntityDustPlaced){
+			//				((TileEntityDustPlaced)te).setRune(entity);
+			//			}else{
+			//				WizardryLogger.logError("TileEntity at pos: "+p+" wasn't placed dust! (TEDustActive#readFromNBT)");
+			//			}
+			//		}
+			this.rune.readFromNBT(tagCompound);
+		}
 	}
 	private boolean initialised=false;
 	private void init(){
