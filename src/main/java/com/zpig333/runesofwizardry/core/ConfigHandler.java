@@ -32,6 +32,7 @@ public class ConfigHandler {
 		//dev
 		config.setCategoryComment(CAT_DEV, "Options for addon developers");
 		showPlaceholders=config.getBoolean("show placeholders", CAT_DEV, false, "Show the placeholder dusts in the creative menu/JEI");
+		//permissions
 		CommandImportPermission = config.getString("Import pattern command permissions", Configuration.CATEGORY_GENERAL, PERMISSIONS_ALL, "Who can use the import pattern (rw_import) command. [ALL, OP, NONE]", new String[]{PERMISSIONS_ALL,PERMISSIONS_OP,PERMISSIONS_NONE});
 		if(config.hasChanged()){
 			config.save();

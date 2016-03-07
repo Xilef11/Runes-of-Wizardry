@@ -76,10 +76,10 @@ public class RuneTest2 extends IRune {
 	 * @see com.zpig333.runesofwizardry.api.IRune#getSacrifice()
 	 */
 	@Override
-	public ItemStack[] getSacrifice() {
-		return new ItemStack[]{
+	public ItemStack[][] getSacrifice() {
+		return new ItemStack[][]{{
 				new ItemStack(Items.redstone),new ItemStack(Items.arrow),new ItemStack(Items.redstone)
-		};
+		}};
 	}
 
 	/* (non-Javadoc)

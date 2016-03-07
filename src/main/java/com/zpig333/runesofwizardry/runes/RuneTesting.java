@@ -43,7 +43,7 @@ public class RuneTesting extends IRune {
 	}
 
 	@Override
-	public ItemStack[] getSacrifice() {
+	public ItemStack[][] getSacrifice() {
 		return null;
 	}
 

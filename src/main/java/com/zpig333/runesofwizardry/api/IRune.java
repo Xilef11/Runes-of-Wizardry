@@ -59,9 +59,9 @@ public abstract class IRune {
 	public abstract Vec3i getEntityPosition();
 	/** Returns the items needed to activate this Rune
 	 * 
-	 * @return the ItemStacks that must be dropped on the Rune for it to activate
+	 * @return a 2D array of ItemStacks, where each row (first coordinate) is a possible combination of ItemStacks that activate the rune.
 	 */
-	public abstract ItemStack[] getSacrifice();
+	public abstract ItemStack[][] getSacrifice();
 	/**
 	 * Returns a new instance of the RuneEntity that is created when this rune is formed and activated.
 	 *<br/> Note that the sacrifice Items will be consumed before the Entity is created.
@@ -75,16 +75,22 @@ public abstract class IRune {
 	 * @return true if the sacrifice may activate the rune
 	 */
 	public boolean sacrificeMatches(List<ItemStack> droppedItems){
-		if(this.getSacrifice()==null)return true;
-		List<ItemStack> wanted = Arrays.asList(this.getSacrifice());
-		if(droppedItems==null)return false;
-		wanted = Utils.sortAndMergeStacks(wanted);
-		droppedItems = Utils.sortAndMergeStacks(droppedItems);
-		WizardryLogger.logInfo("Comparing sacrifices: "+Arrays.deepToString(wanted.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));
-		if(wanted.size()!=droppedItems.size())return false;
-		for(int i=0;i<wanted.size();i++){
-			if(! ItemStack.areItemStacksEqual(wanted.get(i), droppedItems.get(i)))return false;
+		if(this.getSacrifice()==null)return true;//if there is absolutely no sacrifice wanted
+		if(droppedItems!=null)droppedItems = Utils.sortAndMergeStacks(droppedItems);
+		for(ItemStack[] possibility:this.getSacrifice()){
+			if(droppedItems==null && possibility==null)return true;//if no sacrifice is an option
+			List<ItemStack> wanted = Arrays.asList(possibility);
+			wanted = Utils.sortAndMergeStacks(wanted);
+			WizardryLogger.logInfo("Comparing sacrifices: "+Arrays.deepToString(wanted.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));
+			
+			if(wanted.size()==droppedItems.size()){//there is a chance for a match
+				boolean match=true;
+				for(int i=0;i<wanted.size()&&match;i++){
+					if(! ItemStack.areItemStacksEqual(wanted.get(i), droppedItems.get(i)))match=false;
+				}
+				if(match)return true;//if the whole list matched
+			}
 		}
-		return true;
+		return false;//no possibility made us return true
 	}
 }
