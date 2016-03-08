@@ -24,7 +24,7 @@ group= "com.zpig333.runesofwizardry"
 archivesBaseName = project.name
 
 minecraft {
-    version = "1.8.9-11.15.1.1752"
+    version = "1.8.9-11.15.1.1764"
 
     runDir = "minecraft"
 	
@@ -69,7 +69,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 	//JEI
-	deobfCompile "mezz.jei:jei_1.8.9:2.26.0.154"
+	deobfCompile "mezz.jei:jei_1.8.9:2.28.7.174"
 }
 
 	tasks.withType(JavaCompile) {
