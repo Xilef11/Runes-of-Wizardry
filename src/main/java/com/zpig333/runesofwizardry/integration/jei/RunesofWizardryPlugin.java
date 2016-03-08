@@ -27,28 +27,12 @@ import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 @JEIPlugin
 public class RunesofWizardryPlugin implements IModPlugin {
 
-	private IJeiHelpers helper;
-	/* (non-Javadoc)
-	 * @see mezz.jei.api.IModPlugin#onJeiHelpersAvailable(mezz.jei.api.IJeiHelpers)
-	 */
-	@Override
-	public void onJeiHelpersAvailable(IJeiHelpers jeiHelpers) {
-		//grab the helper
-		helper=jeiHelpers;
-	}
-
-	/* (non-Javadoc)
-	 * @see mezz.jei.api.IModPlugin#onItemRegistryAvailable(mezz.jei.api.IItemRegistry)
-	 */
-	@Override
-	public void onItemRegistryAvailable(IItemRegistry itemRegistry) {
-	}
-
 	/* (non-Javadoc)
 	 * @see mezz.jei.api.IModPlugin#register(mezz.jei.api.IModRegistry)
 	 */
 	@Override
 	public void register(IModRegistry registry) {
+		IJeiHelpers helper = registry.getJeiHelpers();
 		//blacklist stuff
 		helper.getItemBlacklist().addItemToBlacklist(new ItemStack(WizardryRegistry.dust_placed,1,OreDictionary.WILDCARD_VALUE));
 		if(!ConfigHandler.showPlaceholders){
@@ -60,17 +44,33 @@ public class RunesofWizardryPlugin implements IModPlugin {
 		}
 	}
 
+	@Override
+	public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+		
+	}
+	
+	/* (non-Javadoc)
+	 * @see mezz.jei.api.IModPlugin#onJeiHelpersAvailable(mezz.jei.api.IJeiHelpers)
+	 */
+	@Deprecated
+	@Override
+	public void onJeiHelpersAvailable(IJeiHelpers jeiHelpers) {
+	}
+
+	/* (non-Javadoc)
+	 * @see mezz.jei.api.IModPlugin#onItemRegistryAvailable(mezz.jei.api.IItemRegistry)
+	 */
+	@Deprecated
+	@Override
+	public void onItemRegistryAvailable(IItemRegistry itemRegistry) {
+	}
+	
 	/* (non-Javadoc)
 	 * @see mezz.jei.api.IModPlugin#onRecipeRegistryAvailable(mezz.jei.api.IRecipeRegistry)
 	 */
 	@Deprecated
 	@Override
 	public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {
-	}
-
-	@Override
-	public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
-		
 	}
 
 }
