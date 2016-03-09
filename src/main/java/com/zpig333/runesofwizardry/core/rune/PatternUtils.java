@@ -180,13 +180,14 @@ public class PatternUtils {
 	/**
 	 * Returns the ItemStack[][] pattern described by the json file {@code filename} in the export dir (runesofwizardry_patterns)
 	 * Note that the JSON file must have been created by PatternUtils#exportPatternJson (i.e the rw_export command)
-	 * 
+	 * If the given String is of the form modid:path, this will wrap it in a ResourceLocation and call {@link #importFromJson(ResourceLocation)}
 	 * @param filename the name of the file to import. .json will be appended to it if it isn't already
 	 * @return the ItemStack[][] pattern described by the file supplied
 	 * @throws IOException If the file can't be closed after reading
 	 * @throws FileNotFoundException if the supplied filename can't be found
 	 */
 	public static ItemStack[][] importFromJson(String filename)throws IOException,FileNotFoundException{
+		if(filename.contains(":"))return importFromJson(new ResourceLocation(filename));
 		File infile = new File(References.export_folder,filename);
 		if(!infile.exists()){
 			infile = new File(References.export_folder,filename+".json");
