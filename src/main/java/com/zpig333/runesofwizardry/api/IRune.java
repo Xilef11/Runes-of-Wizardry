@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
+import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
@@ -86,11 +87,39 @@ public abstract class IRune {
 			if(wanted.size()==droppedItems.size()){//there is a chance for a match
 				boolean match=true;
 				for(int i=0;i<wanted.size()&&match;i++){
-					if(! ItemStack.areItemStacksEqual(wanted.get(i), droppedItems.get(i)))match=false;
+					if(allowOredictSacrifice()){
+						int found=-1;//will stay -1 if one of the two dosen't have oredict ids
+						for(int oreID:OreDictionary.getOreIDs(wanted.get(i))){
+							for(int sacID:OreDictionary.getOreIDs(droppedItems.get(i))){
+								if(found==-1)found=0;//both items have IDs, so we can check them using oreDict
+								if(oreID==sacID){
+									if(wanted.get(i).stackSize==droppedItems.get(i).stackSize){
+										found=1;
+										break;
+									}else{
+										found=2;
+										break;//found the right item, but size didn't match
+									}
+								}
+								if(found==1||found==2)break;
+							}
+						}
+						if(found==0 ||found==2|| (found==-1 && ! ItemStack.areItemStacksEqual(wanted.get(i), droppedItems.get(i))))match=false;
+					}else{
+						if(! ItemStack.areItemStacksEqual(wanted.get(i), droppedItems.get(i)))match=false;
+					}
+					
 				}
 				if(match)return true;//if the whole list matched
 			}
 		}
 		return false;//no possibility made us return true
+	}
+	/**
+	 * Should the OreDictionnary be used to determine if a sacrifice is valid?
+	 * @return true by default
+	 */
+	public boolean allowOredictSacrifice(){
+		return true;
 	}
 }
