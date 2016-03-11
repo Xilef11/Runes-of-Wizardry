@@ -171,8 +171,12 @@ public class CommandImportPattern implements ICommand {
 											}
 											//XXX this will update rendering all the time so it might be slow
 											if(n>0||s==null||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), ItemStack.copyItemStack(s));
-											//XXX maybe send a message if dust is missing
 										}
+									}
+									//XXX maybe send a message if dust is missing
+									if(ted.isEmpty()){//remove the TE if we couldn't place any dust in it
+										world.removeTileEntity(current);
+										world.setBlockToAir(current);
 									}
 								}else{//in creative mode, just set the contents.
 									ted.setContents(contents[r][c]);
