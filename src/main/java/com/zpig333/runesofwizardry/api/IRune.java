@@ -9,10 +9,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
+import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.core.WizardryLogger;
@@ -120,6 +122,16 @@ public abstract class IRune {
 	 * @return true by default
 	 */
 	public boolean allowOredictSacrifice(){
+		return true;
+	}
+	/**
+	 * Basic permissions/special conditions handling for the rune. will be checked before consuming the sacrifice
+	 * @param player the player attempting to activate the rune
+	 * @param world the world in which the rune is being activated
+	 * @param activationPos the block right-clicked by the player
+	 * @return true by default.
+	 */
+	public boolean canBeActivatedByPlayer(EntityPlayer player, World world, BlockPos activationPos){
 		return true;
 	}
 }

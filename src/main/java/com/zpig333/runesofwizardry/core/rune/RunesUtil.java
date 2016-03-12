@@ -103,6 +103,10 @@ public class RunesUtil {
 			player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.norune"));
 			return;
 		}
+		if(!match.rune.canBeActivatedByPlayer(player, world, pos)){
+			WizardryLogger.logInfo("Player "+player.getName()+" did not have permission to activate "+match.rune.getName()+" at "+world+" pos "+pos);
+			return;
+		}
 		//sacrifice
 		ItemStack[] sacrifice=null;
 		boolean negated=false;

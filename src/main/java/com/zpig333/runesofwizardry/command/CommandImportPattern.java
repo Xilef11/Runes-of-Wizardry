@@ -217,7 +217,11 @@ public class CommandImportPattern implements ICommand {
 	 */
 	@Override
 	public List<String> addTabCompletionOptions(ICommandSender sender,String[] args, BlockPos pos) {
-		return new LinkedList<String>(DustRegistry.getRuneIDs());
+		LinkedList<String> options = new LinkedList<String>();
+		for(String id:DustRegistry.getRuneIDs()){
+			if(id.contains(args[0]))options.add(id);
+		}
+		return options;
 	}
 
 	/* (non-Javadoc)
