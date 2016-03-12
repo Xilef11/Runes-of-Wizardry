@@ -53,7 +53,7 @@ public class RuneTesting extends IRune {
 	}
 	@Override
 	public Vec3i getEntityPosition(){
-		return new Vec3i(1, 1, 1);
+		return new Vec3i(1, 1, 0);
 	}
 
 }

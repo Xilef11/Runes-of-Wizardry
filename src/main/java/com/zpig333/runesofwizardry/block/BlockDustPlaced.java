@@ -295,10 +295,10 @@ public class BlockDustPlaced extends Block{
 				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
-				}else{
-					//drop the itemStack
-					if(!playerIn.capabilities.isCreativeMode&& !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
+					dustStack = tileDust.getStackInSlot(slotID);//re-grab the stack in case the rune changed it
 				}
+				//drop the itemStack
+				if(!playerIn.capabilities.isCreativeMode&& !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, state);
 					worldIn.setBlockToAir(pos);
@@ -325,14 +325,18 @@ public class BlockDustPlaced extends Block{
 			}
 			return true;
 		}
-		if(playerStack.getItem() instanceof ItemBroom && ! worldIn.isRemote){
-			if(tileDust.isInRune()){
-				tileDust.getRune().onPatternBrokenByPlayer(playerIn);
+		if(playerStack.getItem() instanceof ItemBroom){
+			if(! worldIn.isRemote){
+				if(tileDust.isInRune()){
+					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
+				}
+				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+				if(playerIn.capabilities.isCreativeMode)RunesUtil.killDusts(worldIn, pos);
+				this.breakBlock(worldIn, pos, state);
+				worldIn.setBlockToAir(pos);
 			}
-			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
-			if(playerIn.capabilities.isCreativeMode)RunesUtil.killDusts(worldIn, pos);
-			this.breakBlock(worldIn, pos, state);
-			worldIn.setBlockToAir(pos);
+			tileDust.clear();
+			TileEntityDustPlaced.updateNeighborConnectors(worldIn, pos);
 		}
 		//activate the rune with the staff
 		if(!tileDust.isInRune() && playerStack.getItem() instanceof ItemRunicStaff){

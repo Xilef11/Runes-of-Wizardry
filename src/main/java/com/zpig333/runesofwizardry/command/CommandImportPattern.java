@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.logging.log4j.Level;
-
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -26,7 +24,11 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Level;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
@@ -94,11 +96,12 @@ public class CommandImportPattern implements ICommand {
 		if(!world.isRemote){
 			if(sender instanceof EntityPlayer){
 				EntityPlayer player = (EntityPlayer) sender;
-				if(args.length==0)throw new WrongUsageException(getCommandUsage(sender));
+				if(args.length<1 || args.length>2)throw new WrongUsageException(getCommandUsage(sender));
 				//get the pattern from args
 				ItemStack[][] pattern = null;
+				IRune rune=null;
 				if(args[0].contains(":")){//if its a rune
-					IRune rune = DustRegistry.getRuneByID(args[0]);
+					rune = DustRegistry.getRuneByID(args[0]);
 					if(rune==null)throw new CommandException(StatCollector.translateToLocalFormatted(locKey+".nosuchrune",args[0]));
 					ItemStack[][] runepattern = rune.getPattern();
 					//COPY the pattern to avoid changing it by mistake (everything is mutable...)
@@ -127,73 +130,110 @@ public class CommandImportPattern implements ICommand {
 				Block block = world.getBlockState(lookPos).getBlock();
 				EnumFacing playerFacing = player.getHorizontalFacing();
 				WizardryLogger.logInfo("Import Pattern: Looking at block: "+block.getUnlocalizedName()+" at "+lookPos+" facing: "+playerFacing);
-				//TODO move the following somewhere else as placePatternFromTopLeft(pattern,pos, facing)
-				//get the pattern in the right direction
-				ItemStack[][] rotatedPattern = PatternUtils.rotateAgainstFacing(pattern, playerFacing);
-				//convert to contents array
-				ItemStack[][][][] contents = PatternUtils.toContentsArray(rotatedPattern);
-				//get the pos for the NW block (an offset from the look/"top-left" block)
-				BlockPos nw=lookPos.up();
-				switch(playerFacing){
-				case EAST: nw = nw.offset(EnumFacing.WEST,contents[0].length-1);
-				break;
-				case NORTH: //no change needed
-					break;
-				case SOUTH: nw=nw.offset(EnumFacing.WEST,contents[0].length-1).offset(EnumFacing.NORTH,contents.length-1);
-				break;
-				case WEST:nw = nw.offset(EnumFacing.NORTH,contents.length-1);
-				break;
-				default: throw new IllegalStateException("Import command: Facing is not horizontal");
-				}
-				//contents[0][0] is always NW most block
-				for(int r=0;r<contents.length;r++){
-					for(int c=0;c<contents[r].length;c++){
-						BlockPos current = nw.offset(EnumFacing.EAST, c).offset(EnumFacing.SOUTH, r);
-						if(world.isAirBlock(current) && !PatternUtils.isEmpty(contents[r][c])){
-							world.setBlockState(current, WizardryRegistry.dust_placed.getDefaultState());
-							TileEntity ent = world.getTileEntity(current);
-							if(ent instanceof TileEntityDustPlaced){//no reason why it isn't
-								TileEntityDustPlaced ted = (TileEntityDustPlaced)ent;
-								//ItemStack[][] pat = PatternUtils.rotateAgainstFacing(contents[r][c], playerFacing);
-								//ted.setContents(pat);
-								//remove from player's inventory if not creative
-								if(!player.capabilities.isCreativeMode){
-									ItemStack[][] itemStacks = contents[r][c];
-									//check one item at a time...
-									for (int row = 0; row < itemStacks.length; row++) {
-										ItemStack[] stacks = itemStacks[row];
-										for (int col = 0; col < stacks.length; col++) {
-											ItemStack s = stacks[col];
-											int n=0;
-											if(s!=null){
-												//n is the number of matching items
-												n=player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.stackSize, s.getTagCompound());
-											}
-											//XXX this will update rendering all the time so it might be slow
-											if(n>0||s==null||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), ItemStack.copyItemStack(s));
-										}
-									}
-									//XXX maybe send a message if dust is missing
-									if(ted.isEmpty()){//remove the TE if we couldn't place any dust in it
-										world.removeTileEntity(current);
-										world.setBlockToAir(current);
-									}
-								}else{//in creative mode, just set the contents.
-									ted.setContents(contents[r][c]);
-								}
-								world.markBlockForUpdate(current);
-							}else{
-								throw new IllegalStateException("import command: TE was not placed dust");
-							}
+				//place the pattern depending on arg
+				if(args.length==2){
+					String centering = args[1];
+					if(centering.equalsIgnoreCase("natural")){
+						if(rune!=null){//if we're placing a rune
+							placeRuneAtEntity(rune,pattern, world, lookPos, playerFacing, player);
+						}else{
+							placePatternCentered(pattern, world, lookPos, playerFacing, player);
 						}
+					}else if(centering.equalsIgnoreCase("topleft")){
+						PlacePatternTopLeft(pattern, world, lookPos, playerFacing, player);
+					}else if(centering.equalsIgnoreCase("center")){
+						placePatternCentered(pattern,world,lookPos,playerFacing,player);
+					}
+				}else{
+					if(rune!=null){//if we're placing a rune
+						placeRuneAtEntity(rune,pattern, world, lookPos, playerFacing, player);
+					}else{
+						placePatternCentered(pattern, world, lookPos, playerFacing, player);
 					}
 				}
+				//PlacePatternTopLeft(pattern, world, lookPos, playerFacing, player);
 			}
 		}else{
 			//TODO JSON on the client. we will need a packet of some sort.
 		}
 	}
-
+	private void placeRuneAtEntity(IRune rune, ItemStack[][] pattern,World world, BlockPos lookPos, EnumFacing playerFacing,EntityPlayer player) {
+		Vec3i pos = rune.getEntityPosition();
+		int dX = pos.getX(),dY = pos.getY();
+		EnumFacing left = playerFacing.rotateYCCW();
+		BlockPos newTL = lookPos.offset(left, dX).offset(playerFacing, dY);
+		PlacePatternTopLeft(pattern, world, newTL, playerFacing, player);
+	}
+	private void placePatternCentered(ItemStack[][] pattern, World world,BlockPos lookPos, EnumFacing playerFacing, EntityPlayer player) {
+		int height = pattern.length/TileEntityDustPlaced.ROWS;
+		int width = pattern[0].length/TileEntityDustPlaced.COLS;
+		int centerX = width/2, centerY = height/2;
+		EnumFacing left = playerFacing.rotateYCCW();
+		BlockPos newTL = lookPos.offset(left, centerX).offset(playerFacing, centerY);
+		PlacePatternTopLeft(pattern, world, newTL, playerFacing, player);
+	}
+	private void PlacePatternTopLeft(ItemStack[][] pattern, World world, BlockPos topLeft, EnumFacing playerFacing,EntityPlayer player){
+		//get the pattern in the right direction
+		ItemStack[][] rotatedPattern = PatternUtils.rotateAgainstFacing(pattern, playerFacing);
+		//convert to contents array
+		ItemStack[][][][] contents = PatternUtils.toContentsArray(rotatedPattern);
+		//get the pos for the NW block (an offset from the look/"top-left" block)
+		BlockPos nw=topLeft.up();
+		switch(playerFacing){
+		case EAST: nw = nw.offset(EnumFacing.WEST,contents[0].length-1);
+		break;
+		case NORTH: //no change needed
+			break;
+		case SOUTH: nw=nw.offset(EnumFacing.WEST,contents[0].length-1).offset(EnumFacing.NORTH,contents.length-1);
+		break;
+		case WEST:nw = nw.offset(EnumFacing.NORTH,contents.length-1);
+		break;
+		default: throw new IllegalStateException("Import command: Facing is not horizontal");
+		}
+		//contents[0][0] is always NW most block
+		for(int r=0;r<contents.length;r++){
+			for(int c=0;c<contents[r].length;c++){
+				BlockPos current = nw.offset(EnumFacing.EAST, c).offset(EnumFacing.SOUTH, r);
+				if(world.isAirBlock(current) && !PatternUtils.isEmpty(contents[r][c])){
+					world.setBlockState(current, WizardryRegistry.dust_placed.getDefaultState());
+					TileEntity ent = world.getTileEntity(current);
+					if(ent instanceof TileEntityDustPlaced){//no reason why it isn't
+						TileEntityDustPlaced ted = (TileEntityDustPlaced)ent;
+						//ItemStack[][] pat = PatternUtils.rotateAgainstFacing(contents[r][c], playerFacing);
+						//ted.setContents(pat);
+						//remove from player's inventory if not creative
+						if(!player.capabilities.isCreativeMode){
+							ItemStack[][] itemStacks = contents[r][c];
+							//check one item at a time...
+							for (int row = 0; row < itemStacks.length; row++) {
+								ItemStack[] stacks = itemStacks[row];
+								for (int col = 0; col < stacks.length; col++) {
+									ItemStack s = stacks[col];
+									int n=0;
+									if(s!=null){
+										//n is the number of matching items
+										n=player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.stackSize, s.getTagCompound());
+									}
+									//XXX this will update rendering all the time so it might be slow
+									if(n>0||s==null||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), ItemStack.copyItemStack(s));
+								}
+							}
+							//XXX maybe send a message if dust is missing
+							if(ted.isEmpty()){//remove the TE if we couldn't place any dust in it
+								world.removeTileEntity(current);
+								world.setBlockToAir(current);
+							}
+						}else{//in creative mode, just set the contents.
+							ted.setContents(contents[r][c]);
+						}
+						world.markBlockForUpdate(current);
+					}else{
+						throw new IllegalStateException("import command: TE was not placed dust");
+					}
+				}
+			}
+		}
+	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.command.ICommand#canCommandSenderUseCommand(net.minecraft.command.ICommandSender)
 	 */
@@ -219,7 +259,7 @@ public class CommandImportPattern implements ICommand {
 	public List<String> addTabCompletionOptions(ICommandSender sender,String[] args, BlockPos pos) {
 		LinkedList<String> options = new LinkedList<String>();
 		for(String id:DustRegistry.getRuneIDs()){
-			if(id.contains(args[0]))options.add(id);
+			if(StringUtils.containsIgnoreCase(id, args[0]))options.add(id);
 		}
 		return options;
 	}
