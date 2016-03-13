@@ -16,5 +16,10 @@ public final class References {
 		public static final String DYE=misc+"dye";
 		public static final String USELESS=misc+"useless";
 		public static final String PLACEHOLDER = misc+"placeholder_dust";
+		public static final String SELECTED = misc+"dict_selected_rune";
+		public static final String REQUIRES = misc+"requires";
+		public static final String SACRIFICE = misc+"sacrifice";
+		public static final String OR = misc+"or";
+		public static final String NOTHING = misc+"nothing";
 	}
 }

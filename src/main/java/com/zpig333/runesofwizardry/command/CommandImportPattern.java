@@ -46,6 +46,7 @@ import com.zpig333.runesofwizardry.util.json.JsonUtils;
  *
  */
 public class CommandImportPattern implements ICommand {
+	private static CommandImportPattern instance;
 	private final List<String> aliases;
 	private static final String locKey="runesofwizardry.command.import";
 	public CommandImportPattern() {
@@ -270,6 +271,12 @@ public class CommandImportPattern implements ICommand {
 	@Override
 	public boolean isUsernameIndex(String[] args, int index) {
 		return false;
+	}
+	public static CommandImportPattern instance() {
+		if(instance==null){
+			instance = new CommandImportPattern();
+		}
+		return instance;
 	}
 
 }

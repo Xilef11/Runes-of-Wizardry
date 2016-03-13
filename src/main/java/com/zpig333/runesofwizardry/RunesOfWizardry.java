@@ -28,6 +28,7 @@ import com.zpig333.runesofwizardry.network.guipackets.DustDyeUpdatePacket;
 import com.zpig333.runesofwizardry.proxy.CommonProxy;
 import com.zpig333.runesofwizardry.runes.RuneTest2;
 import com.zpig333.runesofwizardry.runes.RuneTesting;
+import com.zpig333.runesofwizardry.util.ChatUtils;
 
 @Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@")
 public class RunesOfWizardry {
@@ -78,7 +79,7 @@ public class RunesOfWizardry {
 	}
 	@Mod.EventHandler
 	public void serverLoad(FMLServerStartingEvent event){
-		event.registerServerCommand(new CommandImportPattern());
+		event.registerServerCommand(CommandImportPattern.instance());
 	}
 	public void initNetwork() {
 		networkWrapper = NetworkRegistry.INSTANCE
@@ -92,6 +93,7 @@ public class RunesOfWizardry {
 				DustDyeRequestUpdatePacket.class, 2, Side.SERVER);
 		networkWrapper.registerMessage(DustDyeUpdatePacket.Handler.class,
 				DustDyeUpdatePacket.class, 3, Side.CLIENT);
+		networkWrapper.registerMessage(ChatUtils.PacketNoSpamChat.Handler.class, ChatUtils.PacketNoSpamChat.class, 4, Side.CLIENT);
 	}
 	
 	/** the tab in the Creative inventory for our stuff**/

@@ -118,6 +118,20 @@ public abstract class IRune {
 		return false;//no possibility made us return true
 	}
 	/**
+	 * Returns the unlocalized short (tooltip) description of this rune
+	 * @return the unlocalized form of the description shown in Runic Dictionary tooltip
+	 */
+	public String getShortDesc(){
+		return getName()+".shortdesc";
+	}
+	/**
+	 * Returns the unlocalized form of information to be added in the "sacrifice" section
+	 * @return null for no info.
+	 */
+	public String getExtraSacrificeInfo(){
+		return null;
+	}
+	/**
 	 * Should the OreDictionnary be used to determine if a sacrifice is valid?
 	 * @return true by default
 	 */

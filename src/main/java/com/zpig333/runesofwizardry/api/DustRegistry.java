@@ -35,6 +35,8 @@ public class DustRegistry {
 	//private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
 	/**List of all registered runes**/
 	private static Map<String,IRune> runes = new LinkedHashMap<String,IRune>();
+	/** The dust requirements for all runes**/
+	private static Map<String,List<ItemStack>> dustCosts = new HashMap<String, List<ItemStack>>();
 	//Special constants
 	/**
 	 * Represents any "magic" dust
@@ -98,6 +100,14 @@ public class DustRegistry {
 	 */
 	public static Set<String> getRuneIDs(){
 		return runes.keySet();
+	}
+	/**
+	 * Returns a list of the dusts required to build a rune. /!\ Do NOT edit this list or any of the ItemStacks in it, things WILL break
+	 * @param id the identifier of the rune for which to get the cost
+	 * @return the dusts required to build the rune identified by id.
+	 */
+	public static List<ItemStack> getRuneCost(String id){
+		return  dustCosts.get(id);
 	}
 	/** Given a dust, returns the block that was created in registerDust
 	 * 
@@ -171,6 +181,15 @@ public class DustRegistry {
 		//maybe do crash report (or skip registration)
 		if(runes.containsKey(name))throw new IllegalArgumentException("A rune with the name: "+name+" Already exists!");
 		runes.put(name,rune);
+		//calculate the costs
+		List<ItemStack> dusts = new LinkedList<ItemStack>();
+		for(ItemStack[] i : rune.getPattern()){
+			for(ItemStack s: i){
+				if(s!=null)dusts.add(ItemStack.copyItemStack(s));
+			}
+		}
+		dusts = Utils.sortAndMergeStacks(dusts);
+		dustCosts.put(name, dusts);
 	}
 	/**
 	 * 
