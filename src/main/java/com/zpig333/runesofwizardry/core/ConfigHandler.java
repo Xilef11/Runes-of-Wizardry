@@ -17,11 +17,14 @@ public class ConfigHandler {
 	//dev options
 	public static final String CAT_DEV="development";
 	public static boolean showPlaceholders;
+	public static boolean registerTestRunes;
 	//permissions for commands
 	public static final String PERMISSIONS_ALL="ALL", PERMISSIONS_OP="OP", PERMISSIONS_NONE="NONE";
 	public static String CommandImportPermission;
 	//xp required to import via dictionary
 	public static int DictionaryImportXP;
+	//pretty print exported json
+	public static boolean exportPretty;
 	public static Configuration config;
 	public static void init(File configFile){
 		if(config==null){
@@ -33,6 +36,9 @@ public class ConfigHandler {
 		//dev
 		config.setCategoryComment(CAT_DEV, "Options for addon developers");
 		showPlaceholders=config.getBoolean("show placeholders", CAT_DEV, false, "Show the placeholder dusts in the creative menu/JEI");
+		registerTestRunes=config.getBoolean("register test runes", CAT_DEV, false, "Should the testing runes be registered?");
+		//pretty export
+		exportPretty=config.getBoolean("prettyExport", Configuration.CATEGORY_CLIENT, false, "If set to true, exported patterns (rw_export command) will be more readable, but files will be larger");
 		//permissions
 		CommandImportPermission = config.getString("Import pattern command permissions", Configuration.CATEGORY_GENERAL, PERMISSIONS_ALL, "Who can use the import pattern (rw_import) command. [ALL, OP, NONE]", new String[]{PERMISSIONS_ALL,PERMISSIONS_OP,PERMISSIONS_NONE});
 		DictionaryImportXP = config.getInt("PlaceRuneXP", Configuration.CATEGORY_GENERAL, 0, -1, Integer.MAX_VALUE, "The number of experience levels required to place a rune with the Runic Dictionary. -1 disables placing");

@@ -47,15 +47,15 @@ public class ItemRunicDictionary extends WizardryItem {
 		if(id.length()>0){
 			IRune rune = DustRegistry.getRuneByID(id);
 			//name
-			tooltip.add(StatCollector.translateToLocal(References.Lang.SELECTED)+StatCollector.translateToLocal(rune.getName()));
-			//TODO description
+			tooltip.add(StatCollector.translateToLocal(References.Lang.SELECTED)+" "+StatCollector.translateToLocal(rune.getName()));
+			//description
 			tooltip.add("§o"+StatCollector.translateToLocal(rune.getShortDesc()));
 			boolean sneak = Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 			if(sneak){
 				//dusts
 				tooltip.add("§l"+StatCollector.translateToLocal(References.Lang.REQUIRES));
 				for(ItemStack s:DustRegistry.getRuneCost(id)){
-					tooltip.add(" - "+s.stackSize+"x "+s.getDisplayName());
+					tooltip.add(" - "+(s.stackSize<10?" ":"")+s.stackSize+"x "+s.getDisplayName());
 				}
 				//sacrifice
 				tooltip.add("§l"+StatCollector.translateToLocal(References.Lang.SACRIFICE));
@@ -66,22 +66,20 @@ public class ItemRunicDictionary extends WizardryItem {
 						if(i>0)tooltip.add(" "+StatCollector.translateToLocal(References.Lang.OR));
 						if(sac!=null){
 							for(ItemStack s:sac){
-								tooltip.add(" - "+s.stackSize+"x "+s.getDisplayName());
+								tooltip.add(" - "+(s.stackSize<10?" ":"")+s.stackSize+"x "+s.getDisplayName());
 							}
 						}else{
 							tooltip.add("   "+StatCollector.translateToLocal(References.Lang.NOTHING));
 						}
 					}
-				}else{
-					//extra sacrifice info
-					String extraInfo = rune.getExtraSacrificeInfo();
-					if(extraInfo!=null){
-						tooltip.add(" "+StatCollector.translateToLocal(extraInfo));
-					}else{
-						tooltip.add(" "+StatCollector.translateToLocal(References.Lang.NOTHING));
-					}
 				}
-				
+				//extra sacrifice info
+				String extraInfo = rune.getExtraSacrificeInfo();
+				if(extraInfo!=null){
+					tooltip.add("  "+StatCollector.translateToLocal(extraInfo));
+				}else if(possibilities==null){
+					tooltip.add("  "+StatCollector.translateToLocal(References.Lang.NOTHING));
+				}
 			}
 			
 		}

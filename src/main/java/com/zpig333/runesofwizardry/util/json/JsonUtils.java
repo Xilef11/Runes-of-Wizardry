@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.zpig333.runesofwizardry.core.ConfigHandler;
 
 /**
  * @author Xilef11
@@ -25,7 +26,8 @@ public class JsonUtils {
 	public static Gson getItemStackGson(){
 		if(itemStackGson==null){
 			GsonBuilder builder = new GsonBuilder();
-			builder.serializeNulls().setPrettyPrinting();
+			builder.serializeNulls();
+			if(ConfigHandler.exportPretty)builder.setPrettyPrinting();
 			builder.registerTypeAdapter(ItemStack.class, new ItemStackJson());
 			builder.registerTypeAdapter(NBTTagCompound.class, new NBTJson());
 			itemStackGson = builder.create();
