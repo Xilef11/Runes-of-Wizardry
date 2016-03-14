@@ -11,7 +11,7 @@ public final class References {
 	public static final String export_folder= References.modid+"_patterns";
 	/**Holds the localization keys for static Strings**/
 	public static final class Lang{
-		private static final String misc=modid+".lang.";
+		public static final String misc=modid+".lang.";
 		public static final String COLOR=misc+"color";
 		public static final String DYE=misc+"dye";
 		public static final String USELESS=misc+"useless";

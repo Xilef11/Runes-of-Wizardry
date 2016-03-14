@@ -64,3 +64,4 @@ runesofwizardry.lang.requires=Requires:
 runesofwizardry.lang.sacrifice=Sacrifice:
 runesofwizardry.lang.nothing=Nothing
 runesofwizardry.lang.or=OR
+runesofwizardry.lang.runesize=Size: %dx%d, centered at (%d, %d)

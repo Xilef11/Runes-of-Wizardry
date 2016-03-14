@@ -35,6 +35,7 @@ import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.ArrayUtils;
+import com.zpig333.runesofwizardry.util.Utils;
 
 /** internal Utility/logic methods for Runes
  * @author Xilef11
@@ -48,24 +49,27 @@ public class RunesUtil {
 	 * @param rune the IRune to validate
 	 * @throws InvalidRuneException when the given rune is not correctly defined
 	 */
-	public static void validateRune(IRune rune){
+	public static RuneStats validateRune(IRune rune){
 		ItemStack[][] pattern = rune.getPattern();
 		int rows = pattern.length;
+		List<ItemStack> dusts = new LinkedList<ItemStack>();
 		//rows must be a multiple of 4
-		if(rows % 4 !=0) throw new InvalidRuneException(rune,"The number of rows ("+rows+") is not a multiple of 4");
+		if(rows % TileEntityDustPlaced.ROWS !=0) throw new InvalidRuneException(rune,"The number of rows ("+rows+") is not a multiple of "+TileEntityDustPlaced.ROWS);
 		
 		StringBuilder badRowsBuilder = new StringBuilder();
 		for(int i=0;i<rows;i++){
 			ItemStack[] row = pattern[i];
 			if(row ==null)throw new InvalidRuneException(rune, "Found a null row: "+i);
 			//columns must be a multiple of 4
-			if((row.length % 4) ==0){
+			if((row.length % TileEntityDustPlaced.COLS) ==0){
 				//Make sure every stack is an IDust and contains 1 item
 				for(int j=0;j<row.length;j++){
 					ItemStack stack = row[j];
 					if(stack!=null){//null stacks are OK
 						if(!(stack.getItem() instanceof IDust)) throw new InvalidRuneException(rune,"The Item at position "+i+", "+j+" is not an IDust");
 						if(stack.stackSize!=1) throw new InvalidRuneException(rune,"The number of dusts at position "+i+", "+j+" must be 1");
+						//add to dust cost calculation
+						if(stack!=null)dusts.add(ItemStack.copyItemStack(stack));
 					}
 				}
 			}else{
@@ -76,9 +80,11 @@ public class RunesUtil {
 		}
 		String badRows = badRowsBuilder.toString();
 		if(!badRows.equals("")){
-			throw new InvalidRuneException(rune, "The number of columns is not a multiple of 4 for the rows # "+badRows);
+			throw new InvalidRuneException(rune, "The number of columns is not a multiple of "+TileEntityDustPlaced.COLS+" for the rows # "+badRows);
 		}
-		
+		//stats
+		dusts = Utils.sortAndMergeStacks(dusts);
+		return new RuneStats(dusts, pattern[0].length/TileEntityDustPlaced.COLS, pattern.length/TileEntityDustPlaced.ROWS, rune.getEntityPosition().getX(), rune.getEntityPosition().getY());
 	}
 	/**
 	 * Finds and activates (if appropriate) a rune starting at pos
@@ -283,7 +289,24 @@ public class RunesUtil {
 			this.top=top;
 		}
 	}
-	
+	/**
+	 * This class serves to document various properties of the rune calculated during validation for efficiency
+	 * @author Xilef11
+	 *
+	 */
+	public static class RuneStats{
+		public final List<ItemStack> dustCosts;
+		public final int xsize,ysize;
+		public final int centerx,centery;
+		private RuneStats(List<ItemStack> dustCosts, int xsize, int ysize,
+				int centerx, int centery) {
+			this.dustCosts = dustCosts;
+			this.xsize = xsize;
+			this.ysize = ysize;
+			this.centerx = centerx;
+			this.centery = centery;
+		}
+	}
 	/** This exception is thrown by {@link RunesUtil#validateRune(IRune)} when the rune is invalid
 	 * 
 	 * @author Xilef11

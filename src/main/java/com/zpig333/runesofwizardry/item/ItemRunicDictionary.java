@@ -23,6 +23,7 @@ import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.core.rune.RunesUtil.RuneStats;
 import com.zpig333.runesofwizardry.util.ChatUtils;
 
 
@@ -52,11 +53,13 @@ public class ItemRunicDictionary extends WizardryItem {
 			tooltip.add("§o"+StatCollector.translateToLocal(rune.getShortDesc()));
 			boolean sneak = Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 			if(sneak){
+				RuneStats stats = DustRegistry.getRuneStats(id);
 				//dusts
 				tooltip.add("§l"+StatCollector.translateToLocal(References.Lang.REQUIRES));
-				for(ItemStack s:DustRegistry.getRuneCost(id)){
+				for(ItemStack s:stats.dustCosts){
 					tooltip.add(" - "+(s.stackSize<10?" ":"")+s.stackSize+"x "+s.getDisplayName());
 				}
+				tooltip.add(StatCollector.translateToLocalFormatted(References.Lang.misc+"runesize", stats.xsize,stats.ysize,stats.centerx,stats.centery));
 				//sacrifice
 				tooltip.add("§l"+StatCollector.translateToLocal(References.Lang.SACRIFICE));
 				ItemStack[][] possibilities = rune.getSacrifice();
