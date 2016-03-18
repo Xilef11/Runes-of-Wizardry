@@ -11,11 +11,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -131,6 +133,8 @@ public class CommandImportPattern implements ICommand {
 				Block block = world.getBlockState(lookPos).getBlock();
 				EnumFacing playerFacing = player.getHorizontalFacing();
 				WizardryLogger.logInfo("Import Pattern: Looking at block: "+block.getUnlocalizedName()+" at "+lookPos+" facing: "+playerFacing);
+				//allows to replace placed dust
+				if(world.getBlockState(lookPos).getBlock()==WizardryRegistry.dust_placed)lookPos=lookPos.down();
 				//place the pattern depending on arg
 				if(args.length==2){
 					String centering = args[1];
@@ -195,7 +199,10 @@ public class CommandImportPattern implements ICommand {
 		for(int r=0;r<contents.length;r++){
 			for(int c=0;c<contents[r].length;c++){
 				BlockPos current = nw.offset(EnumFacing.EAST, c).offset(EnumFacing.SOUTH, r);
-				if(world.isAirBlock(current) && !PatternUtils.isEmpty(contents[r][c])){
+				IBlockState state=world.getBlockState(current);
+				Block block = state.getBlock();
+				if((block==Blocks.air||block==WizardryRegistry.dust_placed) && world.isSideSolid(current.down(), EnumFacing.UP) && !PatternUtils.isEmpty(contents[r][c])){
+					if(block==WizardryRegistry.dust_placed && !player.capabilities.isCreativeMode)block.breakBlock(world, current, state);
 					world.setBlockState(current, WizardryRegistry.dust_placed.getDefaultState());
 					TileEntity ent = world.getTileEntity(current);
 					if(ent instanceof TileEntityDustPlaced){//no reason why it isn't
