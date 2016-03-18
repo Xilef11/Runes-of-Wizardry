@@ -24,7 +24,6 @@ import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.util.Utils;
 
 /** This TileEntity replaces a TileEntityDustPlaced when a rune is formed.
  * @author Xilef11
@@ -44,7 +43,6 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		if(!initialised)init();
 		if(rune!=null)rune.update();
 	}
-
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced#readFromNBT(net.minecraft.nbt.NBTTagCompound)
 	 */
@@ -77,7 +75,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		if(modR!=0)maxRow+=(TileEntityDustPlaced.ROWS-modR);
 		int modC = maxCol%TileEntityDustPlaced.COLS;
 		if(modC!=0)maxCol+=(TileEntityDustPlaced.COLS-modC);
-		ItemStack[][] stacks = new ItemStack[maxRow][maxCol];
+		ItemStack[][] stacks = new ItemStack[maxRow+1][maxCol+1];
 		
 		for(ArrayElement a:items){
 			stacks[a.row][a.col]=a.stack;
@@ -86,19 +84,12 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		//re-create the rune
 		IRune rune = DustRegistry.getRuneByID(runeID);
 		if(rune==null){
-			WizardryLogger.logError("Active Dust loaded invalid runeID "+runeID+" from NBT");
+			WizardryLogger.logError("Active Dust at "+getPos()+" loaded invalid runeID "+runeID+" from NBT");
 			this.rune=null;//this should make the rune do nothing.
 		}else{
 			RuneEntity entity = rune.createRune(stacks,facing, posSet, this);
 			this.rune=entity;
-			//		for(BlockPos p : posSet){
-			//			TileEntity te = worldObj.getTileEntity(p); //WorldObj may be null here
-			//			if(te instanceof TileEntityDustPlaced){
-			//				((TileEntityDustPlaced)te).setRune(entity);
-			//			}else{
-			//				WizardryLogger.logError("TileEntity at pos: "+p+" wasn't placed dust! (TEDustActive#readFromNBT)");
-			//			}
-			//		}
+			//init should get called on the first tick to set up the other dust blocks
 			this.rune.readFromNBT(tagCompound);
 		}
 	}
@@ -110,7 +101,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			if(te instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te).setRune(rune);
 			}else{
-				WizardryLogger.logError("TileEntity at pos: "+p+" wasn't placed dust! (TEDustActive#readFromNBT)");
+				WizardryLogger.logError("TileEntity at pos: "+p+" wasn't placed dust! (TEDustActive#init)");
 			}
 		}
 		initialised=true;
@@ -123,7 +114,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		super.writeToNBT(tagCompound);
 		if(rune!=null){
 			rune.writeToNBT(tagCompound);
-		tagCompound.setString("runeID", Utils.getCurrentModID()+":"+rune.getRuneID());
+		tagCompound.setString("runeID", DustRegistry.getRuneID(rune.creator));
 		//write the rune's blockpos set
 		NBTTagList positions = new NBTTagList();
 		for(BlockPos p: rune.dustPositions){

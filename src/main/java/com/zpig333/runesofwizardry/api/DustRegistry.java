@@ -2,7 +2,6 @@ package com.zpig333.runesofwizardry.api;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +11,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
@@ -34,7 +34,7 @@ public class DustRegistry {
 	//FUTURE use a custom IRecipe or something
 	//private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
 	/**List of all registered runes**/
-	private static Map<String,IRune> runes = new LinkedHashMap<String,IRune>();
+	private static BiMap<String,IRune> runes = HashBiMap.create();
 	/** The dust requirements for all runes**/
 	private static Map<String,RunesUtil.RuneStats> duststats = new HashMap<String, RunesUtil.RuneStats>();
 	//Special constants
@@ -93,6 +93,15 @@ public class DustRegistry {
 	 */
 	public static IRune getRuneByID(String id){
 		return runes.get(id);
+	}
+	/**
+	 * Returns the full ID of a rune (modid:runeid)
+	 * @param rune the rune for which to look up the ID
+	 * @return the id for the rune, in the form modid:runeid
+	 */
+	public static String getRuneID(IRune rune){
+		//inverse is stored in the bimap, so calling it all the time shouldn't be a performance issue
+		return runes.inverse().get(rune);
 	}
 	/**
 	 * Returns all registered rune IDs
@@ -172,14 +181,15 @@ public class DustRegistry {
 	/** Validates and registers a rune in the RunesOfWizardry system.
 	 * 
 	 * @param rune the rune to register
+	 * @param the mod-unique ID for the rune (will be prefixed with your modid)
 	 * @throws InvalidRuneException if the given rune is invalid
 	 */
-	public static void registerRune(final IRune rune){
+	public static void registerRune(final IRune rune,String id){
 		RunesUtil.RuneStats stats = RunesUtil.validateRune(rune);
 		String modID = Utils.getCurrentModID();
-		String name=modID+":"+rune.createRune(new ItemStack[][]{},EnumFacing.NORTH, null, null).getRuneID();
+		String name=modID+":"+id;
 		//maybe do crash report (or skip registration)
-		if(runes.containsKey(name))throw new IllegalArgumentException("A rune with the name: "+name+" Already exists!");
+		if(runes.containsKey(name))throw new IllegalArgumentException("A rune with the id: "+name+" Already exists!");
 		runes.put(name,rune);
 		duststats.put(name, stats);
 	}

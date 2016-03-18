@@ -87,7 +87,7 @@ public class RuneTest2 extends IRune {
 	 */
 	@Override
 	public RuneEntity createRune(ItemStack[][] actualPattern, EnumFacing face,Set<BlockPos> dusts, TileEntityDustActive entity) {
-		return new RuneTest2Entity(actualPattern,face,dusts,entity);
+		return new RuneTest2Entity(actualPattern,face,dusts,entity,this);
 	}
 
 }

@@ -29,35 +29,46 @@ public abstract class RuneEntity{
 	 * The pattern that was actually placed in the world to create this Rune. This contains real dusts instead of the special constants
 	 */
 	public final ItemStack[][] placedPattern;
+	/** The direction the "top" of the pattern is facing**/
 	public final EnumFacing face;
+	/** the TileEntity that backs this rune**/
 	public final TileEntityDustActive entity;
+	/** The positions of all placed dust blocks in this rune**/
 	public final Set<BlockPos> dustPositions;
+	/** the IRune that created this RuneEntity**/
+	public final IRune creator;
 	/**
 	 * This constructor is called during normal activation of a rune, and may be called with null values
 	 * @param actualPattern the pattern of ItemStacks that was found
 	 * @param dusts the positions of all placed dust blocks in this rune
 	 * @param entity the TileEntity that hosts this rune
 	 */
-	public RuneEntity(ItemStack[][] actualPattern,EnumFacing facing, Set<BlockPos> dusts, TileEntityDustActive entity){
+	public RuneEntity(ItemStack[][] actualPattern,EnumFacing facing, Set<BlockPos> dusts, TileEntityDustActive entity,IRune creator){
 		this.placedPattern=actualPattern;
 		this.entity = entity;
 		this.dustPositions=dusts;
 		this.face=facing;
+		this.creator=creator;
 		if(entity!=null)entity.setRune(this);
 	}
 	/**
 	 * Returns a mod-unique identifier for this type of rune. it will be prefixed with your modid.
 	 * @return the unique ID for this rune
+	 * @deprecated use DustRegistry.getRuneID(RuneEntity.creator) instead
 	 */
 	//Note: this is here instead of in IRune to be able to link the rune entity (in placed dust TE) to the IRune class
-	public abstract String getRuneID();//this should be static, but Java can't do that 
+	@Deprecated
+	public final String getRuneID(){
+		return DustRegistry.getRuneID(creator);
+	}
 	
 	/**
 	 * This will be called once when the rune is activated.
 	 * @param player The player that activated the rune
 	 * @param sacrifice the itemStacks used to activate this rune. they have already been taken, but you can return them if activation requires specific conditions (i.e nighttime)
+	 * @param negated was the sacrifice negator used?
 	 */
-	public abstract void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice);
+	public abstract void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice,boolean negated);
 	/** This is called when right-clicking on a block of placed dust that is part of this rune.
 	 * If this returns true, the normal right-click handling will not happen.
 	 * @return true to prevent normal right-click handling (false by default)

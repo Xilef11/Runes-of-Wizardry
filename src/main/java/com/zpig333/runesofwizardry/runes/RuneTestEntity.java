@@ -8,20 +8,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
+import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 public class RuneTestEntity extends RuneEntity {
-	public RuneTestEntity(ItemStack[][] actualPattern, EnumFacing face,Set<BlockPos> dusts,	TileEntityDustActive entity) {
-		super(actualPattern, face,dusts, entity);
+	public RuneTestEntity(ItemStack[][] actualPattern, EnumFacing face,Set<BlockPos> dusts,	TileEntityDustActive entity,IRune creator) {
+		super(actualPattern, face,dusts, entity,creator);
 	}
 
 	@Override
-	public String getRuneID() {
-		return "runetesting";
-	}
-	@Override
-	public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice) {
+	public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice,boolean negated) {
 
 	}
 

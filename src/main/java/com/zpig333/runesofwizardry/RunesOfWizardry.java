@@ -71,8 +71,8 @@ public class RunesOfWizardry {
 			ClientCommandHandler.instance.registerCommand(new CommandExportPattern());
 		}
 		if(ConfigHandler.registerTestRunes){
-			DustRegistry.registerRune(new RuneTesting());
-			DustRegistry.registerRune(new RuneTest2());
+			DustRegistry.registerRune(new RuneTesting(),"runetesting");
+			DustRegistry.registerRune(new RuneTest2(),"runeTest2");
 		}
 		initNetwork();
 		// the GUI handler

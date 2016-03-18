@@ -49,7 +49,7 @@ public class RuneTesting extends IRune {
 
 	@Override
 	public RuneEntity createRune(ItemStack[][] actualPattern,EnumFacing face, Set<BlockPos> dusts, TileEntityDustActive entity) {
-		return new RuneTestEntity(actualPattern,face,dusts,entity);
+		return new RuneTestEntity(actualPattern,face,dusts,entity,this);
 	}
 	@Override
 	public Vec3i getEntityPosition(){

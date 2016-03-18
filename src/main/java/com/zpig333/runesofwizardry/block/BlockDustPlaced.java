@@ -99,8 +99,8 @@ public class BlockDustPlaced extends Block{
 			if (p == null) {//if there is no player near enough, keep resetting the pickup delay
 				ei.setPickupDelay(20);
 			}else{
-				double dist = p.getDistanceToEntity(ei);
-				WizardryLogger.logInfo("Distance: "+dist);
+				//double dist = p.getDistanceToEntity(ei);
+				//WizardryLogger.logInfo("Distance: "+dist);
 				Integer pickupDelay = ReflectionHelper.getPrivateValue(EntityItem.class, ei, "delayBeforeCanPickup","field_145804_b");
 				if (pickupDelay > 10) {
 					ei.setPickupDelay(10);//10 is the default, but there's no getDefaultPickupDelay, so its better to hardcode it in both uses

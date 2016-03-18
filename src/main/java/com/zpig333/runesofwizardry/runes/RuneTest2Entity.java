@@ -10,20 +10,17 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 
+import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 public class RuneTest2Entity extends RuneEntity {
 	
-	public RuneTest2Entity(ItemStack[][] actualPattern,EnumFacing face, Set<BlockPos> dusts,TileEntityDustActive entity) {
-		super(actualPattern,face, dusts, entity);
+	public RuneTest2Entity(ItemStack[][] actualPattern,EnumFacing face, Set<BlockPos> dusts,TileEntityDustActive entity,IRune creator) {
+		super(actualPattern,face, dusts, entity,creator);
 	}
 	@Override
-	public String getRuneID() {
-		return "runeTest2";
-	}
-	@Override
-	public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice) {
+	public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice,boolean negated) {
 		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 20));
 	}
 	private int ticks=0;

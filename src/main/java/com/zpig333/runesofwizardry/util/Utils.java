@@ -23,7 +23,7 @@ public class Utils {
 		List<ItemStack> sorted = new LinkedList<ItemStack>(in);
 		Comparator<ItemStack> cmp = new ItemStackComparator();
 		Collections.sort(sorted, cmp);
-		WizardryLogger.logInfo("Sorted list: "+Arrays.deepToString(sorted.toArray(new ItemStack[0])));
+		WizardryLogger.logDebug("Sorted list: "+Arrays.deepToString(sorted.toArray(new ItemStack[0])));
 		//merge not happening correctly (fixed?)
 		List<ItemStack> merged = new LinkedList<ItemStack>();
 		int i=0;
@@ -51,7 +51,7 @@ public class Utils {
 			}
 			merged.add(current);
 		}
-		WizardryLogger.logInfo("Merged list: "+Arrays.deepToString(merged.toArray(new ItemStack[0])));
+		WizardryLogger.logDebug("Merged list: "+Arrays.deepToString(merged.toArray(new ItemStack[0])));
 		return merged;
 	}
 	public static String getCurrentModID(){

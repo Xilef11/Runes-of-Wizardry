@@ -195,7 +195,7 @@ public class RunesUtil {
 		//entity.setRune(runeEnt);
 		entity.updateRendering();
 		WizardryLogger.logInfo("Formed Rune: "+match.rune.getName()+" facing "+match.top+" by "+player.getDisplayNameString());
-		runeEnt.onRuneActivatedbyPlayer(player,sacrifice);
+		runeEnt.onRuneActivatedbyPlayer(player,sacrifice,negated);
 	}
 	/**
 	 * Returns the IRune that matches a given ItemStack[][] pattern, or null if there isn't one
