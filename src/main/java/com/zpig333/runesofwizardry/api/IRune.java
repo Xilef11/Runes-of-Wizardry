@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.core.rune.PatternUtils;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.util.Utils;
 
@@ -121,6 +122,16 @@ public abstract class IRune {
 			}
 		}
 		return false;//no possibility made us return true
+	}
+	/**
+	 * This method checks if the pattern found in world is valid for this rune. /!\ DO NOT override unless you REALLY really know what you're doing!
+	 * If we ever switch to Java 8 only, this will no longer be necessary because of default methods in interfaces
+	 * @param thisPattern the pattern of this rune (possibly rotated), passed to avoid calling getPattern() in here all the time.
+	 * @param foundPattern the pattern found
+	 * @return true to validate the pattern
+	 */
+	public boolean patternMatches(ItemStack[][] thisPattern, ItemStack[][] foundPattern){
+		return PatternUtils.patternsEqual(thisPattern, foundPattern);
 	}
 	/**
 	 * Returns the unlocalized short (tooltip) description of this rune
