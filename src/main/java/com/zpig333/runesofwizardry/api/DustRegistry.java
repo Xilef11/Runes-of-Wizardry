@@ -2,6 +2,7 @@ package com.zpig333.runesofwizardry.api;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
@@ -34,7 +33,9 @@ public class DustRegistry {
 	//FUTURE use a custom IRecipe or something
 	//private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
 	/**List of all registered runes**/
-	private static BiMap<String,IRune> runes = HashBiMap.create();
+	private static Map<String,IRune> runes = new LinkedHashMap<String, IRune>();
+	//this is less safe than the BiMap thing, but will stay in registration order
+	private static Map<IRune,String> inverseRunes = new LinkedHashMap<IRune, String>();
 	/** The dust requirements for all runes**/
 	private static Map<String,RunesUtil.RuneStats> duststats = new HashMap<String, RunesUtil.RuneStats>();
 	//Special constants
@@ -101,7 +102,7 @@ public class DustRegistry {
 	 */
 	public static String getRuneID(IRune rune){
 		//inverse is stored in the bimap, so calling it all the time shouldn't be a performance issue
-		return runes.inverse().get(rune);
+		return inverseRunes.get(rune);
 	}
 	/**
 	 * Returns all registered rune IDs
@@ -191,6 +192,7 @@ public class DustRegistry {
 		//maybe do crash report (or skip registration)
 		if(runes.containsKey(name))throw new IllegalArgumentException("A rune with the id: "+name+" Already exists!");
 		runes.put(name,rune);
+		inverseRunes.put(rune, name);
 		duststats.put(name, stats);
 	}
 	/**
