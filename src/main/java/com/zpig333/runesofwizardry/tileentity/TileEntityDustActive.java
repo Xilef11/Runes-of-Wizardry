@@ -30,17 +30,24 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
  *
  */
 public class TileEntityDustActive extends TileEntityDustPlaced implements ITickable {
-
+	private long ticksExisted=0;
 	public TileEntityDustActive() {
 		super();
 	}
-	
+	/**
+	 * Returns the number of ticks since this was created
+	 * @return the number of times the update() method was called on this.
+	 */
+	public long ticksExisted(){
+		return ticksExisted;
+	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.server.gui.IUpdatePlayerListBox#update()
 	 */
 	@Override
 	public void update() {
 		if(!initialised)init();
+		ticksExisted++;
 		if(rune!=null)rune.update();
 	}
 	/* (non-Javadoc)
@@ -49,6 +56,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
+		ticksExisted = tagCompound.getLong("ticksExisted");
 		String runeID = tagCompound.getString("runeID");
 		//read the blockpos
 		Set<BlockPos> posSet = new LinkedHashSet<BlockPos>();
@@ -139,6 +147,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		tagCompound.setTag("Pattern", itemList);
 		tagCompound.setTag("Facing", new NBTTagString(rune.face.getName()));
 		}
+		tagCompound.setLong("ticksExisted", ticksExisted);
 	}
 	//
 	private class ArrayElement{

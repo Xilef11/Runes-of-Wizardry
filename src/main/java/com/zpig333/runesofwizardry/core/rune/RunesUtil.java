@@ -123,9 +123,11 @@ public class RunesUtil {
 		List<ItemStack> stacks= new LinkedList<ItemStack>();
 		for(EntityItem e: sacList){
 			ItemStack s =e.getEntityItem(); 
-			stacks.add(s);
 			if(s.getItem()==WizardryRegistry.sacrifice_negator){
 				negated=true;
+			}else{
+				//add all items that are not the sacrifice negator
+				stacks.add(ItemStack.copyItemStack(s));//copy the stack just in case a rune needs it
 			}
 		}
 		WizardryLogger.logInfo("Found sacrifice: "+Arrays.deepToString(stacks.toArray(new ItemStack[0])));
@@ -145,7 +147,7 @@ public class RunesUtil {
 			}
 			if(!sacList.isEmpty())world.playSoundAtEntity(player, "mob.chicken.plop", 0.5F, 0.8F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 		}
-		
+		sacrifice = stacks.isEmpty()? null : stacks.toArray(new ItemStack[stacks.size()]);
 		//find the "top-left" corner
 		BlockPos topLeft;
 		BlockPos entityPos;//BlockPos seems to only have ints, maybe we need to use something else?
