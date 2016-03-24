@@ -21,5 +21,6 @@ public final class References {
 		public static final String SACRIFICE = misc+"sacrifice";
 		public static final String OR = misc+"or";
 		public static final String NOTHING = misc+"nothing";
+		public static final String ANY_AMOUNT = misc+"anysize";
 	}
 }

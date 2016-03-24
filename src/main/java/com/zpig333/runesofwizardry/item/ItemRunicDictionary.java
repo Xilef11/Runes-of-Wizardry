@@ -69,7 +69,7 @@ public class ItemRunicDictionary extends WizardryItem {
 						if(i>0)tooltip.add(" "+StatCollector.translateToLocal(References.Lang.OR));
 						if(sac!=null){
 							for(ItemStack s:sac){
-								tooltip.add(" - "+(s.stackSize<10?" ":"")+s.stackSize+"x "+s.getDisplayName());
+								tooltip.add(" - "+(s.stackSize>=0? (s.stackSize<10?" ":"")+s.stackSize+"x " : StatCollector.translateToLocal(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
 							}
 						}else{
 							tooltip.add("   "+StatCollector.translateToLocal(References.Lang.NOTHING));

@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.rune.PatternUtils;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.util.Utils;
 
@@ -66,7 +65,7 @@ public abstract class IRune {
 	 * the z element is the offset on the axis normal to the pattern
 	 */
 	public abstract Vec3i getEntityPosition();
-	/** Returns the items needed to activate this Rune
+	/** Returns the items needed to activate this Rune. a negative stack size matches any amount
 	 * 
 	 * @return a 2D array of ItemStacks, where each row (first coordinate) is a possible combination of ItemStacks that activate the rune.
 	 */
@@ -91,7 +90,7 @@ public abstract class IRune {
 			List<ItemStack> wanted = Arrays.asList(possibility);
 			wanted = Utils.sortAndMergeStacks(wanted);
 			WizardryLogger.logInfo("Comparing sacrifices: "+Arrays.deepToString(wanted.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));
-			
+			//TODO tweak for wanted stacksize<0 to be able to match multiple stacks
 			if(wanted.size()==droppedItems.size()){//there is a chance for a match
 				boolean match=true;
 				for(int i=0;i<wanted.size()&&match;i++){
@@ -101,7 +100,7 @@ public abstract class IRune {
 							for(int sacID:OreDictionary.getOreIDs(droppedItems.get(i))){
 								if(found==-1)found=0;//both items have IDs, so we can check them using oreDict
 								if(oreID==sacID){
-									if(wanted.get(i).stackSize==droppedItems.get(i).stackSize){
+									if(wanted.get(i).stackSize==droppedItems.get(i).stackSize||wanted.get(i).stackSize<0){
 										found=1;
 										break;
 									}else{
@@ -112,9 +111,9 @@ public abstract class IRune {
 								if(found==1||found==2)break;
 							}
 						}
-						if(found==0 ||found==2|| (found==-1 && ! ItemStack.areItemStacksEqual(wanted.get(i), droppedItems.get(i))))match=false;
+						if(found==0 ||found==2|| (found==-1 && ! (ItemStack.areItemsEqual(wanted.get(i), droppedItems.get(i)) && ItemStack.areItemStackTagsEqual(wanted.get(i), droppedItems.get(i))&&(wanted.get(i).stackSize==droppedItems.get(i).stackSize||wanted.get(i).stackSize<0))))match=false;
 					}else{
-						if(! ItemStack.areItemStacksEqual(wanted.get(i), droppedItems.get(i)))match=false;
+						if(! (ItemStack.areItemsEqual(wanted.get(i), droppedItems.get(i)) && ItemStack.areItemStackTagsEqual(wanted.get(i), droppedItems.get(i))&&(wanted.get(i).stackSize==droppedItems.get(i).stackSize||wanted.get(i).stackSize<0)))match=false;
 					}
 					
 				}
@@ -124,14 +123,15 @@ public abstract class IRune {
 		return false;//no possibility made us return true
 	}
 	/**
-	 * This method checks if the pattern found in world is valid for this rune. /!\ DO NOT override unless you REALLY really know what you're doing!
+	 * This method checks if the pattern found in world is valid for this rune. This allows to add extra conditions to matching. /!\ DO NOT override unless you REALLY really know what you're doing!
 	 * If we ever switch to Java 8 only, this will no longer be necessary because of default methods in interfaces
 	 * @param thisPattern the pattern of this rune (possibly rotated), passed to avoid calling getPattern() in here all the time.
 	 * @param foundPattern the pattern found
 	 * @return true to validate the pattern
 	 */
-	public boolean patternMatches(ItemStack[][] thisPattern, ItemStack[][] foundPattern){
-		return PatternUtils.patternsEqual(thisPattern, foundPattern);
+	//TODO instead of direct pattern match, make this an "extra" condition (fix javadoc)
+	public boolean patternMatchesExtraCondition(ItemStack[][] thisPattern, ItemStack[][] foundPattern){
+		return true;
 	}
 	/**
 	 * Returns the unlocalized short (tooltip) description of this rune

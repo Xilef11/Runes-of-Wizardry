@@ -207,16 +207,16 @@ public class RunesUtil {
 		for(IRune rune : DustRegistry.getAllRunes()){
 			ItemStack[][] pattern = rune.getPattern();
 			//NORTH check
-			if(rune.patternMatches(pattern, dusts)) return new RuneFacing(rune, EnumFacing.NORTH);
+			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.NORTH);
 			//EAST
 			pattern = ArrayUtils.rotateCW(pattern);
-			if(rune.patternMatches(pattern, dusts)) return new RuneFacing(rune, EnumFacing.EAST);
+			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.EAST);
 			//SOUTH
 			pattern = ArrayUtils.rotateCW(pattern);
-			if(rune.patternMatches(pattern, dusts)) return new RuneFacing(rune, EnumFacing.SOUTH);
+			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.SOUTH);
 			//WEST
 			pattern = ArrayUtils.rotateCW(pattern);
-			if(rune.patternMatches(pattern, dusts)) return new RuneFacing(rune, EnumFacing.WEST);
+			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.WEST);
 		}
 		return null;
 	}
