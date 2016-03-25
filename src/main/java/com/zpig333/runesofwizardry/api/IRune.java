@@ -15,7 +15,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
@@ -90,35 +89,20 @@ public abstract class IRune {
 			List<ItemStack> wanted = Arrays.asList(possibility);
 			wanted = Utils.sortAndMergeStacks(wanted);
 			WizardryLogger.logInfo("Comparing sacrifices: "+Arrays.deepToString(wanted.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));
-			//TODO tweak for wanted stacksize<0 to be able to match multiple stacks
-			if(wanted.size()==droppedItems.size()){//there is a chance for a match
-				boolean match=true;
-				for(int i=0;i<wanted.size()&&match;i++){
-					if(allowOredictSacrifice()){
-						int found=-1;//will stay -1 if one of the two dosen't have oredict ids
-						for(int oreID:OreDictionary.getOreIDs(wanted.get(i))){
-							for(int sacID:OreDictionary.getOreIDs(droppedItems.get(i))){
-								if(found==-1)found=0;//both items have IDs, so we can check them using oreDict
-								if(oreID==sacID){
-									if(wanted.get(i).stackSize==droppedItems.get(i).stackSize||wanted.get(i).stackSize<0){
-										found=1;
-										break;
-									}else{
-										found=2;
-										break;//found the right item, but size didn't match
-									}
-								}
-								if(found==1||found==2)break;
-							}
-						}
-						if(found==0 ||found==2|| (found==-1 && ! (ItemStack.areItemsEqual(wanted.get(i), droppedItems.get(i)) && ItemStack.areItemStackTagsEqual(wanted.get(i), droppedItems.get(i))&&(wanted.get(i).stackSize==droppedItems.get(i).stackSize||wanted.get(i).stackSize<0))))match=false;
-					}else{
-						if(! (ItemStack.areItemsEqual(wanted.get(i), droppedItems.get(i)) && ItemStack.areItemStackTagsEqual(wanted.get(i), droppedItems.get(i))&&(wanted.get(i).stackSize==droppedItems.get(i).stackSize||wanted.get(i).stackSize<0)))match=false;
-					}
-					
-				}
-				if(match)return true;//if the whole list matched
+			boolean match=true;
+			int j=0;
+			for(int i=0;i<wanted.size()&&match;i++){
+				ItemStack wantStack = wanted.get(i);
+				boolean partial=false;
+				do{
+					ItemStack foundStack = droppedItems.get(i+j);
+					partial=Utils.stacksEqualWildcardSize(wantStack, foundStack, allowOredictSacrifice());
+					if(!partial&&j==0)match=false;
+					j++;
+				}while(wantStack.stackSize<0 && partial);//while the found list has items that match the current wildcard item
+				j-=2;
 			}
+			if(match)return true;//if the whole list matched
 		}
 		return false;//no possibility made us return true
 	}

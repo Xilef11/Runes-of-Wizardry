@@ -9,6 +9,7 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 
@@ -66,5 +67,38 @@ public class Utils {
 	        prefix = "minecraft";
 	    }
 	    return prefix;
+	}
+	/**
+	 * Checks if a "found" stack matches a "wanted" stack. a stack size <0 in the wanted stack will match any stack size in the found stack
+	 * @param wanted the ItemStack we want
+	 * @param found the ItemStack to check if it matches
+	 * @param oredict check for OreDictionnary match?
+	 * @return
+	 */
+	public static boolean stacksEqualWildcardSize(ItemStack wanted, ItemStack toCheck, boolean oredict){
+		//TODO implement this
+		if(oredict){
+			boolean haveIDs=false;
+			for(int wantedID:OreDictionary.getOreIDs(wanted)){
+				for(int checkID:OreDictionary.getOreIDs(toCheck)){
+					haveIDs=true;//both items have IDs, so we can check them using oreDict
+					if(wantedID==checkID){
+						if(wanted.stackSize==toCheck.stackSize||wanted.stackSize<0){
+							return true;
+						}
+					}
+				}
+			}
+			if(!haveIDs){
+				//recall without using oredict
+				return stacksEqualWildcardSize(wanted, toCheck, false);
+			}else{
+				return false;//both items have oredict IDs and none matched
+			}
+		}else{
+			if(!ItemStack.areItemsEqual(wanted, toCheck))return false;
+			if(!ItemStack.areItemStackTagsEqual(wanted, toCheck))return false;
+			return wanted.stackSize==toCheck.stackSize || wanted.stackSize<0;
+		}
 	}
 }
