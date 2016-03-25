@@ -26,7 +26,7 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
  */
 public abstract class RuneEntity{
 	/**
-	 * The pattern that was actually placed in the world to create this Rune. This contains real dusts instead of the special constants
+	 * The pattern that was actually placed in the world to create this Rune. This contains real dusts instead of the special constants, but is rotated so the "facing" side of this rune is on top
 	 */
 	public final ItemStack[][] placedPattern;
 	/** The direction the "top" of the pattern is facing**/

@@ -189,7 +189,7 @@ public class RunesUtil {
 		TileEntityDustActive entity = (TileEntityDustActive)te;
 		entity.setContents(contents);
 		//create the entity
-		RuneEntity runeEnt = match.rune.createRune(pattern,match.top, finder.getDustPositions(), entity);
+		RuneEntity runeEnt = match.rune.createRune(match.rotatedPattern,match.top, finder.getDustPositions(), entity);
 		entity.setRune(runeEnt);
 		for(BlockPos p:finder.getDustPositions()){
 			TileEntityDustPlaced t = (TileEntityDustPlaced)world.getTileEntity(p);
@@ -208,16 +208,16 @@ public class RunesUtil {
 		for(IRune rune : DustRegistry.getAllRunes()){
 			ItemStack[][] pattern = rune.getPattern();
 			//NORTH check
-			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.NORTH);
+			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(dusts)) return new RuneFacing(rune, EnumFacing.NORTH,dusts);
 			//EAST
 			dusts = ArrayUtils.rotateCCW(dusts);
-			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.EAST);
+			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(dusts)) return new RuneFacing(rune, EnumFacing.EAST,dusts);
 			//SOUTH
 			dusts = ArrayUtils.rotateCCW(dusts);
-			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.SOUTH);
+			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(dusts)) return new RuneFacing(rune, EnumFacing.SOUTH,dusts);
 			//WEST
 			dusts = ArrayUtils.rotateCCW(dusts);
-			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.WEST);
+			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(dusts)) return new RuneFacing(rune, EnumFacing.WEST,dusts);
 		}
 		return null;
 	}
@@ -287,9 +287,11 @@ public class RunesUtil {
 	private static class RuneFacing{
 		public IRune rune;
 		public EnumFacing top;
-		public RuneFacing(IRune rune, EnumFacing top){
+		public ItemStack[][] rotatedPattern;
+		public RuneFacing(IRune rune, EnumFacing top,ItemStack[][] rotatedPattern){
 			this.rune=rune;
 			this.top=top;
+			this.rotatedPattern=rotatedPattern;
 		}
 	}
 	/**

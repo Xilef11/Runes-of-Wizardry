@@ -32,6 +32,7 @@ import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 /**The TileEntity that holds placed dust
@@ -156,6 +157,11 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	//update the external connectors
 	public void updateExternalConnectors(){
 		List<int[]> result = new LinkedList<int[]>();
+		//FIXME worldObj null when destroyed by explosion
+		if(worldObj==null||pos==null){
+			WizardryLogger.logError("WorldObj or pos was null for TED at "+worldObj+" "+pos);
+			return;
+		}
 		if(worldObj.getBlockState(pos.north()).getBlock() == WizardryRegistry.dust_placed){
 			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.north());
 			if(ted!=null){

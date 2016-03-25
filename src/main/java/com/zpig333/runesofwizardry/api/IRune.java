@@ -112,12 +112,10 @@ public abstract class IRune {
 	/**
 	 * This method checks if the pattern found in world is valid for this rune. This allows to add extra conditions to matching. /!\ DO NOT override unless you REALLY really know what you're doing!
 	 * If we ever switch to Java 8 only, this will no longer be necessary because of default methods in interfaces
-	 * @param thisPattern the pattern of this rune (possibly rotated), passed to avoid calling getPattern() in here all the time.
-	 * @param foundPattern the pattern found
+	 * @param foundPattern the pattern found, rotated so the top matches the top of this rune's pattern
 	 * @return true to validate the pattern
 	 */
-	//TODO instead of direct pattern match, make this an "extra" condition (fix javadoc)
-	public boolean patternMatchesExtraCondition(ItemStack[][] thisPattern, ItemStack[][] foundPattern){
+	public boolean patternMatchesExtraCondition(ItemStack[][] foundPattern){
 		return true;
 	}
 	/**
