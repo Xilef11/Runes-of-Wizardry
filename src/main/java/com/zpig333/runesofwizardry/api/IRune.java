@@ -85,24 +85,27 @@ public abstract class IRune {
 		if(this.getSacrifice()==null)return true;//if there is absolutely no sacrifice wanted
 		if(droppedItems!=null)droppedItems = Utils.sortAndMergeStacks(droppedItems);
 		for(ItemStack[] possibility:this.getSacrifice()){
-			if(droppedItems==null && possibility==null)return true;//if no sacrifice is an option
-			List<ItemStack> wanted = Arrays.asList(possibility);
-			wanted = Utils.sortAndMergeStacks(wanted);
-			WizardryLogger.logInfo("Comparing sacrifices: "+Arrays.deepToString(wanted.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));
-			boolean match=true;
-			int j=0;
-			for(int i=0;i<wanted.size()&&match;i++){
-				ItemStack wantStack = wanted.get(i);
-				boolean partial=false;
-				do{
-					ItemStack foundStack = droppedItems.get(i+j);
-					partial=Utils.stacksEqualWildcardSize(wantStack, foundStack, allowOredictSacrifice());
-					if(!partial&&j==0)match=false;
-					j++;
-				}while(wantStack.stackSize<0 && partial);//while the found list has items that match the current wildcard item
-				j-=2;
+			if(droppedItems!=null){
+				List<ItemStack> wanted = Arrays.asList(possibility);
+				wanted = Utils.sortAndMergeStacks(wanted);
+				WizardryLogger.logInfo("Comparing sacrifices: "+Arrays.deepToString(wanted.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));
+				boolean match=true;
+				int j=0;
+				for(int i=0;i<wanted.size()&&match;i++){
+					ItemStack wantStack = wanted.get(i);
+					boolean partial=false;
+					do{
+						ItemStack foundStack = droppedItems.get(i+j);
+						partial=Utils.stacksEqualWildcardSize(wantStack, foundStack, allowOredictSacrifice());
+						if(!partial&&j==0)match=false;
+						j++;
+					}while(wantStack.stackSize<0 && partial);//while the found list has items that match the current wildcard item
+					j-=2;
+				}
+				if(match)return true;//if the whole list matched
+			}else if(possibility==null){
+				return true;//if no sacrifice is an option and we sacrificed nothing
 			}
-			if(match)return true;//if the whole list matched
 		}
 		return false;//no possibility made us return true
 	}

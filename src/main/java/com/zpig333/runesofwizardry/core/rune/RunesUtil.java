@@ -132,6 +132,7 @@ public class RunesUtil {
 		}
 		WizardryLogger.logInfo("Found sacrifice: "+Arrays.deepToString(stacks.toArray(new ItemStack[0])));
 		//check if sacrifice matches rune
+		if(stacks.isEmpty())stacks=null;
 		if(!negated){
 			if(!match.rune.sacrificeMatches(stacks)){
 				player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.badsacrifice", StatCollector.translateToLocal(match.rune.getName())));
@@ -147,7 +148,7 @@ public class RunesUtil {
 			}
 			if(!sacList.isEmpty())world.playSoundAtEntity(player, "mob.chicken.plop", 0.5F, 0.8F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 		}
-		sacrifice = stacks.isEmpty()? null : stacks.toArray(new ItemStack[stacks.size()]);
+		sacrifice = stacks==null? null : stacks.toArray(new ItemStack[stacks.size()]);
 		//find the "top-left" corner
 		BlockPos topLeft;
 		BlockPos entityPos;//BlockPos seems to only have ints, maybe we need to use something else?
@@ -209,13 +210,13 @@ public class RunesUtil {
 			//NORTH check
 			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.NORTH);
 			//EAST
-			pattern = ArrayUtils.rotateCW(pattern);
+			dusts = ArrayUtils.rotateCCW(dusts);
 			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.EAST);
 			//SOUTH
-			pattern = ArrayUtils.rotateCW(pattern);
+			dusts = ArrayUtils.rotateCCW(dusts);
 			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.SOUTH);
 			//WEST
-			pattern = ArrayUtils.rotateCW(pattern);
+			dusts = ArrayUtils.rotateCCW(dusts);
 			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(pattern, dusts)) return new RuneFacing(rune, EnumFacing.WEST);
 		}
 		return null;
