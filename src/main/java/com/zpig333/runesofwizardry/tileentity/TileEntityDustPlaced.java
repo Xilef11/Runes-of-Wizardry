@@ -157,7 +157,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	//update the external connectors
 	public void updateExternalConnectors(){
 		List<int[]> result = new LinkedList<int[]>();
-		//FIXME worldObj null when destroyed by explosion
+		//worldObj was null when destroyed by explosion
 		if(worldObj==null||pos==null){
 			WizardryLogger.logError("WorldObj or pos was null for TED at "+worldObj+" "+pos);
 			return;

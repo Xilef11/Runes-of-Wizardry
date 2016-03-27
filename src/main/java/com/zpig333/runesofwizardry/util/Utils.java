@@ -76,7 +76,6 @@ public class Utils {
 	 * @return
 	 */
 	public static boolean stacksEqualWildcardSize(ItemStack wanted, ItemStack toCheck, boolean oredict){
-		//TODO implement this
 		if(oredict){
 			boolean haveIDs=false;
 			for(int wantedID:OreDictionary.getOreIDs(wanted)){

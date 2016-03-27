@@ -14,7 +14,7 @@ public class ItemSacrificeNegator extends WizardryItem {
 	
 	public ItemSacrificeNegator() {
 		super();
-		this.setMaxStackSize(1);
+		this.setMaxStackSize(64);
 		this.setNoRepair();
 	}
 	/* (non-Javadoc)
