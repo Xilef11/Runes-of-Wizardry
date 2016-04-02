@@ -218,6 +218,8 @@ public class RunesUtil {
 			//WEST
 			dusts = ArrayUtils.rotateCCW(dusts);
 			if(PatternUtils.patternsEqual(pattern, dusts)&&rune.patternMatchesExtraCondition(dusts)) return new RuneFacing(rune, EnumFacing.WEST,dusts);
+			//rotate the dusts back to north - this is what was causing the wierdness...
+			dusts = ArrayUtils.rotateCCW(dusts);
 		}
 		return null;
 	}
