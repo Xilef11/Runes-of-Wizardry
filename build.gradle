@@ -131,6 +131,15 @@ processResources
     }
 }
 
+task deobfJar(type: Jar, dependsOn: 'jar') {
+    from "build/classes/main"
+	from "build/resources/main"
+    classifier "deobf"
+}
+artifacts {
+    archives deobfJar
+}
+
 //custom tasks and configs
 
 task('incrementBuildNumber') << {
@@ -184,7 +193,7 @@ github {
 		body = "Changelog:\n"+new File('changelog.md').getText()+"\n\nBuilt with Forge "+forgeVersion
 		assets = [
 				"build/libs/${project.archivesBaseName}-${project.version}.jar"
-				//,"build/libs/${project.archivesBaseName}-${project.version}-sources.jar"
+				,"build/libs/${project.archivesBaseName}-${project.version}-deobf.jar"
 		]
 	}else{
 		println "no GitHub token found as project.githubKey"
