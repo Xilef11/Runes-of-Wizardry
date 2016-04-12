@@ -1,3 +1,20 @@
+import java.util.regex.Pattern
+//--- build aliases : define a synonym here if you want a shortcut to run multiple targets
+ //https://caffeineinduced.wordpress.com/2015/01/25/run-a-list-of-gradle-tasks-in-specific-order/
+def buildAliases = [
+   'release' : ['setReleaseNumber', 'build', 'githubRelease', 'curseforge', 'incrementBuildNumber']
+   //'release' : ['setReleaseNumber', 'build']
+]
+def expandedTaskList = []
+ 
+gradle.startParameter.taskNames.each {
+   expandedTaskList << (buildAliases[it] ? buildAliases[it] : it)
+}
+ 
+gradle.startParameter.taskNames = expandedTaskList.flatten()
+ 
+println "\n\texpanded task list: ${gradle.startParameter.taskNames }\n"
+
 // For those who want the bleeding edge
 buildscript {
     repositories {
@@ -12,6 +29,8 @@ buildscript {
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'co.riiid.gradle' 
+apply plugin: "com.matthewprenger.cursegradle"
 
 /*
 // for people who want stable - not yet functional for MC 1.8.8 - we require the forgegradle 2.1 snapshot
@@ -19,12 +38,20 @@ plugins {
     id "net.minecraftforge.gradle.forge" version "2.0.2"
 }
 */
-version = "1.8.9-0.4.0"
+//MC stuff
+def mcVersion = "1.8.9"
+def majorVersion = "0"
+def minorVersion = "5"
+def bugfix = ".0"
+def devVersion = "-dev"
+def forgeVersion="1.8.9-11.15.1.1808"
+
+version = "${mcVersion}-${majorVersion}.${minorVersion}${bugfix}${devVersion}"
 group= "com.zpig333.runesofwizardry"
 archivesBaseName = project.name
 
 minecraft {
-    version = "1.8.9-11.15.1.1808"
+    version = forgeVersion
 
     runDir = "minecraft"
 	
@@ -97,4 +124,85 @@ processResources
        //we don't need the unused images in the builds
         //exclude 'dev_images/**'
     }
+}
+
+//custom tasks and configs
+
+task('incrementBuildNumber') << {
+//http://stackoverflow.com/questions/17448565/how-to-autoincrement-versioncode-in-android-gradle
+	def buildscript = file("build.gradle")
+	def manifestContent=""
+	def versionCode=""
+	if(bugfix.length()==0){
+		def pattern = Pattern.compile("minorVersion = \"(\\d+)\"")
+		def text = buildscript.getText()
+		def matcher = pattern.matcher(text)
+		matcher.find()
+		versionCode = Integer.parseInt(matcher.group(1))
+		manifestContent = matcher.replaceAll("minorVersion = \"" + ++versionCode + "\"")
+		println "incremented build number to ${mcVersion}-${majorVersion}.${versionCode}${bugfix}${devVersion}"
+	}else{
+		def pattern = Pattern.compile("bugfix = \"\\.(\\d+)\"")
+		def text = buildscript.getText()
+		def matcher = pattern.matcher(text)
+		matcher.find()
+		versionCode = Integer.parseInt(matcher.group(1))
+		manifestContent = matcher.replaceAll("bugfix = \"." + ++versionCode + "\"")
+		println "incremented build number to ${mcVersion}-${majorVersion}.${minorVersion}.${versionCode}${devVersion}"
+	}
+	
+    buildscript.write(manifestContent)
+	
+	//commit
+	"git commit -a -m \"Increment version to ${mcVersion}-${majorVersion}.${versionCode}${bugfix}${devVersion} after release\"".execute()
+	//"git push".execute()//push the updated build number
+}
+
+task gitPush << {
+		"git push".execute()
+}
+
+//https://github.com/riiid/gradle-github-plugin
+githubRelease.onlyIf{project.hasProperty('githubKey')}
+githubRelease.dependsOn(gitPush)//make sure everything is pushed before release so github tags the right thing
+github {
+	if(project.hasProperty('githubKey')){
+		//println "github: "+project.version
+		owner = 'Xilef11'
+		repo = 'Runes-of-Wizardry'
+		token = project.githubKey
+		tagName = 'v'+project.version
+		name=tagName
+		targetCommitish = 'master'
+		draft=false
+		prerelease = project.version.contains(devVersion)
+		body = "Changelog:\n"+new File('changelog.md').getText()+"\n\nBuilt with Forge "+forgeVersion
+		assets = [
+				"build/libs/${project.archivesBaseName}-${project.version}.jar"
+				//,"build/libs/${project.archivesBaseName}-${project.version}-sources.jar"
+		]
+	}else{
+		println "no GitHub token found as project.githubKey"
+	}
+}
+
+//https://github.com/matthewprenger/CurseGradle
+tasks.curseforge.onlyIf{project.hasProperty('curseKey')}
+curseforge {
+if(project.hasProperty('curseKey')){
+	  apiKey = project.curseKey
+	  project {
+		id = '235927'
+		addGameVersion project.minecraft.version
+		addGameVersion 'Java 8'
+		addGameVersion 'Java 7'
+		//version pulled from ForgeGradle includes java 6
+		changelogType='markdown'
+		changelog = file('changelog.md').getText()+"\n\nBuilt with Forge "+forgeVersion
+		releaseType = 'alpha' //!project.version.contains(devVersion) ? 'release' : 'alpha'
+		mainArtifact jar
+	  }
+  }else{
+	println "no CurseForge key found as project.curseKey"
+  }
 }
