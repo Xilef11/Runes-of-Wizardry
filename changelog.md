@@ -1,0 +1,7 @@
+- Fix metadata dust registration
+- added config to hide placeholder dusts
+- fixed broom dropping dusts in creative mode
+- Added command to import a pattern (from a rune or JSON file)
+- Added simple documentation and placing capabilities to Runic Dictionary
+- fixed a few crashes
+- tweaked the way things are handled in the API
