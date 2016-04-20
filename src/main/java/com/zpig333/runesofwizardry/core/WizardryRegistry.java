@@ -20,8 +20,6 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.api.IDustStorageBlock;
-import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
@@ -231,6 +229,7 @@ public class WizardryRegistry {
 						+ plantballs.getFullName(1), "inventory"));
 	}
 	/**Register the rendering/icon for all dusts that use the default model**/
+	@Deprecated
 	public static void registerDustItemRendering(){
 		//The location of the JSON for default dusts
 		ModelResourceLocation dustModel = new ModelResourceLocation(References.texture_path+"default_dusts","inventory");
@@ -256,15 +255,15 @@ public class WizardryRegistry {
 		//placed dust. for NEI/WAILA purposes
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dust_placed), 0, new ModelResourceLocation(References.texture_path+"dust_placed","inventory"));
 		//dust storage items
-		ModelResourceLocation location = new ModelResourceLocation(References.texture_path+"dust_storage","inventory");
-		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
-			if(b.getInstance() instanceof ADustStorageBlock){
-				IDust dust = b.getIDust();
-				for(int meta:dust.getMetaValues()){
-					ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b.getInstance()), meta, location);
-				}
-			}
-		}
+//		ModelResourceLocation location = new ModelResourceLocation(References.texture_path+"dust_storage","inventory");
+//		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
+//			if(b.getInstance() instanceof ADustStorageBlock){
+//				IDust dust = b.getIDust();
+//				for(int meta:dust.getMetaValues()){
+//					ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b.getInstance()), meta, location);
+//				}
+//			}
+//		}
 	}
 	//registers the recipes for all dusts
 	public static void registerDustInfusion() {
