@@ -164,6 +164,10 @@ public class WizardryRegistry {
 		GameRegistry.addShapedRecipe(new ItemStack(broom), "  X"," Y ", 'X',new ItemStack(Items.wheat),'Y',new ItemStack(Items.stick));
 		//book
 		GameRegistry.addShapelessRecipe(new ItemStack(WizardryRegistry.runic_dictionary), new ItemStack(Items.enchanted_book,1,OreDictionary.WILDCARD_VALUE),new ItemStack(WizardryRegistry.runic_staff));
+		//staff
+		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), " XY"," ZX","W  ",'X',new ItemStack(Items.gold_nugget),'Y',new ItemStack(Items.diamond),'Z',new ItemStack(Items.stick),'W',new ItemStack(Items.gold_ingot));
+		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), "YX ","XZ ","  W",'X',new ItemStack(Items.gold_nugget),'Y',new ItemStack(Items.diamond),'Z',new ItemStack(Items.stick),'W',new ItemStack(Items.gold_ingot));
+		
 	}
 
 

@@ -47,6 +47,7 @@ public class ItemRunicDictionary extends WizardryItem {
 		String id = getSelectedRuneID(stack);
 		if(id.length()>0){
 			IRune rune = DustRegistry.getRuneByID(id);
+			if(rune==null)return;//in case an invalid ID is stored
 			//name
 			tooltip.add(StatCollector.translateToLocal(References.Lang.SELECTED)+" "+StatCollector.translateToLocal(rune.getName()));
 			//description
