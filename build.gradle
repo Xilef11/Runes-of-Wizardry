@@ -55,6 +55,16 @@ version = "${mcVersion}-${majorVersion}.${minorVersion}${bugfix}${devVersion}"
 group= "com.zpig333.runesofwizardry"
 archivesBaseName = project.name
 
+//must be run before all other configs (but after initially setting the version)
+task('setReleaseNumber') {
+	//println "setRelease: config"
+	if(gradle.startParameter.taskNames.contains('setReleaseNumber')){
+		print "setReleaseNumber changing "+project.version+" to "
+		project.setProperty('version',"${mcVersion}-${majorVersion}.${minorVersion}${bugfix}")
+		println project.version
+	}
+}
+
 minecraft {
     version = forgeVersion
 
