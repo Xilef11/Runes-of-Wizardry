@@ -47,7 +47,7 @@ plugins {
 def mcVersion = "1.8.9"
 def majorVersion = "0"
 def minorVersion = "5"
-def bugfix = ".0"
+def bugfix = ".1"
 def devVersion = "-dev"
 def forgeVersion="1.8.9-11.15.1.1855"
 
@@ -157,6 +157,7 @@ task('incrementBuildNumber') << {
 	def buildscript = file("build.gradle")
 	def manifestContent=""
 	def versionCode=""
+	def buildnum=""
 	if(bugfix.length()==0){
 		def pattern = Pattern.compile("minorVersion = \"(\\d+)\"")
 		def text = buildscript.getText()
@@ -164,7 +165,8 @@ task('incrementBuildNumber') << {
 		matcher.find()
 		versionCode = Integer.parseInt(matcher.group(1))
 		manifestContent = matcher.replaceAll("minorVersion = \"" + ++versionCode + "\"")
-		println "incremented build number to ${mcVersion}-${majorVersion}.${versionCode}${bugfix}${devVersion}"
+		buildnum="${mcVersion}-${majorVersion}.${versionCode}${bugfix}${devVersion}"
+		println "incremented build number to ${buildnum}"
 	}else{
 		def pattern = Pattern.compile("bugfix = \"\\.(\\d+)\"")
 		def text = buildscript.getText()
@@ -172,13 +174,14 @@ task('incrementBuildNumber') << {
 		matcher.find()
 		versionCode = Integer.parseInt(matcher.group(1))
 		manifestContent = matcher.replaceAll("bugfix = \"." + ++versionCode + "\"")
-		println "incremented build number to ${mcVersion}-${majorVersion}.${minorVersion}.${versionCode}${devVersion}"
+		buildnum = "${mcVersion}-${majorVersion}.${minorVersion}.${versionCode}${devVersion}"
+		println "incremented build number to ${buildnum}"
 	}
 	
     buildscript.write(manifestContent)
 	
 	//commit
-	"git commit -a -m \"Increment version to ${mcVersion}-${majorVersion}.${versionCode}${bugfix}${devVersion} after release\"".execute()
+	"git commit -a -m \"Increment version to ${buildnum} after release\"".execute()
 	//"git push".execute()//push the updated build number
 }
 
