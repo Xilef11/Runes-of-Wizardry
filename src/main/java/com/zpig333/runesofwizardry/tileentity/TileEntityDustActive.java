@@ -89,6 +89,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			stacks[a.row][a.col]=a.stack;
 		}
 		EnumFacing facing = EnumFacing.byName(tagCompound.getString("Facing"));
+		boolean renders = tagCompound.getBoolean("renderActive");
 		//re-create the rune
 		IRune rune = DustRegistry.getRuneByID(runeID);
 		if(rune==null){
@@ -96,6 +97,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			this.rune=null;//this should make the rune do nothing.
 		}else{
 			RuneEntity entity = rune.createRune(stacks,facing, posSet, this);
+			entity.renderActive=renders;
 			this.rune=entity;
 			//init should get called on the first tick to set up the other dust blocks
 			this.rune.readFromNBT(tagCompound);
@@ -146,6 +148,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		}
 		tagCompound.setTag("Pattern", itemList);
 		tagCompound.setTag("Facing", new NBTTagString(rune.face.getName()));
+		tagCompound.setBoolean("renderActive", rune.renderActive);
 		}
 		tagCompound.setLong("ticksExisted", ticksExisted);
 	}

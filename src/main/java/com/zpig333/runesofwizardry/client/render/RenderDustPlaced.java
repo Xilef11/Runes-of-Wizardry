@@ -8,6 +8,7 @@ package com.zpig333.runesofwizardry.client.render;
 import java.awt.Color;
 import java.util.Set;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -34,10 +35,51 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 	@Override
 	public void renderTileEntityAt(TileEntityDustPlaced tileEntity, double relativeX,
 			double relativeY, double relativeZ, float partialTicks, int blockDamageProgress) {
-//		if (!(tileEntity instanceof TileEntityDustPlaced)) return;//should not happen
-//		TileEntityDustPlaced teDust = (TileEntityDustPlaced)tileEntity;
-		TileEntityDustPlaced teDust = tileEntity;
+		final TileEntityDustPlaced teDust = tileEntity;
 
+//		GL11.glPushMatrix();
+//		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+//		//move the reference point from the player to the position of the block
+//		GlStateManager.translate(relativeX, relativeY, relativeZ);
+//		//grab the tesselator
+//		final Tessellator t = Tessellator.getInstance();
+//		final WorldRenderer w = t.getWorldRenderer();
+//		//setup flags
+////		GL11.glDisable(GL11.GL_LIGHTING);//we want lighting (?)
+////		GL11.glEnable(GL11.GL_BLEND);//we want transparency blending(?)
+//		GL11.glDisable(GL11.GL_CULL_FACE);//visible from both faces (might solve being invisible)
+//		GL11.glDepthMask(false);//hidden behind other objects
+//		Runnable draw = new Runnable(){
+//
+//			@Override
+//			public void run() {
+//				//drawing logic here
+//				//the central spots
+//				int[][] colors = teDust.getCenterColors();
+//				for(int i=0;i<colors.length;i++){
+//					for(int j=0;j<colors[i].length;j++){
+//						if(colors[i][j]>=0){//negative colors indicate no rendering
+//							drawCenterVertex(i, j, colors[i][j], w, t);
+//						}
+//					}
+//				}
+//				///the internal connectors
+//				Set<int[]> connectors = teDust.getInternalConnectors();
+//				for(int[] i : connectors){
+//					drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], w, t);
+//				}
+//				//external connectors
+//				for(int[]i:teDust.getExternalConnectors()){
+//					drawExternalConnector(i[0], i[1], i[2], EnumFacing.getFront(i[3]), w, t);
+//				}
+//			}
+//
+//		};
+//		//drawAsGlint(r);
+//		runRendererWithGlint(draw, 8);
+//		GL11.glPopAttrib();
+//		GL11.glPopMatrix();
+//		if(true)return;
 		try{
 			//save GL state
 			GL11.glPushMatrix();
@@ -46,8 +88,8 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 			//move the reference point from the player to the position of the block
 			GlStateManager.translate(relativeX, relativeY, relativeZ);
 			//grab the tesselator
-			Tessellator tesselator = Tessellator.getInstance();
-			WorldRenderer worldrenderer = tesselator.getWorldRenderer();
+			final Tessellator tesselator = Tessellator.getInstance();
+			final WorldRenderer worldrenderer = tesselator.getWorldRenderer();
 			//set texture
 			this.bindTexture(dustTexture);
 
@@ -56,26 +98,39 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 			GL11.glEnable(GL11.GL_BLEND);//we want transparency blending(?)
 			GL11.glDisable(GL11.GL_CULL_FACE);//visible from both faces (might solve being invisible)
 			GL11.glDepthMask(false);//hidden behind other objects
-			//drawing logic here
-			//the central spots
-			int[][] colors = teDust.getCenterColors();
-			for(int i=0;i<colors.length;i++){
-				for(int j=0;j<colors[i].length;j++){
-					if(colors[i][j]>=0){//negative colors indicate no rendering
-						drawCenterVertex(i, j, colors[i][j], worldrenderer, tesselator);
+			//drawing logic wrapped in a runnable
+			Runnable draw = new Runnable(){
+
+				@Override
+				public void run() {
+					//drawing logic here
+					//the central spots
+					int[][] colors = teDust.getCenterColors();
+					for(int i=0;i<colors.length;i++){
+						for(int j=0;j<colors[i].length;j++){
+							if(colors[i][j]>=0){//negative colors indicate no rendering
+								drawCenterVertex(i, j, colors[i][j], worldrenderer, tesselator);
+							}
+						}
+					}
+					///the internal connectors
+					Set<int[]> connectors = teDust.getInternalConnectors();
+					for(int[] i : connectors){
+						drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], worldrenderer, tesselator);
+					}
+					//external connectors
+					for(int[]i:teDust.getExternalConnectors()){
+						drawExternalConnector(i[0], i[1], i[2], EnumFacing.getFront(i[3]), worldrenderer, tesselator);
 					}
 				}
-			}
-			///the internal connectors
-			Set<int[]> connectors = teDust.getInternalConnectors();
-			for(int[] i : connectors){
-				drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], worldrenderer, tesselator);
-			}
-			//external connectors
-			for(int[]i:teDust.getExternalConnectors()){
-				drawExternalConnector(i[0], i[1], i[2], EnumFacing.getFront(i[3]), worldrenderer, tesselator);
-			}
 
+			};
+			draw.run();
+			//draw FX if its an active rune
+			if(teDust.isInRune()&&teDust.getRune().renderActive){
+				//Note: lowering the scale "slows down" the animation
+				runRendererWithGlint(draw, 1.5F);
+			}
 		}finally{//restore GL stuff
 			GL11.glPopAttrib();
 			GL11.glPopMatrix();
@@ -212,4 +267,99 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 		tes.draw();
 	}
 
+	/** Render an 'item glint' over the specified quad with the currently bound texture for clipping.
+	 * @param x X coordinate of the top-left
+	 * @param y Y coordinate of the top-left
+	 * @param u Texture X coordinate, in pixels
+	 * @param v Texture Y coordinate, in pixels
+	 * @param width The width of the quad to draw, in pixels
+	 * @param height The height of the quad to draw, in pixels
+	 * @see ItemRenderer#renderItem(net.minecraft.entity.EntityLivingBase, ItemStack, int, net.minecraftforge.client.IItemRenderer.ItemRenderType) */
+	/** {@link ResourceLocation} for item glints (textures/misc/enchanted_item_glint.png)
+	 * @see #drawTexturedGlintRect(int, int, int, int, int, int) */
+	public static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
+	/**
+	* Runs the given renderer wrapped in a Runnable as a renderer for the
+	* enchantment glint effect. This only works if the current texture is not
+	* changed during execution of the runnable. Also, the colour should not
+	* be changed during rendering, or it will lead to some weird results.
+	* Basically, the only things that should be done are Matrix transformations
+	* and rendering calls of vertices.
+	* <p>
+	* If some of the settings are changed during the rendering call or if the
+	* texture scale is wrong, this can lead to pretty weird results. If you use
+	* this method you need to play around with the scale until you find a good
+	* value.
+	* <p>
+	* Usage:
+	*
+	* <pre>
+	* anyRenderer(x, y, z);
+	* runRendererWithGlint(new Runnable() {
+	*     public void run() {
+	*         anyRenderer(x, y, z);
+	*     }
+	* });
+	* </pre>
+	* <p>
+	* <strong>
+	* <em>The WorldRenderer needs to be off when this method is called!</em>
+	* </strong><br>
+	* <em>This discards the current texture</em>
+	*
+	* @param renderer
+	* the renderer to run as a glint renderer.
+	* @param textureScale
+	* the scale of the texture. This sets the scale of the enchantment glint
+	* texture parts. Some renderers need a value here in order to
+	* display properly. You need to experiment a bit in order to find a good
+	* value. For vanilla models, the standard value is 8.
+	*/
+	//http://www.minecraftforge.net/forum/index.php/topic,29902.0.html
+	public void runRendererWithGlint(Runnable renderer, float textureScale) {
+		GlStateManager.depthMask(false);
+		//GlStateManager.depthFunc(GL11.GL_EQUAL);
+		GlStateManager.disableLighting();
+		GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
+		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1f);
+		//enableBlend(true);
+		GL11.glEnable(GL11.GL_BLEND);
+		//bindTexture(new ResourceLocation("textures/misc/enchanted_item_glint.png"));
+		this.bindTexture(RES_ITEM_GLINT);
+		
+		GL11.glPushMatrix(); // Push MODEL
+		GlStateManager.matrixMode(GL11.GL_TEXTURE);
+		GL11.glPushMatrix(); // Push TEXTURE
+		GL11.glScalef(textureScale, textureScale, textureScale);
+		float f = Minecraft.getSystemTime() % 3000L / 3000.0F / textureScale;
+		GL11.glTranslatef(f, 0.0F, 0.0F);
+		GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
+		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+		//setColor(new Color(0.5, 0.2, 0.8));
+		GL11.glColor3d(0.5, 0.2, 0.8);
+		renderer.run();
+		GL11.glPopMatrix(); // Pop MODEL
+
+		GL11.glPushMatrix(); // Push MODEL
+		GlStateManager.matrixMode(GL11.GL_TEXTURE);
+		GL11.glPopMatrix(); // Pop TEXTURE
+		GL11.glPushMatrix(); // Push TEXTURE
+		GL11.glScalef(textureScale, textureScale, textureScale);
+		float f1 = Minecraft.getSystemTime() % 4873L / 4873.0F / textureScale;
+		GL11.glTranslatef(-f1, 0.0F, 0.0F);
+		GL11.glRotatef(10.0F, 0.0F, 0.0F, 1.0F);
+		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+		//setColor(new Color(0.5, 0.2, 0.8));
+		GL11.glColor3d(0.5, 0.2, 0.8);
+		renderer.run();
+		GL11.glPopMatrix(); // Pop MODEL
+		GlStateManager.matrixMode(GL11.GL_TEXTURE);
+		GL11.glPopMatrix(); // Pop TEXTURE
+
+		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.enableLighting();
+		GlStateManager.depthFunc(GL11.GL_LEQUAL);
+		GlStateManager.depthMask(true);
+	}
 }

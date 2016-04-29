@@ -37,6 +37,8 @@ public abstract class RuneEntity{
 	public final Set<BlockPos> dustPositions;
 	/** the IRune that created this RuneEntity**/
 	public final IRune creator;
+	/**Should this rune have effects when active?**/
+	public boolean renderActive=true;
 	/**
 	 * This constructor is called during normal activation of a rune, and may be called with null values
 	 * @param actualPattern the pattern of ItemStacks that was found
