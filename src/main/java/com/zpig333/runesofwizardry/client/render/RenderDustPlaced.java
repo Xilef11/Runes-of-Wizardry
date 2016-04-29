@@ -33,53 +33,9 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 	 * see http://github.com/TheGreyGhost/MinecraftByExample/ MBE21 TESR
 	 */ 
 	@Override
-	public void renderTileEntityAt(TileEntityDustPlaced tileEntity, double relativeX,
+	public void renderTileEntityAt(final TileEntityDustPlaced tileEntity, double relativeX,
 			double relativeY, double relativeZ, float partialTicks, int blockDamageProgress) {
-		final TileEntityDustPlaced teDust = tileEntity;
 
-//		GL11.glPushMatrix();
-//		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
-//		//move the reference point from the player to the position of the block
-//		GlStateManager.translate(relativeX, relativeY, relativeZ);
-//		//grab the tesselator
-//		final Tessellator t = Tessellator.getInstance();
-//		final WorldRenderer w = t.getWorldRenderer();
-//		//setup flags
-////		GL11.glDisable(GL11.GL_LIGHTING);//we want lighting (?)
-////		GL11.glEnable(GL11.GL_BLEND);//we want transparency blending(?)
-//		GL11.glDisable(GL11.GL_CULL_FACE);//visible from both faces (might solve being invisible)
-//		GL11.glDepthMask(false);//hidden behind other objects
-//		Runnable draw = new Runnable(){
-//
-//			@Override
-//			public void run() {
-//				//drawing logic here
-//				//the central spots
-//				int[][] colors = teDust.getCenterColors();
-//				for(int i=0;i<colors.length;i++){
-//					for(int j=0;j<colors[i].length;j++){
-//						if(colors[i][j]>=0){//negative colors indicate no rendering
-//							drawCenterVertex(i, j, colors[i][j], w, t);
-//						}
-//					}
-//				}
-//				///the internal connectors
-//				Set<int[]> connectors = teDust.getInternalConnectors();
-//				for(int[] i : connectors){
-//					drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], w, t);
-//				}
-//				//external connectors
-//				for(int[]i:teDust.getExternalConnectors()){
-//					drawExternalConnector(i[0], i[1], i[2], EnumFacing.getFront(i[3]), w, t);
-//				}
-//			}
-//
-//		};
-//		//drawAsGlint(r);
-//		runRendererWithGlint(draw, 8);
-//		GL11.glPopAttrib();
-//		GL11.glPopMatrix();
-//		if(true)return;
 		try{
 			//save GL state
 			GL11.glPushMatrix();
@@ -105,7 +61,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 				public void run() {
 					//drawing logic here
 					//the central spots
-					int[][] colors = teDust.getCenterColors();
+					int[][] colors = tileEntity.getCenterColors();
 					for(int i=0;i<colors.length;i++){
 						for(int j=0;j<colors[i].length;j++){
 							if(colors[i][j]>=0){//negative colors indicate no rendering
@@ -114,12 +70,12 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 						}
 					}
 					///the internal connectors
-					Set<int[]> connectors = teDust.getInternalConnectors();
+					Set<int[]> connectors = tileEntity.getInternalConnectors();
 					for(int[] i : connectors){
 						drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], worldrenderer, tesselator);
 					}
 					//external connectors
-					for(int[]i:teDust.getExternalConnectors()){
+					for(int[]i:tileEntity.getExternalConnectors()){
 						drawExternalConnector(i[0], i[1], i[2], EnumFacing.getFront(i[3]), worldrenderer, tesselator);
 					}
 				}
@@ -127,7 +83,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 			};
 			draw.run();
 			//draw FX if its an active rune
-			if(teDust.isInRune()&&teDust.getRune().renderActive){
+			if(tileEntity.isInRune()&&tileEntity.getRune().renderActive){
 				//Note: lowering the scale "slows down" the animation
 				runRendererWithGlint(draw, 1.5F);
 			}
@@ -267,16 +223,6 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 		tes.draw();
 	}
 
-	/** Render an 'item glint' over the specified quad with the currently bound texture for clipping.
-	 * @param x X coordinate of the top-left
-	 * @param y Y coordinate of the top-left
-	 * @param u Texture X coordinate, in pixels
-	 * @param v Texture Y coordinate, in pixels
-	 * @param width The width of the quad to draw, in pixels
-	 * @param height The height of the quad to draw, in pixels
-	 * @see ItemRenderer#renderItem(net.minecraft.entity.EntityLivingBase, ItemStack, int, net.minecraftforge.client.IItemRenderer.ItemRenderType) */
-	/** {@link ResourceLocation} for item glints (textures/misc/enchanted_item_glint.png)
-	 * @see #drawTexturedGlintRect(int, int, int, int, int, int) */
 	public static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 	/**
 	* Runs the given renderer wrapped in a Runnable as a renderer for the

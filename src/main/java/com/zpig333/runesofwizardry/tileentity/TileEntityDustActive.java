@@ -100,12 +100,13 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			entity.renderActive=renders;
 			this.rune=entity;
 			//init should get called on the first tick to set up the other dust blocks
+			initialised=false;
 			this.rune.readFromNBT(tagCompound);
 		}
 	}
 	private boolean initialised=false;
 	private void init(){
-		if(initialised || rune==null || worldObj==null)return;
+		if(initialised || worldObj==null)return;
 		for(BlockPos p : rune.dustPositions){
 			TileEntity te = worldObj.getTileEntity(p);
 			if(te instanceof TileEntityDustPlaced){

@@ -230,7 +230,6 @@ public class RunesUtil {
 	public static void deactivateRune(RuneEntity rune){
 		ItemStack[][] contents = rune.entity.getContents();
 		BlockPos pos = rune.getPos();
-		rune.renderActive=false;//XXX there is a wierd desync with this FSR
 		World world = rune.entity.getWorld();
 		world.removeTileEntity(pos);
 		world.setBlockState(pos,WizardryRegistry.dust_placed.getDefaultState());
@@ -245,7 +244,6 @@ public class RunesUtil {
 			TileEntity te1 = world.getTileEntity(p);
 			if(te1 instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te1).setRune(null);
-				//FIXME this does not seem to update
 				world.markBlockForUpdate(pos);//must sync the rune change with the client
 			}else{
 				throw new IllegalStateException("TileEntity wasn't placed dust: "+te1);

@@ -422,6 +422,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				contents[coords[0]][coords[1]] = ItemStack.loadItemStackFromNBT(tag);
 			}
 		}
+		if(!tagCompound.getBoolean("inRune"))this.rune=null;
 	}
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
@@ -438,7 +439,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 			}
 		}
 		tagCompound.setTag("Inventory", itemList);
-
+		tagCompound.setBoolean("inRune", isInRune());
 	}
 	//NOT using the following field methods
 	@Override
