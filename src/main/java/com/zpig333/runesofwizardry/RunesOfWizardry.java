@@ -21,6 +21,7 @@ import com.zpig333.runesofwizardry.core.GuiHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.event.BlockEventHandler;
+import com.zpig333.runesofwizardry.event.PickupEventHandler;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
@@ -58,6 +59,8 @@ public class RunesOfWizardry {
 		//proxy.createDustStorageStateMappers();
 		//to set the placed dust block as unbreakable
 		MinecraftForge.EVENT_BUS.register(new BlockEventHandler());
+		//to place picked up dust in pouches
+		MinecraftForge.EVENT_BUS.register(new PickupEventHandler());
 	}
 
 	@Mod.EventHandler

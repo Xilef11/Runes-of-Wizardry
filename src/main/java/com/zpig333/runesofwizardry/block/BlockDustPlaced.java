@@ -34,6 +34,7 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.item.ItemBroom;
+import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
@@ -308,7 +309,11 @@ public class BlockDustPlaced extends Block{
 				return false;
 			}
 		}
-
+		//convert dust pouch to dust
+		if(playerStack.getItem() instanceof ItemDustPouch&& (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){//XXX could be switched to a capability
+			playerStack = ((ItemDustPouch)playerStack.getItem()).getDustStack(playerStack, 1);
+			if(playerStack==null || playerStack.stackSize<1)return false;
+		}
 		if(playerStack.getItem() instanceof IDust && (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){
 			//place dust in the inventory
 			ItemStack newItem=null;

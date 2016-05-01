@@ -153,8 +153,8 @@ public abstract class IDust extends Item {
 			}else{
 				world.setBlockState(pos.up(), WizardryRegistry.dust_placed.getDefaultState());
 				IBlockState state =  world.getBlockState(pos.up());
-				state.getBlock().onBlockActivated(world, pos.up(), state, player, side, hitX, hitY, hitZ);
-				return true;
+				return state.getBlock().onBlockActivated(world, pos.up(), state, player, side, hitX, hitY, hitZ);
+				//return true;
 			}
 		}
 	}

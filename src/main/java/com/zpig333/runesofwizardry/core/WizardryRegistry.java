@@ -15,6 +15,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
@@ -24,6 +25,7 @@ import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
 import com.zpig333.runesofwizardry.item.ItemBroom;
+import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
 import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
@@ -34,6 +36,7 @@ import com.zpig333.runesofwizardry.item.ItemSacrificeNegator;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 import com.zpig333.runesofwizardry.item.dust.RWDusts;
+import com.zpig333.runesofwizardry.recipe.RecipeDustPouch;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
@@ -49,6 +52,7 @@ public class WizardryRegistry {
 	public static Item nether_paste, lavastone;
 	public static Item runic_dictionary;
 	public static Item runic_staff;
+	public static Item dust_pouch;
 	public static Item broom;
 	public static Item sacrifice_negator;
 	public static IDust dust_dead;
@@ -107,6 +111,8 @@ public class WizardryRegistry {
 				return other.getItem()==thisDust.getItem();
 			}
 		};
+		
+		dust_pouch = new ItemDustPouch();
 	}
 
 	/**Registers all our dusts with the DustRegistry**/
@@ -167,7 +173,9 @@ public class WizardryRegistry {
 		//staff
 		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), " XY"," ZX","W  ",'X',new ItemStack(Items.gold_nugget),'Y',new ItemStack(Items.diamond),'Z',new ItemStack(Items.stick),'W',new ItemStack(Items.gold_ingot));
 		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), "YX ","XZ ","  W",'X',new ItemStack(Items.gold_nugget),'Y',new ItemStack(Items.diamond),'Z',new ItemStack(Items.stick),'W',new ItemStack(Items.gold_ingot));
-		
+		//pouches
+		GameRegistry.addRecipe(new ShapedOreRecipe(dust_pouch, " X ","YZY"," Y ",'X',new ItemStack(Items.string),'Y',new ItemStack(Blocks.wool),'Z',new ItemStack(runic_staff)));
+		GameRegistry.addRecipe(new RecipeDustPouch());
 	}
 
 
@@ -231,6 +239,18 @@ public class WizardryRegistry {
 				1,
 				new ModelResourceLocation(References.texture_path
 						+ plantballs.getFullName(1), "inventory"));
+		
+		//pouches - maybe we can do something to handle custom dust models?
+		ModelLoader.setCustomModelResourceLocation(
+				WizardryRegistry.dust_pouch,
+				0,
+				new ModelResourceLocation(References.texture_path
+						+ ((ItemDustPouch)dust_pouch).getName()+"_empty", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(
+				WizardryRegistry.dust_pouch,
+				1,
+				new ModelResourceLocation(References.texture_path
+						+ ((ItemDustPouch)dust_pouch).getName()+"_full", "inventory"));
 	}
 	/**Register the rendering/icon for all dusts that use the default model**/
 	@Deprecated
