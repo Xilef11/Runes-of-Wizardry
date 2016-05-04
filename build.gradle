@@ -49,7 +49,7 @@ def majorVersion = "0"
 def minorVersion = "6"
 def bugfix = ".0"
 def devVersion = "-dev"
-def forgeVersion="1.8.9-11.15.1.1855"
+def forgeVersion="1.8.9-11.15.1.1875"
 
 version = "${mcVersion}-${majorVersion}.${minorVersion}${bugfix}${devVersion}"
 group= "com.zpig333.runesofwizardry"
@@ -228,7 +228,7 @@ if(project.hasProperty('curseKey')){
 		//version pulled from ForgeGradle includes java 6
 		changelogType='markdown'
 		changelog = file('changelog.md').getText()+"\n\nBuilt with Forge "+forgeVersion
-		releaseType = 'alpha' //!project.version.contains(devVersion) ? 'release' : 'alpha'
+		releaseType = !project.version.contains(devVersion) ? 'beta' : 'alpha'
 		mainArtifact jar
 	  }
   }else{
