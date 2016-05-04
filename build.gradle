@@ -46,8 +46,8 @@ plugins {
 //MC stuff
 def mcVersion = "1.8.9"
 def majorVersion = "0"
-def minorVersion = "5"
-def bugfix = ".1"
+def minorVersion = "6"
+def bugfix = ".0"
 def devVersion = "-dev"
 def forgeVersion="1.8.9-11.15.1.1855"
 
@@ -114,9 +114,11 @@ dependencies {
 	deobfCompile "mezz.jei:jei_1.8.9:2.28.16.184"
 }
 
-	tasks.withType(JavaCompile) {
-        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-    }
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+	sourceCompatibility=1.6
+	targetCompatibility=1.7
+}
 
 processResources
 {
