@@ -130,7 +130,6 @@ public class ItemDustPouch extends WizardryItem {
 	 */
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int renderPass) {
-		//TODO maybe a different model when there is no dust in
 		ItemStack dust = getDustStack(stack, 0);
 		if(dust==null || renderPass==0)return super.getColorFromItemStack(stack, renderPass);
 		return dust.getItem().getColorFromItemStack(dust, renderPass-1);

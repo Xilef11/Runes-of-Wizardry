@@ -13,7 +13,6 @@ public class RecipeDustPouch implements IRecipe {
 	//http://www.minecraftforge.net/forum/index.php/topic,23133.0.html
 	@Override
 	public boolean matches(InventoryCrafting inv, World worldIn) {
-		// TODO Auto-generated method stub
 		ItemStack pouch=null;
 		ItemStack dust = null;//only 1 dust stack for now
 		for(int i=0;i<inv.getSizeInventory();i++){
