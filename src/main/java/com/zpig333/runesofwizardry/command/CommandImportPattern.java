@@ -225,11 +225,13 @@ public class CommandImportPattern implements ICommand {
 										//n=player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.stackSize, s.getTagCompound());
 										for(int i=0;i<player.inventory.getSizeInventory()&&n>0;i++){
 											ItemStack playerStack = player.inventory.getStackInSlot(i);
+											if(playerStack==null)continue;
 											//if the item matches
 											if(ItemStack.areItemsEqual(s, playerStack)&&ItemStack.areItemStackTagsEqual(s, playerStack)){
 												int originalSize = playerStack.stackSize;
 												int remainder = originalSize-n;
 												playerStack.stackSize= remainder>0? remainder : 0;
+												if(playerStack.stackSize==0)player.inventory.removeStackFromSlot(i);
 												n-= remainder>0? n : originalSize;
 											}else if(playerStack.getItem() instanceof ItemDustPouch){												ItemDustPouch pouch = (ItemDustPouch)playerStack.getItem();
 												ItemStack dust = pouch.getDustStack(playerStack, n);
