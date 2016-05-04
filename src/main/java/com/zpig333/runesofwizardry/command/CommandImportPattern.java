@@ -38,6 +38,7 @@ import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.PatternUtils;
+import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.RayTracer;
@@ -219,11 +220,32 @@ public class CommandImportPattern implements ICommand {
 									ItemStack s = stacks[col];
 									int n=0;
 									if(s!=null){
-										//n is the number of matching items
-										n=player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.stackSize, s.getTagCompound());
+										n=s.stackSize;
+										//n is the number of wanted items
+										//n=player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.stackSize, s.getTagCompound());
+										for(int i=0;i<player.inventory.getSizeInventory()&&n>0;i++){
+											ItemStack playerStack = player.inventory.getStackInSlot(i);
+											//if the item matches
+											if(ItemStack.areItemsEqual(s, playerStack)&&ItemStack.areItemStackTagsEqual(s, playerStack)){
+												int originalSize = playerStack.stackSize;
+												int remainder = originalSize-n;
+												playerStack.stackSize= remainder>0? remainder : 0;
+												n-= remainder>0? n : originalSize;
+											}else if(playerStack.getItem() instanceof ItemDustPouch){												ItemDustPouch pouch = (ItemDustPouch)playerStack.getItem();
+												ItemStack dust = pouch.getDustStack(playerStack, n);
+												if(ItemStack.areItemsEqual(s,dust)&&ItemStack.areItemStackTagsEqual(s, dust)){
+													int originalSize = dust.stackSize;
+													n-= originalSize;
+												}else{
+													//re-add the dust if it didn't match
+													pouch.addDust(playerStack, dust);
+												}
+											}
+											
+										}
 									}
 									//XXX this will update rendering all the time so it might be slow
-									if(n>0||s==null||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), ItemStack.copyItemStack(s));
+									if(n==0||s==null||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), ItemStack.copyItemStack(s));
 								}
 							}
 							//XXX maybe send a message if dust is missing
