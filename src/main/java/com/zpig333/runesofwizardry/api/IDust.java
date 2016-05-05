@@ -161,21 +161,6 @@ public abstract class IDust extends Item {
 		}
 	}
 
-	/** sets the item's color based on the itemstack
-	 * 
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack stack, int pass)
-	{
-		//if there is a custom icon registered, return the same thing as Item
-		if(hasCustomIcon())return 16777215;
-		//otherwise, return the colors of the dust
-		IDust dust = DustRegistry.getDustFromItemStack(stack);
-		return pass == 0 ? dust.getPrimaryColor(stack) : dust.getSecondaryColor(stack);
-
-	}
-
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#getUnlocalizedName(net.minecraft.item.ItemStack)
 	 */

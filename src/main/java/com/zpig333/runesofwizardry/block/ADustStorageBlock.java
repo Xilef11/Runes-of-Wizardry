@@ -32,7 +32,9 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 		setSoundType(SoundType.SAND);
 		setHarvestLevel("shovel", 0);
 		setUnlocalizedName(modID+"_"+getName());
-		GameRegistry.registerBlock(this, DustStorageItemBlock.class, modID+":"+getName());
+		//XXX figure this out
+		//GameRegistry.registerBlock(this, DustStorageItemBlock.class, modID+":"+getName());
+		GameRegistry.registerBlock(this, modID+":"+getName());
 	}
 
 	/* (non-Javadoc)
@@ -98,23 +100,6 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 	@Override
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.CUTOUT;
-	}
-
-	@Override
-	public int colorMultiplier(IBlockAccess worldIn, BlockPos pos,int tintindex) {
-		IBlockState state = worldIn.getBlockState(pos);
-		Block b = state.getBlock();
-		if(b instanceof IDustStorageBlock){
-			IDust dust = ((IDustStorageBlock)b).getIDust();
-			int meta = this.getMetaFromState(state);
-			ItemStack stack = new ItemStack(dust,1,meta);
-			if(tintindex==0){
-				return dust.getPrimaryColor(stack);
-			}else if(tintindex == 1){
-				return dust.getSecondaryColor(stack);
-			}
-		}
-		return super.colorMultiplier(worldIn, pos, tintindex);
 	}
 
 }

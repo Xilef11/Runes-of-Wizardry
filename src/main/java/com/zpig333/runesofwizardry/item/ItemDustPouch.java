@@ -127,15 +127,5 @@ public class ItemDustPouch extends WizardryItem {
 		pouch.setItemDamage(0);
 		return contents!=null && amount>0;
 	}
-	/* (non-Javadoc)
-	 * @see net.minecraft.item.Item#getColorFromItemStack(net.minecraft.item.ItemStack, int)
-	 */
-	@Override
-	public int getColorFromItemStack(ItemStack stack, int renderPass) {
-		ItemStack dust = getDustStack(stack, 0);
-		if(dust==null || renderPass==0)return super.getColorFromItemStack(stack, renderPass);
-		return dust.getItem().getColorFromItemStack(dust, renderPass-1);
-	}
-
 
 }

@@ -55,6 +55,7 @@ public class RunesOfWizardry {
 			WizardryRegistry.initItemRenders();
 			//WizardryRegistry.registerDustItemRendering();
 			WizardryRegistry.registerBlockRenders();
+			WizardryRegistry.registerColors();
 		}
 		//proxy.createDustStorageStateMappers();
 		//to set the placed dust block as unbreakable

@@ -20,6 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -51,7 +52,6 @@ public class BlockDustPlaced extends Block{
 	public BlockDustPlaced(){
 		super(Material.CIRCUITS);
 		this.setSoundType(SoundType.SAND);
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
 		this.disableStats();
 		this.setBlockUnbreakable();
 		this.setUnlocalizedName(References.modid+"_dust_placed");
@@ -123,8 +123,8 @@ public class BlockDustPlaced extends Block{
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source,	BlockPos pos) {
+		return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
 	}
 
 
@@ -290,14 +290,15 @@ public class BlockDustPlaced extends Block{
 
 		int slotID = TileEntityDustPlaced.getSlotIDfromPosition(row, col);
 
-		ItemStack playerStack = playerIn.getCurrentEquippedItem();
+		ItemStack playerStack = playerIn.getActiveItemStack();//XXX update
 		ItemStack dustStack = tileDust.getStackInSlot(slotID);
 
 		if(playerStack==null){
 			if (dustStack !=null){
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
-				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
+				//XXX worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
+				worldIn.playSound(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F, false);
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 					dustStack = tileDust.getStackInSlot(slotID);//re-grab the stack in case the rune changed it
@@ -328,7 +329,8 @@ public class BlockDustPlaced extends Block{
 				newItem.stackSize=1;
 			}
 			tileDust.setInventorySlotContents(slotID, newItem);
-			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getPlaceSound(), (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
+			worldIn.playSound(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getPlaceSound(),SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F,false);
+			
 			if(tileDust.isInRune()){
 				tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 			}
@@ -339,7 +341,7 @@ public class BlockDustPlaced extends Block{
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 				}
-				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
+				worldIn.playSound(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(),SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F,false);
 				if(playerIn.capabilities.isCreativeMode)RunesUtil.killDusts(worldIn, pos);
 				this.breakBlock(worldIn, pos, state);
 				worldIn.setBlockToAir(pos);
@@ -410,7 +412,7 @@ public class BlockDustPlaced extends Block{
 			if (dustStack !=null){
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
-				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
+				worldIn.playSound(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(),SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F,false);
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 				}else{

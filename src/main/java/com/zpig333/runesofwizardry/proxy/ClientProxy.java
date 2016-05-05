@@ -4,8 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
@@ -16,9 +18,14 @@ import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
+import com.zpig333.runesofwizardry.block.DustStorageBlockColor;
 import com.zpig333.runesofwizardry.client.render.RenderDustPlaced;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.DustItemColor;
+import com.zpig333.runesofwizardry.item.DustPouchItemColor;
+import com.zpig333.runesofwizardry.item.dust.DustInert;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 public class ClientProxy extends CommonProxy{
@@ -53,6 +60,7 @@ public class ClientProxy extends CommonProxy{
 	public void registerDustItemRender(IDust dustclass) {
 		if(!dustclass.hasCustomIcon()){
 			List<ItemStack> subDusts = new LinkedList<ItemStack>();
+			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(DustItemColor.instance(), dustclass);
 			//Things must (probably) be registered for all meta values
 			dustclass.getSubItems(dustclass, RunesOfWizardry.wizardry_tab, subDusts);
 			for(ItemStack i:subDusts){
@@ -68,6 +76,8 @@ public class ClientProxy extends CommonProxy{
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dustBlock.getInstance()), meta, blockModel);
 		}
 		registerDustBlockStateMapper(dustBlock);
+		//colors
+		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(DustStorageBlockColor.instance(), dustBlock);
 	}
 	private void registerDustBlockStateMapper(ADustStorageBlock block){
 		WizardryLogger.logInfo("Creating StateMapper for "+block.getName());

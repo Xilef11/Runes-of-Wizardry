@@ -11,12 +11,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.client.audio.Sound;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
@@ -24,6 +27,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.client.event.sound.SoundEvent;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
@@ -146,7 +150,8 @@ public class RunesUtil {
 				}
 				e.setDead();
 			}
-			if(!sacList.isEmpty())world.playSoundAtEntity(player, "mob.chicken.plop", 0.5F, 0.8F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+			//if(!sacList.isEmpty())world.playSoundAtEntity(player, "mob.chicken.plop", 0.5F, 0.8F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+			if(!sacList.isEmpty())world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.AMBIENT, 0.5F, 0.8F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F, false);
 		}
 		sacrifice = stacks==null? null : stacks.toArray(new ItemStack[stacks.size()]);
 		//find the "top-left" corner
