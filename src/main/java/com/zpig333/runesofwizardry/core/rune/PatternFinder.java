@@ -11,8 +11,8 @@ import java.util.Set;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.core.WizardryLogger;
@@ -28,16 +28,16 @@ public class PatternFinder {
 	private World world;
 	private DustElement initial;
 	private BlockPos	northMost,
-						eastMost,
-						southMost,
-						westMost;
+	eastMost,
+	southMost,
+	westMost;
 	private Map<BlockPos, DustElement> map;	
 	public PatternFinder(World world,BlockPos initialBlock){
-			this.world=world;
-			initial = new DustElement(initialBlock);
-			map = new HashMap<BlockPos, DustElement>();
-			map.put(initialBlock, initial);
-			northMost=eastMost=westMost=southMost=initialBlock;
+		this.world=world;
+		initial = new DustElement(initialBlock);
+		map = new HashMap<BlockPos, DustElement>();
+		map.put(initialBlock, initial);
+		northMost=eastMost=westMost=southMost=initialBlock;
 	}
 	/**
 	 * Launches the search for a dust pattern
@@ -70,7 +70,7 @@ public class PatternFinder {
 				//get the neighbour in the appropriate direction
 				BlockPos next = current.pos.offset(face);
 				DustElement neigh = new DustElement(next);
-				
+
 				/*this means some blocks (corners between two "live" blocks) will get checked twice,
 				 * but ensures we will detect all dusts correctly (and also cleans up the map)
 				 */
@@ -82,7 +82,7 @@ public class PatternFinder {
 			}
 		}
 	}
-	
+
 	public ItemStack[][] toArray(){
 		BlockPos nwCorner = getNW();
 		BlockPos seCorner = getSE();
@@ -96,7 +96,7 @@ public class PatternFinder {
 			for(int j=0;j<blocksX;j++){//for each column of blocks
 				BlockPos currentPos = nwCorner.east(j).south(i);
 				DustElement elem = map.get(currentPos);
-				
+
 				for(int r=0;r<TileEntityDustPlaced.ROWS;r++){//each row in the contents
 					for(int c=0;c<TileEntityDustPlaced.COLS;c++){//each column in the contents
 						int row = i*TileEntityDustPlaced.ROWS + r;
@@ -107,7 +107,7 @@ public class PatternFinder {
 				}
 			}
 		}
-		
+
 		return result;
 	}
 	/**returns the north-west corner of the detected pattern**/
@@ -144,7 +144,7 @@ public class PatternFinder {
 		private final BlockPos pos;
 		//contents of the TileEntityDustPlaced
 		private final ItemStack[][] dusts;
-		
+
 		private DustElement(BlockPos pos){
 			this.pos=pos;
 			TileEntity ent = world.getTileEntity(pos);
@@ -166,10 +166,10 @@ public class PatternFinder {
 		protected BlockPos getPos(){
 			return pos;
 		}
-		
+
 		protected DustElement getNeighbour(EnumFacing face){
 			return map.get(pos.offset(face));
 		}
-		
+
 	}
 }

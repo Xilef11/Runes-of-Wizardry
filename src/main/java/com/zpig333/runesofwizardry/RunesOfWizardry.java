@@ -99,7 +99,7 @@ public class RunesOfWizardry {
 				DustDyeUpdatePacket.class, 3, Side.CLIENT);
 		networkWrapper.registerMessage(ChatUtils.PacketNoSpamChat.Handler.class, ChatUtils.PacketNoSpamChat.class, 4, Side.CLIENT);
 	}
-	
+
 	/** the tab in the Creative inventory for our stuff**/
 	public static CreativeTabs wizardry_tab = new CreativeTabs(References.modid+"_main") {
 		@Override

@@ -5,13 +5,12 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -111,7 +110,7 @@ public class WizardryRegistry {
 				return other.getItem()==thisDust.getItem();
 			}
 		};
-		
+
 		dust_pouch = new ItemDustPouch();
 	}
 
@@ -239,7 +238,7 @@ public class WizardryRegistry {
 				1,
 				new ModelResourceLocation(References.texture_path
 						+ plantballs.getFullName(1), "inventory"));
-		
+
 		//pouches - maybe we can do something to handle custom dust models?
 		ModelLoader.setCustomModelResourceLocation(
 				WizardryRegistry.dust_pouch,
@@ -279,15 +278,15 @@ public class WizardryRegistry {
 		//placed dust. for NEI/WAILA purposes
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dust_placed), 0, new ModelResourceLocation(References.texture_path+"dust_placed","inventory"));
 		//dust storage items
-//		ModelResourceLocation location = new ModelResourceLocation(References.texture_path+"dust_storage","inventory");
-//		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
-//			if(b.getInstance() instanceof ADustStorageBlock){
-//				IDust dust = b.getIDust();
-//				for(int meta:dust.getMetaValues()){
-//					ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b.getInstance()), meta, location);
-//				}
-//			}
-//		}
+		//		ModelResourceLocation location = new ModelResourceLocation(References.texture_path+"dust_storage","inventory");
+		//		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
+		//			if(b.getInstance() instanceof ADustStorageBlock){
+		//				IDust dust = b.getIDust();
+		//				for(int meta:dust.getMetaValues()){
+		//					ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b.getInstance()), meta, location);
+		//				}
+		//			}
+		//		}
 	}
 	//registers the recipes for all dusts
 	public static void registerDustInfusion() {

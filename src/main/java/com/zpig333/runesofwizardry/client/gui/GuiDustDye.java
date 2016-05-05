@@ -9,7 +9,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 
 import org.apache.logging.log4j.Level;
 import org.lwjgl.input.Keyboard;
@@ -150,7 +149,7 @@ public class GuiDustDye extends GuiContainer {
 		textColor.mouseClicked(mouseX-posX, mouseY-posY, clickedButton);
 		//colors
 		chooseColor(mouseX-posX,mouseY-posY,clickedButton);
-		
+
 		try {
 			super.mouseClicked(mouseX, mouseY, clickedButton);
 		} catch (IOException e) {
@@ -170,22 +169,22 @@ public class GuiDustDye extends GuiContainer {
 		if(row==4)row=3;
 		WizardryLogger.logInfo("Selected a color, col: "+col+" row: "+row);
 		int color=0;
-//		final int white=0xffffff,
-//				orange=0xd87f33,
-//				magenta=0xb24cd8,
-//				light_blue=0x6699d8,
-//				yellow=0xe5e533,
-//				lime=0x7fcc19,
-//				pink=0xf27fa5,
-//				gray=0x4c4c4c,
-//				silver=0x999999,
-//				cyan=0x4c7f99,
-//				purple=0x7f3fb2,
-//				blue=0x334cb2,
-//				brown=0x664c33,
-//				green=0x667f33,
-//				red=0x993333,
-//				black=0x191919;
+		//		final int white=0xffffff,
+		//				orange=0xd87f33,
+		//				magenta=0xb24cd8,
+		//				light_blue=0x6699d8,
+		//				yellow=0xe5e533,
+		//				lime=0x7fcc19,
+		//				pink=0xf27fa5,
+		//				gray=0x4c4c4c,
+		//				silver=0x999999,
+		//				cyan=0x4c7f99,
+		//				purple=0x7f3fb2,
+		//				blue=0x334cb2,
+		//				brown=0x664c33,
+		//				green=0x667f33,
+		//				red=0x993333,
+		//				black=0x191919;
 		EnumDyeColor[] colors = EnumDyeColor.values();
 		int id = row*4 + col;
 		color=colors[id].getMapColor().colorValue;
@@ -198,18 +197,18 @@ public class GuiDustDye extends GuiContainer {
 				case 2: color=
 			}
 		}else if(row==1){
-			
+
 		}else if(row==2){
-			
+
 		}else if(row==3){
-			
+
 		}else{
 			WizardryLogger.logError("Wrong row number in GuiDustDye#chooseColor");
 		}
-		*/
+		 */
 		textColor.setText(Integer.toHexString(color));
 		updateColor();
-		
+
 	}
 	/** runs while the GUI is open
 	 * 

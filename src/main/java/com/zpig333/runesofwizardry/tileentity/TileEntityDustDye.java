@@ -6,9 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
 
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
@@ -54,7 +51,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	public int getSizeInventory() {
 		return contents.length;
 	}
-	
+
 	@Override
 	public ItemStack getStackInSlot(int i1) {
 		return contents[i1];

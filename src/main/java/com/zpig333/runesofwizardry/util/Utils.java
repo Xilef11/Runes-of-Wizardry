@@ -58,15 +58,15 @@ public class Utils {
 	public static String getCurrentModID(){
 		ModContainer mc = Loader.instance().activeModContainer();
 		String prefix;
-	    if (mc != null)
-	    {
-	        prefix = mc.getModId().toLowerCase();
-	    }
-	    else // no mod container,  assume minecraft
-	    {
-	        prefix = "minecraft";
-	    }
-	    return prefix;
+		if (mc != null)
+		{
+			prefix = mc.getModId().toLowerCase();
+		}
+		else // no mod container,  assume minecraft
+		{
+			prefix = "minecraft";
+		}
+		return prefix;
 	}
 	/**
 	 * Checks if a "found" stack matches a "wanted" stack. a stack size <0 in the wanted stack will match any stack size in the found stack

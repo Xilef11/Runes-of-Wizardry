@@ -29,7 +29,7 @@ public class ItemBroom extends WizardryItem {
 	public String getName(){
 		return name;
 	}
-	
+
 	@Override
 	public EnumAction getItemUseAction(ItemStack stack) {
 		return EnumAction.BLOCK;

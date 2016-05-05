@@ -21,7 +21,7 @@ public class BlockEventHandler {
 	 * 
 	 */
 	public BlockEventHandler() {
-		
+
 	}
 	/**
 	 *  Used to set placed dust block as unbreakable
@@ -34,7 +34,7 @@ public class BlockEventHandler {
 			event.setCanceled(true);
 			block.onBlockClicked(event.world, event.pos, event.getPlayer());
 		}
-		
+
 	}
 
 }

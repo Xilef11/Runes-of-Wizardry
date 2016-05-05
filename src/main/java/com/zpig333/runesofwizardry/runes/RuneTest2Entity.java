@@ -6,16 +6,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 public class RuneTest2Entity extends RuneEntity {
-	
+
 	public RuneTest2Entity(ItemStack[][] actualPattern,EnumFacing face, Set<BlockPos> dusts,TileEntityDustActive entity,IRune creator) {
 		super(actualPattern,face, dusts, entity,creator);
 	}
@@ -35,5 +35,5 @@ public class RuneTest2Entity extends RuneEntity {
 			ticks=0;
 		}
 	}
-	
+
 }

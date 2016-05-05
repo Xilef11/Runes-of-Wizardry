@@ -53,7 +53,7 @@ public class DustRegistry {
 			IDust otherDust = getDustFromItemStack(other); 
 			return otherDust.isMagicDust(other) && !(otherDust instanceof DustPlaceholder);
 		}
-		
+
 	};
 	/** represents any dust **/
 	public static final IDust ANY_DUST = new DustPlaceholder("any", 0x00ffff, false){
@@ -176,10 +176,10 @@ public class DustRegistry {
 				GameRegistry.addShapedRecipe(new ItemStack(dustBlock.getInstance(), 1, i), 
 						new Object[]{"XXX","XXX","XXX",'X',dust});
 				GameRegistry.addShapelessRecipe(new ItemStack(dustclass,9,i), new ItemStack(dustBlock.getInstance(), 1, i));
-				
+
 			}
 		}
-		
+
 	}
 	/** Validates and registers a rune in the RunesOfWizardry system.
 	 * 

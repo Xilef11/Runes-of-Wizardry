@@ -44,16 +44,16 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
 		Map<?, ?> map = ReflectionHelper.getPrivateValue(NBTTagCompound.class,src,"tagMap","field_74784_a");
 		for(Map.Entry<?,?> e: map.entrySet()){
 			//if(o instanceof Map.Entry){
-				//Map.Entry e = (Map.Entry)o;
-				//key is String, value is NBTBase
-				JsonObject tag = new JsonObject();
-				String key = (String)e.getKey();
-				NBTBase val = (NBTBase)e.getValue();
-				byte type = val.getId();
-				tag.addProperty("type", type);
-				JsonElement value = context.serialize(val);
-				tag.add("tag",value);
-				tagMap.add(key, tag);
+			//Map.Entry e = (Map.Entry)o;
+			//key is String, value is NBTBase
+			JsonObject tag = new JsonObject();
+			String key = (String)e.getKey();
+			NBTBase val = (NBTBase)e.getValue();
+			byte type = val.getId();
+			tag.addProperty("type", type);
+			JsonElement value = context.serialize(val);
+			tag.add("tag",value);
+			tagMap.add(key, tag);
 			//}
 		}
 		object.add("tagMap", tagMap);
@@ -85,42 +85,42 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
 		//there may be a better way
 		switch(type){
 		case 0:
-            value= context.deserialize(tag, NBTTagEnd.class);
-            break;
-        case 1:
-            value = context.deserialize(tag, NBTTagByte.class);
-            break;
-        case 2:
-        	value = context.deserialize(tag, NBTTagShort.class);
-        	break;
-        case 3:
-        	value = context.deserialize(tag, NBTTagInt.class);
-        	break;
-        case 4:
-        	value = context.deserialize(tag, NBTTagLong.class);
-        	break;
-        case 5:
-        	value = context.deserialize(tag, NBTTagFloat.class);
-        	break;
-        case 6:
-        	value = context.deserialize(tag, NBTTagDouble.class);
-        	break;
-        case 7:
-        	value = context.deserialize(tag, NBTTagByteArray.class);
-        	break;
-        case 8:
-        	value = context.deserialize(tag, NBTTagString.class);
-        	break;
-        case 9:
-        	value = context.deserialize(tag, NBTTagList.class);
-        	break;
-        case 10:
-        	value = context.deserialize(tag, NBTTagCompound.class);
-        	break;
-        case 11:
-        	value = context.deserialize(tag, NBTTagIntArray.class);
-        	break;
-        default: value = context.deserialize(tag, NBTBase.class);
+			value= context.deserialize(tag, NBTTagEnd.class);
+			break;
+		case 1:
+			value = context.deserialize(tag, NBTTagByte.class);
+			break;
+		case 2:
+			value = context.deserialize(tag, NBTTagShort.class);
+			break;
+		case 3:
+			value = context.deserialize(tag, NBTTagInt.class);
+			break;
+		case 4:
+			value = context.deserialize(tag, NBTTagLong.class);
+			break;
+		case 5:
+			value = context.deserialize(tag, NBTTagFloat.class);
+			break;
+		case 6:
+			value = context.deserialize(tag, NBTTagDouble.class);
+			break;
+		case 7:
+			value = context.deserialize(tag, NBTTagByteArray.class);
+			break;
+		case 8:
+			value = context.deserialize(tag, NBTTagString.class);
+			break;
+		case 9:
+			value = context.deserialize(tag, NBTTagList.class);
+			break;
+		case 10:
+			value = context.deserialize(tag, NBTTagCompound.class);
+			break;
+		case 11:
+			value = context.deserialize(tag, NBTTagIntArray.class);
+			break;
+		default: value = context.deserialize(tag, NBTBase.class);
 		}
 		return value;
 	}

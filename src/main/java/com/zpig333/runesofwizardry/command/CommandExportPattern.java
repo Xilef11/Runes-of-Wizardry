@@ -16,14 +16,10 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.event.ClickEvent;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
 
 import org.apache.logging.log4j.Level;
@@ -108,7 +104,7 @@ public class CommandExportPattern implements ICommand {
 			ItemStack[][] pattern = finder.toArray();
 			//Rotate the array so the direction the player is facing is top
 			pattern = PatternUtils.rotateToFacing(pattern, playerFacing);
-			
+
 			//save pattern to JSON
 			File output;
 			try {

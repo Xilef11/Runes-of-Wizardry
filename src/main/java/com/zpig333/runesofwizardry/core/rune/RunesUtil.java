@@ -15,13 +15,11 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -55,7 +53,7 @@ public class RunesUtil {
 		List<ItemStack> dusts = new LinkedList<ItemStack>();
 		//rows must be a multiple of 4
 		if(rows % TileEntityDustPlaced.ROWS !=0) throw new InvalidRuneException(rune,"The number of rows ("+rows+") is not a multiple of "+TileEntityDustPlaced.ROWS);
-		
+
 		StringBuilder badRowsBuilder = new StringBuilder();
 		for(int i=0;i<rows;i++){
 			ItemStack[] row = pattern[i];
@@ -156,17 +154,17 @@ public class RunesUtil {
 		Vec3i offset = match.rune.getEntityPosition();
 		switch(match.top){
 		case NORTH: topLeft = finder.getNW();
-					entityPos = topLeft.add(offset.getX(), 0, offset.getY());
-			break;
+		entityPos = topLeft.add(offset.getX(), 0, offset.getY());
+		break;
 		case EAST: topLeft = finder.getNE();
-				   entityPos = topLeft.add(-(offset.getY()), 0, offset.getX());
-			break;
+		entityPos = topLeft.add(-(offset.getY()), 0, offset.getX());
+		break;
 		case SOUTH: topLeft = finder.getSE();
-					entityPos = topLeft.add(-(offset.getX()),0,-(offset.getY()));
-			break;
+		entityPos = topLeft.add(-(offset.getX()),0,-(offset.getY()));
+		break;
 		case WEST:topLeft = finder.getSW();
-				  entityPos = topLeft.add(offset.getY(),0,-(offset.getX()));
-			break;
+		entityPos = topLeft.add(offset.getY(),0,-(offset.getX()));
+		break;
 		default: throw new IllegalStateException("A rune is facing in an invalid direction: "+match.rune.getName()+" at "+pos+" facing "+match.top);
 		}
 		WizardryLogger.logInfo("Top-left block is :"+topLeft+" and entity Pos is: "+entityPos);
@@ -182,7 +180,7 @@ public class RunesUtil {
 		ItemStack[][] contents = toReplace.getContents();
 		//place the rune
 		world.removeTileEntity(entityPos);
-		
+
 		world.setBlockState(entityPos, WizardryRegistry.dust_placed.getDefaultState().withProperty(BlockDustPlaced.PROPERTYACTIVE, true));
 		TileEntity te = world.getTileEntity(entityPos);
 		if(!(te instanceof TileEntityDustActive))throw new IllegalStateException("TileEntity not formed!");

@@ -65,6 +65,6 @@ public class DustStorageItemBlock extends ItemBlock {
 	public int getMetadata(int damage) {
 		return damage;
 	}
-	
+
 
 }

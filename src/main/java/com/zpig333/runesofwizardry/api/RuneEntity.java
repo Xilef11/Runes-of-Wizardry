@@ -12,9 +12,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
@@ -63,7 +62,7 @@ public abstract class RuneEntity{
 	public final String getRuneID(){
 		return DustRegistry.getRuneID(creator);
 	}
-	
+
 	/**
 	 * This will be called once when the rune is activated.
 	 * @param player The player that activated the rune
@@ -106,7 +105,7 @@ public abstract class RuneEntity{
 		RunesUtil.killAllDustsInRune(this);
 		RunesUtil.deactivateRune(this);
 	}
-	
+
 	//Normal TE methods
 	/* (non-Javadoc)
 	 * @see net.minecraft.server.gui.IUpdatePlayerListBox#update()
@@ -128,5 +127,5 @@ public abstract class RuneEntity{
 	public BlockPos getPos() {
 		return entity.getPos();
 	}
-	
+
 }

@@ -8,7 +8,7 @@ import net.minecraft.block.Block;
  *
  */
 public interface IDustStorageBlock {
-	
+
 	/** Returns the block implementing this interface
 	 * 
 	 * @return this

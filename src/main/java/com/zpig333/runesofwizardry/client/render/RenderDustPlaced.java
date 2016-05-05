@@ -11,7 +11,6 @@ import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
@@ -225,42 +224,42 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 
 	public static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 	/**
-	* Runs the given renderer wrapped in a Runnable as a renderer for the
-	* enchantment glint effect. This only works if the current texture is not
-	* changed during execution of the runnable. Also, the colour should not
-	* be changed during rendering, or it will lead to some weird results.
-	* Basically, the only things that should be done are Matrix transformations
-	* and rendering calls of vertices.
-	* <p>
-	* If some of the settings are changed during the rendering call or if the
-	* texture scale is wrong, this can lead to pretty weird results. If you use
-	* this method you need to play around with the scale until you find a good
-	* value.
-	* <p>
-	* Usage:
-	*
-	* <pre>
-	* anyRenderer(x, y, z);
-	* runRendererWithGlint(new Runnable() {
-	*     public void run() {
-	*         anyRenderer(x, y, z);
-	*     }
-	* });
-	* </pre>
-	* <p>
-	* <strong>
-	* <em>The WorldRenderer needs to be off when this method is called!</em>
-	* </strong><br>
-	* <em>This discards the current texture</em>
-	*
-	* @param renderer
-	* the renderer to run as a glint renderer.
-	* @param textureScale
-	* the scale of the texture. This sets the scale of the enchantment glint
-	* texture parts. Some renderers need a value here in order to
-	* display properly. You need to experiment a bit in order to find a good
-	* value. For vanilla models, the standard value is 8.
-	*/
+	 * Runs the given renderer wrapped in a Runnable as a renderer for the
+	 * enchantment glint effect. This only works if the current texture is not
+	 * changed during execution of the runnable. Also, the colour should not
+	 * be changed during rendering, or it will lead to some weird results.
+	 * Basically, the only things that should be done are Matrix transformations
+	 * and rendering calls of vertices.
+	 * <p>
+	 * If some of the settings are changed during the rendering call or if the
+	 * texture scale is wrong, this can lead to pretty weird results. If you use
+	 * this method you need to play around with the scale until you find a good
+	 * value.
+	 * <p>
+	 * Usage:
+	 *
+	 * <pre>
+	 * anyRenderer(x, y, z);
+	 * runRendererWithGlint(new Runnable() {
+	 *     public void run() {
+	 *         anyRenderer(x, y, z);
+	 *     }
+	 * });
+	 * </pre>
+	 * <p>
+	 * <strong>
+	 * <em>The WorldRenderer needs to be off when this method is called!</em>
+	 * </strong><br>
+	 * <em>This discards the current texture</em>
+	 *
+	 * @param renderer
+	 * the renderer to run as a glint renderer.
+	 * @param textureScale
+	 * the scale of the texture. This sets the scale of the enchantment glint
+	 * texture parts. Some renderers need a value here in order to
+	 * display properly. You need to experiment a bit in order to find a good
+	 * value. For vanilla models, the standard value is 8.
+	 */
 	//http://www.minecraftforge.net/forum/index.php/topic,29902.0.html
 	public void runRendererWithGlint(Runnable renderer, float textureScale) {
 		GlStateManager.depthMask(false);
@@ -272,7 +271,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 		GL11.glEnable(GL11.GL_BLEND);
 		//bindTexture(new ResourceLocation("textures/misc/enchanted_item_glint.png"));
 		this.bindTexture(RES_ITEM_GLINT);
-		
+
 		GL11.glPushMatrix(); // Push MODEL
 		GlStateManager.matrixMode(GL11.GL_TEXTURE);
 		GL11.glPushMatrix(); // Push TEXTURE

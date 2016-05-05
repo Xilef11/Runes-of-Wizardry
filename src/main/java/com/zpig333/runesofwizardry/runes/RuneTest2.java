@@ -10,10 +10,10 @@ import java.util.Set;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -36,7 +36,7 @@ public class RuneTest2 extends IRune {
 	public String getName() {
 		return "Rune of JSON";
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.api.IRune#getPattern()
 	 */
@@ -78,7 +78,7 @@ public class RuneTest2 extends IRune {
 	@Override
 	public ItemStack[][] getSacrifice() {
 		return new ItemStack[][]{{
-				new ItemStack(Items.redstone),new ItemStack(Items.arrow),new ItemStack(Items.redstone)
+			new ItemStack(Items.redstone),new ItemStack(Items.arrow),new ItemStack(Items.redstone)
 		}};
 	}
 

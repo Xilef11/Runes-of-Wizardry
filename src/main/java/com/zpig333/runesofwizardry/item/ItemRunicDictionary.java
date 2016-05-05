@@ -8,9 +8,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import org.apache.logging.log4j.Level;
@@ -85,7 +84,7 @@ public class ItemRunicDictionary extends WizardryItem {
 					tooltip.add("  "+StatCollector.translateToLocal(References.Lang.NOTHING));
 				}
 			}
-			
+
 		}
 	}
 	/* (non-Javadoc)
@@ -143,80 +142,80 @@ public class ItemRunicDictionary extends WizardryItem {
 	// sets the selected rune to the next ID. highly "adapted" from BloodMagic: https://github.com/WayofTime/BloodMagic/blob/698358df237d2c894afb20a3312203c8c2bf8e65/src/main/java/WayofTime/bloodmagic/item/ItemRitualDiviner.java
 	public void cycleRune(ItemStack stack,EntityPlayer player){
 		String key = getSelectedRuneID(stack);
-        Set<String> idList = DustRegistry.getRuneIDs();
-        String firstId = "";
-        boolean foundId = false;
-        boolean foundFirst = false;
+		Set<String> idList = DustRegistry.getRuneIDs();
+		String firstId = "";
+		boolean foundId = false;
+		boolean foundFirst = false;
 
-        for (String str:idList)
-        {
-            if (!foundFirst)
-            {
-                firstId = str;
-                foundFirst = true;
-            }
+		for (String str:idList)
+		{
+			if (!foundFirst)
+			{
+				firstId = str;
+				foundFirst = true;
+			}
 
-            if (foundId)
-            {
-                setSelectedRuneID(stack, str);
-                NotifySelectionChange(player, str);
-                return;
-            } else
-            {
-                if (str.equals(key))
-                {
-                    foundId = true;
-                    continue;
-                }
-            }
-        }
+			if (foundId)
+			{
+				setSelectedRuneID(stack, str);
+				NotifySelectionChange(player, str);
+				return;
+			} else
+			{
+				if (str.equals(key))
+				{
+					foundId = true;
+					continue;
+				}
+			}
+		}
 
-        if (foundFirst)
-        {
-            setSelectedRuneID(stack, firstId);
-            NotifySelectionChange(player, firstId);;
-        }
-		
+		if (foundFirst)
+		{
+			setSelectedRuneID(stack, firstId);
+			NotifySelectionChange(player, firstId);;
+		}
+
 	}
 	public void cycleRuneBackwards(ItemStack stack,EntityPlayer player){
 		String key = getSelectedRuneID(stack);
-        Set<String> idList = DustRegistry.getRuneIDs();
-        String firstId = "";
-        String previousID="";
-        boolean needLast = false;
-        boolean foundFirst = false;
+		Set<String> idList = DustRegistry.getRuneIDs();
+		String firstId = "";
+		String previousID="";
+		boolean needLast = false;
+		boolean foundFirst = false;
 
-        for (String str:idList)
-        {
-            if (!foundFirst)
-            {
-                firstId = str;
-                foundFirst = true;
-            }
-            if(key.equals(firstId)){
-            	needLast=true;
-            }
-           if(! needLast){
-        	   if(str.equals(key)){
-        		   setSelectedRuneID(stack, previousID);
-        		   NotifySelectionChange(player, previousID);
-        		   return;
-        	   }
-           }
-           previousID = str;
-        }
+		for (String str:idList)
+		{
+			if (!foundFirst)
+			{
+				firstId = str;
+				foundFirst = true;
+			}
+			if(key.equals(firstId)){
+				needLast=true;
+			}
+			if(! needLast){
+				if(str.equals(key)){
+					setSelectedRuneID(stack, previousID);
+					NotifySelectionChange(player, previousID);
+					return;
+				}
+			}
+			previousID = str;
+		}
 
-        if (needLast)//we went through the whole list so previous = last ID
-        {
-            setSelectedRuneID(stack, previousID);
-            NotifySelectionChange(player, previousID);
-        }
+		if (needLast)//we went through the whole list so previous = last ID
+				{
+			setSelectedRuneID(stack, previousID);
+			NotifySelectionChange(player, previousID);
+				}
 	}
 	public void NotifySelectionChange(EntityPlayer player, String selectedID){
 		IRune rune = DustRegistry.getRuneByID(selectedID);
 		if(rune!=null){
 			ChatUtils.sendNoSpam(player,"["+StatCollector.translateToLocal(WizardryRegistry.runic_dictionary.getUnlocalizedName()+".name")+"] "
-		+StatCollector.translateToLocal(References.Lang.SELECTED)+" "+StatCollector.translateToLocal(rune.getName()));
+					+StatCollector.translateToLocal(References.Lang.SELECTED)+" "+StatCollector.translateToLocal(rune.getName()));
 		}
 	}
 	public String getSelectedRuneID(ItemStack stack){

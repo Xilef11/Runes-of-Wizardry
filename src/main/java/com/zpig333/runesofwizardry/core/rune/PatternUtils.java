@@ -49,13 +49,13 @@ public class PatternUtils {
 		ItemStack[][] result;
 		switch(facing){
 		case NORTH: result = patternIn;
-					break;//no need to do anything
+		break;//no need to do anything
 		case WEST: result = ArrayUtils.rotateCW(patternIn);
-				   break;
+		break;
 		case SOUTH: result = ArrayUtils.rotate180(patternIn);
-					break;
+		break;
 		case EAST: result = ArrayUtils.rotateCCW(patternIn);
-					break;
+		break;
 		default: throw new IllegalArgumentException("Facing: "+facing+" is not horizontal!");
 		}
 		return result;
@@ -71,13 +71,13 @@ public class PatternUtils {
 		ItemStack[][] result;
 		switch(facing){
 		case NORTH: result = patternIn;
-					break;//no need to do anything
+		break;//no need to do anything
 		case WEST: result = ArrayUtils.rotateCCW(patternIn);
-				   break;
+		break;
 		case SOUTH: result = ArrayUtils.rotate180(patternIn);
-					break;
+		break;
 		case EAST: result = ArrayUtils.rotateCW(patternIn);
-					break;
+		break;
 		default: throw new IllegalArgumentException("Facing: "+facing+" is not horizontal!");
 		}
 		return result;
@@ -168,9 +168,9 @@ public class PatternUtils {
 		//InputStream in = Loader.instance().getModClassLoader().getResourceAsStream(path);
 		//This works (with no initial / only). (seems to work even if not our jar)
 		InputStream in = PatternUtils.class.getClassLoader().getResourceAsStream(path);
-		
+
 		if(in==null)throw new FileNotFoundException("Could not find file: "+path);
-		
+
 		Gson gson = JsonUtils.getItemStackGson();
 		Reader read = new BufferedReader(new InputStreamReader(in));
 		ItemStack[][] stack = gson.fromJson(read, ItemStack[][].class);

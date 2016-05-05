@@ -40,5 +40,5 @@ public class JsonUtils {
 	public static void clearItemStackJson(){
 		itemStackGson=null;
 	}
-	
+
 }

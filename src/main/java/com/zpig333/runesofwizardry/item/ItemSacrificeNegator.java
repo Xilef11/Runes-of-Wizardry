@@ -11,7 +11,7 @@ package com.zpig333.runesofwizardry.item;
  */
 public class ItemSacrificeNegator extends WizardryItem {
 	private final String name="sacrifice_negator";
-	
+
 	public ItemSacrificeNegator() {
 		super();
 		this.setMaxStackSize(64);

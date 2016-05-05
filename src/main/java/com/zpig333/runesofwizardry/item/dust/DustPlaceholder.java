@@ -10,7 +10,6 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
@@ -103,6 +102,6 @@ public abstract class DustPlaceholder extends IDust {
 	 */
 	@Override
 	public abstract boolean dustsMatch(ItemStack thisDust, ItemStack other);
-	
-	
+
+
 }

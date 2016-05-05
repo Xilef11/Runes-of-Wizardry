@@ -13,9 +13,9 @@ import com.zpig333.runesofwizardry.api.IDust;
  */
 public class RWDusts {
 	public static final IDust dust_inert = new DustInert(),
-								dust_plant =new DustPlant(),
-								dust_aqua = new DustAqua(),
-								dust_blaze = new DustBlaze(),
-								dust_glowstone = new DustGlowstone(),
-								dust_ender = new DustEnder();
+			dust_plant =new DustPlant(),
+			dust_aqua = new DustAqua(),
+			dust_blaze = new DustBlaze(),
+			dust_glowstone = new DustGlowstone(),
+			dust_ender = new DustEnder();
 }

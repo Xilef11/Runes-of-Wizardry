@@ -5,8 +5,8 @@ import java.util.Set;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
@@ -36,6 +36,6 @@ public class RuneTestEntity extends RuneEntity {
 			ticks=0;
 		}
 	}
-	
+
 
 }

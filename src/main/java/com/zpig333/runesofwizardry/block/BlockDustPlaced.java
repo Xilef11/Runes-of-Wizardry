@@ -5,7 +5,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.entity.Entity;
@@ -16,11 +15,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -79,7 +76,7 @@ public class BlockDustPlaced extends Block{
 		return null;
 		//return super.getCollisionBoundingBox(worldIn, pos, state);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#onEntityCollidedWithBlock(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.block.state.IBlockState, net.minecraft.entity.Entity)
 	 */
@@ -143,7 +140,7 @@ public class BlockDustPlaced extends Block{
 			return World.doesBlockHaveSolidTopSurface(world, pos.down()) || block == Blocks.glass;
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#hasTileEntity(net.minecraft.block.state.IBlockState)
 	 */
@@ -160,7 +157,7 @@ public class BlockDustPlaced extends Block{
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		if(state.getBlock()==this){
-			if((Boolean)state.getValue(PROPERTYACTIVE)){
+			if(state.getValue(PROPERTYACTIVE)){
 				return new TileEntityDustActive();
 			}else{
 				return new TileEntityDustPlaced();
@@ -169,20 +166,20 @@ public class BlockDustPlaced extends Block{
 		return super.createTileEntity(world, state);
 	}
 	//this block has 1 property: active or not.
-		public static final PropertyBool PROPERTYACTIVE = PropertyBool.create("active");
-		@Override
-		public IBlockState getStateFromMeta(int meta) {
-			return meta==0? this.getDefaultState().withProperty(PROPERTYACTIVE, false) : this.getDefaultState().withProperty(PROPERTYACTIVE, true);
-		}
-		@Override
-		public int getMetaFromState(IBlockState state) {
-			return (Boolean)state.getValue(PROPERTYACTIVE)?1:0;
-		}
-		@Override
-		protected BlockState createBlockState() {
-			return new BlockState(this, PROPERTYACTIVE);
-		}
-		
+	public static final PropertyBool PROPERTYACTIVE = PropertyBool.create("active");
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return meta==0? this.getDefaultState().withProperty(PROPERTYACTIVE, false) : this.getDefaultState().withProperty(PROPERTYACTIVE, true);
+	}
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(PROPERTYACTIVE)?1:0;
+	}
+	@Override
+	protected BlockState createBlockState() {
+		return new BlockState(this, PROPERTYACTIVE);
+	}
+
 
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
@@ -256,7 +253,7 @@ public class BlockDustPlaced extends Block{
 		if(playerIn.isSneaking() || tile==null){
 			return false;
 		}
-		
+
 		//WizardryLogger.logInfo("DustPlaced block activated. pos= "+pos+" hitX: "+hitX+" hitY: "+hitY+" hitZ: "+hitZ);
 		if(! (tile instanceof TileEntityDustPlaced)){
 			//something is wrong
@@ -422,7 +419,7 @@ public class BlockDustPlaced extends Block{
 			worldIn.markBlockForUpdate(pos);
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#addDestroyEffects(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.client.particle.EffectRenderer)
 	 */
@@ -430,7 +427,7 @@ public class BlockDustPlaced extends Block{
 	public boolean addDestroyEffects(World world, BlockPos pos,	EffectRenderer effectRenderer) {
 		return true;//should remove the break particles
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#addHitEffects(net.minecraft.world.World, net.minecraft.util.MovingObjectPosition, net.minecraft.client.particle.EffectRenderer)

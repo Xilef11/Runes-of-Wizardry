@@ -17,13 +17,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -232,7 +228,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		return false;//if not at least one is a non-null IDust, should not connect.
 
 	}
-    
+
 	@Override
 	public boolean shouldRenderInPass(int pass) {
 		return pass==1;
@@ -242,11 +238,11 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public double getMaxRenderDistanceSquared() {
 		return 32*32;
 	};
-//	@SideOnly(Side.CLIENT)
-//	@Override
-//	public net.minecraft.util.AxisAlignedBB getRenderBoundingBox() {
-//		return INFINITE_EXTENT_AABB;
-//	};
+	//	@SideOnly(Side.CLIENT)
+	//	@Override
+	//	public net.minecraft.util.AxisAlignedBB getRenderBoundingBox() {
+	//		return INFINITE_EXTENT_AABB;
+	//	};
 
 	@Override
 	public String getName() {

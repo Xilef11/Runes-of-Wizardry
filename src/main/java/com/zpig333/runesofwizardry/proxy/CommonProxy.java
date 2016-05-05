@@ -13,7 +13,7 @@ public class CommonProxy {
 	@Deprecated
 	public void createDustStorageStateMappers() {
 		//Client only
-		
+
 	}
 
 	public void registerDustItemRender(IDust dustclass) {
@@ -23,5 +23,5 @@ public class CommonProxy {
 	public void registerDustBlockRender(ADustStorageBlock dustBlock) {
 		// client only
 	}
-	
+
 }

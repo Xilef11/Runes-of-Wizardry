@@ -23,7 +23,7 @@ public class ItemPestle extends WizardryItem {
 	public boolean hasContainerItem(ItemStack itemStack){
 		return true;
 	}
-	
+
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack){
 		//itemStack.setMetadata(itemStack.getMetadata() + 1);

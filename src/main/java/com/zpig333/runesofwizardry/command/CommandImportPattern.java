@@ -231,16 +231,16 @@ public class CommandImportPattern implements ICommand {
 												if(playerStack.stackSize==0)player.inventory.removeStackFromSlot(i);
 												n-= remainder>0? n : originalSize;
 											}else if(playerStack.getItem() instanceof ItemDustPouch){												ItemDustPouch pouch = (ItemDustPouch)playerStack.getItem();
-												ItemStack dust = pouch.getDustStack(playerStack, n);
-												if(ItemStack.areItemsEqual(s,dust)&&ItemStack.areItemStackTagsEqual(s, dust)){
-													int originalSize = dust.stackSize;
-													n-= originalSize;
-												}else{
-													//re-add the dust if it didn't match
-													pouch.addDust(playerStack, dust);
-												}
+											ItemStack dust = pouch.getDustStack(playerStack, n);
+											if(ItemStack.areItemsEqual(s,dust)&&ItemStack.areItemStackTagsEqual(s, dust)){
+												int originalSize = dust.stackSize;
+												n-= originalSize;
+											}else{
+												//re-add the dust if it didn't match
+												pouch.addDust(playerStack, dust);
 											}
-											
+											}
+
 										}
 									}
 									//XXX this will update rendering all the time so it might be slow

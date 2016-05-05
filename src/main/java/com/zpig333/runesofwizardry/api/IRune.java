@@ -11,9 +11,9 @@ import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.core.WizardryLogger;
@@ -31,12 +31,12 @@ public abstract class IRune {
 	 * @return the (unlocalized) name of this rune
 	 */
 	public abstract String getName();
-//	/**
-//	 * Returns a mod-unique identifier for this type of rune. it will be prefixed with your modid.
-//	 * @return the unique ID for this rune
-//	 */
-//	public abstract String getRuneID();
-//	
+	//	/**
+	//	 * Returns a mod-unique identifier for this type of rune. it will be prefixed with your modid.
+	//	 * @return the unique ID for this rune
+	//	 */
+	//	public abstract String getRuneID();
+	//	
 	/** Returns a n*4 by m*4 array of ItemStacks, where n and m are the number of 
 	 *  rows and columns of Minecraft Blocks that make up this Rune.<br/>
 	 *  Note that the ItemStacks MUST be stacks of IDust.

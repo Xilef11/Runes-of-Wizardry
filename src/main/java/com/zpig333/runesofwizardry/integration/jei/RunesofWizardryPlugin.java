@@ -46,9 +46,9 @@ public class RunesofWizardryPlugin implements IModPlugin {
 
 	@Override
 	public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
-		
+
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see mezz.jei.api.IModPlugin#onJeiHelpersAvailable(mezz.jei.api.IJeiHelpers)
 	 */
@@ -64,7 +64,7 @@ public class RunesofWizardryPlugin implements IModPlugin {
 	@Override
 	public void onItemRegistryAvailable(IItemRegistry itemRegistry) {
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see mezz.jei.api.IModPlugin#onRecipeRegistryAvailable(mezz.jei.api.IRecipeRegistry)
 	 */

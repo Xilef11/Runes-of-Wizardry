@@ -7,8 +7,8 @@ import javax.annotation.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.core.References;
@@ -16,7 +16,7 @@ import com.zpig333.runesofwizardry.core.References;
 public class ItemDustPouch extends WizardryItem {
 	private final String name="dust_pouch";
 	private static final String DUST_TYPE_TAG="dustType",
-								DUST_AMOUNT_TAG="dustAmount";
+			DUST_AMOUNT_TAG="dustAmount";
 	public ItemDustPouch(){
 		super();
 		this.setMaxStackSize(1);
@@ -38,7 +38,7 @@ public class ItemDustPouch extends WizardryItem {
 		if(!placed)addDust(stack, dustStack);//re-add the dust if it wasn't placed
 		return placed;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 	 */
@@ -51,9 +51,9 @@ public class ItemDustPouch extends WizardryItem {
 			//tooltip.add(StatCollector.translateToLocal(dustType.getUnlocalizedName()+".name")+" x"+getDustAmount(stack));
 		}
 	}
-	
-	
-	
+
+
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#getItemStackDisplayName(net.minecraft.item.ItemStack)
 	 */
@@ -134,6 +134,6 @@ public class ItemDustPouch extends WizardryItem {
 		if(dust==null || renderPass==0)return super.getColorFromItemStack(stack, renderPass);
 		return dust.getItem().getColorFromItemStack(dust, renderPass-1);
 	}
-	
-	
+
+
 }

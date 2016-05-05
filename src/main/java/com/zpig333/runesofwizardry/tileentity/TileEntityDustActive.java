@@ -16,9 +16,9 @@ import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
@@ -84,7 +84,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		int modC = maxCol%TileEntityDustPlaced.COLS;
 		if(modC!=0)maxCol+=(TileEntityDustPlaced.COLS-modC);
 		ItemStack[][] stacks = new ItemStack[maxRow+1][maxCol+1];
-		
+
 		for(ArrayElement a:items){
 			stacks[a.row][a.col]=a.stack;
 		}
@@ -125,31 +125,31 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		super.writeToNBT(tagCompound);
 		if(rune!=null){
 			rune.writeToNBT(tagCompound);
-		tagCompound.setString("runeID", DustRegistry.getRuneID(rune.creator));
-		//write the rune's blockpos set
-		NBTTagList positions = new NBTTagList();
-		for(BlockPos p: rune.dustPositions){
-			NBTTagIntArray current = new NBTTagIntArray(new int[]{p.getX(),p.getY(),p.getZ()});
-			positions.appendTag(current);
-		}
-		tagCompound.setTag("dustPositions",positions);
-		//write the rune's ItemStacks
-		NBTTagList itemList = new NBTTagList();
-		for (int r = 0; r < rune.placedPattern.length; r++) {
-			for(int c=0;c<rune.placedPattern[r].length;c++){
-				ItemStack stack = rune.placedPattern[r][c];
-				NBTTagCompound tag = new NBTTagCompound();
-				if (stack != null) {
-					stack.writeToNBT(tag);
-					tag.setInteger("Row", r);
-					tag.setInteger("Col", c);
-					itemList.appendTag(tag);
+			tagCompound.setString("runeID", DustRegistry.getRuneID(rune.creator));
+			//write the rune's blockpos set
+			NBTTagList positions = new NBTTagList();
+			for(BlockPos p: rune.dustPositions){
+				NBTTagIntArray current = new NBTTagIntArray(new int[]{p.getX(),p.getY(),p.getZ()});
+				positions.appendTag(current);
+			}
+			tagCompound.setTag("dustPositions",positions);
+			//write the rune's ItemStacks
+			NBTTagList itemList = new NBTTagList();
+			for (int r = 0; r < rune.placedPattern.length; r++) {
+				for(int c=0;c<rune.placedPattern[r].length;c++){
+					ItemStack stack = rune.placedPattern[r][c];
+					NBTTagCompound tag = new NBTTagCompound();
+					if (stack != null) {
+						stack.writeToNBT(tag);
+						tag.setInteger("Row", r);
+						tag.setInteger("Col", c);
+						itemList.appendTag(tag);
+					}
 				}
 			}
-		}
-		tagCompound.setTag("Pattern", itemList);
-		tagCompound.setTag("Facing", new NBTTagString(rune.face.getName()));
-		tagCompound.setBoolean("renderActive", rune.renderActive);
+			tagCompound.setTag("Pattern", itemList);
+			tagCompound.setTag("Facing", new NBTTagString(rune.face.getName()));
+			tagCompound.setBoolean("renderActive", rune.renderActive);
 		}
 		tagCompound.setLong("ticksExisted", ticksExisted);
 	}
@@ -164,5 +164,5 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			stack=s;
 		}
 	}
-	
+
 }

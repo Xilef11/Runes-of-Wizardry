@@ -7,13 +7,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,7 +33,7 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 		setUnlocalizedName(modID+"_"+getName());
 		GameRegistry.registerBlock(this, DustStorageItemBlock.class, modID+":"+getName());
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.api.IDustStorageBlock#getInstance()
 	 */
@@ -63,12 +63,12 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 	}
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return (Integer) state.getValue(PROPERTYMETA);
-		
+		return state.getValue(PROPERTYMETA);
+
 	}
 	@Override
-	protected BlockState createBlockState() {
-		return new BlockState(this, PROPERTYMETA);
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, PROPERTYMETA);
 	}
 	// create a list of the subBlocks available for this block, i.e. one for each colour
 	// ignores facings, because the facing is calculated when we place the item.
@@ -89,7 +89,7 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 	 */
 	@Override
 	public int damageDropped(IBlockState state) {
-		return (Integer) state.getValue(PROPERTYMETA);
+		return state.getValue(PROPERTYMETA);
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#getBlockLayer()
@@ -115,7 +115,7 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 		}
 		return super.colorMultiplier(worldIn, pos, tintindex);
 	}
-	
-	
-	
+
+
+
 }
