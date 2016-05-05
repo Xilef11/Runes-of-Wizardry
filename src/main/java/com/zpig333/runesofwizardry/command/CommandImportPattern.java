@@ -21,12 +21,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3i;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
 import org.apache.commons.lang3.StringUtils;
@@ -202,7 +199,7 @@ public class CommandImportPattern implements ICommand {
 				BlockPos current = nw.offset(EnumFacing.EAST, c).offset(EnumFacing.SOUTH, r);
 				IBlockState state=world.getBlockState(current);
 				Block block = state.getBlock();
-				if((block==Blocks.air||block==WizardryRegistry.dust_placed) && world.isSideSolid(current.down(), EnumFacing.UP) && !PatternUtils.isEmpty(contents[r][c])){
+				if((block==Blocks.AIR||block==WizardryRegistry.dust_placed) && world.isSideSolid(current.down(), EnumFacing.UP) && !PatternUtils.isEmpty(contents[r][c])){
 					if(block==WizardryRegistry.dust_placed && !player.capabilities.isCreativeMode)block.breakBlock(world, current, state);
 					world.setBlockState(current, WizardryRegistry.dust_placed.getDefaultState());
 					TileEntity ent = world.getTileEntity(current);

@@ -44,12 +44,12 @@ plugins {
 }
 */
 //MC stuff
-def mcVersion = "1.8.9"
+def mcVersion = "1.9"
 def majorVersion = "0"
 def minorVersion = "6"
 def bugfix = ".1"
 def devVersion = "-dev"
-def forgeVersion="1.8.9-11.15.1.1875"
+def forgeVersion="1.9-12.16.1.1889"
 
 version = "${mcVersion}-${majorVersion}.${minorVersion}${bugfix}${devVersion}"
 group= "com.zpig333.runesofwizardry"
@@ -75,7 +75,7 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-	mappings = "stable_20"
+	mappings = "snapshot_20160505"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 	
 	replaceIn "RunesOfWizardry.java"
@@ -205,7 +205,7 @@ github {
 		targetCommitish = 'master'
 		draft=false
 		prerelease = project.version.contains(devVersion)
-		body = "Changelog:\n"+new File('changelog.md').getText()+"\n\nBuilt with Forge "+forgeVersion
+		body = "Changelog:\n"+new File('changelog.md').getText()+"\n\nBuilt with Forge "+forgeVersion+"\nMappings: "+minecraft.mappings
 		assets = [
 				"build/libs/${project.archivesBaseName}-${project.version}.jar"
 				,"build/libs/${project.archivesBaseName}-${project.version}-deobf.jar"
