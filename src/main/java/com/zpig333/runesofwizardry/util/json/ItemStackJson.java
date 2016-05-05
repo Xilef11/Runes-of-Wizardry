@@ -30,7 +30,7 @@ public class ItemStackJson implements JsonDeserializer<ItemStack>,JsonSerializer
 	public JsonElement serialize(ItemStack src, Type typeOfSrc,	JsonSerializationContext context) {
 		JsonObject object = new JsonObject();
 		int stackSize = src.stackSize;
-		String item = ((ResourceLocation)Item.itemRegistry.getNameForObject(src.getItem())).toString();
+		String item = ((ResourceLocation)Item.REGISTRY.getNameForObject(src.getItem())).toString();
 		JsonElement nbt = context.serialize(src.getTagCompound());
 		int meta = src.getItemDamage();
 		//not dealing with ItemFrames

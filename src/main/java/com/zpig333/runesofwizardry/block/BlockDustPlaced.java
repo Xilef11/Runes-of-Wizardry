@@ -3,8 +3,10 @@ package com.zpig333.runesofwizardry.block;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.entity.Entity;
@@ -15,9 +17,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -43,8 +49,8 @@ import com.zpig333.runesofwizardry.util.RayTracer;
  */
 public class BlockDustPlaced extends Block{
 	public BlockDustPlaced(){
-		super(Material.circuits);
-		this.setStepSound(Block.soundTypeSand);
+		super(Material.CIRCUITS);
+		this.setSoundType(SoundType.SAND);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
 		this.disableStats();
 		this.setBlockUnbreakable();
@@ -60,16 +66,16 @@ public class BlockDustPlaced extends Block{
 	 * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
 	 */
 	@Override
-	public boolean isOpaqueCube()
+	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}
 	@Override
-	public boolean isFullCube(){
+	public boolean isFullCube(IBlockState state){
 		return false;
 	}
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state,World worldIn, BlockPos pos)
 	{	//No collision
 		//return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX()+1, pos.getY()+0.0625F, pos.getZ()+1.0F);
 		//return new AxisAlignedBB(pos, pos.add(1,1,1));
@@ -112,8 +118,8 @@ public class BlockDustPlaced extends Block{
 
 
 	@Override
-	public int getRenderType(){
-		return 2;//render type 2 is TESR
+	public EnumBlockRenderType getRenderType(IBlockState state){
+		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;//render type 2 is TESR
 	}
 
 	@Override
@@ -131,13 +137,14 @@ public class BlockDustPlaced extends Block{
 	public boolean canPlaceBlockAt(World world, BlockPos pos)
 	{
 		//get the block 1 lower
-		Block block = world.getBlockState(pos.down()).getBlock();
+		IBlockState state = world.getBlockState(pos.down());
+		Block block = state.getBlock();
 		if (block == null)
 		{
 			return false;
 		} else{
 			//FUTURE maybe tweak to use the oredict to allow other types of glass
-			return World.doesBlockHaveSolidTopSurface(world, pos.down()) || block == Blocks.GLASS;
+			return block.isSideSolid(state, world, pos.down(), EnumFacing.UP) || block == Blocks.GLASS;
 		}
 	}
 
@@ -176,8 +183,8 @@ public class BlockDustPlaced extends Block{
 		return state.getValue(PROPERTYACTIVE)?1:0;
 	}
 	@Override
-	protected BlockState createBlockState() {
-		return new BlockState(this, PROPERTYACTIVE);
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, PROPERTYACTIVE);
 	}
 
 
@@ -248,7 +255,7 @@ public class BlockDustPlaced extends Block{
 		return null;//this block should not be dropped!
 	}
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side,	float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(playerIn.isSneaking() || tile==null){
 			return false;
@@ -290,7 +297,7 @@ public class BlockDustPlaced extends Block{
 			if (dustStack !=null){
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
-				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 					dustStack = tileDust.getStackInSlot(slotID);//re-grab the stack in case the rune changed it
@@ -321,7 +328,7 @@ public class BlockDustPlaced extends Block{
 				newItem.stackSize=1;
 			}
 			tileDust.setInventorySlotContents(slotID, newItem);
-			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getPlaceSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+			worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getPlaceSound(), (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 			if(tileDust.isInRune()){
 				tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 			}
@@ -332,7 +339,7 @@ public class BlockDustPlaced extends Block{
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 				}
-				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				if(playerIn.capabilities.isCreativeMode)RunesUtil.killDusts(worldIn, pos);
 				this.breakBlock(worldIn, pos, state);
 				worldIn.setBlockToAir(pos);
@@ -376,8 +383,8 @@ public class BlockDustPlaced extends Block{
 		TileEntityDustPlaced tileDust = (TileEntityDustPlaced) tile;
 		if(!worldIn.isRemote){
 			//Raytrace for the hit position
-			MovingObjectPosition hitPos = RayTracer.retraceBlock(worldIn, playerIn, pos);
-			Vec3 hit = hitPos.hitVec;//this is null client side
+			RayTraceResult hitPos = RayTracer.retraceBlock(worldIn, playerIn, pos);
+			Vec3d hit = hitPos.hitVec;//this is null client side
 			//WizardryLogger.logInfo("DustPlaced block clicked. pos= "+pos+" lookX: "+look.xCoord+" lookY: "+look.yCoord+" lookZ: "+look.zCoord);
 			if(tileDust.isInRune()){
 				RuneEntity rune = tileDust.getRune();
@@ -403,7 +410,7 @@ public class BlockDustPlaced extends Block{
 			if (dustStack !=null){
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
-				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, Block.soundTypeSand.getBreakSound(), (Block.soundTypeSand.getVolume() + 1.0F) / 2.0F, Block.soundTypeGrass.getFrequency() * 0.8F);
+				worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 				}else{
@@ -416,7 +423,8 @@ public class BlockDustPlaced extends Block{
 				}
 			}
 			//update the client
-			worldIn.markBlockForUpdate(pos);
+			//XXX worldIn.markBlockForUpdate(pos);
+			worldIn.notifyBlockUpdate(pos, worldIn.getBlockState(pos), worldIn.getBlockState(pos), 0);
 		}
 	}
 
@@ -430,10 +438,10 @@ public class BlockDustPlaced extends Block{
 
 
 	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#addHitEffects(net.minecraft.world.World, net.minecraft.util.MovingObjectPosition, net.minecraft.client.particle.EffectRenderer)
+	 * @see net.minecraft.block.Block#addHitEffects(net.minecraft.world.World, net.minecraft.util.RayTraceResult, net.minecraft.client.particle.EffectRenderer)
 	 */
 	@Override
-	public boolean addHitEffects(World worldObj, MovingObjectPosition target,EffectRenderer effectRenderer) {
+	public boolean addHitEffects(IBlockState state,World worldObj, RayTraceResult target,EffectRenderer effectRenderer) {
 		return true;//should remove "breaking" particles
 	}
 

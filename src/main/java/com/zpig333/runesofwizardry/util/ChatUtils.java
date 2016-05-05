@@ -5,6 +5,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -19,7 +22,7 @@ public class ChatUtils
 	private static final int DELETION_ID = 2525277;
 	private static int lastAdded;
 
-	private static void sendNoSpamMessages(IChatComponent[] messages)
+	private static void sendNoSpamMessages(ITextComponent[] messages)
 	{
 		GuiNewChat chat = Minecraft.getMinecraft().ingameGUI.getChatGUI();
 		for (int i = DELETION_ID + messages.length - 1; i <= lastAdded; i++)
@@ -34,25 +37,25 @@ public class ChatUtils
 	}
 
 	/**
-	 * Returns a standard {@link ChatComponentText} for the given {@link String}
+	 * Returns a standard {@link TextComponentString} for the given {@link String}
 	 * .
 	 * 
 	 * @param s
 	 *        The string to wrap.
 	 * 
-	 * @return An {@link IChatComponent} containing the string.
+	 * @return An {@link ITextComponent} containing the string.
 	 */
-	public static IChatComponent wrap(String s)
+	public static ITextComponent wrap(String s)
 	{
-		return new ChatComponentText(s);
+		return new TextComponentString(s);
 	}
 
 	/**
 	 * @see #wrap(String)
 	 */
-	public static IChatComponent[] wrap(String... s)
+	public static ITextComponent[] wrap(String... s)
 	{
-		IChatComponent[] ret = new IChatComponent[s.length];
+		ITextComponent[] ret = new ITextComponent[s.length];
 		for (int i = 0; i < ret.length; i++)
 		{
 			ret[i] = wrap(s[i]);
@@ -69,9 +72,9 @@ public class ChatUtils
 	 * @param args
 	 *        The args to apply to the format
 	 */
-	public static IChatComponent wrapFormatted(String s, Object... args)
+	public static ITextComponent wrapFormatted(String s, Object... args)
 	{
-		return new ChatComponentTranslation(s, args);
+		return new TextComponentTranslation(s, args);
 	}
 
 	/**
@@ -93,18 +96,18 @@ public class ChatUtils
 	 * @param player
 	 *        The player to send the chat lines to.
 	 * @param lines
-	 *        The {@link IChatComponent chat components} to send.yes
+	 *        The {@link ITextComponent chat components} to send.yes
 	 */
-	public static void sendChat(EntityPlayer player, IChatComponent... lines)
+	public static void sendChat(EntityPlayer player, ITextComponent... lines)
 	{
-		for (IChatComponent c : lines)
+		for (ITextComponent c : lines)
 		{
 			player.addChatComponentMessage(c);
 		}
 	}
 
 	/**
-	 * Same as {@link #sendNoSpamClient(IChatComponent...)}, but wraps the
+	 * Same as {@link #sendNoSpamClient(ITextComponent...)}, but wraps the
 	 * Strings automatically.
 	 * 
 	 * @param lines
@@ -120,16 +123,16 @@ public class ChatUtils
 	/**
 	 * Skips the packet sending, unsafe to call on servers.
 	 * 
-	 * @see #sendNoSpam(EntityPlayerMP, IChatComponent...)
+	 * @see #sendNoSpam(EntityPlayerMP, ITextComponent...)
 	 */
-	public static void sendNoSpamClient(IChatComponent... lines)
+	public static void sendNoSpamClient(ITextComponent... lines)
 	{
 		sendNoSpamMessages(lines);
 	}
 
 	/**
 	 * @see #wrap(String)
-	 * @see #sendNoSpam(EntityPlayer, IChatComponent...)
+	 * @see #sendNoSpam(EntityPlayer, ITextComponent...)
 	 */
 	public static void sendNoSpam(EntityPlayer player, String... lines)
 	{
@@ -140,9 +143,9 @@ public class ChatUtils
 	 * First checks if the player is instanceof {@link EntityPlayerMP} before
 	 * casting.
 	 * 
-	 * @see #sendNoSpam(EntityPlayerMP, IChatComponent...)
+	 * @see #sendNoSpam(EntityPlayerMP, ITextComponent...)
 	 */
-	public static void sendNoSpam(EntityPlayer player, IChatComponent... lines)
+	public static void sendNoSpam(EntityPlayer player, ITextComponent... lines)
 	{
 		if (player instanceof EntityPlayerMP)
 		{
@@ -152,7 +155,7 @@ public class ChatUtils
 
 	/**
 	 * @see #wrap(String)
-	 * @see #sendNoSpam(EntityPlayerMP, IChatComponent...)
+	 * @see #sendNoSpam(EntityPlayerMP, ITextComponent...)
 	 */
 	public static void sendNoSpam(EntityPlayerMP player, String... lines)
 	{
@@ -170,7 +173,7 @@ public class ChatUtils
 	 * @param lines
 	 *        The chat lines to send.
 	 */
-	public static void sendNoSpam(EntityPlayerMP player, IChatComponent... lines)
+	public static void sendNoSpam(EntityPlayerMP player, ITextComponent... lines)
 	{
 		if (lines.length > 0)
 			RunesOfWizardry.networkWrapper.sendTo(new PacketNoSpamChat(lines), player);
@@ -184,14 +187,14 @@ public class ChatUtils
 	public static class PacketNoSpamChat implements IMessage
 	{
 
-		private IChatComponent[] chatLines;
+		private ITextComponent[] chatLines;
 
 		public PacketNoSpamChat()
 		{
-			chatLines = new IChatComponent[0];
+			chatLines = new ITextComponent[0];
 		}
 
-		private PacketNoSpamChat(IChatComponent... lines)
+		private PacketNoSpamChat(ITextComponent... lines)
 		{
 			// this is guaranteed to be >1 length by accessing methods
 			this.chatLines = lines;
@@ -201,19 +204,19 @@ public class ChatUtils
 		public void toBytes(ByteBuf buf)
 		{
 			buf.writeInt(chatLines.length);
-			for (IChatComponent c : chatLines)
+			for (ITextComponent c : chatLines)
 			{
-				ByteBufUtils.writeUTF8String(buf, IChatComponent.Serializer.componentToJson(c));
+				ByteBufUtils.writeUTF8String(buf, ITextComponent.Serializer.componentToJson(c));
 			}
 		}
 
 		@Override
 		public void fromBytes(ByteBuf buf)
 		{
-			chatLines = new IChatComponent[buf.readInt()];
+			chatLines = new ITextComponent[buf.readInt()];
 			for (int i = 0; i < chatLines.length; i++)
 			{
-				chatLines[i] = IChatComponent.Serializer.jsonToComponent(ByteBufUtils.readUTF8String(buf));
+				chatLines[i] = ITextComponent.Serializer.jsonToComponent(ByteBufUtils.readUTF8String(buf));
 			}
 		}
 

@@ -32,6 +32,6 @@ public class DustGlowstone extends IDust {
 	@Override
 	public ItemStack[] getInfusionItems(ItemStack stack) {
 		//FUTURE Glowstone infusion
-		return new ItemStack[]{new ItemStack(Blocks.glowstone)};
+		return new ItemStack[]{new ItemStack(Blocks.GLOWSTONE)};
 	}
 }

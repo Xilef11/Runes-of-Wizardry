@@ -3,9 +3,12 @@ package com.zpig333.runesofwizardry.runes;
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
+import net.minecraft.init.PotionTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -21,7 +24,7 @@ public class RuneTest2Entity extends RuneEntity {
 	}
 	@Override
 	public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice,boolean negated) {
-		player.addPotionEffect(new PotionEffect(Potion.blindness.id, 20));
+		player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 20));
 	}
 	private int ticks=0;
 	/* (non-Javadoc)

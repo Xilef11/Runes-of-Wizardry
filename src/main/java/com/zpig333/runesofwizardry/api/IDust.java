@@ -9,7 +9,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -138,22 +140,22 @@ public abstract class IDust extends Item {
 	 * 
 	 */
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		//see ItemRedstone#onItemUse
 		if(world.isRemote){
-			return true;
+			return EnumActionResult.SUCCESS;
 		}
 		else {
 			//can't place dust on certain blocks...
 			Block block = world.getBlockState(pos).getBlock();
 			if (block == Blocks.VINE || block == Blocks.TALLGRASS || block == Blocks.DEADBUSH || block == WizardryRegistry.dust_placed || block == Blocks.SNOW_LAYER) {
-				return false;
+				return EnumActionResult.FAIL;//XXX Maybe PASS
 			}if(block == WizardryRegistry.dust_placed){
-				return true;
+				return EnumActionResult.SUCCESS;
 			}else{
 				world.setBlockState(pos.up(), WizardryRegistry.dust_placed.getDefaultState());
 				IBlockState state =  world.getBlockState(pos.up());
-				return state.getBlock().onBlockActivated(world, pos.up(), state, player, side, hitX, hitY, hitZ);
+				return state.getBlock().onBlockActivated(world, pos.up(), state, player, hand, stack, facing, hitX, hitY, hitZ)? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
 				//return true;
 			}
 		}

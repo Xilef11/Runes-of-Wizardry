@@ -29,10 +29,10 @@ public class BlockEventHandler {
 	 */
 	@SubscribeEvent
 	public void onBlockBreak(BlockEvent.BreakEvent event){
-		Block block = event.state.getBlock();
+		Block block = event.getState().getBlock();
 		if(block==WizardryRegistry.dust_placed){
 			event.setCanceled(true);
-			block.onBlockClicked(event.world, event.pos, event.getPlayer());
+			block.onBlockClicked(event.getWorld(), event.getPos(), event.getPlayer());
 		}
 
 	}

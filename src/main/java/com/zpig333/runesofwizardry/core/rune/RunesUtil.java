@@ -20,6 +20,8 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -104,7 +106,7 @@ public class RunesUtil {
 		ItemStack pattern[][] = finder.toArray();
 		RuneFacing match = matchPattern(pattern);
 		if(match==null){
-			player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.norune"));
+			player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.norune"));
 			return;
 		}
 		if(!match.rune.canBeActivatedByPlayer(player, world, pos)){
@@ -133,7 +135,7 @@ public class RunesUtil {
 		if(stacks.isEmpty())stacks=null;
 		if(!negated){
 			if(!match.rune.sacrificeMatches(stacks)){
-				player.addChatComponentMessage(new ChatComponentTranslation("runesofwizardry.message.badsacrifice", StatCollector.translateToLocal(match.rune.getName())));
+				player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.badsacrifice", I18n.translateToLocal(match.rune.getName())));
 				return;
 			}
 			//kill the items
@@ -242,7 +244,8 @@ public class RunesUtil {
 			TileEntity te1 = world.getTileEntity(p);
 			if(te1 instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te1).setRune(null);
-				world.markBlockForUpdate(pos);//must sync the rune change with the client
+				//XXX world.markBlockForUpdate(pos);//must sync the rune change with the client
+				world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0);
 			}else{
 				throw new IllegalStateException("TileEntity wasn't placed dust: "+te1);
 			}
@@ -277,7 +280,8 @@ public class RunesUtil {
 				}
 			}
 			//TODO particles?
-			worldIn.markBlockForUpdate(pos);
+			//XXX worldIn.markBlockForUpdate(pos);
+			worldIn.notifyBlockUpdate(pos, worldIn.getBlockState(pos), worldIn.getBlockState(pos), 0);
 		}else{
 			WizardryLogger.logError("killDustForEntity was called with a BlockPos that does not have a TileEntityDustPlaced! :"+pos);
 		}

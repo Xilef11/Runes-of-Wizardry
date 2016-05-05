@@ -31,7 +31,7 @@ public class RuneTestEntity extends RuneEntity {
 		ticks++;
 		if(ticks==10*20){
 			BlockPos p = entity.getPos();
-			EntityLightningBolt en = new EntityLightningBolt(entity.getWorld(), p.getX(), p.getY(), p.getZ());
+			EntityLightningBolt en = new EntityLightningBolt(entity.getWorld(), p.getX(), p.getY(), p.getZ(), false);
 			entity.getWorld().spawnEntityInWorld(en);
 			ticks=0;
 		}

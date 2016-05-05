@@ -7,7 +7,9 @@ import javax.annotation.Nullable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -30,12 +32,12 @@ public class ItemDustPouch extends WizardryItem {
 	 * @see net.minecraft.item.Item#onItemUse(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.util.EnumFacing, float, float, float)
 	 */
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn,World worldIn, BlockPos pos, EnumFacing side, float hitX,float hitY, float hitZ) {
-		if(worldIn.isRemote)return true;
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if(worldIn.isRemote)return EnumActionResult.SUCCESS;
 		ItemStack dustStack = getDustStack(stack, 1);//get a stack of the dust
 		//use that stack
-		boolean placed =  dustStack!=null && dustStack.stackSize>0? dustStack.getItem().onItemUse(dustStack, playerIn, worldIn, pos, side, hitX, hitY, hitZ) : false;
-		if(!placed)addDust(stack, dustStack);//re-add the dust if it wasn't placed
+		EnumActionResult placed =  dustStack!=null && dustStack.stackSize>0? dustStack.getItem().onItemUse(dustStack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ) : EnumActionResult.PASS;
+		if(placed!=EnumActionResult.SUCCESS)addDust(stack, dustStack);//re-add the dust if it wasn't placed
 		return placed;
 	}
 
@@ -48,7 +50,7 @@ public class ItemDustPouch extends WizardryItem {
 		ItemStack dustType = getDustStack(stack, 0);
 		if(dustType!=null){
 			tooltip.add(dustType.getDisplayName()+" x"+getDustAmount(stack));
-			//tooltip.add(StatCollector.translateToLocal(dustType.getUnlocalizedName()+".name")+" x"+getDustAmount(stack));
+			//tooltip.add(I18n.translateToLocal(dustType.getUnlocalizedName()+".name")+" x"+getDustAmount(stack));
 		}
 	}
 

@@ -23,7 +23,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 import org.apache.commons.lang3.StringUtils;
@@ -52,7 +55,7 @@ public class CommandImportPattern implements ICommand {
 	public CommandImportPattern() {
 		//define aliases here
 		aliases = new LinkedList<String>();
-		//aliases.add(StatCollector.translateToLocal("runesofwizardry.command.export"));
+		//aliases.add(I18n.translateToLocal("runesofwizardry.command.export"));
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -76,7 +79,7 @@ public class CommandImportPattern implements ICommand {
 	 */
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return getCommandName()+" "+StatCollector.translateToLocal(locKey+".usage");
+		return getCommandName()+" "+I18n.translateToLocal(locKey+".usage");
 	}
 
 	/* (non-Javadoc)
@@ -91,7 +94,7 @@ public class CommandImportPattern implements ICommand {
 	 * @see net.minecraft.command.ICommand#processCommand(net.minecraft.command.ICommandSender, java.lang.String[])
 	 */
 	@Override
-	public void processCommand(ICommandSender sender, String[] args)throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args)throws CommandException {
 		World world = sender.getEntityWorld();
 		//server-side only... for now
 		if(!world.isRemote){
@@ -103,7 +106,7 @@ public class CommandImportPattern implements ICommand {
 				IRune rune=null;
 				if(args[0].contains(":")){//if its a rune
 					rune = DustRegistry.getRuneByID(args[0]);
-					if(rune==null)throw new CommandException(StatCollector.translateToLocalFormatted(locKey+".nosuchrune",args[0]));
+					if(rune==null)throw new CommandException(I18n.translateToLocalFormatted(locKey+".nosuchrune",args[0]));
 					ItemStack[][] runepattern = rune.getPattern();
 					//COPY the pattern to avoid changing it by mistake (everything is mutable...)
 					pattern = new ItemStack[runepattern.length][runepattern[0].length];
@@ -118,7 +121,7 @@ public class CommandImportPattern implements ICommand {
 						pattern = PatternUtils.importFromJson(args[0]);
 						JsonUtils.clearItemStackJson();
 					} catch (FileNotFoundException e) {
-						sender.addChatMessage(new ChatComponentTranslation(locKey+".serverfilenotfound", args[0], args[0], args[0]));
+						sender.addChatMessage(new TextComponentTranslation(locKey+".serverfilenotfound", args[0], args[0], args[0]));
 						return;
 					} catch (IOException e) {
 						WizardryLogger.logException(Level.ERROR, e, "Error while importing pattern from JSON");
@@ -126,7 +129,7 @@ public class CommandImportPattern implements ICommand {
 				}
 
 				//Find the block looked at + facing
-				MovingObjectPosition look = RayTracer.retrace(player);
+				RayTraceResult look = RayTracer.retrace(player);
 				BlockPos lookPos = look.getBlockPos();
 				Block block = world.getBlockState(lookPos).getBlock();
 				EnumFacing playerFacing = player.getHorizontalFacing();
@@ -255,7 +258,8 @@ public class CommandImportPattern implements ICommand {
 						}else{//in creative mode, just set the contents.
 							ted.setContents(contents[r][c]);
 						}
-						world.markBlockForUpdate(current);
+						//world.markBlockForUpdate(current);
+						world.notifyBlockUpdate(current, state, state, 0);
 					}else{
 						throw new IllegalStateException("import command: TE was not placed dust");
 					}
@@ -267,12 +271,12 @@ public class CommandImportPattern implements ICommand {
 	 * @see net.minecraft.command.ICommand#canCommandSenderUseCommand(net.minecraft.command.ICommandSender)
 	 */
 	@Override
-	public boolean canCommandSenderUseCommand(ICommandSender sender) {
+	public boolean checkPermission(MinecraftServer server,ICommandSender sender) {
 		if(!(sender instanceof EntityPlayer))return false;
 		if(ConfigHandler.CommandImportPermission.equals(ConfigHandler.PERMISSIONS_NONE))return false;
 		if(ConfigHandler.CommandImportPermission.equals(ConfigHandler.PERMISSIONS_ALL))return true;
 		if(ConfigHandler.CommandImportPermission.equals(ConfigHandler.PERMISSIONS_OP)){
-			String[] ops = MinecraftServer.getServer().getConfigurationManager().getOppedPlayerNames();
+			String[] ops = server.getPlayerList().getOppedPlayerNames();
 			for(String name:ops){
 				if(name.equals(sender.getName()))return true;
 			}
@@ -285,7 +289,7 @@ public class CommandImportPattern implements ICommand {
 	 * @see net.minecraft.command.ICommand#addTabCompletionOptions(net.minecraft.command.ICommandSender, java.lang.String[], net.minecraft.util.BlockPos)
 	 */
 	@Override
-	public List<String> addTabCompletionOptions(ICommandSender sender,String[] args, BlockPos pos) {
+	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender,String[] args, BlockPos pos) {
 		LinkedList<String> options = new LinkedList<String>();
 		for(String id:DustRegistry.getRuneIDs()){
 			if(StringUtils.containsIgnoreCase(id, args[0]))options.add(id);

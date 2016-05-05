@@ -11,6 +11,7 @@ import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
@@ -44,7 +45,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 			GlStateManager.translate(relativeX, relativeY, relativeZ);
 			//grab the tesselator
 			final Tessellator tesselator = Tessellator.getInstance();
-			final WorldRenderer worldrenderer = tesselator.getWorldRenderer();
+			final VertexBuffer buffer = tesselator.getBuffer();
 			//set texture
 			this.bindTexture(dustTexture);
 
@@ -64,18 +65,18 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 					for(int i=0;i<colors.length;i++){
 						for(int j=0;j<colors[i].length;j++){
 							if(colors[i][j]>=0){//negative colors indicate no rendering
-								drawCenterVertex(i, j, colors[i][j], worldrenderer, tesselator);
+								drawCenterVertex(i, j, colors[i][j], buffer, tesselator);
 							}
 						}
 					}
 					///the internal connectors
 					Set<int[]> connectors = tileEntity.getInternalConnectors();
 					for(int[] i : connectors){
-						drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], worldrenderer, tesselator);
+						drawInternalConnector(i[0], i[1], i[2], i[3], i[4], i[5], buffer, tesselator);
 					}
 					//external connectors
 					for(int[]i:tileEntity.getExternalConnectors()){
-						drawExternalConnector(i[0], i[1], i[2], EnumFacing.getFront(i[3]), worldrenderer, tesselator);
+						drawExternalConnector(i[0], i[1], i[2], EnumFacing.getFront(i[3]), buffer, tesselator);
 					}
 				}
 
@@ -94,7 +95,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 	}
 	private static final double offset = 0.058;
 	final double y = 0.01;//y coordinate at which to draw the things
-	private void drawCenterVertex(int row, int col, int colorInt, WorldRenderer renderer, Tessellator tes){
+	private void drawCenterVertex(int row, int col, int colorInt, VertexBuffer renderer, Tessellator tes){
 		Color color = new Color(colorInt);
 		double rowBegin = row/(float)TileEntityDustPlaced.ROWS + offset;
 		double rowEnd = (row+1)/(float)TileEntityDustPlaced.ROWS - offset;
@@ -114,7 +115,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 		tes.draw();
 	}
 	private final static double thin = 0.02;
-	private void drawInternalConnector(int row1, int col1, int row2, int col2, int color1, int color2, WorldRenderer renderer, Tessellator tes){
+	private void drawInternalConnector(int row1, int col1, int row2, int col2, int color1, int color2, VertexBuffer buffer, Tessellator tes){
 
 		double row1begin = row1/(float)TileEntityDustPlaced.ROWS + offset,
 				row1end = (row1+1)/(float)TileEntityDustPlaced.ROWS - offset,
@@ -162,20 +163,20 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 		if(vertexTable1==null ||vertexTable2==null)return;
 
 		Color color = new Color(color1);
-		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 		for(double vertex[]:vertexTable1){
-			renderer.pos(vertex[0], vertex[1], vertex[2]).tex(vertex[0], vertex[2]).color(color.getRed(), color.getGreen(), color.getBlue(), 255).endVertex();
+			buffer.pos(vertex[0], vertex[1], vertex[2]).tex(vertex[0], vertex[2]).color(color.getRed(), color.getGreen(), color.getBlue(), 255).endVertex();
 		}
 		tes.draw();
 
 		color=new Color(color2);
-		renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 		for(double vertex[]:vertexTable2){
-			renderer.pos(vertex[0], vertex[1], vertex[2]).tex(vertex[0], vertex[2]).color(color.getRed(), color.getGreen(), color.getBlue(), 255).endVertex();
+			buffer.pos(vertex[0], vertex[1], vertex[2]).tex(vertex[0], vertex[2]).color(color.getRed(), color.getGreen(), color.getBlue(), 255).endVertex();
 		}
 		tes.draw();
 	}
-	private void drawExternalConnector(int row, int col, int colorIn, EnumFacing direction, WorldRenderer renderer, Tessellator tes){
+	private void drawExternalConnector(int row, int col, int colorIn, EnumFacing direction, VertexBuffer renderer, Tessellator tes){
 		double rowBegin = row/(float)TileEntityDustPlaced.ROWS + offset;
 		double rowEnd = (row+1)/(float)TileEntityDustPlaced.ROWS - offset;
 		double colBegin = col/(float)TileEntityDustPlaced.COLS + offset;
@@ -248,7 +249,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 	 * </pre>
 	 * <p>
 	 * <strong>
-	 * <em>The WorldRenderer needs to be off when this method is called!</em>
+	 * <em>The VertexBuffer needs to be off when this method is called!</em>
 	 * </strong><br>
 	 * <em>This discards the current texture</em>
 	 *

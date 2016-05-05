@@ -8,6 +8,9 @@ package com.zpig333.runesofwizardry.item;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 
@@ -35,10 +38,11 @@ public class ItemBroom extends WizardryItem {
 		return EnumAction.BLOCK;
 	}
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
-		playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-		return itemStackIn;
+		//XXX UPDATE
+		//playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 	}
 	/**
 	 * How long it takes to use or consume an item

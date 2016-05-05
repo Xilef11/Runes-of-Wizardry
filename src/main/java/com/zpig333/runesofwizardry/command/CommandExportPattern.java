@@ -17,9 +17,14 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 import org.apache.logging.log4j.Level;
@@ -42,7 +47,7 @@ public class CommandExportPattern implements ICommand {
 	public CommandExportPattern() {
 		//define aliases here
 		aliases = new LinkedList<String>();
-		//aliases.add(StatCollector.translateToLocal("runesofwizardry.command.export"));
+		//aliases.add(I18n.translateToLocal("runesofwizardry.command.export"));
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -66,7 +71,7 @@ public class CommandExportPattern implements ICommand {
 	 */
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return getCommandName()+" "+StatCollector.translateToLocal(locKey+".usage");
+		return getCommandName()+" "+I18n.translateToLocal(locKey+".usage");
 	}
 
 	/* (non-Javadoc)
@@ -81,7 +86,7 @@ public class CommandExportPattern implements ICommand {
 	 * @see net.minecraft.command.ICommand#processCommand(net.minecraft.command.ICommandSender, java.lang.String[])
 	 */
 	@Override
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		World world = sender.getEntityWorld();
 		//do work on the client side only
 		if(world.isRemote && sender instanceof EntityPlayer){
@@ -90,13 +95,13 @@ public class CommandExportPattern implements ICommand {
 				throw new WrongUsageException(getCommandUsage(sender));
 			}
 			//get the block the player is looking at
-			MovingObjectPosition look = player.rayTrace(RayTracer.getBlockReachDistance(player), 1f);
+			RayTraceResult look = player.rayTrace(RayTracer.getBlockReachDistance(player), 1f);
 			BlockPos lookPos = look.getBlockPos();
 			Block block = world.getBlockState(lookPos).getBlock();
 			EnumFacing playerFacing = player.getHorizontalFacing();
 			WizardryLogger.logInfo("Export Pattern: Looking at block: "+block.getUnlocalizedName()+" at "+lookPos+" facing: "+playerFacing);
 			if(block!=WizardryRegistry.dust_placed){
-				throw new CommandException(StatCollector.translateToLocal(locKey+".nodust"));
+				throw new CommandException(I18n.translateToLocal(locKey+".nodust"));
 			}
 			//find the pattern
 			PatternFinder finder = new PatternFinder(world, lookPos);
@@ -118,10 +123,10 @@ public class CommandExportPattern implements ICommand {
 				throw new CommandException(locKey+".message.error");
 			}
 			//info message with link
-			ChatComponentText filename = new ChatComponentText(output.getName());
-			filename.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, output.getAbsolutePath()));
-			filename.getChatStyle().setUnderlined(true);
-			player.addChatMessage(new ChatComponentTranslation(locKey+".message", finder.getNumBlocks(), filename));
+			TextComponentString filename = new TextComponentString(output.getName());
+			filename.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, output.getAbsolutePath()));
+			filename.getStyle().setUnderlined(true);
+			player.addChatMessage(new TextComponentTranslation(locKey+".message", finder.getNumBlocks(), filename));
 		}
 	}
 
@@ -129,7 +134,7 @@ public class CommandExportPattern implements ICommand {
 	 * @see net.minecraft.command.ICommand#canCommandSenderUseCommand(net.minecraft.command.ICommandSender)
 	 */
 	@Override
-	public boolean canCommandSenderUseCommand(ICommandSender sender) {
+	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
 		//only players can use this command
 		return sender instanceof EntityPlayer;
 	}
@@ -138,7 +143,7 @@ public class CommandExportPattern implements ICommand {
 	 * @see net.minecraft.command.ICommand#addTabCompletionOptions(net.minecraft.command.ICommandSender, java.lang.String[], net.minecraft.util.BlockPos)
 	 */
 	@Override
-	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args,BlockPos pos) {
+	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args,BlockPos pos) {
 		return null;
 	}
 

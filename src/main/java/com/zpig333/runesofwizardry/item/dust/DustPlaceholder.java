@@ -10,6 +10,7 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.translation.I18n;
 
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
@@ -88,7 +89,7 @@ public abstract class DustPlaceholder extends IDust {
 	 */
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
-		tooltip.add(StatCollector.translateToLocal(References.Lang.PLACEHOLDER));
+		tooltip.add(I18n.translateToLocal(References.Lang.PLACEHOLDER));
 	}
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.api.IDust#creativeTab()

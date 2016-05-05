@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
@@ -82,7 +83,7 @@ public abstract class RuneEntity{
 	 * @param hit position at which the block was hit (same as hitX, hitY, hitZ)
 	 * @return true to prevent normal left-click handling (false by default)
 	 */
-	public boolean handleLeftClick(World worldIn, BlockPos pos,	EntityPlayer playerIn, Vec3 hit){
+	public boolean handleLeftClick(World worldIn, BlockPos pos,	EntityPlayer playerIn, Vec3d hit){
 		return false;
 	}
 	/**

@@ -18,8 +18,8 @@ public class ItemStackComparator implements Comparator<ItemStack> {
 
 	@Override
 	public int compare(ItemStack arg0, ItemStack arg1) {
-		String item0 = Item.itemRegistry.getNameForObject(arg0.getItem()).toString();
-		String item1 = Item.itemRegistry.getNameForObject(arg1.getItem()).toString();
+		String item0 = Item.REGISTRY.getNameForObject(arg0.getItem()).toString();
+		String item1 = Item.REGISTRY.getNameForObject(arg1.getItem()).toString();
 		int result = item0.compareTo(item1);
 		if(result==0){
 			Integer meta0 = arg0.getMetadata();

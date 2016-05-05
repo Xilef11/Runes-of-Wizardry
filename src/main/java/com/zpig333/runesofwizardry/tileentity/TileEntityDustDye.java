@@ -6,6 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
@@ -20,7 +23,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	public TileEntityDustDye(){
 		super();
 		colorString="Color";
-		//colorString=StatCollector.translateToLocal(References.Lang.COLOR);
+		//colorString=I18n.translateToLocal(References.Lang.COLOR);
 	}
 	public void dye(int color){
 		if(contents[0]==null)return;
@@ -192,10 +195,10 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	}
 
 	@Override
-	public IChatComponent getDisplayName() {
+	public ITextComponent getDisplayName() {
 		//line from InventoryBasic
 		//might want to always return the translated version? (dosen't seem much used, leave as is.)
-		return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName());
+		return this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName());
 	}
 	/*[refactor] the following methods are used to change the fields of the TileEntity.
 	 * we are already doing this in other ways, but we might want to switch to them eventually

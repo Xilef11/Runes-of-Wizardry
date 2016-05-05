@@ -1,6 +1,7 @@
 package com.zpig333.runesofwizardry.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -12,7 +13,7 @@ public class BlockLavastone_bricks extends Block{
 
 	public BlockLavastone_bricks(Material p_i45394_1_) {
 		super(p_i45394_1_);
-		setStepSound(soundTypeStone);
+		setSoundType(SoundType.STONE);
 		setCreativeTab(RunesOfWizardry.wizardry_tab);
 		setUnlocalizedName(References.modid+"_"+name);
 		setHardness(2);

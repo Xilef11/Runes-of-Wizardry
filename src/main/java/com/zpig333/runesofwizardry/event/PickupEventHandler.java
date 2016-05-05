@@ -12,10 +12,11 @@ import com.zpig333.runesofwizardry.item.ItemDustPouch;
 public class PickupEventHandler {
 	@SubscribeEvent
 	public void onPickupDust(EntityItemPickupEvent event){
-		ItemStack dust = event.item.getEntityItem();
+		ItemStack dust = event.getItem().getEntityItem();
 		//WizardryLogger.logInfo(dust);
 		if(dust.getItem() instanceof IDust && dust.stackSize>0){
-			InventoryPlayer inv = event.entityPlayer.inventory;
+			//XXX maybe check if the player can be null...
+			InventoryPlayer inv = event.getEntityPlayer().inventory;
 			for(int i=0;i<inv.getSizeInventory();i++){
 				//if(i==inv.currentItem)continue;//supposedly avoids deleting items
 				ItemStack stack = inv.getStackInSlot(i);

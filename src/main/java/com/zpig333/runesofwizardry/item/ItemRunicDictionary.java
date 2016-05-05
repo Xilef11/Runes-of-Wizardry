@@ -8,8 +8,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 import org.apache.logging.log4j.Level;
@@ -48,40 +53,40 @@ public class ItemRunicDictionary extends WizardryItem {
 			IRune rune = DustRegistry.getRuneByID(id);
 			if(rune==null)return;//in case an invalid ID is stored
 			//name
-			tooltip.add(StatCollector.translateToLocal(References.Lang.SELECTED)+" "+StatCollector.translateToLocal(rune.getName()));
+			tooltip.add(I18n.translateToLocal(References.Lang.SELECTED)+" "+I18n.translateToLocal(rune.getName()));
 			//description
-			tooltip.add("§o"+StatCollector.translateToLocal(rune.getShortDesc()));
+			tooltip.add("§o"+I18n.translateToLocal(rune.getShortDesc()));
 			boolean sneak = Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 			if(sneak){
 				RuneStats stats = DustRegistry.getRuneStats(id);
 				//dusts
-				tooltip.add("§l"+StatCollector.translateToLocal(References.Lang.REQUIRES));
+				tooltip.add("§l"+I18n.translateToLocal(References.Lang.REQUIRES));
 				for(ItemStack s:stats.dustCosts){
 					tooltip.add(" - "+(s.stackSize<10?" ":"")+s.stackSize+"x "+s.getDisplayName());
 				}
-				tooltip.add(StatCollector.translateToLocalFormatted(References.Lang.misc+"runesize", stats.xsize,stats.ysize,stats.centerx,stats.centery));
+				tooltip.add(I18n.translateToLocalFormatted(References.Lang.misc+"runesize", stats.xsize,stats.ysize,stats.centerx,stats.centery));
 				//sacrifice
-				tooltip.add("§l"+StatCollector.translateToLocal(References.Lang.SACRIFICE));
+				tooltip.add("§l"+I18n.translateToLocal(References.Lang.SACRIFICE));
 				ItemStack[][] possibilities = rune.getSacrifice();
 				if(possibilities!=null){
 					for(int i=0;i<possibilities.length;i++){
 						ItemStack[] sac = possibilities[i];
-						if(i>0)tooltip.add(" "+StatCollector.translateToLocal(References.Lang.OR));
+						if(i>0)tooltip.add(" "+I18n.translateToLocal(References.Lang.OR));
 						if(sac!=null){
 							for(ItemStack s:sac){
-								tooltip.add(" - "+(s.stackSize>=0? (s.stackSize<10?" ":"")+s.stackSize+"x " : StatCollector.translateToLocal(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
+								tooltip.add(" - "+(s.stackSize>=0? (s.stackSize<10?" ":"")+s.stackSize+"x " : I18n.translateToLocal(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
 							}
 						}else{
-							tooltip.add("   "+StatCollector.translateToLocal(References.Lang.NOTHING));
+							tooltip.add("   "+I18n.translateToLocal(References.Lang.NOTHING));
 						}
 					}
 				}
 				//extra sacrifice info
 				String extraInfo = rune.getExtraSacrificeInfo();
 				if(extraInfo!=null){
-					tooltip.add("  "+StatCollector.translateToLocal(extraInfo));
+					tooltip.add("  "+I18n.translateToLocal(extraInfo));
 				}else if(possibilities==null){
-					tooltip.add("  "+StatCollector.translateToLocal(References.Lang.NOTHING));
+					tooltip.add("  "+I18n.translateToLocal(References.Lang.NOTHING));
 				}
 			}
 
@@ -91,7 +96,7 @@ public class ItemRunicDictionary extends WizardryItem {
 	 * @see net.minecraft.item.Item#onItemUse(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.util.EnumFacing, float, float, float)
 	 */
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn,World worldIn, BlockPos pos, EnumFacing side, float hitX,float hitY, float hitZ) {
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote){
 			if(playerIn.isSneaking()){
 				String runeID = getSelectedRuneID(stack);
@@ -103,7 +108,8 @@ public class ItemRunicDictionary extends WizardryItem {
 							//MinecraftServer.getServer().getCommandManager().executeCommand(playerIn, CommandImportPattern.instance().getCommandName()+" "+runeID);
 							try {
 								//We run it this way to ignore the permissions on the command
-								CommandImportPattern.instance().processCommand(playerIn, new String[]{runeID});
+								//XXX careful with the null there
+								CommandImportPattern.instance().execute(null, playerIn, new String[]{runeID});
 							} catch (CommandException e) {
 								WizardryLogger.logException(Level.ERROR, e, "Exception while importing rune via Dictionary");
 							}
@@ -113,17 +119,17 @@ public class ItemRunicDictionary extends WizardryItem {
 				}
 			}
 		}
-		return false;
+		return EnumActionResult.PASS;
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#onItemRightClick(net.minecraft.item.ItemStack, net.minecraft.world.World, net.minecraft.entity.player.EntityPlayer)
 	 */
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn,	EntityPlayer playerIn) {
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if(!worldIn.isRemote && !playerIn.isSneaking()){
 			cycleRune(itemStackIn,playerIn);
 		}
-		return itemStackIn;
+		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#onEntitySwing(net.minecraft.entity.EntityLivingBase, net.minecraft.item.ItemStack)
@@ -214,8 +220,8 @@ public class ItemRunicDictionary extends WizardryItem {
 	public void NotifySelectionChange(EntityPlayer player, String selectedID){
 		IRune rune = DustRegistry.getRuneByID(selectedID);
 		if(rune!=null){
-			ChatUtils.sendNoSpam(player,"["+StatCollector.translateToLocal(WizardryRegistry.runic_dictionary.getUnlocalizedName()+".name")+"] "
-					+StatCollector.translateToLocal(References.Lang.SELECTED)+" "+StatCollector.translateToLocal(rune.getName()));
+			ChatUtils.sendNoSpam(player,"["+I18n.translateToLocal(WizardryRegistry.runic_dictionary.getUnlocalizedName()+".name")+"] "
+					+I18n.translateToLocal(References.Lang.SELECTED)+" "+I18n.translateToLocal(rune.getName()));
 		}
 	}
 	public String getSelectedRuneID(ItemStack stack){
