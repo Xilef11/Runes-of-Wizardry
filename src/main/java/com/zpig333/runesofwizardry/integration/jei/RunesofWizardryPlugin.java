@@ -49,28 +49,4 @@ public class RunesofWizardryPlugin implements IModPlugin {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see mezz.jei.api.IModPlugin#onJeiHelpersAvailable(mezz.jei.api.IJeiHelpers)
-	 */
-	@Deprecated
-	@Override
-	public void onJeiHelpersAvailable(IJeiHelpers jeiHelpers) {
-	}
-
-	/* (non-Javadoc)
-	 * @see mezz.jei.api.IModPlugin#onItemRegistryAvailable(mezz.jei.api.IItemRegistry)
-	 */
-	@Deprecated
-	@Override
-	public void onItemRegistryAvailable(IItemRegistry itemRegistry) {
-	}
-
-	/* (non-Javadoc)
-	 * @see mezz.jei.api.IModPlugin#onRecipeRegistryAvailable(mezz.jei.api.IRecipeRegistry)
-	 */
-	@Deprecated
-	@Override
-	public void onRecipeRegistryAvailable(IRecipeRegistry recipeRegistry) {
-	}
-
 }

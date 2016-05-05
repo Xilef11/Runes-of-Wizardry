@@ -55,7 +55,6 @@ public class RunesOfWizardry {
 			WizardryRegistry.initItemRenders();
 			//WizardryRegistry.registerDustItemRendering();
 			WizardryRegistry.registerBlockRenders();
-			WizardryRegistry.registerColors();
 		}
 		//proxy.createDustStorageStateMappers();
 		//to set the placed dust block as unbreakable
@@ -73,6 +72,7 @@ public class RunesOfWizardry {
 		if (event.getSide() == Side.CLIENT) {
 			//client commands
 			ClientCommandHandler.instance.registerCommand(new CommandExportPattern());
+			WizardryRegistry.registerColors();
 		}
 		if(ConfigHandler.registerTestRunes){
 			DustRegistry.registerRune(new RuneTesting(),"runetesting");

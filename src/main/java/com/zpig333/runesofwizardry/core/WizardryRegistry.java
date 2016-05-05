@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -23,9 +24,13 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
+import com.zpig333.runesofwizardry.block.DustStorageBlockColor;
+import com.zpig333.runesofwizardry.item.DustItemColor;
 import com.zpig333.runesofwizardry.item.DustPouchItemColor;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
@@ -258,6 +263,21 @@ public class WizardryRegistry {
 	public static void registerColors(){
 		ItemColors items = Minecraft.getMinecraft().getItemColors();
 		items.registerItemColorHandler(new DustPouchItemColor(), WizardryRegistry.dust_pouch);
+		registerDustColors();
+	}
+	private static void registerDustColors(){
+		ItemColors itcols = Minecraft.getMinecraft().getItemColors();
+		for(IDust dust:DustRegistry.getAllDusts()){
+			if(!dust.hasCustomIcon()){
+				itcols.registerItemColorHandler(DustItemColor.instance(), dust);
+			}
+		}
+	}
+	private static void registerDustBlockColors(){
+		BlockColors bcols = Minecraft.getMinecraft().getBlockColors();
+		for(IDustStorageBlock block: DustRegistry.getAllBlocks()){
+			if(block.getInstance() instanceof ADustStorageBlock)bcols.registerBlockColorHandler(DustStorageBlockColor.instance(), block.getInstance());
+		}
 	}
 	/**Register the rendering/icon for all dusts that use the default model**/
 	@Deprecated

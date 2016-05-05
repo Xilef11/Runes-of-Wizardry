@@ -60,7 +60,6 @@ public class ClientProxy extends CommonProxy{
 	public void registerDustItemRender(IDust dustclass) {
 		if(!dustclass.hasCustomIcon()){
 			List<ItemStack> subDusts = new LinkedList<ItemStack>();
-			Minecraft.getMinecraft().getItemColors().registerItemColorHandler(DustItemColor.instance(), dustclass);
 			//Things must (probably) be registered for all meta values
 			dustclass.getSubItems(dustclass, RunesOfWizardry.wizardry_tab, subDusts);
 			for(ItemStack i:subDusts){
@@ -76,8 +75,6 @@ public class ClientProxy extends CommonProxy{
 			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dustBlock.getInstance()), meta, blockModel);
 		}
 		registerDustBlockStateMapper(dustBlock);
-		//colors
-		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(DustStorageBlockColor.instance(), dustBlock);
 	}
 	private void registerDustBlockStateMapper(ADustStorageBlock block){
 		WizardryLogger.logInfo("Creating StateMapper for "+block.getName());

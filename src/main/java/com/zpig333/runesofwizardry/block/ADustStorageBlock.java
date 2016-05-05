@@ -33,8 +33,7 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 		setHarvestLevel("shovel", 0);
 		setUnlocalizedName(modID+"_"+getName());
 		//XXX figure this out
-		//GameRegistry.registerBlock(this, DustStorageItemBlock.class, modID+":"+getName());
-		GameRegistry.registerBlock(this, modID+":"+getName());
+		GameRegistry.registerBlock(this, DustStorageItemBlock.class, modID+":"+getName());
 	}
 
 	/* (non-Javadoc)
