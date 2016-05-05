@@ -146,7 +146,7 @@ public abstract class IDust extends Item {
 		else {
 			//can't place dust on certain blocks...
 			Block block = world.getBlockState(pos).getBlock();
-			if (block == Blocks.vine || block == Blocks.tallgrass || block == Blocks.deadbush || block == WizardryRegistry.dust_placed || block == Blocks.snow_layer) {
+			if (block == Blocks.VINE || block == Blocks.TALLGRASS || block == Blocks.DEADBUSH || block == WizardryRegistry.dust_placed || block == Blocks.SNOW_LAYER) {
 				return false;
 			}if(block == WizardryRegistry.dust_placed){
 				return true;

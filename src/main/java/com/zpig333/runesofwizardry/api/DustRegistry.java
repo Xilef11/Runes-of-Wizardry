@@ -156,7 +156,7 @@ public class DustRegistry {
 		//create the block form of the dust
 		IDustStorageBlock dustBlock;
 		if(!dustclass.hasCustomBlock()){
-			dustBlock = new ADustStorageBlock(Material.sand,modID) {
+			dustBlock = new ADustStorageBlock(Material.SAND,modID) {
 
 				@Override
 				public IDust getIDust() {

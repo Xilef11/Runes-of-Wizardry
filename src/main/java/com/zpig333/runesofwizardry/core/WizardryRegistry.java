@@ -149,12 +149,12 @@ public class WizardryRegistry {
 
 		//craft the pestle
 		GameRegistry.addRecipe(new ItemStack(pestle,1,0), new Object[]{
-			" Y ", "X X", " X ", 'X',new ItemStack(Blocks.stone),'Y',new ItemStack(Items.bone)
+			" Y ", "X X", " X ", 'X',new ItemStack(Blocks.stone),'Y',new ItemStack(Items.BONE)
 		});
 
 		//lavastone
 		GameRegistry.addShapelessRecipe(new ItemStack(nether_paste,1),
-				new ItemStack(Blocks.netherrack),new ItemStack(pestle,1,OreDictionary.WILDCARD_VALUE),new ItemStack(Items.blaze_powder));
+				new ItemStack(Blocks.netherrack),new ItemStack(pestle,1,OreDictionary.WILDCARD_VALUE),new ItemStack(Items.BLAZE_POWDER));
 		GameRegistry.addSmelting(nether_paste, new ItemStack(lavastone,1), 0.2F);
 		GameRegistry.addRecipe(new ItemStack(lavastone_bricks,4),new Object[]{
 			"XX","XX",'X',new ItemStack(lavastone,1)

@@ -137,7 +137,7 @@ public class BlockDustPlaced extends Block{
 			return false;
 		} else{
 			//FUTURE maybe tweak to use the oredict to allow other types of glass
-			return World.doesBlockHaveSolidTopSurface(world, pos.down()) || block == Blocks.glass;
+			return World.doesBlockHaveSolidTopSurface(world, pos.down()) || block == Blocks.GLASS;
 		}
 	}
 

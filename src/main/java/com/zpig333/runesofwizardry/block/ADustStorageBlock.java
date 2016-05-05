@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
@@ -13,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -28,7 +30,7 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 		super(mat);
 		setHardness(0.5F);
 		setCreativeTab(getIDust().creativeTab());
-		setStepSound(Block.soundTypeSand);
+		setSoundType(SoundType.SAND);
 		setHarvestLevel("shovel", 0);
 		setUnlocalizedName(modID+"_"+getName());
 		GameRegistry.registerBlock(this, DustStorageItemBlock.class, modID+":"+getName());
@@ -95,8 +97,8 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 	 * @see net.minecraft.block.Block#getBlockLayer()
 	 */
 	@Override
-	public EnumWorldBlockLayer getBlockLayer() {
-		return EnumWorldBlockLayer.CUTOUT;
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
@@ -115,7 +117,5 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 		}
 		return super.colorMultiplier(worldIn, pos, tintindex);
 	}
-
-
 
 }
