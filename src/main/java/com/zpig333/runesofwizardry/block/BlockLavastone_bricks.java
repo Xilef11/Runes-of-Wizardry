@@ -3,6 +3,8 @@ package com.zpig333.runesofwizardry.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
@@ -20,7 +22,9 @@ public class BlockLavastone_bricks extends Block{
 		setResistance(12);//slightly better than nether bricks (10)
 		setHarvestLevel("pickaxe", 0);
 		setLightLevel(0.72F);
-		GameRegistry.registerBlock(this, name);
+		ResourceLocation loc = new ResourceLocation(References.modid,name);
+		GameRegistry.register(this, loc);
+		GameRegistry.register(new ItemBlock(this), loc);
 	}
 	public String getName(){
 		return name;

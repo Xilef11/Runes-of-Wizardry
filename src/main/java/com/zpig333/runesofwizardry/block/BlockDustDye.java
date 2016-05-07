@@ -7,12 +7,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -33,7 +35,9 @@ public class BlockDustDye extends BlockContainer{
 		setHarvestLevel("pickaxe", 0);
 		setHardness(2);
 		setUnlocalizedName(References.modid+"_"+name);
-		GameRegistry.registerBlock(this, name);
+		ResourceLocation loc = new ResourceLocation(References.modid,name);
+		GameRegistry.register(this, loc);
+		GameRegistry.register(new ItemBlock(this), loc);
 	}
 	public String getName(){
 		return name;

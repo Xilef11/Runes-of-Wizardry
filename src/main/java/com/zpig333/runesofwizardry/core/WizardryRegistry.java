@@ -30,6 +30,7 @@ import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
 import com.zpig333.runesofwizardry.block.DustStorageBlockColor;
+import com.zpig333.runesofwizardry.block.DustStorageItemBlockColor;
 import com.zpig333.runesofwizardry.item.DustItemColor;
 import com.zpig333.runesofwizardry.item.DustPouchItemColor;
 import com.zpig333.runesofwizardry.item.ItemBroom;
@@ -262,21 +263,24 @@ public class WizardryRegistry {
 	}
 	public static void registerColors(){
 		ItemColors items = Minecraft.getMinecraft().getItemColors();
+		BlockColors blocks = Minecraft.getMinecraft().getBlockColors();
 		items.registerItemColorHandler(new DustPouchItemColor(), WizardryRegistry.dust_pouch);
-		registerDustColors();
+		registerDustColors(items);
+		registerDustBlockColors(blocks,items);
 	}
-	private static void registerDustColors(){
-		ItemColors itcols = Minecraft.getMinecraft().getItemColors();
+	private static void registerDustColors(ItemColors itcols){
 		for(IDust dust:DustRegistry.getAllDusts()){
 			if(!dust.hasCustomIcon()){
 				itcols.registerItemColorHandler(DustItemColor.instance(), dust);
 			}
 		}
 	}
-	private static void registerDustBlockColors(){
-		BlockColors bcols = Minecraft.getMinecraft().getBlockColors();
+	private static void registerDustBlockColors(BlockColors bcols, ItemColors icols){
 		for(IDustStorageBlock block: DustRegistry.getAllBlocks()){
-			if(block.getInstance() instanceof ADustStorageBlock)bcols.registerBlockColorHandler(DustStorageBlockColor.instance(), block.getInstance());
+			if(block.getInstance() instanceof ADustStorageBlock){
+				bcols.registerBlockColorHandler(DustStorageBlockColor.instance(), block.getInstance());
+				icols.registerItemColorHandler(DustStorageItemBlockColor.instance(),Item.getItemFromBlock(block.getInstance()));
+			}
 		}
 	}
 	/**Register the rendering/icon for all dusts that use the default model**/
@@ -305,16 +309,6 @@ public class WizardryRegistry {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dust_dye), 0, new ModelResourceLocation(References.texture_path+((BlockDustDye)dust_dye).getName(),"inventory"));
 		//placed dust. for NEI/WAILA purposes
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dust_placed), 0, new ModelResourceLocation(References.texture_path+"dust_placed","inventory"));
-		//dust storage items
-		//		ModelResourceLocation location = new ModelResourceLocation(References.texture_path+"dust_storage","inventory");
-		//		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
-		//			if(b.getInstance() instanceof ADustStorageBlock){
-		//				IDust dust = b.getIDust();
-		//				for(int meta:dust.getMetaValues()){
-		//					ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b.getInstance()), meta, location);
-		//				}
-		//			}
-		//		}
 	}
 	//registers the recipes for all dusts
 	public static void registerDustInfusion() {

@@ -21,16 +21,6 @@ public class DustStorageItemBlock extends ItemBlock {
 		super(block);
 	}
 
-//	@Override
-//	public int getColorFromItemStack(ItemStack stack, int renderPass) {
-//		Block block = Block.getBlockFromItem(stack.getItem());
-//		if(block instanceof ADustStorageBlock){
-//			IDust dust = ((ADustStorageBlock)block).getIDust();
-//			return dust.getColorFromItemStack(new ItemStack(dust, 1,stack.getMetadata()),renderPass);
-//		}
-//		return super.getColorFromItemStack(stack, renderPass);
-//	}
-
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.ItemBlock#getUnlocalizedName(net.minecraft.item.ItemStack)
 	 */
@@ -65,6 +55,5 @@ public class DustStorageItemBlock extends ItemBlock {
 	public int getMetadata(int damage) {
 		return damage;
 	}
-
-
+	
 }

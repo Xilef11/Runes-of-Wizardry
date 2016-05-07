@@ -12,10 +12,10 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,7 +33,10 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 		setHarvestLevel("shovel", 0);
 		setUnlocalizedName(modID+"_"+getName());
 		//XXX figure this out
-		GameRegistry.registerBlock(this, DustStorageItemBlock.class, modID+":"+getName());
+		ResourceLocation loc = new ResourceLocation(modID,getName());
+		GameRegistry.register(this,loc);
+		DustStorageItemBlock ib = new DustStorageItemBlock(this);
+		GameRegistry.register(ib, loc);
 	}
 
 	/* (non-Javadoc)

@@ -12,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
@@ -151,7 +152,7 @@ public class DustRegistry {
 			dustclass.setHasSubtypes(true);
 		}
 		//register the dust item with the appropriate modid
-		GameRegistry.registerItem(dustclass, modID+":"+dustclass.getName());
+		GameRegistry.register(dustclass, new ResourceLocation(modID,dustclass.getName()));
 		RunesOfWizardry.proxy.registerDustItemRender(dustclass);
 		//create the block form of the dust
 		IDustStorageBlock dustBlock;

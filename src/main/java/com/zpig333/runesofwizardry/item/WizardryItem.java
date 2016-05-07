@@ -6,6 +6,7 @@
 package com.zpig333.runesofwizardry.item;
 
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
@@ -19,7 +20,7 @@ public abstract class WizardryItem extends Item {
 
 	public WizardryItem(){
 		super();
-		GameRegistry.registerItem(this, getName());
+		GameRegistry.register(this, new ResourceLocation(References.modid,getName()));
 		this.setCreativeTab(RunesOfWizardry.wizardry_tab);
 		setUnlocalizedName(References.modid+"_"+getName());
 	}
