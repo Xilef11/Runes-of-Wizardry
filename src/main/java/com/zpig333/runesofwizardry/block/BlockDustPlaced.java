@@ -294,10 +294,9 @@ public class BlockDustPlaced extends Block{
 
 		int slotID = TileEntityDustPlaced.getSlotIDfromPosition(row, col);
 
-		ItemStack playerStack = playerIn.getActiveItemStack();//XXX update
 		ItemStack dustStack = tileDust.getStackInSlot(slotID);
 
-		if(playerStack==null){
+		if(heldItem==null){
 			if (dustStack !=null){
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
@@ -319,17 +318,17 @@ public class BlockDustPlaced extends Block{
 			}
 		}
 		//convert dust pouch to dust
-		if(playerStack.getItem() instanceof ItemDustPouch&& (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){//XXX could be switched to a capability
-			playerStack = ((ItemDustPouch)playerStack.getItem()).getDustStack(playerStack, 1);
-			if(playerStack==null || playerStack.stackSize<1)return false;
+		if(heldItem.getItem() instanceof ItemDustPouch&& (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){//XXX could be switched to a capability
+			heldItem = ((ItemDustPouch)heldItem.getItem()).getDustStack(heldItem, 1);
+			if(heldItem==null || heldItem.stackSize<1)return false;
 		}
-		if(playerStack.getItem() instanceof IDust && (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){
+		if(heldItem.getItem() instanceof IDust && (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){
 			//place dust in the inventory
 			ItemStack newItem=null;
 			if(!playerIn.capabilities.isCreativeMode){
-				newItem= playerStack.splitStack(1);//grab one item from the stack
+				newItem= heldItem.splitStack(1);//grab one item from the stack
 			}else{
-				newItem = playerStack.copy();
+				newItem = heldItem.copy();
 				newItem.stackSize=1;
 			}
 			tileDust.setInventorySlotContents(slotID, newItem);
@@ -340,7 +339,7 @@ public class BlockDustPlaced extends Block{
 			}
 			return true;
 		}
-		if(playerStack.getItem() instanceof ItemBroom){
+		if(heldItem.getItem() instanceof ItemBroom){
 			if(! worldIn.isRemote){
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
@@ -354,7 +353,7 @@ public class BlockDustPlaced extends Block{
 			TileEntityDustPlaced.updateNeighborConnectors(worldIn, pos);
 		}
 		//activate the rune with the staff
-		if(!tileDust.isInRune() && playerStack.getItem() instanceof ItemRunicStaff){
+		if(!tileDust.isInRune() && heldItem.getItem() instanceof ItemRunicStaff){
 			RunesUtil.activateRune(worldIn, pos, playerIn);
 			return true;
 		}

@@ -44,7 +44,7 @@ public class ItemRunicStaff extends WizardryItem {
 	{
 		//XXX UPDATE
 		//playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.PASS, itemStackIn);
 	}
 	/**
 	 * How long it takes to use or consume an item
