@@ -249,7 +249,6 @@ public class RunesUtil {
 			TileEntity te1 = world.getTileEntity(p);
 			if(te1 instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te1).setRune(null);
-				//XXX world.markBlockForUpdate(pos);//must sync the rune change with the client
 				world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0);
 			}else{
 				throw new IllegalStateException("TileEntity wasn't placed dust: "+te1);
@@ -285,7 +284,6 @@ public class RunesUtil {
 				}
 			}
 			//TODO particles?
-			//XXX worldIn.markBlockForUpdate(pos);
 			worldIn.notifyBlockUpdate(pos, worldIn.getBlockState(pos), worldIn.getBlockState(pos), 0);
 		}else{
 			WizardryLogger.logError("killDustForEntity was called with a BlockPos that does not have a TileEntityDustPlaced! :"+pos);

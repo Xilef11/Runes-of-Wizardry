@@ -300,7 +300,6 @@ public class BlockDustPlaced extends Block{
 			if (dustStack !=null){
 				//drop the dust piece
 				tileDust.setInventorySlotContents(slotID, null);
-				//XXX worldIn.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				worldIn.playSound(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F, false);
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);

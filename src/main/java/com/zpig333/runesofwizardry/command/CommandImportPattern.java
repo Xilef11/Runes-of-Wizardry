@@ -93,6 +93,7 @@ public class CommandImportPattern implements ICommand {
 	/* (non-Javadoc)
 	 * @see net.minecraft.command.ICommand#processCommand(net.minecraft.command.ICommandSender, java.lang.String[])
 	 */
+	//Note: server is null when called from runic dictionary
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args)throws CommandException {
 		World world = sender.getEntityWorld();

@@ -31,7 +31,6 @@ public class ItemRunicStaff extends WizardryItem {
 		//tooltip.add("Unimplemented");
 	}
 	//the following methods are for rendering and may be temporary
-	//XXX still not happy with 3rd person attack animation
 	@Override
 	public EnumAction getItemUseAction(ItemStack stack) {
 		return EnumAction.BLOCK;
@@ -44,7 +43,7 @@ public class ItemRunicStaff extends WizardryItem {
 	{
 		//XXX UPDATE
 		//playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-		return ActionResult.newResult(EnumActionResult.PASS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
 	}
 	/**
 	 * How long it takes to use or consume an item

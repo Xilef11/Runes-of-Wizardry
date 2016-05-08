@@ -108,7 +108,7 @@ public class ItemRunicDictionary extends WizardryItem {
 							//MinecraftServer.getServer().getCommandManager().executeCommand(playerIn, CommandImportPattern.instance().getCommandName()+" "+runeID);
 							try {
 								//We run it this way to ignore the permissions on the command
-								//XXX careful with the null there
+								//careful with the null there
 								CommandImportPattern.instance().execute(null, playerIn, new String[]{runeID});
 							} catch (CommandException e) {
 								WizardryLogger.logException(Level.ERROR, e, "Exception while importing rune via Dictionary");
