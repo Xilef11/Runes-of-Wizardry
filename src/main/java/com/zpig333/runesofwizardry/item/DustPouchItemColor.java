@@ -1,7 +1,5 @@
 package com.zpig333.runesofwizardry.item;
 
-import com.zpig333.runesofwizardry.block.DustStorageBlockColor;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemStack;
