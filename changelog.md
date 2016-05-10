@@ -1,2 +1,2 @@
-- Added effect to show if a rune is active
-- added dust pouches
+- Updated to 1.9
+- Not all off-hand interactions have been tested, please report any strange behaviour
