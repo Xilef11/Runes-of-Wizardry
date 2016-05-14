@@ -72,7 +72,7 @@ public class RunesOfWizardry {
 		if (event.getSide() == Side.CLIENT) {
 			//client commands
 			ClientCommandHandler.instance.registerCommand(new CommandExportPattern());
-			WizardryRegistry.registerColors();
+			proxy.registerColors();
 		}
 		if(ConfigHandler.registerTestRunes){
 			DustRegistry.registerRune(new RuneTesting(),"runetesting");

@@ -5,10 +5,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.color.BlockColors;
-import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -24,15 +21,9 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.api.IDustStorageBlock;
-import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
-import com.zpig333.runesofwizardry.block.DustStorageBlockColor;
-import com.zpig333.runesofwizardry.block.DustStorageItemBlockColor;
-import com.zpig333.runesofwizardry.item.DustItemColor;
-import com.zpig333.runesofwizardry.item.DustPouchItemColor;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
@@ -261,28 +252,7 @@ public class WizardryRegistry {
 				new ModelResourceLocation(References.texture_path
 						+ ((ItemDustPouch)dust_pouch).getName()+"_full", "inventory"));
 	}
-	public static void registerColors(){
-		ItemColors items = Minecraft.getMinecraft().getItemColors();
-		BlockColors blocks = Minecraft.getMinecraft().getBlockColors();
-		items.registerItemColorHandler(new DustPouchItemColor(), WizardryRegistry.dust_pouch);
-		registerDustColors(items);
-		registerDustBlockColors(blocks,items);
-	}
-	private static void registerDustColors(ItemColors itcols){
-		for(IDust dust:DustRegistry.getAllDusts()){
-			if(!dust.hasCustomIcon()){
-				itcols.registerItemColorHandler(DustItemColor.instance(), dust);
-			}
-		}
-	}
-	private static void registerDustBlockColors(BlockColors bcols, ItemColors icols){
-		for(IDustStorageBlock block: DustRegistry.getAllBlocks()){
-			if(block.getInstance() instanceof ADustStorageBlock){
-				bcols.registerBlockColorHandler(DustStorageBlockColor.instance(), block.getInstance());
-				icols.registerItemColorHandler(DustStorageItemBlockColor.instance(),Item.getItemFromBlock(block.getInstance()));
-			}
-		}
-	}
+	
 	/**Register the rendering/icon for all dusts that use the default model**/
 	@Deprecated
 	public static void registerDustItemRendering(){

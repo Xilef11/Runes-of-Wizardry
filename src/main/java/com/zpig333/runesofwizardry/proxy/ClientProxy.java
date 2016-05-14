@@ -4,8 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
@@ -16,9 +19,14 @@ import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
+import com.zpig333.runesofwizardry.block.DustStorageBlockColor;
+import com.zpig333.runesofwizardry.block.DustStorageItemBlockColor;
 import com.zpig333.runesofwizardry.client.render.RenderDustPlaced;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.DustItemColor;
+import com.zpig333.runesofwizardry.item.DustPouchItemColor;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 public class ClientProxy extends CommonProxy{
@@ -80,5 +88,28 @@ public class ClientProxy extends CommonProxy{
 			}
 		};
 		ModelLoader.setCustomStateMapper(block.getInstance(), mapper);
+	}
+	@Override
+	public void registerColors(){
+		ItemColors items = Minecraft.getMinecraft().getItemColors();
+		BlockColors blocks = Minecraft.getMinecraft().getBlockColors();
+		items.registerItemColorHandler(new DustPouchItemColor(), WizardryRegistry.dust_pouch);
+		registerDustColors(items);
+		registerDustBlockColors(blocks,items);
+	}
+	private static void registerDustColors(ItemColors itcols){
+		for(IDust dust:DustRegistry.getAllDusts()){
+			if(!dust.hasCustomIcon()){
+				itcols.registerItemColorHandler(DustItemColor.instance(), dust);
+			}
+		}
+	}
+	private static void registerDustBlockColors(BlockColors bcols, ItemColors icols){
+		for(IDustStorageBlock block: DustRegistry.getAllBlocks()){
+			if(block.getInstance() instanceof ADustStorageBlock){
+				bcols.registerBlockColorHandler(DustStorageBlockColor.instance(), block.getInstance());
+				icols.registerItemColorHandler(DustStorageItemBlockColor.instance(),Item.getItemFromBlock(block.getInstance()));
+			}
+		}
 	}
 }

@@ -1,2 +1,1 @@
-- Updated to 1.9
-- Not all off-hand interactions have been tested, please report any strange behaviour
+- Fix dedicated server crash

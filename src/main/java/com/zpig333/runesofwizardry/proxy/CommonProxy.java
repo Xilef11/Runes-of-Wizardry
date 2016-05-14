@@ -24,4 +24,7 @@ public class CommonProxy {
 		// client only
 	}
 
+	public void registerColors(){
+		
+	}
 }
