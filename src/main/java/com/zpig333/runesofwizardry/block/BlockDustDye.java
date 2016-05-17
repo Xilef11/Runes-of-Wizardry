@@ -2,6 +2,7 @@ package com.zpig333.runesofwizardry.block;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -119,6 +120,19 @@ public class BlockDustDye extends BlockContainer{
 			return true;
 		}
 	}
-
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#onNeighborBlockChange(net.minecraft.world.World, net.minecraft.util.math.BlockPos, net.minecraft.block.state.IBlockState, net.minecraft.block.Block)
+	 */
+	@Override
+	public void onNeighborBlockChange(World worldIn, BlockPos pos,IBlockState state, Block neighborBlock) {
+		TileEntity te = worldIn.getTileEntity(pos);
+		if(te instanceof TileEntityDustDye){
+			((TileEntityDustDye)te).handleBlockUpdate(worldIn.isBlockPowered(pos));
+		}
+		super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+	}
+	
+	
+	
 }
 

@@ -11,6 +11,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
 
 
@@ -19,7 +20,9 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	private ItemStack[] contents = new ItemStack[1];
 	//the currently selected color
 	private String colorString;
-
+	//was this block powered last time we checked
+	private boolean pastRedstoneState=false;
+	
 	public TileEntityDustDye(){
 		super();
 		colorString="Color";
@@ -36,6 +39,17 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 		compound.setInteger("color", color);
 		setColor(Integer.toHexString(color));
 	}
+	
+	public void handleBlockUpdate(boolean newRedstone){
+		if(newRedstone && !pastRedstoneState){
+			try{
+				this.dye(Integer.parseInt(colorString,16));
+			}catch(NumberFormatException e){
+				WizardryLogger.logInfo("Dust Dye: unable to parse color "+colorString+" on redstone toggle");
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @return the currently selected Color of this block as a String
@@ -173,6 +187,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 			}
 		}
 		this.colorString=tagCompound.getString("Color");
+		this.pastRedstoneState=tagCompound.getBoolean("pastRedstone");
 	}
 
 	@Override
@@ -191,7 +206,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 		}
 		tagCompound.setTag("Inventory", itemList);
 		tagCompound.setString("Color", colorString);
-
+		tagCompound.setBoolean("pastRedstone", pastRedstoneState);
 	}
 
 	@Override
