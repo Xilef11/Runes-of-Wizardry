@@ -128,5 +128,14 @@ public abstract class RuneEntity{
 	public BlockPos getPos() {
 		return entity.getPos();
 	}
-
+	/**
+	 * @return true if any block within the rune is receiving a redstone signal of any strength
+	 */
+	public boolean hasRedstoneSignal(){
+		World world = entity.getWorld();
+		for(BlockPos pos:dustPositions){
+			if(world.isBlockPowered(pos))return true;
+		}
+		return false;
+	}
 }
