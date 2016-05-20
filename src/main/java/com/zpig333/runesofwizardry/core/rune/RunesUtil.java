@@ -148,7 +148,7 @@ public class RunesUtil {
 				e.setDead();
 			}
 			//if(!sacList.isEmpty())world.playSoundAtEntity(player, "mob.chicken.plop", 0.5F, 0.8F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
-			if(!sacList.isEmpty())world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.AMBIENT, 0.5F, 0.8F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F, false);
+			if(!sacList.isEmpty())world.playSound(null,player.posX, player.posY, player.posZ, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.AMBIENT, 0.5F, 0.8F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
 		}
 		sacrifice = stacks==null? null : stacks.toArray(new ItemStack[stacks.size()]);
 		//find the "top-left" corner
