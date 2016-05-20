@@ -7,6 +7,7 @@ package com.zpig333.runesofwizardry.api;
 
 import java.util.Set;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,6 +40,7 @@ public abstract class RuneEntity{
 	public final IRune creator;
 	/**Should this rune have effects when active?**/
 	public boolean renderActive=true;
+	private boolean hasRedstoneSignal;
 	/**
 	 * This constructor is called during normal activation of a rune, and may be called with null values
 	 * @param actualPattern the pattern of ItemStacks that was found
@@ -129,13 +131,32 @@ public abstract class RuneEntity{
 		return entity.getPos();
 	}
 	/**
-	 * @return true if any block within the rune is receiving a redstone signal of any strength
+	 * @return true if any block within the rune is receiving a redstone signal of any strength. also updates internal redstone status for {@link RuneEntity#hasRedstoneSignal()}
 	 */
-	public boolean hasRedstoneSignal(){
+	public boolean isAnyBlockPowered(){
 		World world = entity.getWorld();
 		for(BlockPos pos:dustPositions){
-			if(world.isBlockPowered(pos))return true;
+			if(world.isBlockPowered(pos)){
+				hasRedstoneSignal=true;
+				return true;
+			}
 		}
+		hasRedstoneSignal=false;
 		return false;
 	}
+	/** Triggered when a neighbor block to any block in this rune updates. used to update redstone signal status **/
+	public void handleBlockUpdate(World worldIn, BlockPos pos,IBlockState state, Block neighborBlock) {
+		//is the block calling the update recieving a signal?	
+		boolean newRS = worldIn.isBlockPowered(pos);
+		if(newRS){
+			hasRedstoneSignal=true;
+		}else{
+			isAnyBlockPowered();
+		}
+	}
+	/** Is this rune recieving a redstone signal **/
+	public boolean hasRedstoneSignal(){
+		return hasRedstoneSignal;
+	}
+	
 }

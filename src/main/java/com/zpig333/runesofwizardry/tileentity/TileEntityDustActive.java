@@ -115,6 +115,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 				WizardryLogger.logError("TileEntity at pos: "+p+" wasn't placed dust! (TEDustActive#init)");
 			}
 		}
+		rune.isAnyBlockPowered();
 		initialised=true;
 	}
 	/* (non-Javadoc)

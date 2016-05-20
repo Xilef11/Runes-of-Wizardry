@@ -120,7 +120,8 @@ public class BlockDustPlaced extends Block{
 		}
 	}
 
-
+	
+	
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state){
 		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;//render type 2 is TESR
@@ -369,6 +370,14 @@ public class BlockDustPlaced extends Block{
 		if(worldIn.isAirBlock(pos.down())){
 			this.breakBlock(worldIn, pos, state);
 			worldIn.setBlockToAir(pos);
+			return;
+		}
+		TileEntity te = worldIn.getTileEntity(pos);
+		if(te instanceof TileEntityDustPlaced){
+			RuneEntity rune = ((TileEntityDustPlaced)te).getRune();
+			if(rune!=null){
+				rune.handleBlockUpdate(worldIn, pos,state, neighborBlock);
+			}
 		}
 	}
 
