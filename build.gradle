@@ -49,7 +49,7 @@ def majorVersion = "0"
 def minorVersion = "6"
 def bugfix = ".3"
 def devVersion = "-dev"
-def forgeVersion="1.9-12.16.1.1892"
+def forgeVersion="1.9-12.16.1.1907"
 
 version = "${mcVersion}-${majorVersion}.${minorVersion}${bugfix}${devVersion}"
 group= "com.zpig333.runesofwizardry"

@@ -1,3 +1,4 @@
+- Mostly maintenance release before moving to 1.9.4
 - Fix dedicated server crash
 - add redstone interaction to arcane dye
 - Back end stuff
