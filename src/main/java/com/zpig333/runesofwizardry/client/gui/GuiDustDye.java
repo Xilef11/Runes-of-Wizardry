@@ -6,10 +6,10 @@ import java.io.IOException;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 
 import org.apache.logging.log4j.Level;
 import org.lwjgl.input.Keyboard;
@@ -74,7 +74,7 @@ public class GuiDustDye extends GuiContainer {
 		 */
 		String color= PARENT.getColorString();
 		if(color==null || color.equals("Color") || color.equals("")){
-			color= I18n.translateToLocal(References.Lang.COLOR);
+			color= I18n.format(References.Lang.COLOR);
 		}
 		textColor.setText(color);
 		updateColor();
@@ -82,7 +82,7 @@ public class GuiDustDye extends GuiContainer {
 		textColor.setCanLoseFocus(true);
 		//id, x, y, width, height, text
 		//note: height seems to need to be 20 to display full button texture
-		buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+99,posY+55,50,20,I18n.translateToLocal(References.Lang.DYE)));
+		buttonList.add(new GuiButton(GUI_DYE_BUTTON,posX+99,posY+55,50,20,I18n.format(References.Lang.DYE)));
 	}
 	/** returns the Tile Entity this GUI is bound to
 	 * 
@@ -222,7 +222,7 @@ public class GuiDustDye extends GuiContainer {
 		//the parameters for drawString are: string, x, y, color
 		fontRendererObj.drawString(WizardryRegistry.dust_dye.getLocalizedName(), 8, 6, 4210752);
 		//draws "Inventory" or your regional equivalent
-		fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 8, ySize - 96 + 3, 4210752);
+		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 3, 4210752);
 		textColor.drawTextBox();
 		if(!validColor){
 			GL11.glPushMatrix();//GL stuff to make it bigger

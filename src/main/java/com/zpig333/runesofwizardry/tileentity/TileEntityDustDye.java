@@ -191,7 +191,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound tagCompound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
 
 		NBTTagList itemList = new NBTTagList();
@@ -207,6 +207,7 @@ public class TileEntityDustDye extends TileEntity implements IInventory{
 		tagCompound.setTag("Inventory", itemList);
 		tagCompound.setString("Color", colorString);
 		tagCompound.setBoolean("pastRedstone", pastRedstoneState);
+		return tagCompound;
 	}
 
 	@Override

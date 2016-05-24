@@ -123,13 +123,14 @@ public class BlockDustDye extends BlockContainer{
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#onNeighborBlockChange(net.minecraft.world.World, net.minecraft.util.math.BlockPos, net.minecraft.block.state.IBlockState, net.minecraft.block.Block)
 	 */
+	@Deprecated
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos,IBlockState state, Block neighborBlock) {
+	public void neighborChanged(IBlockState state,World worldIn, BlockPos pos, Block neighborBlock) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if(te instanceof TileEntityDustDye){
 			((TileEntityDustDye)te).handleBlockUpdate(worldIn.isBlockPowered(pos));
 		}
-		super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+		super.neighborChanged(state, worldIn, pos, neighborBlock);
 	}
 	
 	

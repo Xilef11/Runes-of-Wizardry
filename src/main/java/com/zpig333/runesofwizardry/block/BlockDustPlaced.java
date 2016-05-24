@@ -8,7 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -68,16 +68,20 @@ public class BlockDustPlaced extends Block{
 	/**
 	 * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
 	 * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
+	 * @deprecated
 	 */
+	@Deprecated
 	@Override
 	public boolean isOpaqueCube(IBlockState state)
 	{
 		return false;
 	}
+	@Deprecated
 	@Override
 	public boolean isFullCube(IBlockState state){
 		return false;
 	}
+	@Deprecated
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState state,World worldIn, BlockPos pos)
 	{	//No collision
@@ -120,13 +124,13 @@ public class BlockDustPlaced extends Block{
 		}
 	}
 
-	
-	
+	@Deprecated
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state){
 		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;//render type 2 is TESR
 	}
 
+	@Deprecated
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source,	BlockPos pos) {
 		return new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.0625F, 1.0F);
@@ -179,6 +183,7 @@ public class BlockDustPlaced extends Block{
 	}
 	//this block has 1 property: active or not.
 	public static final PropertyBool PROPERTYACTIVE = PropertyBool.create("active");
+	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return meta==0? this.getDefaultState().withProperty(PROPERTYACTIVE, false) : this.getDefaultState().withProperty(PROPERTYACTIVE, true);
@@ -365,8 +370,9 @@ public class BlockDustPlaced extends Block{
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#onNeighborBlockChange(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.block.state.IBlockState, net.minecraft.block.Block)
 	 */
+	@Deprecated
 	@Override
-	public void onNeighborBlockChange(World worldIn, BlockPos pos,IBlockState state, Block neighborBlock) {
+	public void neighborChanged(IBlockState state,World worldIn, BlockPos pos, Block neighborBlock) {
 		if(worldIn.isAirBlock(pos.down())){
 			this.breakBlock(worldIn, pos, state);
 			worldIn.setBlockToAir(pos);
@@ -380,7 +386,6 @@ public class BlockDustPlaced extends Block{
 			}
 		}
 	}
-
 
 
 	/* (non-Javadoc)
@@ -445,16 +450,16 @@ public class BlockDustPlaced extends Block{
 	 * @see net.minecraft.block.Block#addDestroyEffects(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.client.particle.EffectRenderer)
 	 */
 	@Override
-	public boolean addDestroyEffects(World world, BlockPos pos,	EffectRenderer effectRenderer) {
+	public boolean addDestroyEffects(World world, BlockPos pos,	ParticleManager particleManager) {
 		return true;//should remove the break particles
 	}
-
+	
 
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#addHitEffects(net.minecraft.world.World, net.minecraft.util.RayTraceResult, net.minecraft.client.particle.EffectRenderer)
 	 */
 	@Override
-	public boolean addHitEffects(IBlockState state,World worldObj, RayTraceResult target,EffectRenderer effectRenderer) {
+	public boolean addHitEffects(IBlockState state,World worldObj, RayTraceResult target,ParticleManager particleManager) {
 		return true;//should remove "breaking" particles
 	}
 

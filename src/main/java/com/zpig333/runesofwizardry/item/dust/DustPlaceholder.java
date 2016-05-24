@@ -10,8 +10,10 @@ import java.util.List;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.core.ConfigHandler;
@@ -88,8 +90,11 @@ public abstract class DustPlaceholder extends IDust {
 	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 	 */
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
-		tooltip.add(I18n.translateToLocal(References.Lang.PLACEHOLDER));
+		//TODO should be using client I18n. might have to defer to proxy
+		tooltip.add(RunesOfWizardry.proxy.translate(References.Lang.PLACEHOLDER));
+		//tooltip.add(I18n.translateToLocal(References.Lang.PLACEHOLDER));
 	}
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.api.IDust#creativeTab()

@@ -122,7 +122,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 	 * @see com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced#writeToNBT(net.minecraft.nbt.NBTTagCompound)
 	 */
 	@Override
-	public void writeToNBT(NBTTagCompound tagCompound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
 		if(rune!=null){
 			rune.writeToNBT(tagCompound);
@@ -153,6 +153,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			tagCompound.setBoolean("renderActive", rune.renderActive);
 		}
 		tagCompound.setLong("ticksExisted", ticksExisted);
+		return tagCompound;
 	}
 	//
 	private class ArrayElement{

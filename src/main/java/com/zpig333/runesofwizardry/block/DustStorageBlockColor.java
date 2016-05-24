@@ -1,14 +1,14 @@
 package com.zpig333.runesofwizardry.block;
 
-import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.api.IDustStorageBlock;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 
 public class DustStorageBlockColor implements IBlockColor {
 	private static DustStorageBlockColor instance=null;

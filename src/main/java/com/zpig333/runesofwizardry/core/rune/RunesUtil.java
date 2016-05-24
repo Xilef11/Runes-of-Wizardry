@@ -23,9 +23,9 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IRune;
@@ -136,7 +136,8 @@ public class RunesUtil {
 		if(stacks.isEmpty())stacks=null;
 		if(!negated){
 			if(!match.rune.sacrificeMatches(stacks)){
-				player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.badsacrifice", I18n.translateToLocal(match.rune.getName())));
+				//TODO check the translation on this one
+				player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.badsacrifice", match.rune.getName()));
 				return;
 			}
 			//kill the items

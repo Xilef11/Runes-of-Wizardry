@@ -13,12 +13,12 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 import org.apache.logging.log4j.Level;
 import org.lwjgl.input.Keyboard;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.command.CommandImportPattern;
@@ -28,7 +28,6 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.RuneStats;
 import com.zpig333.runesofwizardry.util.ChatUtils;
-
 
 public class ItemRunicDictionary extends WizardryItem {
 	private final String name="runic_dictionary";
@@ -52,40 +51,40 @@ public class ItemRunicDictionary extends WizardryItem {
 			IRune rune = DustRegistry.getRuneByID(id);
 			if(rune==null)return;//in case an invalid ID is stored
 			//name
-			tooltip.add(I18n.translateToLocal(References.Lang.SELECTED)+" "+I18n.translateToLocal(rune.getName()));
+			tooltip.add(RunesOfWizardry.proxy.translate(References.Lang.SELECTED)+" "+RunesOfWizardry.proxy.translate(rune.getName()));
 			//description
-			tooltip.add("§o"+I18n.translateToLocal(rune.getShortDesc()));
+			tooltip.add("§o"+RunesOfWizardry.proxy.translate(rune.getShortDesc()));
 			boolean sneak = Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 			if(sneak){
 				RuneStats stats = DustRegistry.getRuneStats(id);
 				//dusts
-				tooltip.add("§l"+I18n.translateToLocal(References.Lang.REQUIRES));
+				tooltip.add("§l"+RunesOfWizardry.proxy.translate(References.Lang.REQUIRES));
 				for(ItemStack s:stats.dustCosts){
 					tooltip.add(" - "+(s.stackSize<10?" ":"")+s.stackSize+"x "+s.getDisplayName());
 				}
-				tooltip.add(I18n.translateToLocalFormatted(References.Lang.misc+"runesize", stats.xsize,stats.ysize,stats.centerx,stats.centery));
+				tooltip.add(RunesOfWizardry.proxy.translate(References.Lang.misc+"runesize", stats.xsize,stats.ysize,stats.centerx,stats.centery));
 				//sacrifice
-				tooltip.add("§l"+I18n.translateToLocal(References.Lang.SACRIFICE));
+				tooltip.add("§l"+RunesOfWizardry.proxy.translate(References.Lang.SACRIFICE));
 				ItemStack[][] possibilities = rune.getSacrifice();
 				if(possibilities!=null){
 					for(int i=0;i<possibilities.length;i++){
 						ItemStack[] sac = possibilities[i];
-						if(i>0)tooltip.add(" "+I18n.translateToLocal(References.Lang.OR));
+						if(i>0)tooltip.add(" "+RunesOfWizardry.proxy.translate(References.Lang.OR));
 						if(sac!=null){
 							for(ItemStack s:sac){
-								tooltip.add(" - "+(s.stackSize>=0? (s.stackSize<10?" ":"")+s.stackSize+"x " : I18n.translateToLocal(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
+								tooltip.add(" - "+(s.stackSize>=0? (s.stackSize<10?" ":"")+s.stackSize+"x " : RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
 							}
 						}else{
-							tooltip.add("   "+I18n.translateToLocal(References.Lang.NOTHING));
+							tooltip.add("   "+RunesOfWizardry.proxy.translate(References.Lang.NOTHING));
 						}
 					}
 				}
 				//extra sacrifice info
 				String extraInfo = rune.getExtraSacrificeInfo();
 				if(extraInfo!=null){
-					tooltip.add("  "+I18n.translateToLocal(extraInfo));
+					tooltip.add("  "+RunesOfWizardry.proxy.translate(extraInfo));
 				}else if(possibilities==null){
-					tooltip.add("  "+I18n.translateToLocal(References.Lang.NOTHING));
+					tooltip.add("  "+RunesOfWizardry.proxy.translate(References.Lang.NOTHING));
 				}
 			}
 
@@ -219,8 +218,8 @@ public class ItemRunicDictionary extends WizardryItem {
 	public void NotifySelectionChange(EntityPlayer player, String selectedID){
 		IRune rune = DustRegistry.getRuneByID(selectedID);
 		if(rune!=null){
-			ChatUtils.sendNoSpam(player,"["+I18n.translateToLocal(WizardryRegistry.runic_dictionary.getUnlocalizedName()+".name")+"] "
-					+I18n.translateToLocal(References.Lang.SELECTED)+" "+I18n.translateToLocal(rune.getName()));
+			ChatUtils.sendNoSpam(player,"["+RunesOfWizardry.proxy.translate(WizardryRegistry.runic_dictionary.getUnlocalizedName()+".name")+"] "
+					+RunesOfWizardry.proxy.translate(References.Lang.SELECTED)+" "+RunesOfWizardry.proxy.translate(rune.getName()));
 		}
 	}
 	public String getSelectedRuneID(ItemStack stack){

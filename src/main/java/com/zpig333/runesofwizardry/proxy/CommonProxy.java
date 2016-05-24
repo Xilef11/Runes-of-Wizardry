@@ -27,4 +27,8 @@ public class CommonProxy {
 	public void registerColors(){
 		
 	}
+	
+	public String translate(String unlocalised, Object... parameters){
+		return unlocalised;
+	}
 }

@@ -23,7 +23,7 @@ public class RayTracer {
 		Vec3d lookVec = player.getLook(1.0F);
 		double reach = getBlockReachDistance(player);
 		Vec3d endVec = headVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
-		return b.getBlock().collisionRayTrace(b,world, pos, headVec, endVec);
+		return b.collisionRayTrace(world, pos, headVec, endVec);
 	}
 
 	private static double getBlockReachDistance_server(EntityPlayerMP player) {

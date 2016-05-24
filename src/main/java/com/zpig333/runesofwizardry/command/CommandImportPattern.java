@@ -26,7 +26,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 import org.apache.commons.lang3.StringUtils;
@@ -79,7 +78,8 @@ public class CommandImportPattern implements ICommand {
 	 */
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return getCommandName()+" "+I18n.translateToLocal(locKey+".usage");
+		//XXX check if it gets partially translated
+		return getCommandName()+" "+locKey+".usage";
 	}
 
 	/* (non-Javadoc)
@@ -107,7 +107,8 @@ public class CommandImportPattern implements ICommand {
 				IRune rune=null;
 				if(args[0].contains(":")){//if its a rune
 					rune = DustRegistry.getRuneByID(args[0]);
-					if(rune==null)throw new CommandException(I18n.translateToLocalFormatted(locKey+".nosuchrune",args[0]));
+					//XXX translation
+					if(rune==null)throw new CommandException(locKey+".nosuchrune",args[0]);
 					ItemStack[][] runepattern = rune.getPattern();
 					//COPY the pattern to avoid changing it by mistake (everything is mutable...)
 					pattern = new ItemStack[runepattern.length][runepattern[0].length];

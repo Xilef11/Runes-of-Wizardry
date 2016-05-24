@@ -60,6 +60,7 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 	}
 	//this block has 1 property: the meta value
 	public static final PropertyInteger PROPERTYMETA = PropertyInteger.create("meta",0,15);
+	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(PROPERTYMETA, meta);

@@ -16,7 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -372,7 +371,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	 * @see net.minecraft.tileentity.TileEntity#getDescriptionPacket()
 	 */
 	@Override
-	public Packet<?> getDescriptionPacket() {
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		//what botania does
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
@@ -425,7 +424,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		if(!tagCompound.getBoolean("inRune"))this.rune=null;
 	}
 	@Override
-	public void writeToNBT(NBTTagCompound tagCompound) {
+	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
 
 		NBTTagList itemList = new NBTTagList();
@@ -440,6 +439,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		}
 		tagCompound.setTag("Inventory", itemList);
 		tagCompound.setBoolean("inRune", isInRune());
+		return tagCompound;
 	}
 	//NOT using the following field methods
 	@Override

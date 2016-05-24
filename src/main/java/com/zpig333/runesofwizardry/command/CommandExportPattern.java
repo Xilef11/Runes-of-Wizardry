@@ -24,7 +24,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 import org.apache.logging.log4j.Level;
@@ -71,7 +70,8 @@ public class CommandExportPattern implements ICommand {
 	 */
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return getCommandName()+" "+I18n.translateToLocal(locKey+".usage");
+		//should return unlocalized string
+		return getCommandName()+" "+locKey+".usage";
 	}
 
 	/* (non-Javadoc)
@@ -101,7 +101,8 @@ public class CommandExportPattern implements ICommand {
 			EnumFacing playerFacing = player.getHorizontalFacing();
 			WizardryLogger.logInfo("Export Pattern: Looking at block: "+block.getUnlocalizedName()+" at "+lookPos+" facing: "+playerFacing);
 			if(block!=WizardryRegistry.dust_placed){
-				throw new CommandException(I18n.translateToLocal(locKey+".nodust"));
+				//XXX maybe do stuff for translation
+				throw new CommandException(locKey+".nodust");
 			}
 			//find the pattern
 			PatternFinder finder = new PatternFinder(world, lookPos);

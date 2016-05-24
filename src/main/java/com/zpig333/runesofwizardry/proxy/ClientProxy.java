@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
@@ -112,4 +113,13 @@ public class ClientProxy extends CommonProxy{
 			}
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.proxy.CommonProxy#translate(java.lang.String)
+	 */
+	@Override
+	public String translate(String unlocalised, Object... parameters) {
+		return I18n.format(unlocalised, parameters);
+	}
+	
 }

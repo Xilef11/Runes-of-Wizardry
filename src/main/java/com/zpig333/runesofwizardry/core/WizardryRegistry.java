@@ -11,7 +11,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -99,7 +98,7 @@ public class WizardryRegistry {
 			 */
 			@Override
 			public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
-				tooltip.add(I18n.translateToLocal(References.Lang.USELESS));
+				tooltip.add(RunesOfWizardry.proxy.translate(References.Lang.USELESS));
 			}
 
 			/* (non-Javadoc)
