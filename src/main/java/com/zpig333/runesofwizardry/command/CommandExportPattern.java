@@ -101,7 +101,7 @@ public class CommandExportPattern implements ICommand {
 			EnumFacing playerFacing = player.getHorizontalFacing();
 			WizardryLogger.logInfo("Export Pattern: Looking at block: "+block.getUnlocalizedName()+" at "+lookPos+" facing: "+playerFacing);
 			if(block!=WizardryRegistry.dust_placed){
-				//XXX maybe do stuff for translation
+				//gets localised.
 				throw new CommandException(locKey+".nodust");
 			}
 			//find the pattern

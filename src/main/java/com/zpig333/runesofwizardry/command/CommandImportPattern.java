@@ -78,7 +78,7 @@ public class CommandImportPattern implements ICommand {
 	 */
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		//XXX check if it gets partially translated
+		//it gets partially translated - OK
 		return getCommandName()+" "+locKey+".usage";
 	}
 
@@ -107,7 +107,7 @@ public class CommandImportPattern implements ICommand {
 				IRune rune=null;
 				if(args[0].contains(":")){//if its a rune
 					rune = DustRegistry.getRuneByID(args[0]);
-					//XXX translation
+					//translation happens automagically
 					if(rune==null)throw new CommandException(locKey+".nosuchrune",args[0]);
 					ItemStack[][] runepattern = rune.getPattern();
 					//COPY the pattern to avoid changing it by mistake (everything is mutable...)

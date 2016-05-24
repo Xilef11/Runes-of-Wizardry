@@ -210,14 +210,15 @@ public class ItemRunicDictionary extends WizardryItem {
 		}
 
 		if (needLast)//we went through the whole list so previous = last ID
-				{
+		{
 			setSelectedRuneID(stack, previousID);
 			NotifySelectionChange(player, previousID);
-				}
+		}
 	}
 	public void NotifySelectionChange(EntityPlayer player, String selectedID){
 		IRune rune = DustRegistry.getRuneByID(selectedID);
 		if(rune!=null){
+			//translation seems OK
 			ChatUtils.sendNoSpam(player,"["+RunesOfWizardry.proxy.translate(WizardryRegistry.runic_dictionary.getUnlocalizedName()+".name")+"] "
 					+RunesOfWizardry.proxy.translate(References.Lang.SELECTED)+" "+RunesOfWizardry.proxy.translate(rune.getName()));
 		}

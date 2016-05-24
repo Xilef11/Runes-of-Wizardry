@@ -92,9 +92,7 @@ public abstract class DustPlaceholder extends IDust {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
-		//TODO should be using client I18n. might have to defer to proxy
 		tooltip.add(RunesOfWizardry.proxy.translate(References.Lang.PLACEHOLDER));
-		//tooltip.add(I18n.translateToLocal(References.Lang.PLACEHOLDER));
 	}
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.api.IDust#creativeTab()
