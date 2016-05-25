@@ -372,6 +372,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	 */
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
+		//FIXME this doesn't seem to sync properly - getUpdateTag seems to do it, but it would be wise to ask
 		//what botania does
 		NBTTagCompound tagCompound = new NBTTagCompound();
 		this.writeToNBT(tagCompound);
@@ -391,6 +392,14 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		updateNeighborConnectors();
 		//worldObj.notifyBlockOfStateChange(getPos(), getBlockType());
 		//worldObj.notifyNeighborsOfStateChange(getPos(), getBlockType());
+	}
+	
+	/* (non-Javadoc)
+	 * @see net.minecraft.tileentity.TileEntity#getUpdateTag()
+	 */
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(super.getUpdateTag());
 	}
 	@Override
 	public void openInventory(EntityPlayer player) {

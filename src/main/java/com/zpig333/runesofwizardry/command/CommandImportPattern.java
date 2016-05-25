@@ -40,6 +40,7 @@ import com.zpig333.runesofwizardry.core.rune.PatternUtils;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
+import com.zpig333.runesofwizardry.util.ChatUtils;
 import com.zpig333.runesofwizardry.util.RayTracer;
 import com.zpig333.runesofwizardry.util.json.JsonUtils;
 
@@ -198,13 +199,15 @@ public class CommandImportPattern implements ICommand {
 		break;
 		default: throw new IllegalStateException("Import command: Facing is not horizontal");
 		}
+		boolean missing=false;//did we miss some dusts or blocks?
 		//contents[0][0] is always NW most block
 		for(int r=0;r<contents.length;r++){
 			for(int c=0;c<contents[r].length;c++){
 				BlockPos current = nw.offset(EnumFacing.EAST, c).offset(EnumFacing.SOUTH, r);
 				IBlockState state=world.getBlockState(current);
 				Block block = state.getBlock();
-				if((block==Blocks.AIR||block==WizardryRegistry.dust_placed) && world.isSideSolid(current.down(), EnumFacing.UP) && !PatternUtils.isEmpty(contents[r][c])){
+				boolean emptyBlock = PatternUtils.isEmpty(contents[r][c]);
+				if((block==Blocks.AIR||block==WizardryRegistry.dust_placed) && world.isSideSolid(current.down(), EnumFacing.UP) && !emptyBlock){
 					if(block==WizardryRegistry.dust_placed && !player.capabilities.isCreativeMode)block.breakBlock(world, current, state);
 					world.setBlockState(current, WizardryRegistry.dust_placed.getDefaultState());
 					TileEntity ent = world.getTileEntity(current);
@@ -248,11 +251,11 @@ public class CommandImportPattern implements ICommand {
 
 										}
 									}
+									if(n>0)missing=true;
 									//XXX this will update rendering all the time so it might be slow
 									if(n==0||s==null||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), ItemStack.copyItemStack(s));
 								}
 							}
-							//XXX maybe send a message if dust is missing
 							if(ted.isEmpty()){//remove the TE if we couldn't place any dust in it
 								world.removeTileEntity(current);
 								world.setBlockToAir(current);
@@ -265,8 +268,14 @@ public class CommandImportPattern implements ICommand {
 					}else{
 						throw new IllegalStateException("import command: TE was not placed dust");
 					}
+				}else if(!emptyBlock){
+					//we missed a block
+					missing=true;
 				}
 			}
+		}
+		if(missing){
+			player.addChatComponentMessage(new TextComponentTranslation(locKey+".incomplete"));
 		}
 	}
 	/* (non-Javadoc)

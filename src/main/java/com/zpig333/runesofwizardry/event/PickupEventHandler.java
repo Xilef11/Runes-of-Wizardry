@@ -1,5 +1,6 @@
 package com.zpig333.runesofwizardry.event;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -15,8 +16,10 @@ public class PickupEventHandler {
 		ItemStack dust = event.getItem().getEntityItem();
 		//WizardryLogger.logInfo(dust);
 		if(dust.getItem() instanceof IDust && dust.stackSize>0){
-			//XXX maybe check if the player can be null...
-			InventoryPlayer inv = event.getEntityPlayer().inventory;
+			EntityPlayer player = event.getEntityPlayer();
+			//Couldn't get a zombie to pick up dust, but adding the check doen't hurt
+			if(player==null)return;
+			InventoryPlayer inv = player.inventory;
 			for(int i=0;i<inv.getSizeInventory();i++){
 				//if(i==inv.currentItem)continue;//supposedly avoids deleting items
 				ItemStack stack = inv.getStackInSlot(i);

@@ -1,6 +1,2 @@
-- Mostly maintenance release before moving to 1.9.4
-- Fix dedicated server crash
-- add redstone interaction to arcane dye
-- Back end stuff
-	* removed separate API name/package-info because the APi part may not be used alone
-	* added method to check if a rune is recieving a redstone signal
+- updated to MC 1.9.4
+- added message when an incomplete pattern is imported (missing dust or blocks in the way)

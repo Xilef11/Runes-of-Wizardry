@@ -55,6 +55,8 @@ runesofwizardry.message.norune=Invalid pattern!
 runesofwizardry.command.import.usage=[runeID|filename] [natural|centered|topleft]: Imports the pattern described by the rune's ID (modid:runeid) or a JSON file in runesofwizardry_patterns. If not specified otherwise, the block looked at will be the "natural" alignment of the pattern, (centered or the rune's entity position)
 runesofwizardry.command.import.nosuchrune=No Rune exists with ID: %s
 runesofwizardry.command.import.serverfilenotfound=Could not find %s, %s.json, or %s.JSON on the server
+runesofwizardry.command.import.incomplete=Incomplete pattern: you were missing dusts or there are blocks in the way
+
 #misc words
 runesofwizardry.lang.color=Color
 runesofwizardry.lang.dye=Dye
