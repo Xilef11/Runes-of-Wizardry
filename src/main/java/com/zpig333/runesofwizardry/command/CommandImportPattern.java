@@ -40,7 +40,6 @@ import com.zpig333.runesofwizardry.core.rune.PatternUtils;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
-import com.zpig333.runesofwizardry.util.ChatUtils;
 import com.zpig333.runesofwizardry.util.RayTracer;
 import com.zpig333.runesofwizardry.util.json.JsonUtils;
 
