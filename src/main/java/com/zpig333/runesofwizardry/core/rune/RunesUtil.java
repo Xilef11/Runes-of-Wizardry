@@ -137,7 +137,7 @@ public class RunesUtil {
 		if(!negated){
 			if(!match.rune.sacrificeMatches(stacks)){
 				//translation OK
-				player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.badsacrifice", match.rune.getName()));
+				player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.badsacrifice", new TextComponentTranslation(match.rune.getName())));
 				return;
 			}
 			//kill the items

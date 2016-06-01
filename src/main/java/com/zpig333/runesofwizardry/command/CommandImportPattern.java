@@ -18,10 +18,12 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3i;
@@ -276,6 +278,7 @@ public class CommandImportPattern implements ICommand {
 		if(missing){
 			player.addChatComponentMessage(new TextComponentTranslation(locKey+".incomplete"));
 		}
+		world.playSound(null, topLeft, SoundEvents.BLOCK_SAND_PLACE, SoundCategory.BLOCKS, 0.7f, 1.5f);
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.command.ICommand#canCommandSenderUseCommand(net.minecraft.command.ICommandSender)

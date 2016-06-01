@@ -1,2 +1,3 @@
-- updated to MC 1.9.4
-- added message when an incomplete pattern is imported (missing dust or blocks in the way)
+- fixed translation of some chat messages
+- added sound when placing pattern
+- fix version number

@@ -44,12 +44,12 @@ plugins {
 }
 */
 //MC stuff
-def mcVersion = "1.9"
+def mcVersion = "1.9.4"
 def majorVersion = "0"
 def minorVersion = "6"
 def bugfix = ".5"
 def devVersion = "-dev"
-def forgeVersion="1.9.4-12.17.0.1922-1.9.4"
+def forgeVersion="1.9.4-12.17.0.1937"
 
 version = "${mcVersion}-${majorVersion}.${minorVersion}${bugfix}${devVersion}"
 group= "com.zpig333.runesofwizardry"
