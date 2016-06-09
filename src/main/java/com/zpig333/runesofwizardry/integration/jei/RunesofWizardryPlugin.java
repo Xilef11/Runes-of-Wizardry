@@ -15,6 +15,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.core.ConfigHandler;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 
@@ -40,6 +41,10 @@ public class RunesofWizardryPlugin implements IModPlugin {
 				}
 			}
 		}
+		registry.addDescription(new ItemStack(WizardryRegistry.runic_dictionary), References.Lang.Jei.DICT);
+		registry.addDescription(new ItemStack(WizardryRegistry.runic_staff), References.Lang.Jei.STAFF);
+		registry.addDescription(new ItemStack(WizardryRegistry.broom), References.Lang.Jei.BROOM);
+		registry.addDescription(new ItemStack(WizardryRegistry.dust_pouch), References.Lang.Jei.POUCH);
 	}
 
 	@Override

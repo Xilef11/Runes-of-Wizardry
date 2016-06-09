@@ -21,5 +21,14 @@ public final class References {
 		public static final String OR = misc+"or";
 		public static final String NOTHING = misc+"nothing";
 		public static final String ANY_AMOUNT = misc+"anysize";
+		public static final String HOLD_SHIFT = misc+"hold_shift";
+		/** holds localization keys for JEI integration related Strings**/
+		public static final class Jei{
+			public static final String JEI = misc+"jei";
+			public static final String DICT = JEI+".dictionarydesc";
+			public static final String STAFF = JEI+".staffdesc";
+			public static final String BROOM = JEI+".broomdesc";
+			public static final String POUCH = JEI+".pouchdesc";
+		}
 	}
 }

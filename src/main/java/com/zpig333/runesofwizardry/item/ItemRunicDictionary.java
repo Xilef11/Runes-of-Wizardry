@@ -86,6 +86,8 @@ public class ItemRunicDictionary extends WizardryItem {
 				}else if(possibilities==null){
 					tooltip.add("  "+RunesOfWizardry.proxy.translate(References.Lang.NOTHING));
 				}
+			}else{
+				tooltip.add("§f"+RunesOfWizardry.proxy.translate(References.Lang.HOLD_SHIFT));
 			}
 
 		}

@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
@@ -173,6 +174,7 @@ public class WizardryRegistry {
 		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), " XY"," ZX","W  ",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Items.DIAMOND),'Z',new ItemStack(Items.STICK),'W',new ItemStack(Items.GOLD_INGOT));
 		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), "YX ","XZ ","  W",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Items.DIAMOND),'Z',new ItemStack(Items.STICK),'W',new ItemStack(Items.GOLD_INGOT));
 		//pouches
+		RecipeSorter.register(References.modid+":dustPouch", RecipeDustPouch.class, RecipeSorter.Category.SHAPELESS, "");
 		GameRegistry.addRecipe(new ShapedOreRecipe(dust_pouch, " X ","YZY"," Y ",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Blocks.WOOL),'Z',new ItemStack(runic_staff)));
 		GameRegistry.addRecipe(new RecipeDustPouch());
 	}
