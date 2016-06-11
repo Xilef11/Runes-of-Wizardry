@@ -49,7 +49,7 @@ def majorVersion = "0"
 def minorVersion = "6"
 def bugfix = ".6"
 def devVersion = "-dev"
-def forgeVersion="1.9.4-12.17.0.1937"
+def forgeVersion="1.9.4-12.17.0.1957"
 
 version = "${mcVersion}-${majorVersion}.${minorVersion}${bugfix}${devVersion}"
 group= "com.zpig333.runesofwizardry"
@@ -111,7 +111,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 	//JEI
-	deobfCompile "mezz.jei:jei_1.9.4:3.4.0.204"
+	deobfCompile "mezz.jei:jei_1.9.4:3.6.3.212"
 }
 
 tasks.withType(JavaCompile) {
@@ -182,6 +182,9 @@ task('incrementBuildNumber') << {
 	
     buildscript.write(manifestContent)
 	
+	//clear changelog
+	file("changelog.md").write("")
+	
 	//commit
 	"git commit -a -m \"Increment version to ${buildnum} after release\"".execute()
 	//"git push".execute()//push the updated build number
@@ -190,6 +193,7 @@ task('incrementBuildNumber') << {
 task gitPush << {
 		"git push".execute()
 }
+
 
 //https://github.com/riiid/gradle-github-plugin
 githubRelease.onlyIf{project.hasProperty('githubKey')}
