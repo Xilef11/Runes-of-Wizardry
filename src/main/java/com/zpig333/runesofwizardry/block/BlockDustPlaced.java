@@ -305,12 +305,12 @@ public class BlockDustPlaced extends Block{
 		if(heldItem==null){
 			if (dustStack !=null){
 				//drop the dust piece
-				tileDust.setInventorySlotContents(slotID, null);
-				worldIn.playSound(null,pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 					dustStack = tileDust.getStackInSlot(slotID);//re-grab the stack in case the rune changed it
 				}
+				tileDust.setInventorySlotContents(slotID, null);
+				worldIn.playSound(null,pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				//drop the itemStack
 				if(!playerIn.capabilities.isCreativeMode&& dustStack!=null && !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
@@ -427,12 +427,12 @@ public class BlockDustPlaced extends Block{
 
 			if (dustStack !=null){
 				//drop the dust piece
-				tileDust.setInventorySlotContents(slotID, null);
-				worldIn.playSound(null,pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getPlaceSound(),SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 					dustStack = tileDust.getStackInSlot(slotID);
 				}
+				tileDust.setInventorySlotContents(slotID, null);
+				worldIn.playSound(null,pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getPlaceSound(),SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				//drop the itemStack
 				if(!playerIn.capabilities.isCreativeMode && dustStack!=null && !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
