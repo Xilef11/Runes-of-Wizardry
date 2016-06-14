@@ -1,4 +1,0 @@
-- add <hold shift> to dictionary tooltip
-- add JEI description page to dictionary, staff, broom and pouch
-- fix RecipeSorter's issues with the pouch
-- fix NPE when breaking an active rune
