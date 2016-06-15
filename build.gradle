@@ -47,7 +47,7 @@ plugins {
 def mcVersion = "1.9.4"
 def majorVersion = "0"
 def minorVersion = "6"
-def bugfix = ".7"
+def bugfix = ".8"
 def devVersion = "-dev"
 def forgeVersion="1.9.4-12.17.0.1957"
 
