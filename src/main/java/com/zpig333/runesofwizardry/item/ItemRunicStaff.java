@@ -53,5 +53,14 @@ public class ItemRunicStaff extends WizardryItem {
 	{
 		return 72000;
 	}
+	@Override
+	public boolean hasContainerItem(ItemStack itemStack){
+		return true;
+	}
+
+	@Override
+	public ItemStack getContainerItem(ItemStack itemStack){
+		return ItemStack.copyItemStack(itemStack);
+	}
 
 }

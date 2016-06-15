@@ -1,0 +1,1 @@
+- Fix staff and pestle being used up in crafting
