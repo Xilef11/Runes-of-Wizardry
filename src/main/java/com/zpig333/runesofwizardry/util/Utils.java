@@ -95,7 +95,7 @@ public class Utils {
 				return false;//both items have oredict IDs and none matched
 			}
 		}else{
-			if(!ItemStack.areItemsEqual(wanted, toCheck))return false;
+			if(!OreDictionary.itemMatches(wanted, toCheck, false))return false;
 			if(!ItemStack.areItemStackTagsEqual(wanted, toCheck))return false;
 			return wanted.stackSize==toCheck.stackSize || wanted.stackSize<0;
 		}

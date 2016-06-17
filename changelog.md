@@ -1,0 +1,1 @@
+- Fix sacrifice matching with wildcard meta
