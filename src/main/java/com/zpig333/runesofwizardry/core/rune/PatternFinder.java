@@ -54,7 +54,7 @@ public class PatternFinder {
 	private int n=0;
 	private void recursiveSearch(DustElement current){
 		n++;
-		if(current.isDusts()){
+		if(current.isInactiveDusts()){
 			//set NESWmost
 			BlockPos pos = current.getPos();
 			//north is negative Z
@@ -74,9 +74,9 @@ public class PatternFinder {
 				/*this means some blocks (corners between two "live" blocks) will get checked twice,
 				 * but ensures we will detect all dusts correctly (and also cleans up the map)
 				 */
-				if(neigh.isDusts())map.put(next, neigh);
+				if(neigh.isInactiveDusts())map.put(next, neigh);
 				//max of 1 block gap for the search.
-				if(current.isDusts()||neigh.isDusts()){
+				if(current.isInactiveDusts()||neigh.isInactiveDusts()){
 					recursiveSearch(neigh);
 				}
 			}
@@ -144,6 +144,7 @@ public class PatternFinder {
 		private final BlockPos pos;
 		//contents of the TileEntityDustPlaced
 		private final ItemStack[][] dusts;
+		private final boolean active;
 
 		private DustElement(BlockPos pos){
 			this.pos=pos;
@@ -152,16 +153,18 @@ public class PatternFinder {
 				TileEntityDustPlaced ted = (TileEntityDustPlaced)ent;
 				//XXX this if might not be necessary, because the TE will be removed if it's empty. remove it if performance problems
 				dusts= !ted.isEmpty()? ted.getContents() : null;
+				active = ted.isInRune();
 			}else{
 				dusts=null;
+				active=false;
 			}
 		}
 		/**
 		 * Returns true if the block described by this element is Dust
 		 * @return
 		 */
-		protected boolean isDusts(){
-			return dusts!=null;
+		protected boolean isInactiveDusts(){
+			return dusts!=null && !active;
 		}
 		protected BlockPos getPos(){
 			return pos;
