@@ -101,10 +101,12 @@ public class ItemRunicDictionary extends WizardryItem {
 			if(playerIn.isSneaking()){
 				String runeID = getSelectedRuneID(stack);
 				if(!runeID.equals("")){
-					int xpReq = ConfigHandler.DictionaryImportXP;
+					int xpReq = ConfigHandler.dictionaryImportXP;
+					int foodReq = ConfigHandler.dictionaryImportHunger;
 					if(xpReq>=0){
 						if(playerIn.experienceLevel>=xpReq){
 							playerIn.removeExperienceLevel(xpReq);
+							playerIn.getFoodStats().addStats(-foodReq, 0);
 							//MinecraftServer.getServer().getCommandManager().executeCommand(playerIn, CommandImportPattern.instance().getCommandName()+" "+runeID);
 							try {
 								//We run it this way to ignore the permissions on the command

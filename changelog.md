@@ -1,1 +1,4 @@
 - Fix sacrifice matching with wildcard meta
+- add option for dictionary to take hunger as well as XP
+- add config GUI
+- add config options for hardcore sacrifice and activation

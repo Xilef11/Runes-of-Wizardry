@@ -286,9 +286,9 @@ public class CommandImportPattern implements ICommand {
 	@Override
 	public boolean checkPermission(MinecraftServer server,ICommandSender sender) {
 		if(!(sender instanceof EntityPlayer))return false;
-		if(ConfigHandler.CommandImportPermission.equals(ConfigHandler.PERMISSIONS_NONE))return false;
-		if(ConfigHandler.CommandImportPermission.equals(ConfigHandler.PERMISSIONS_ALL))return true;
-		if(ConfigHandler.CommandImportPermission.equals(ConfigHandler.PERMISSIONS_OP)){
+		if(ConfigHandler.commandImportPermission.equals(ConfigHandler.PERMISSIONS_NONE))return false;
+		if(ConfigHandler.commandImportPermission.equals(ConfigHandler.PERMISSIONS_ALL))return true;
+		if(ConfigHandler.commandImportPermission.equals(ConfigHandler.PERMISSIONS_OP)){
 			String[] ops = server.getPlayerList().getOppedPlayerNames();
 			for(String name:ops){
 				if(name.equals(sender.getName()))return true;

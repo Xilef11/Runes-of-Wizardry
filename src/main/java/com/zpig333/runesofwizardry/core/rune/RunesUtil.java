@@ -31,6 +31,7 @@ import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
+import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
@@ -108,6 +109,11 @@ public class RunesUtil {
 		RuneFacing match = matchPattern(pattern);
 		if(match==null){
 			player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.norune"));
+			if(ConfigHandler.hardcoreActivation){
+				for(BlockPos p:finder.getDustPositions()){
+					killDusts(world, p);
+				}
+			}
 			return;
 		}
 		if(!match.rune.canBeActivatedByPlayer(player, world, pos)){
@@ -138,6 +144,17 @@ public class RunesUtil {
 			if(!match.rune.sacrificeMatches(stacks)){
 				//translation OK
 				player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.badsacrifice", new TextComponentTranslation(match.rune.getName())));
+				if(ConfigHandler.hardcoreSacrifices){
+					for(EntityItem e:sacList){
+						if(world instanceof WorldServer){
+							((WorldServer)world).spawnParticle(EnumParticleTypes.SMOKE_NORMAL, false, e.posX, e.posY, e.posZ, 1, 0d, 0.5d, 0d, 0d);
+						}
+						e.setDead();
+					}
+					for(BlockPos p:finder.getDustPositions()){
+						killDusts(world, p);
+					}
+				}
 				return;
 			}
 			//kill the items

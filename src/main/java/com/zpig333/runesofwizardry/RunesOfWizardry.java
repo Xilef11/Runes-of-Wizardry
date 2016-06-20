@@ -31,7 +31,7 @@ import com.zpig333.runesofwizardry.runes.RuneTest2;
 import com.zpig333.runesofwizardry.runes.RuneTesting;
 import com.zpig333.runesofwizardry.util.ChatUtils;
 
-@Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@")
+@Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory")
 public class RunesOfWizardry {
 
 	@SidedProxy(clientSide = References.client_proxy, serverSide = References.server_proxy)
@@ -61,6 +61,7 @@ public class RunesOfWizardry {
 		MinecraftForge.EVENT_BUS.register(new BlockEventHandler());
 		//to place picked up dust in pouches
 		MinecraftForge.EVENT_BUS.register(new PickupEventHandler());
+		MinecraftForge.EVENT_BUS.register(new ConfigHandler());
 	}
 
 	@Mod.EventHandler
