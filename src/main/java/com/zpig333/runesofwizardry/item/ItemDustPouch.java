@@ -51,6 +51,7 @@ public class ItemDustPouch extends WizardryItem {
 		if(dustType!=null){
 			tooltip.add(dustType.getDisplayName()+" x"+getDustAmount(stack));
 			//tooltip.add(I18n.translateToLocal(dustType.getUnlocalizedName()+".name")+" x"+getDustAmount(stack));
+			if(dustType.getItem()!=null)dustType.getItem().addInformation(dustType, playerIn, tooltip, advanced);
 		}
 	}
 

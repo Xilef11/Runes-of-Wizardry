@@ -3,11 +3,14 @@ package com.zpig333.runesofwizardry.inventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.SlotItemHandler;
 
-import com.zpig333.runesofwizardry.item.dust.DustDyed;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class ContainerDustDye extends Container {
@@ -19,7 +22,7 @@ public class ContainerDustDye extends Container {
 
 		//the Slot constructor takes the IInventory and the slot number in that it binds to
 		//and the x-y coordinates it resides on-screen
-		addSlotToContainer(new ContainerDustDye.SlotDustDye(tileEntity, 0, 116,30));
+		addSlotToContainer(new ContainerDustDye.SlotDustDye(tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null), 0, 116,30));
 		//this is if we had a grid of slots. leaving it here for reference reasons
 		/*for (int i = 0; i < 1; i++) {
             for (int j = 0; j < 1; j++) {
@@ -33,7 +36,7 @@ public class ContainerDustDye extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return tileEntity.isUseableByPlayer(player);
+		return player.getDistanceSqToCenter(tileEntity.getPos())<64;
 	}
 
 	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
@@ -83,14 +86,22 @@ public class ContainerDustDye extends Container {
 		return stack;
 	}
 
-	static class SlotDustDye extends Slot{
-		public SlotDustDye(IInventory inv, int a, int b, int c){
-			super(inv, a, b, c);
+	static class SlotDustDye extends SlotItemHandler{
+		public SlotDustDye(IItemHandler itemHandler, int index, int xPosition,int yPosition) {
+			super(itemHandler, index, xPosition, yPosition);
 		}
 		@Override
 		public boolean isItemValid(ItemStack stack){
 			//only allow dyed dusts in the slot
-			return stack.getItem() instanceof DustDyed;
+			if(stack!=null){
+				if(stack.getItem()instanceof ItemDustPouch){
+					ItemStack dust = ((ItemDustPouch)stack.getItem()).getDustStack(stack, 0);
+					if(dust!=null)stack=dust;
+					else return false;
+				}
+				if(stack.getItem()==WizardryRegistry.dust_dyed)return true;
+			}
+			return false;
 		}
 	}
 }

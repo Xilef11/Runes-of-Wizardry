@@ -3,3 +3,8 @@
 - add config GUI
 - add config options for hardcore sacrifice and activation
 - made pattern finder ignore active runes
+- (finally) switched Arcane Dye to IItemHandler
+- Made arcane dye handle pouches of chalk dust
+- switched arcane dye to dye on falling redstone edge
+- fix arcane dye color desync
+- made pouches display the tooltip of their contents

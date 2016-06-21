@@ -20,6 +20,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
@@ -68,9 +70,9 @@ public class BlockDustDye extends BlockContainer{
 		TileEntityDustDye tileentityDustDye = (TileEntityDustDye) world.getTileEntity(pos);
 
 		if (tileentityDustDye != null) {
-			for (int i1 = 0; i1 < tileentityDustDye.getSizeInventory(); ++i1) {
-				ItemStack itemstack = tileentityDustDye.getStackInSlot(i1);
-
+			IItemHandler inventory = tileentityDustDye.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+			for (int i1 = 0; i1 < inventory.getSlots(); ++i1) {
+				ItemStack itemstack = inventory.extractItem(i1, Integer.MAX_VALUE, false);
 				if (itemstack != null) {
 					float f = this.random.nextFloat() * 0.8F + 0.1F;
 					float f1 = this.random.nextFloat() * 0.8F + 0.1F;
