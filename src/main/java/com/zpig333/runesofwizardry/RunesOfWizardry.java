@@ -27,6 +27,7 @@ import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeUpdatePacket;
 import com.zpig333.runesofwizardry.proxy.CommonProxy;
+import com.zpig333.runesofwizardry.runes.RuneStarBeam;
 import com.zpig333.runesofwizardry.runes.RuneTest2;
 import com.zpig333.runesofwizardry.runes.RuneTesting;
 import com.zpig333.runesofwizardry.util.ChatUtils;
@@ -78,6 +79,7 @@ public class RunesOfWizardry {
 		if(ConfigHandler.registerTestRunes){
 			DustRegistry.registerRune(new RuneTesting(),"runetesting");
 			DustRegistry.registerRune(new RuneTest2(),"runeTest2");
+			DustRegistry.registerRune(new RuneStarBeam(), "runeStarbeam");
 		}
 		initNetwork();
 		// the GUI handler

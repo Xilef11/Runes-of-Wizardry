@@ -32,8 +32,8 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
  */
 public class TileEntityDustActive extends TileEntityDustPlaced implements ITickable {
 	private long ticksExisted=0;
-	public StarData stardata;
-	public BeamData beamdata;
+	public StarData stardata = null;
+	public BeamData beamdata=null;
 	public TileEntityDustActive() {
 		super();
 	}
@@ -66,7 +66,12 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 	public void setupBeam(int color, BeamType type){
 		beamdata = new BeamData(color,type);
 	}
-	
+	public void setDrawStar(boolean value){
+		if(stardata!=null)stardata.doRender=value;
+	}
+	public void setDrawBeam(boolean value){
+		if(beamdata!=null)beamdata.doRender=value;
+	}
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced#readFromNBT(net.minecraft.nbt.NBTTagCompound)
 	 */
@@ -120,10 +125,14 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			initialised=false;
 			this.rune.readFromNBT(tagCompound);
 		}
-		stardata = new StarData();
-		stardata.readNBT(tagCompound.getCompoundTag("star"));
-		beamdata = new BeamData();
-		beamdata.readNBT(tagCompound.getCompoundTag("beam"));
+		if(tagCompound.hasKey("star")){
+			stardata = new StarData();
+			stardata.readNBT(tagCompound.getCompoundTag("star"));
+		}
+		if(tagCompound.hasKey("beam")){
+			beamdata = new BeamData();
+			beamdata.readNBT(tagCompound.getCompoundTag("beam"));
+		}
 	}
 	private boolean initialised=false;
 	private void init(){
@@ -190,7 +199,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		}
 	}
 	/** This class holds the data and some utility methods to configure rendering of the star**/
-	private static class StarData{
+	public static class StarData{
 		public int innercolor, outercolor;
 		public boolean doRender;
 		public float scale, yscale;
@@ -209,7 +218,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			this.offset=offset;
 		}
 		public StarData(int inner, int outer, float size, float sizeY){
-			this(inner,outer,size,sizeY,Vec3i.NULL_VECTOR);
+			this(inner,outer,size,sizeY,new Vec3i(0,1,0));
 		}
 		public NBTTagCompound writeNBT(NBTTagCompound tag){
 			tag.setInteger("starInner", innercolor);
@@ -230,7 +239,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			offset=new Vec3i(of[0], of[1], of[2]);
 		}
 	}
-	public static enum BeamType {BEACON, SPIRAL};
+	public static enum BeamType {BEACON, SPIRAL, NONE};
 	/** This class holds the data and some utility methods to configure rendering of the beam**/
 	private static class BeamData{
 		public int color;
@@ -247,7 +256,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			this.offset=offset;
 		}
 		public BeamData(int color, BeamType type){
-			this(color,type,Vec3i.NULL_VECTOR);
+			this(color,type,new Vec3i(0,1,0));
 		}
 		public NBTTagCompound writeNBT(NBTTagCompound tag){
 			tag.setInteger("beamColor", color);
