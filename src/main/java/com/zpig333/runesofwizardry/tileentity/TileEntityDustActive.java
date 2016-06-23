@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
@@ -31,6 +32,8 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
  */
 public class TileEntityDustActive extends TileEntityDustPlaced implements ITickable {
 	private long ticksExisted=0;
+	public StarData stardata;
+	public BeamData beamdata;
 	public TileEntityDustActive() {
 		super();
 	}
@@ -50,6 +53,20 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		ticksExisted++;
 		if(rune!=null)rune.update();
 	}
+	
+	public void setupStar(int inner, int outer, float size, float sizeY,Vec3i offset){
+		stardata = new StarData(inner, outer, size, sizeY, offset);
+	}
+	public void setupStar(int inner, int outer, float size, float sizeY){
+		stardata = new StarData(inner, outer, size, sizeY);
+	}
+	public void setupBeam(int color, BeamType type,Vec3i offset){
+		beamdata = new BeamData(color,type,offset);
+	}
+	public void setupBeam(int color, BeamType type){
+		beamdata = new BeamData(color,type);
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced#readFromNBT(net.minecraft.nbt.NBTTagCompound)
 	 */
@@ -103,6 +120,10 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			initialised=false;
 			this.rune.readFromNBT(tagCompound);
 		}
+		stardata = new StarData();
+		stardata.readNBT(tagCompound.getCompoundTag("star"));
+		beamdata = new BeamData();
+		beamdata.readNBT(tagCompound.getCompoundTag("beam"));
 	}
 	private boolean initialised=false;
 	private void init(){
@@ -153,6 +174,8 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			tagCompound.setBoolean("renderActive", rune.renderActive);
 		}
 		tagCompound.setLong("ticksExisted", ticksExisted);
+		if(stardata!=null)tagCompound.setTag("star", stardata.writeNBT(new NBTTagCompound()));
+		if(beamdata!=null)tagCompound.setTag("beam", beamdata.writeNBT(new NBTTagCompound()));
 		return tagCompound;
 	}
 	//
@@ -164,6 +187,81 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			row=r;
 			col=c;
 			stack=s;
+		}
+	}
+	/** This class holds the data and some utility methods to configure rendering of the star**/
+	private static class StarData{
+		public int innercolor, outercolor;
+		public boolean doRender;
+		public float scale, yscale;
+		//offset from the active TE
+		public Vec3i offset;
+		private StarData(){
+			//empty constructor for when we want to read from NBT
+			doRender=false;
+		}
+		public StarData(int inner, int outer, float size, float sizeY,Vec3i offset){
+			innercolor=inner;
+			outercolor = outer;
+			scale=size;
+			yscale=sizeY;
+			doRender=false;
+			this.offset=offset;
+		}
+		public StarData(int inner, int outer, float size, float sizeY){
+			this(inner,outer,size,sizeY,Vec3i.NULL_VECTOR);
+		}
+		public NBTTagCompound writeNBT(NBTTagCompound tag){
+			tag.setInteger("starInner", innercolor);
+			tag.setInteger("starOuter", outercolor);
+			tag.setFloat("starScale", scale);
+			tag.setFloat("starScaleY", yscale);
+			tag.setBoolean("starRender", doRender);
+			tag.setIntArray("starOffset", new int[]{offset.getX(),offset.getY(),offset.getZ()});
+			return tag;
+		}
+		public void readNBT(NBTTagCompound tag){
+			innercolor = tag.getInteger("starInner");
+			outercolor = tag.getInteger("starOuter");
+			scale = tag.getFloat("starScale");
+			yscale = tag.getFloat("starScaleY");
+			doRender=tag.getBoolean("starRender");
+			int[] of = tag.getIntArray("starOffset");
+			offset=new Vec3i(of[0], of[1], of[2]);
+		}
+	}
+	public static enum BeamType {BEACON, SPIRAL};
+	/** This class holds the data and some utility methods to configure rendering of the beam**/
+	private static class BeamData{
+		public int color;
+		public boolean doRender;
+		public BeamType type;
+		public Vec3i offset;
+		private BeamData(){
+			doRender=false;
+		}
+		public BeamData(int color, BeamType type,Vec3i offset){
+			this.color=color;
+			this.type=type;
+			doRender=false;
+			this.offset=offset;
+		}
+		public BeamData(int color, BeamType type){
+			this(color,type,Vec3i.NULL_VECTOR);
+		}
+		public NBTTagCompound writeNBT(NBTTagCompound tag){
+			tag.setInteger("beamColor", color);
+			tag.setString("beamType", type.name());
+			tag.setBoolean("beamRender", doRender);
+			tag.setIntArray("beamOffset", new int[]{offset.getX(),offset.getY(),offset.getZ()});
+			return tag;
+		}
+		public void readNBT(NBTTagCompound tag){
+			color = tag.getInteger("beamColor");
+			doRender=tag.getBoolean("beamRender");
+			type = BeamType.valueOf(tag.getString("beamType"));
+			int[] of = tag.getIntArray("beamOffset");
+			offset = new Vec3i(of[0], of[1], of[2]);
 		}
 	}
 

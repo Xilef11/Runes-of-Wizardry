@@ -22,12 +22,14 @@ import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.block.DustStorageBlockColor;
 import com.zpig333.runesofwizardry.block.DustStorageItemBlockColor;
+import com.zpig333.runesofwizardry.client.render.RenderDustActive;
 import com.zpig333.runesofwizardry.client.render.RenderDustPlaced;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.item.DustItemColor;
 import com.zpig333.runesofwizardry.item.DustPouchItemColor;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 public class ClientProxy extends CommonProxy{
@@ -37,6 +39,7 @@ public class ClientProxy extends CommonProxy{
 	public void registerTESRs(){
 		//TESR for placed dust
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDustPlaced.class, new RenderDustPlaced());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDustActive.class, new RenderDustActive());
 	}
 
 	@Override
