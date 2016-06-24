@@ -241,7 +241,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 	}
 	public static enum BeamType {BEACON, SPIRAL, NONE};
 	/** This class holds the data and some utility methods to configure rendering of the beam**/
-	private static class BeamData{
+	public static class BeamData{
 		public int color;
 		public boolean doRender;
 		public BeamType type;
