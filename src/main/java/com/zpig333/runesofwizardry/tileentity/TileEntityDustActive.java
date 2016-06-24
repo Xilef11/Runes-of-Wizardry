@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
@@ -54,7 +55,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		if(rune!=null)rune.update();
 	}
 	
-	public void setupStar(int inner, int outer, float size, float sizeY,Vec3i offset){
+	public void setupStar(int inner, int outer, float size, float sizeY,Vec3d offset){
 		stardata = new StarData(inner, outer, size, sizeY, offset);
 	}
 	public void setupStar(int inner, int outer, float size, float sizeY){
@@ -204,12 +205,12 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		public boolean doRender;
 		public float scale, yscale;
 		//offset from the active TE
-		public Vec3i offset;
+		public Vec3d offset;
 		private StarData(){
 			//empty constructor for when we want to read from NBT
 			doRender=false;
 		}
-		public StarData(int inner, int outer, float size, float sizeY,Vec3i offset){
+		public StarData(int inner, int outer, float size, float sizeY,Vec3d offset){
 			innercolor=inner;
 			outercolor = outer;
 			scale=size;
@@ -218,7 +219,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			this.offset=offset;
 		}
 		public StarData(int inner, int outer, float size, float sizeY){
-			this(inner,outer,size,sizeY,new Vec3i(0,1,0));
+			this(inner,outer,size,sizeY,new Vec3d(0,0,0));
 		}
 		public NBTTagCompound writeNBT(NBTTagCompound tag){
 			tag.setInteger("starInner", innercolor);
@@ -226,7 +227,9 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			tag.setFloat("starScale", scale);
 			tag.setFloat("starScaleY", yscale);
 			tag.setBoolean("starRender", doRender);
-			tag.setIntArray("starOffset", new int[]{offset.getX(),offset.getY(),offset.getZ()});
+			tag.setDouble("starOffsetX", offset.xCoord);
+			tag.setDouble("starOffsetY", offset.yCoord);
+			tag.setDouble("starOffsetZ", offset.zCoord);
 			return tag;
 		}
 		public void readNBT(NBTTagCompound tag){
@@ -235,13 +238,15 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			scale = tag.getFloat("starScale");
 			yscale = tag.getFloat("starScaleY");
 			doRender=tag.getBoolean("starRender");
-			int[] of = tag.getIntArray("starOffset");
-			offset=new Vec3i(of[0], of[1], of[2]);
+			double dx = tag.getDouble("starOffsetX"),
+				   dy = tag.getDouble("starOffsetY"),
+				   dz = tag.getDouble("starOffsetZ");
+			offset=new Vec3d(dx,dy,dz);
 		}
 	}
 	public static enum BeamType {BEACON, SPIRAL, NONE};
 	/** This class holds the data and some utility methods to configure rendering of the beam**/
-	private static class BeamData{
+	public static class BeamData{
 		public int color;
 		public boolean doRender;
 		public BeamType type;
