@@ -47,9 +47,9 @@ plugins {
 def mcVersion = "1.9.4"
 def majorVersion = "0"
 def minorVersion = "6"
-def bugfix = ".8"
+def bugfix = ".9"
 def devVersion = "-dev"
-def forgeVersion="1.9.4-12.17.0.1957"
+def forgeVersion="1.9.4-12.17.0.1987"
 
 version = "${mcVersion}-${majorVersion}.${minorVersion}${bugfix}${devVersion}"
 group= "com.zpig333.runesofwizardry"
@@ -111,7 +111,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 	//JEI
-	deobfCompile "mezz.jei:jei_1.9.4:3.6.3.212"
+	deobfCompile "mezz.jei:jei_1.9.4:3.6.7.216"
 }
 
 tasks.withType(JavaCompile) {
@@ -226,9 +226,10 @@ if(project.hasProperty('curseKey')){
 	  apiKey = project.curseKey
 	  project {
 		id = '235927'
-		addGameVersion project.minecraft.version
+		addGameVersion mcVersion
 		addGameVersion 'Java 8'
 		addGameVersion 'Java 7'
+		addGameVersion '1.10'
 		//version pulled from ForgeGradle includes java 6
 		changelogType='markdown'
 		changelog = file('changelog.md').getText()+"\n\nBuilt with Forge "+forgeVersion
