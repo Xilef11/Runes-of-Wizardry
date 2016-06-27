@@ -1,5 +1,7 @@
 package com.zpig333.runesofwizardry.block;
 
+import java.time.Clock;
+import java.time.LocalTime;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -26,6 +28,7 @@ import net.minecraftforge.items.IItemHandler;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class BlockDustDye extends BlockContainer{
@@ -134,8 +137,26 @@ public class BlockDustDye extends BlockContainer{
 		}
 		super.neighborChanged(state, worldIn, pos, neighborBlock);
 	}
-	
-	
-	
+	//XXX TESTING
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#getTickRandomly()
+	 */
+	@Override
+	public boolean getTickRandomly() {
+		return true;
+	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.block.Block#updateTick(net.minecraft.world.World, net.minecraft.util.math.BlockPos, net.minecraft.block.state.IBlockState, java.util.Random)
+	 */
+	private long lastTickMilis;
+	@Override
+	public void updateTick(World worldIn, BlockPos pos, IBlockState state,
+			Random rand) {
+		long current = System.currentTimeMillis();
+		WizardryLogger.logInfo("Block ticked randomly. milis since last tick: "+(current-lastTickMilis));
+		lastTickMilis=current;
+	}
+	//about 40 seconds usually
+
 }
 

@@ -445,7 +445,7 @@ public class BlockDustPlaced extends Block{
 			worldIn.notifyBlockUpdate(pos, worldIn.getBlockState(pos), worldIn.getBlockState(pos), 0);
 		}
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see net.minecraft.block.Block#addDestroyEffects(net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.client.particle.EffectRenderer)
 	 */
