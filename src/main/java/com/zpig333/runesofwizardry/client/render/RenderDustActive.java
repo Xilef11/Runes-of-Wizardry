@@ -43,10 +43,14 @@ public class RenderDustActive extends RenderDustPlaced {
 		GL11.glPopAttrib();
 		GL11.glPopMatrix();
 	}
-
+	private static final int BIRTHLENGTH = 20*5;
+	/**
+	 * Draws a bicolor star as defined per the TE
+	 * @author billythegoat101, tweaks by Xilef11
+	 */
 	private void renderStar(TileEntityDustActive te)
     {
-
+		//the star disappears sometimes (especially if it's *far* from the dust) - this is because the TE is not in the view. can't do much about it.
         Tessellator tes = Tessellator.getInstance();
         VertexBuffer vb = tes.getBuffer();
         Vec3d off = te.stardata.offset;
@@ -68,12 +72,11 @@ public class RenderDustActive extends RenderDustPlaced {
         }
 
         float yOffset = 0;
-        int length = 20*5;
         float scale = te.stardata.scale;
-        if(te.ticksExisted() < length){
-        	double offset = 0.5;
+        if(te.ticksExisted() < BIRTHLENGTH){
+        	double offset = off.yCoord +0.5;
         	double offsetPerc = offset/(1-0.1875);
-        	double perc = ((double)ticks / (double) length);
+        	double perc = ((double)ticks / (double) BIRTHLENGTH);
         	scale *= Math.min(perc+0.2,1);
         	yOffset = (float)perc*(float)offsetPerc-(float)offset;
         }
@@ -89,6 +92,7 @@ public class RenderDustActive extends RenderDustPlaced {
         GL11.glDepthMask(false);
         GL11.glPushMatrix();
 
+        //center 1 block above TE by default
         GlStateManager.translate(0.5+off.xCoord, 1+off.yCoord+yOffset, 0.5+off.zCoord);
 
         GL11.glScalef(0.02F, 0.02F, 0.02F);
