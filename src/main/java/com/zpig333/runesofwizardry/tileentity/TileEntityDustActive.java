@@ -18,9 +18,9 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
@@ -51,7 +51,23 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 	 */
 	@Override
 	public double getMaxRenderDistanceSquared() {
-		return 65536.0D;
+		if((this.beamdata!=null && this.beamdata.doRender)||(this.stardata!=null && this.stardata.doRender)){
+			return 65536.0D;
+		}else{
+			return super.getMaxRenderDistanceSquared();
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see net.minecraft.tileentity.TileEntity#getRenderBoundingBox()
+	 */
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		if((this.stardata!=null && this.stardata.doRender)||(this.beamdata!=null && this.beamdata.doRender)){
+			return INFINITE_EXTENT_AABB;
+		}else{
+			return super.getRenderBoundingBox();
+		}
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.server.gui.IUpdatePlayerListBox#update()
@@ -304,6 +320,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		}
 	}
 
+	
 	
 	
 }

@@ -178,14 +178,12 @@ public class RenderDustActive extends RenderDustPlaced {
 	/* (non-Javadoc)
 	 * @see net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer#isGlobalRenderer(net.minecraft.tileentity.TileEntity)
 	 */
-	//FIXME this should make it draw even when the TE is out of view. doesn't quite work.
 	@Override
 	public boolean isGlobalRenderer(TileEntityDustPlaced te) {
-//		if(te instanceof TileEntityDustActive){
-//			TileEntityDustActive tea = (TileEntityDustActive)te;
-//			return (tea.stardata!=null && tea.stardata.doRender)||(tea.beamdata!=null && tea.beamdata.doRender);
-//		}
-//		return false;
-		return true;
+		if(te instanceof TileEntityDustActive){
+			TileEntityDustActive tea = (TileEntityDustActive)te;
+			return (tea.stardata!=null && tea.stardata.doRender)||(tea.beamdata!=null && tea.beamdata.doRender);
+		}
+		return false;
 	}
 }
