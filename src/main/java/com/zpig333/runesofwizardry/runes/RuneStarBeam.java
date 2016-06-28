@@ -13,6 +13,7 @@ import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.item.dust.RWDusts;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive.BeamType;
 
 public class RuneStarBeam extends IRune {
 
@@ -55,6 +56,8 @@ public class RuneStarBeam extends IRune {
 			public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice, boolean negated) {
 				entity.setupStar(0xFF00FF, 0x00FF00, 1, 1,new Vec3d(0,0,0));
 				entity.setDrawStar(true);
+				entity.setupBeam(0xFF00FF, BeamType.RINGS);
+				entity.setDrawBeam(true);
 			}
 		};
 	}

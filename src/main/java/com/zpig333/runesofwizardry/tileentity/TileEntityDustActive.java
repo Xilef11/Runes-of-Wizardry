@@ -45,6 +45,14 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 	public long ticksExisted(){
 		return ticksExisted;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced#getMaxRenderDistanceSquared()
+	 */
+	@Override
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.server.gui.IUpdatePlayerListBox#update()
 	 */
@@ -61,7 +69,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 	public void setupStar(int inner, int outer, float size, float sizeY){
 		stardata = new StarData(inner, outer, size, sizeY);
 	}
-	public void setupBeam(int color, BeamType type,Vec3i offset){
+	public void setupBeam(int color, BeamType type,Vec3d offset){
 		beamdata = new BeamData(color,type,offset);
 	}
 	public void setupBeam(int color, BeamType type){
@@ -244,39 +252,58 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			offset=new Vec3d(dx,dy,dz);
 		}
 	}
-	public static enum BeamType {BEACON, SPIRAL, NONE};
+	public static enum BeamType {BEACON, SPIRAL, RINGS};
 	/** This class holds the data and some utility methods to configure rendering of the beam**/
 	public static class BeamData{
 		public int color;
 		public boolean doRender;
 		public BeamType type;
-		public Vec3i offset;
+		public Vec3d offset;
+		/** if false, the beam will "vibrate" instead of rotating like the normal beacon**/
+		public boolean doesRotate;
+		public int height;
+		public double beamRadius,glowRadius;
 		private BeamData(){
 			doRender=false;
 		}
-		public BeamData(int color, BeamType type,Vec3i offset){
+		public BeamData(int color, BeamType type,Vec3d offset){
 			this.color=color;
 			this.type=type;
 			doRender=false;
 			this.offset=offset;
+			this.doesRotate=true;
+			this.height=128;
+			this.beamRadius=0.2;
+			this.glowRadius=0.25;
 		}
 		public BeamData(int color, BeamType type){
-			this(color,type,new Vec3i(0,1,0));
+			this(color,type,new Vec3d(0,0,0));
 		}
 		public NBTTagCompound writeNBT(NBTTagCompound tag){
 			tag.setInteger("beamColor", color);
 			tag.setString("beamType", type.name());
 			tag.setBoolean("beamRender", doRender);
-			tag.setIntArray("beamOffset", new int[]{offset.getX(),offset.getY(),offset.getZ()});
+			tag.setBoolean("beamRotate", doesRotate);
+			tag.setInteger("beamHeight", height);
+			tag.setDouble("beamOffsetX", offset.xCoord);
+			tag.setDouble("beamOffsetY", offset.yCoord);
+			tag.setDouble("beamOffsetZ", offset.zCoord);
+			tag.setDouble("beamRad", beamRadius);
+			tag.setDouble("beamGlowRad", glowRadius);
 			return tag;
 		}
 		public void readNBT(NBTTagCompound tag){
 			color = tag.getInteger("beamColor");
 			doRender=tag.getBoolean("beamRender");
+			doesRotate = tag.getBoolean("beamRotate");
+			height = tag.getInteger("beamHeight");
 			type = BeamType.valueOf(tag.getString("beamType"));
-			int[] of = tag.getIntArray("beamOffset");
-			offset = new Vec3i(of[0], of[1], of[2]);
+			offset = new Vec3d(tag.getDouble("beamOffsetX"),tag.getDouble("beamOffsetY"),tag.getDouble("beamOffsetZ"));
+			beamRadius=tag.getDouble("beamRad");
+			glowRadius=tag.getDouble("beamGlowRad");
 		}
 	}
 
+	
+	
 }
