@@ -54,8 +54,8 @@ public class RuneStarBeam extends IRune {
 			@Override
 			public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice, boolean negated) {
 				entity.setupStar(0xFF00FF, 0x00FF00, 10, 1,new Vec3i(0,10,10));
-				//entity.setDrawStar(true);
-				entity.setupBeam(0xFF00FF, BeamType.BEACON);
+				entity.setDrawStar(true);
+				entity.setupBeam(0xFF00FF, BeamType.RINGS);
 				entity.setDrawBeam(true);
 			}
 		};
