@@ -18,7 +18,10 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
@@ -31,6 +34,8 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
  */
 public class TileEntityDustActive extends TileEntityDustPlaced implements ITickable {
 	private long ticksExisted=0;
+	public StarData stardata = null;
+	public BeamData beamdata=null;
 	public TileEntityDustActive() {
 		super();
 	}
@@ -41,6 +46,30 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 	public long ticksExisted(){
 		return ticksExisted;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced#getMaxRenderDistanceSquared()
+	 */
+	@Override
+	public double getMaxRenderDistanceSquared() {
+		if((this.beamdata!=null && this.beamdata.doRender)||(this.stardata!=null && this.stardata.doRender)){
+			return 65536.0D;
+		}else{
+			return super.getMaxRenderDistanceSquared();
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see net.minecraft.tileentity.TileEntity#getRenderBoundingBox()
+	 */
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		if((this.stardata!=null && this.stardata.doRender)||(this.beamdata!=null && this.beamdata.doRender)){
+			return INFINITE_EXTENT_AABB;
+		}else{
+			return super.getRenderBoundingBox();
+		}
+	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.server.gui.IUpdatePlayerListBox#update()
 	 */
@@ -49,6 +78,25 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		if(!initialised)init();
 		ticksExisted++;
 		if(rune!=null)rune.update();
+	}
+	
+	public void setupStar(int inner, int outer, float size, float sizeY,Vec3d offset){
+		stardata = new StarData(inner, outer, size, sizeY, offset);
+	}
+	public void setupStar(int inner, int outer, float size, float sizeY){
+		stardata = new StarData(inner, outer, size, sizeY);
+	}
+	public void setupBeam(int color, BeamType type,Vec3d offset){
+		beamdata = new BeamData(color,type,offset);
+	}
+	public void setupBeam(int color, BeamType type){
+		beamdata = new BeamData(color,type);
+	}
+	public void setDrawStar(boolean value){
+		if(stardata!=null)stardata.doRender=value;
+	}
+	public void setDrawBeam(boolean value){
+		if(beamdata!=null)beamdata.doRender=value;
 	}
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced#readFromNBT(net.minecraft.nbt.NBTTagCompound)
@@ -103,6 +151,14 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			initialised=false;
 			this.rune.readFromNBT(tagCompound);
 		}
+		if(tagCompound.hasKey("star")){
+			stardata = new StarData();
+			stardata.readNBT(tagCompound.getCompoundTag("star"));
+		}
+		if(tagCompound.hasKey("beam")){
+			beamdata = new BeamData();
+			beamdata.readNBT(tagCompound.getCompoundTag("beam"));
+		}
 	}
 	private boolean initialised=false;
 	private void init(){
@@ -153,6 +209,8 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			tagCompound.setBoolean("renderActive", rune.renderActive);
 		}
 		tagCompound.setLong("ticksExisted", ticksExisted);
+		if(stardata!=null)tagCompound.setTag("star", stardata.writeNBT(new NBTTagCompound()));
+		if(beamdata!=null)tagCompound.setTag("beam", beamdata.writeNBT(new NBTTagCompound()));
 		return tagCompound;
 	}
 	//
@@ -166,5 +224,116 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			stack=s;
 		}
 	}
+	/** This class holds the data and some utility methods to configure rendering of the star**/
+	public static class StarData{
+		public int innercolor, outercolor;
+		public boolean doRender;
+		public float scale, yscale;
+		//offset from the active TE
+		public Vec3d offset;
+		private StarData(){
+			//empty constructor for when we want to read from NBT
+			doRender=false;
+		}
+		public StarData(int inner, int outer, float size, float sizeY,Vec3d offset){
+			innercolor=inner;
+			outercolor = outer;
+			scale=size;
+			yscale=sizeY;
+			doRender=false;
+			this.offset=offset;
+		}
+		public StarData(int inner, int outer, float size, float sizeY){
+			this(inner,outer,size,sizeY,new Vec3d(0,0,0));
+		}
+		public NBTTagCompound writeNBT(NBTTagCompound tag){
+			tag.setInteger("starInner", innercolor);
+			tag.setInteger("starOuter", outercolor);
+			tag.setFloat("starScale", scale);
+			tag.setFloat("starScaleY", yscale);
+			tag.setBoolean("starRender", doRender);
+			tag.setDouble("starOffsetX", offset.xCoord);
+			tag.setDouble("starOffsetY", offset.yCoord);
+			tag.setDouble("starOffsetZ", offset.zCoord);
+			return tag;
+		}
+		public void readNBT(NBTTagCompound tag){
+			innercolor = tag.getInteger("starInner");
+			outercolor = tag.getInteger("starOuter");
+			scale = tag.getFloat("starScale");
+			yscale = tag.getFloat("starScaleY");
+			doRender=tag.getBoolean("starRender");
+			double dx = tag.getDouble("starOffsetX"),
+				   dy = tag.getDouble("starOffsetY"),
+				   dz = tag.getDouble("starOffsetZ");
+			offset=new Vec3d(dx,dy,dz);
+		}
+	}
+	public static enum BeamType {BEACON, SPIRAL, RINGS,CUSTOM};
+	/** This class holds the data and some utility methods to configure rendering of the beam**/
+	public static class BeamData{
+		public int color;
+		public boolean doRender;
+		public BeamType type;
+		public Vec3d offset;
+		/** if false, the beam will "vibrate" instead of rotating like the normal beacon**/
+		public boolean doesRotate;
+		public int height;
+		public double beamRadius,glowRadius;
+		/** If the beam type is CUSTOM, you must set this field manually**/
+		public ResourceLocation customTexture;
+		/** If the beam type is CUSTOM, you must set this field manually**/
+		public double customTexScale;
+		private BeamData(){
+			doRender=false;
+		}
+		public BeamData(int color, BeamType type,Vec3d offset){
+			this.color=color;
+			this.type=type;
+			doRender=false;
+			this.offset=offset;
+			this.doesRotate=true;
+			this.height=128;
+			this.beamRadius=0.2;
+			this.glowRadius=0.25;
+		}
+		public BeamData(int color, BeamType type){
+			this(color,type,new Vec3d(0,0,0));
+		}
+		public NBTTagCompound writeNBT(NBTTagCompound tag){
+			tag.setInteger("beamColor", color);
+			tag.setString("beamType", type.name());
+			tag.setBoolean("beamRender", doRender);
+			tag.setBoolean("beamRotate", doesRotate);
+			tag.setInteger("beamHeight", height);
+			tag.setDouble("beamOffsetX", offset.xCoord);
+			tag.setDouble("beamOffsetY", offset.yCoord);
+			tag.setDouble("beamOffsetZ", offset.zCoord);
+			tag.setDouble("beamRad", beamRadius);
+			tag.setDouble("beamGlowRad", glowRadius);
+			if(type==BeamType.CUSTOM){
+				tag.setString("beamCustomTex", customTexture!=null?customTexture.toString():null);
+				tag.setDouble("beamTexScale",customTexScale);
+			}
+			return tag;
+		}
+		public void readNBT(NBTTagCompound tag){
+			color = tag.getInteger("beamColor");
+			doRender=tag.getBoolean("beamRender");
+			doesRotate = tag.getBoolean("beamRotate");
+			height = tag.getInteger("beamHeight");
+			type = BeamType.valueOf(tag.getString("beamType"));
+			offset = new Vec3d(tag.getDouble("beamOffsetX"),tag.getDouble("beamOffsetY"),tag.getDouble("beamOffsetZ"));
+			beamRadius=tag.getDouble("beamRad");
+			glowRadius=tag.getDouble("beamGlowRad");
+			if(type==BeamType.CUSTOM){
+				customTexture=new ResourceLocation(tag.getString("beamCustomTex"));
+				customTexScale=tag.getDouble("beamTexScale");
+			}
+		}
+	}
 
+	
+	
+	
 }
