@@ -35,6 +35,7 @@ import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustDead;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.ArrayUtils;
 import com.zpig333.runesofwizardry.util.Utils;
@@ -203,7 +204,7 @@ public class RunesUtil {
 		//place the rune
 		world.removeTileEntity(entityPos);
 
-		world.setBlockState(entityPos, WizardryRegistry.dust_placed.getDefaultState().withProperty(BlockDustPlaced.PROPERTYACTIVE, true));
+		world.setBlockState(entityPos, WizardryRegistry.dust_placed.getDefaultState().withProperty(BlockDustPlaced.PROPERTYSTATE, BlockDustPlaced.STATE_ACTIVE));
 		TileEntity te = world.getTileEntity(entityPos);
 		if(!(te instanceof TileEntityDustActive))throw new IllegalStateException("TileEntity not formed!");
 		TileEntityDustActive entity = (TileEntityDustActive)te;
@@ -297,6 +298,14 @@ public class RunesUtil {
 				for(int j=0;j<contents[i].length;j++){
 					if(contents[i][j]!=null)contents[i][j]=new ItemStack(WizardryRegistry.dust_dead);
 				}
+			}
+			if(ConfigHandler.deadDustDecay){
+				worldIn.removeTileEntity(pos);
+				worldIn.setBlockState(pos, WizardryRegistry.dust_placed.getDefaultState().withProperty(BlockDustPlaced.PROPERTYSTATE, BlockDustPlaced.STATE_DEAD));
+				en = worldIn.getTileEntity(pos);
+				if(!(en instanceof TileEntityDustDead))throw new IllegalStateException("TileEntity not formed!");
+				TileEntityDustDead ded = (TileEntityDustDead)en;
+				ded.setContents(contents);
 			}
 			//TODO particles?
 			worldIn.notifyBlockUpdate(pos, worldIn.getBlockState(pos), worldIn.getBlockState(pos), 0);

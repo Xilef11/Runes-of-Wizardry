@@ -5,7 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.ParticleManager;
@@ -44,6 +44,7 @@ import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.ItemRunicStaff;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustDead;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.RayTracer;
 /**
@@ -61,7 +62,7 @@ public class BlockDustPlaced extends Block{
 		ResourceLocation res = new ResourceLocation(References.modid,"dust_placed");
 		GameRegistry.register(this, res);
 		GameRegistry.register(new ItemBlock(this), res);
-		this.setDefaultState(getDefaultState().withProperty(PROPERTYACTIVE, false));
+		this.setDefaultState(getDefaultState().withProperty(PROPERTYSTATE, STATE_NORMAL));
 	}
 
 
@@ -173,28 +174,29 @@ public class BlockDustPlaced extends Block{
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		if(state.getBlock()==this){
-			if(state.getValue(PROPERTYACTIVE)){
-				return new TileEntityDustActive();
-			}else{
-				return new TileEntityDustPlaced();
+			switch(state.getValue(PROPERTYSTATE)){
+			case STATE_ACTIVE: return new TileEntityDustActive();
+			case STATE_DEAD:	return new TileEntityDustDead();
+			default:	return new TileEntityDustPlaced();
 			}
 		}
 		return super.createTileEntity(world, state);
 	}
+	public static final int STATE_NORMAL=0,STATE_ACTIVE=1,STATE_DEAD=2;
 	//this block has 1 property: active or not.
-	public static final PropertyBool PROPERTYACTIVE = PropertyBool.create("active");
+	public static final PropertyInteger PROPERTYSTATE = PropertyInteger.create("state", 0, 2);
 	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return meta==0? this.getDefaultState().withProperty(PROPERTYACTIVE, false) : this.getDefaultState().withProperty(PROPERTYACTIVE, true);
+		return this.getDefaultState().withProperty(PROPERTYSTATE,meta);
 	}
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(PROPERTYACTIVE)?1:0;
+		return state.getValue(PROPERTYSTATE);
 	}
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, PROPERTYACTIVE);
+		return new BlockStateContainer(this, PROPERTYSTATE);
 	}
 
 
@@ -338,7 +340,16 @@ public class BlockDustPlaced extends Block{
 			}
 			tileDust.setInventorySlotContents(slotID, newItem);
 			worldIn.playSound(null,pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getPlaceSound(),SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
-			
+			//if the dust block was "dead", mark it as normal (and change the TE)
+			if(state.getValue(PROPERTYSTATE)==STATE_DEAD){
+				ItemStack[][] contents = tileDust.getContents();
+				worldIn.removeTileEntity(pos);
+				worldIn.setBlockState(pos, getDefaultState().withProperty(PROPERTYSTATE, STATE_NORMAL));
+				TileEntity te = worldIn.getTileEntity(pos);
+				if(!(te instanceof TileEntityDustPlaced))throw new IllegalStateException("TileEntity not formed!");
+				tileDust=(TileEntityDustPlaced)te;
+				tileDust.setContents(contents);
+			}
 			if(tileDust.isInRune()){
 				tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 			}

@@ -29,6 +29,7 @@ public class ConfigHandler {
 	
 	public static boolean hardcoreSacrifices;
 	public static boolean hardcoreActivation;
+	public static boolean deadDustDecay;
 	
 	//pretty print exported json
 	public static boolean exportPretty;
@@ -61,6 +62,7 @@ public class ConfigHandler {
 		dictionaryImportXP = config.getInt("PlaceRuneHunger", Configuration.CATEGORY_GENERAL, 0, 0, 40, "The number of hunger points required to place a rune with the Runic Dictionary (2 points per hunger bar).");
 		hardcoreSacrifices = config.getBoolean("hardcore sacrifices", Configuration.CATEGORY_GENERAL, false, "If enabled, sacrificing the wrong items will burn up the rune and items.");
 		hardcoreActivation=config.getBoolean("hardcore activation", Configuration.CATEGORY_GENERAL, false, "If enabled, attempting to activate a pattern that is not a rune will burn up the pattern.");
+		deadDustDecay = config.getBoolean("Decay Dead dust", Configuration.CATEGORY_GENERAL, true, "If enabled, dusts will dissapear gradually after a rune has been deactivated");
 		if(config.hasChanged()){
 			config.save();
 		}		
