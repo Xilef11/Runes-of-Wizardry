@@ -56,6 +56,9 @@ public class RuneStarBeam extends IRune {
 			public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice, boolean negated) {
 				entity.setupStar(0xFF00FF, 0x00FF00, 1, 1,new Vec3d(0,0,0));
 				entity.setDrawStar(true);
+				//entity.setupBeam(0xFFFFFF, BeamType.CUSTOM);
+				//entity.beamdata.customTexture=new ResourceLocation("minecraft","textures/items/bone.png");
+				//entity.beamdata.customTexScale=1.0;
 				entity.setupBeam(0xFF00FF, BeamType.RINGS);
 				entity.setDrawBeam(true);
 			}

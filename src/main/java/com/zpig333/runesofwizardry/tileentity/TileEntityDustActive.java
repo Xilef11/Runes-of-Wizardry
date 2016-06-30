@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -268,7 +269,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			offset=new Vec3d(dx,dy,dz);
 		}
 	}
-	public static enum BeamType {BEACON, SPIRAL, RINGS};
+	public static enum BeamType {BEACON, SPIRAL, RINGS,CUSTOM};
 	/** This class holds the data and some utility methods to configure rendering of the beam**/
 	public static class BeamData{
 		public int color;
@@ -279,6 +280,10 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		public boolean doesRotate;
 		public int height;
 		public double beamRadius,glowRadius;
+		/** If the beam type is CUSTOM, you must set this field manually**/
+		public ResourceLocation customTexture;
+		/** If the beam type is CUSTOM, you must set this field manually**/
+		public double customTexScale;
 		private BeamData(){
 			doRender=false;
 		}
@@ -306,6 +311,10 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			tag.setDouble("beamOffsetZ", offset.zCoord);
 			tag.setDouble("beamRad", beamRadius);
 			tag.setDouble("beamGlowRad", glowRadius);
+			if(type==BeamType.CUSTOM){
+				tag.setString("beamCustomTex", customTexture!=null?customTexture.toString():null);
+				tag.setDouble("beamTexScale",customTexScale);
+			}
 			return tag;
 		}
 		public void readNBT(NBTTagCompound tag){
@@ -317,6 +326,10 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			offset = new Vec3d(tag.getDouble("beamOffsetX"),tag.getDouble("beamOffsetY"),tag.getDouble("beamOffsetZ"));
 			beamRadius=tag.getDouble("beamRad");
 			glowRadius=tag.getDouble("beamGlowRad");
+			if(type==BeamType.CUSTOM){
+				customTexture=new ResourceLocation(tag.getString("beamCustomTex"));
+				customTexScale=tag.getDouble("beamTexScale");
+			}
 		}
 	}
 

@@ -17,7 +17,7 @@ import org.lwjgl.opengl.GL11;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive.BeamType;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive.BeamData;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 public class RenderDustActive extends RenderDustPlaced {
@@ -147,30 +147,33 @@ public class RenderDustActive extends RenderDustPlaced {
 	private void drawBeam(TileEntityDustActive te,float partialTicks) {
 		GlStateManager.alphaFunc(GL11.GL_GEQUAL, 0.1F);
 		//looks like the GL flags get reset by the renderBeamSegment thing, so we are stuck with the solid beam if we want to just call instead of copy
-		this.bindTexture(getBeamTexture(te.beamdata.type));
+		this.bindTexture(getBeamTexture(te.beamdata));
         GlStateManager.disableFog();
 		Color beamColor = new Color(te.beamdata.color);
 		Vec3d off = te.beamdata.offset;
 		float[] colors = new float[]{beamColor.getRed()/255F,beamColor.getGreen()/255F,beamColor.getBlue()/255F};
 		//renderBeamSegment(double x, double y, double z, double partialTicks, double shouldBeamrender, double totalWorldTime, int verticalOffset, int height, float[] colors, double beamRadius, double glowRadius)
 		//looks like shouldBeamRender affects the scale/speed of the texture animation
-		TileEntityBeaconRenderer.renderBeamSegment(off.xCoord, off.yCoord, off.zCoord, partialTicks, getTextureScale(te.beamdata.type), te.beamdata.doesRotate?(double)te.getWorld().getTotalWorldTime() : partialTicks, 0, te.beamdata.height, colors, te.beamdata.beamRadius,te.beamdata.glowRadius);
+		TileEntityBeaconRenderer.renderBeamSegment(off.xCoord, off.yCoord, off.zCoord, partialTicks, getTextureScale(te.beamdata), te.beamdata.doesRotate?(double)te.getWorld().getTotalWorldTime() : partialTicks, 0, te.beamdata.height, colors, te.beamdata.beamRadius,te.beamdata.glowRadius);
 		GlStateManager.enableFog();
 	}
 	
-	private static ResourceLocation getBeamTexture(BeamType type){
-		switch(type){
+	private static ResourceLocation getBeamTexture(BeamData data){
+		switch(data.type){
 		case BEACON:return TileEntityBeaconRenderer.TEXTURE_BEACON_BEAM;
 		case SPIRAL:return TEXTURE_SPIRAL_BEAM;
 		case RINGS: return TEXTURE_RING_BEAM;
+		case CUSTOM: if(data.customTexture!=null)return data.customTexture;
+			//$FALL-THROUGH$
 		default:return MISSING_TEXTURE;
 		}
 	}
-	private static double getTextureScale(BeamType type){
-		switch(type){
+	private static double getTextureScale(BeamData data){
+		switch(data.type){
 		case BEACON:return 1.0;
 		case SPIRAL: return 0.5;
 		case RINGS: return 1.0;
+		case CUSTOM: return data.customTexScale; 
 		default: return 1.0;
 		}
 	}
