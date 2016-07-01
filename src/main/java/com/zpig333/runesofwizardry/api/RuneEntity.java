@@ -105,8 +105,8 @@ public abstract class RuneEntity{
 	/** Called when the pattern changes after this rune is formed **/
 	public void onPatternBroken(){
 		//deactivate rune
-		RunesUtil.killAllDustsInRune(this);
 		RunesUtil.deactivateRune(this);
+		RunesUtil.killAllDustsInRune(this);
 	}
 
 	//Normal TE methods

@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -35,6 +36,7 @@ import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustDead;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.ArrayUtils;
 import com.zpig333.runesofwizardry.util.Utils;
@@ -203,7 +205,7 @@ public class RunesUtil {
 		//place the rune
 		world.removeTileEntity(entityPos);
 
-		world.setBlockState(entityPos, WizardryRegistry.dust_placed.getDefaultState().withProperty(BlockDustPlaced.PROPERTYACTIVE, true));
+		world.setBlockState(entityPos, WizardryRegistry.dust_placed.getDefaultState().withProperty(BlockDustPlaced.PROPERTYSTATE, BlockDustPlaced.STATE_ACTIVE));
 		TileEntity te = world.getTileEntity(entityPos);
 		if(!(te instanceof TileEntityDustActive))throw new IllegalStateException("TileEntity not formed!");
 		TileEntityDustActive entity = (TileEntityDustActive)te;
@@ -264,7 +266,8 @@ public class RunesUtil {
 			TileEntity te1 = world.getTileEntity(p);
 			if(te1 instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te1).setRune(null);
-				world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0);
+				IBlockState state = world.getBlockState(pos);
+				world.notifyBlockUpdate(pos, state, state, 3);
 			}else{
 				throw new IllegalStateException("TileEntity wasn't placed dust: "+te1);
 			}
@@ -298,8 +301,17 @@ public class RunesUtil {
 					if(contents[i][j]!=null)contents[i][j]=new ItemStack(WizardryRegistry.dust_dead);
 				}
 			}
+			if(ConfigHandler.deadDustDecay){
+				worldIn.removeTileEntity(pos);
+				worldIn.setBlockState(pos, WizardryRegistry.dust_placed.getDefaultState().withProperty(BlockDustPlaced.PROPERTYSTATE, BlockDustPlaced.STATE_DEAD));
+				en = worldIn.getTileEntity(pos);
+				if(!(en instanceof TileEntityDustDead))throw new IllegalStateException("TileEntity not formed!");
+				TileEntityDustDead ded = (TileEntityDustDead)en;
+				ded.setContents(contents);
+			}
 			//TODO particles?
-			worldIn.notifyBlockUpdate(pos, worldIn.getBlockState(pos), worldIn.getBlockState(pos), 0);
+			IBlockState state = worldIn.getBlockState(pos);
+			worldIn.notifyBlockUpdate(pos, state, state, 3);
 		}else{
 			WizardryLogger.logError("killDustForEntity was called with a BlockPos that does not have a TileEntityDustPlaced! :"+pos);
 		}
