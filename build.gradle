@@ -44,12 +44,17 @@ plugins {
 }
 */
 //MC stuff
-def mcVersion = "1.9.4"
 def majorVersion = "0"
-def minorVersion = "6"
-def bugfix = ".9"
+def minorVersion = "7"
+def bugfix = ".0"
 def devVersion = "-dev"
 def forgeVersion="1.9.4-12.17.0.1987"
+def mcVersion = forgeVersion.substring(0,forgeVersion.indexOf('-'))
+
+def username = 'ForgeDevName'
+//set from command line with -Pdev_username=name
+if (project.hasProperty('dev_username'))
+username = "${dev_username}"
 
 version = "${mcVersion}-${majorVersion}.${minorVersion}${bugfix}${devVersion}"
 group= "com.zpig333.runesofwizardry"
@@ -69,6 +74,8 @@ minecraft {
     version = forgeVersion
 
     runDir = "minecraft"
+    
+    clientRunArgs += "--username=${username}"
 	
 	// the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
