@@ -452,8 +452,9 @@ public class BlockDustPlaced extends Block{
 				}
 			}
 			//update the client
-			//XXX worldIn.markBlockForUpdate(pos);
-			worldIn.notifyBlockUpdate(pos, worldIn.getBlockState(pos), worldIn.getBlockState(pos), 0);
+			//worldIn.markBlockForUpdate(pos);
+			IBlockState state = worldIn.getBlockState(pos);
+			worldIn.notifyBlockUpdate(pos, state, state, 3);
 		}
 	}
 	

@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -265,7 +266,8 @@ public class RunesUtil {
 			TileEntity te1 = world.getTileEntity(p);
 			if(te1 instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te1).setRune(null);
-				world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0);
+				IBlockState state = world.getBlockState(pos);
+				world.notifyBlockUpdate(pos, state, state, 3);
 			}else{
 				throw new IllegalStateException("TileEntity wasn't placed dust: "+te1);
 			}
@@ -308,7 +310,8 @@ public class RunesUtil {
 				ded.setContents(contents);
 			}
 			//TODO particles?
-			worldIn.notifyBlockUpdate(pos, worldIn.getBlockState(pos), worldIn.getBlockState(pos), 0);
+			IBlockState state = worldIn.getBlockState(pos);
+			worldIn.notifyBlockUpdate(pos, state, state, 3);
 		}else{
 			WizardryLogger.logError("killDustForEntity was called with a BlockPos that does not have a TileEntityDustPlaced! :"+pos);
 		}

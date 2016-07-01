@@ -1,13 +1,63 @@
 package com.zpig333.runesofwizardry.tileentity;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+
 public class TileEntityDustDead extends TileEntityDustPlaced implements
-		ITickable {
+ITickable {
 	//we go with a ticking TE because the random ticks are not frequent enough (by default, on average once every 65 seconds according to math, once every ~40 sec. experimentally)
+	private int nextTick=-1;
+	private static final int MAX_DELAY=5*20,
+			BASE_DELAY=2*20;
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		if(nextTick<0&&!worldObj.isRemote){
+			nextTick = BASE_DELAY + worldObj.rand.nextInt(MAX_DELAY);
+			IBlockState state = worldObj.getBlockState(pos);
+			worldObj.notifyBlockUpdate(pos, state, state, 3);
+		}
+		nextTick--;
+		if(nextTick==0){
+			if(worldObj.isRemote){
+				for (int i = 0; i<worldObj.rand.nextInt(4)+1; i++){
+					worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+Math.random(), pos.getY()+Math.random()/2D, pos.getZ()+Math.random(), 0.07, 0.01D, 0.07D);
+				}
+			}else{
+				int i;
+				do{
+					i = worldObj.rand.nextInt(getSizeInventory());
+				}while(getStackInSlot(i)==null || getStackInSlot(i).getItem()!=WizardryRegistry.dust_dead);
+				setInventorySlotContents(i, null);
+				nextTick = BASE_DELAY + worldObj.rand.nextInt(MAX_DELAY);
+				if(isEmpty()){//if there is no more dust, break the block
+					worldObj.setBlockToAir(pos);
+				}
+				IBlockState state = worldObj.getBlockState(pos);
+				worldObj.notifyBlockUpdate(pos, state, state, 3);
+			}
+		}
 	}
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced#readFromNBT(net.minecraft.nbt.NBTTagCompound)
+	 */
+	@Override
+	public void readFromNBT(NBTTagCompound tagCompound) {
+		super.readFromNBT(tagCompound);
+		this.nextTick=tagCompound.getInteger("ticksExisted");
+	}
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced#writeToNBT(net.minecraft.nbt.NBTTagCompound)
+	 */
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
+		tagCompound = super.writeToNBT(tagCompound);
+		tagCompound.setInteger("ticksExisted", nextTick);
+		return tagCompound;
+	}
+
 
 }

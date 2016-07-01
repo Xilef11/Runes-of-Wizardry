@@ -265,7 +265,7 @@ public class CommandImportPattern implements ICommand {
 							ted.setContents(contents[r][c]);
 						}
 						//world.markBlockForUpdate(current);
-						world.notifyBlockUpdate(current, state, state, 0);
+						world.notifyBlockUpdate(current, state, state, 3);
 					}else{
 						throw new IllegalStateException("import command: TE was not placed dust");
 					}
