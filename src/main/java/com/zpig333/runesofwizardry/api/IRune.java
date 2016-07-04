@@ -85,7 +85,7 @@ public abstract class IRune {
 		if(this.getSacrifice()==null)return true;//if there is absolutely no sacrifice wanted
 		if(droppedItems!=null)droppedItems = Utils.sortAndMergeStacks(droppedItems);
 		for(ItemStack[] possibility:this.getSacrifice()){
-			if(droppedItems!=null){
+			if(droppedItems!=null&& possibility!=null){
 				List<ItemStack> wanted = Arrays.asList(possibility);
 				wanted = Utils.sortAndMergeStacks(wanted);
 				WizardryLogger.logInfo("Comparing sacrifices: "+Arrays.deepToString(wanted.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));

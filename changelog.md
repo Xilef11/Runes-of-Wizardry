@@ -1,0 +1,3 @@
+- added options for drawing stars and beams
+- added option for dust to disappear after deactivating a rune
+- should support 1.9.4 to 1.10.2

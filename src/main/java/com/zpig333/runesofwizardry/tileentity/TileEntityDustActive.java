@@ -86,6 +86,9 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 	public void setupStar(int inner, int outer, float size, float sizeY){
 		stardata = new StarData(inner, outer, size, sizeY);
 	}
+	public void setupStar(int inner, int outer){
+		setupStar(inner,outer,1,1);
+	}
 	public void setupBeam(int color, BeamType type,Vec3d offset){
 		beamdata = new BeamData(color,type,offset);
 	}
