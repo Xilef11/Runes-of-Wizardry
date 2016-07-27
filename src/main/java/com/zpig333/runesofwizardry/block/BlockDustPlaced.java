@@ -205,7 +205,7 @@ public class BlockDustPlaced extends Block{
 	{	//drop the items
 		TileEntityDustPlaced tileentityDustPlaced = (TileEntityDustPlaced) worldIn.getTileEntity(pos);
 		if (tileentityDustPlaced != null) {
-			if(tileentityDustPlaced.isInRune()){
+			if(tileentityDustPlaced.isInRune()&&!worldIn.restoringBlockSnapshots){
 				tileentityDustPlaced.getRune().onPatternBroken();
 			}
 			Random random = new Random();
@@ -384,7 +384,7 @@ public class BlockDustPlaced extends Block{
 	@Deprecated
 	@Override
 	public void neighborChanged(IBlockState state,World worldIn, BlockPos pos, Block neighborBlock) {
-		if(worldIn.isAirBlock(pos.down())){
+		if(worldIn.isAirBlock(pos.down())&&!worldIn.restoringBlockSnapshots){
 			this.breakBlock(worldIn, pos, state);
 			worldIn.setBlockToAir(pos);
 			return;

@@ -11,6 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.Level;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -259,7 +261,9 @@ public class RunesUtil {
 		if(te instanceof TileEntityDustPlaced){
 			((TileEntityDustPlaced)te).setContents(contents);
 		}else{
-			throw new IllegalStateException("TileEntity wasn't placed dust: "+te);
+			//throw new IllegalStateException("TileEntity wasn't placed dust: "+te);
+			Throwable t = new IllegalStateException("TileEntity wasn't placed dust: "+te);
+			WizardryLogger.logException(Level.ERROR, t, "Error deactivating rune (1)");
 		}
 		//set all entities as not in a rune
 		for(BlockPos p:rune.dustPositions){
@@ -269,7 +273,9 @@ public class RunesUtil {
 				IBlockState state = world.getBlockState(pos);
 				world.notifyBlockUpdate(pos, state, state, 3);
 			}else{
-				throw new IllegalStateException("TileEntity wasn't placed dust: "+te1);
+				//throw new IllegalStateException("TileEntity wasn't placed dust: "+te1);
+				Throwable t = new IllegalStateException("TileEntity wasn't placed dust: "+te1);
+				WizardryLogger.logException(Level.ERROR, t, "Error deactivating rune (2)");
 			}
 		}
 	}
