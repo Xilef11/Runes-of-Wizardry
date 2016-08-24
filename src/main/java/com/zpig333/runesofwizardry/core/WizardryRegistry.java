@@ -173,8 +173,8 @@ public class WizardryRegistry {
 		//book
 		GameRegistry.addShapelessRecipe(new ItemStack(WizardryRegistry.runic_dictionary), new ItemStack(Items.ENCHANTED_BOOK,1,OreDictionary.WILDCARD_VALUE),new ItemStack(WizardryRegistry.runic_staff));
 		//staff
-		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), " XY"," ZX","W  ",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Items.DIAMOND),'Z',new ItemStack(Items.STICK),'W',new ItemStack(Items.GOLD_INGOT));
-		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), "YX ","XZ ","  W",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Items.DIAMOND),'Z',new ItemStack(Items.STICK),'W',new ItemStack(Items.GOLD_INGOT));
+		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), " XY"," ZX","X  ",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Blocks.GLASS),'Z',new ItemStack(Items.STICK));
+		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), "YX ","XZ ","  X",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Blocks.GLASS),'Z',new ItemStack(Items.STICK));
 		//pouches
 		RecipeSorter.register(References.modid+":dustPouch", RecipeDustPouch.class, RecipeSorter.Category.SHAPELESS, "");
 		GameRegistry.addRecipe(new ShapedOreRecipe(dust_pouch, " X ","YZY"," Y ",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Blocks.WOOL),'Z',new ItemStack(runic_staff)));

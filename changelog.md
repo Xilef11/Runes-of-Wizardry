@@ -1,0 +1,2 @@
+- small tweaks to allow "moving" active dust without breaking the rune
+- made staff cheaper to craft

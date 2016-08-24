@@ -32,7 +32,7 @@ import com.zpig333.runesofwizardry.runes.RuneTest2;
 import com.zpig333.runesofwizardry.runes.RuneTesting;
 import com.zpig333.runesofwizardry.util.ChatUtils;
 
-@Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory")
+@Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory",acceptedMinecraftVersions = "[1.9.4,1.11.0)")
 public class RunesOfWizardry {
 
 	@SidedProxy(clientSide = References.client_proxy, serverSide = References.server_proxy)

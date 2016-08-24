@@ -48,7 +48,7 @@ def majorVersion = "0"
 def minorVersion = "7"
 def bugfix = ".1"
 def devVersion = "-dev"
-def forgeVersion="1.10.2-12.18.1.2014"
+def forgeVersion="1.10.2-12.18.1.2073"
 def mcVersion = forgeVersion.substring(0,forgeVersion.indexOf('-'))
 
 def username = 'ForgeDevName'
@@ -75,7 +75,7 @@ minecraft {
 
     runDir = "minecraft"
     
-    clientRunArgs += "--username=${username}"
+    clientRunArgs += "-username=${username}"
 	
 	// the mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   snapshot are built nightly.
@@ -118,7 +118,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 	//JEI
-	deobfCompile "mezz.jei:jei_1.10.2:3.7.6.232"
+	deobfCompile "mezz.jei:jei_1.10.2:3.9.0.246"
 }
 
 tasks.withType(JavaCompile) {
@@ -241,7 +241,7 @@ if(project.hasProperty('curseKey')){
 		//version pulled from ForgeGradle includes java 6
 		changelogType='markdown'
 		changelog = file('changelog.md').getText()+"\n\nBuilt with Forge "+forgeVersion
-		releaseType = !project.version.contains(devVersion) ? 'beta' : 'alpha'
+		releaseType = !project.version.contains(devVersion) ? 'release' : 'alpha'
 		mainArtifact jar
 	  }
   }else{
