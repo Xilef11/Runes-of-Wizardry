@@ -26,6 +26,7 @@ import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
+import com.zpig333.runesofwizardry.item.ItemInscription;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
 import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
@@ -56,6 +57,7 @@ public class WizardryRegistry {
 	public static Item dust_pouch;
 	public static Item broom;
 	public static Item sacrifice_negator;
+	public static Item inscription;
 	public static IDust dust_dead;
 
 	//dyed dust
@@ -92,6 +94,8 @@ public class WizardryRegistry {
 		runic_staff = new ItemRunicStaff();
 
 		broom = new ItemBroom();
+		inscription = new ItemInscription();
+		
 		sacrifice_negator = new ItemSacrificeNegator();
 		//dyed dust
 		dust_dyed = new DustDyed();
@@ -254,6 +258,17 @@ public class WizardryRegistry {
 				1,
 				new ModelResourceLocation(References.texture_path
 						+ ((ItemDustPouch)dust_pouch).getName()+"_full", "inventory"));
+		//inscriptions
+		ModelLoader.setCustomModelResourceLocation(
+				WizardryRegistry.inscription,
+				0,
+				new ModelResourceLocation(References.texture_path
+						+ ((ItemInscription)inscription).getName()+"_blank", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(
+				WizardryRegistry.inscription,
+				1,
+				new ModelResourceLocation(References.texture_path
+						+ ((ItemInscription)inscription).getName()+"_painted", "inventory"));
 	}
 	
 	/**Register the rendering/icon for all dusts that use the default model**/

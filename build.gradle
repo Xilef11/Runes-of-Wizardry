@@ -119,6 +119,10 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 	//JEI
 	deobfCompile "mezz.jei:jei_1.10.2:3.9.0.246"
+	
+	compile files(
+		'libs/Baubles-1.9.4-1.2.1.0-deobf.jar'
+	)
 }
 
 tasks.withType(JavaCompile) {
