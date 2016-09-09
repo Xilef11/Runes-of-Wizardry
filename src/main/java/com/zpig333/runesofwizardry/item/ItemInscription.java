@@ -2,6 +2,8 @@ package com.zpig333.runesofwizardry.item;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,21 +12,26 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
+import baubles.common.container.InventoryBaubles;
+import baubles.common.lib.PlayerHandler;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble{
-	public static ArmorMaterial INSCRIPTION_MATERIAL = EnumHelper.addArmorMaterial("runesofwizardry_INSCRIPTION_MATERIAL", "forge:textures/items/bucket.png"/*TODO texture*/, 0, new int[]{0,0,0,0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
+	public static ArmorMaterial INSCRIPTION_MATERIAL = EnumHelper.addArmorMaterial("runesofwizardry_INSCRIPTION_MATERIAL", "runesofwizardry:original_ins"/*TODO texture*/, 0, new int[]{0,0,0,0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 	public String getName() {
 		return "inscription";
 	}
@@ -72,6 +79,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	}
 	@Override
 	public ArmorProperties getProperties(EntityLivingBase player,ItemStack armor, DamageSource source, double damage, int slot) {
+		//XXX may want to add logic for preventing damage in inscription (see original ItemWornInscription)
 		return new ArmorProperties(0, 0, 0);
 	}
 	@Override
@@ -107,5 +115,29 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	public void onWornTick(ItemStack arg0, EntityLivingBase arg1) {
 		if(arg1 instanceof EntityPlayer)this.onArmorTick(arg1.worldObj, (EntityPlayer)arg1, arg0);
 		else WizardryLogger.logError("Inscription equipped by a non-player entity: "+arg1);
+	}
+	//equip in baubles slot if installed, chestplate slot otherwise
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+		
+		ItemStack toEquip = stack.copy();
+		toEquip.stackSize = 1;
+
+		if(canEquip(toEquip, player) && Loader.isModLoaded("Baubles")) {
+			InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
+			for(int i = 0; i < baubles.getSizeInventory(); i++) {
+				if(baubles.isItemValidForSlot(i, toEquip)) {
+					ItemStack stackInSlot = baubles.getStackInSlot(i);
+					if(stackInSlot == null) {
+						if(!world.isRemote) {
+							baubles.setInventorySlotContents(i, toEquip);
+							stack.stackSize--;
+						}
+						break;
+					}
+				}
+			}
+		}
+		return super.onItemRightClick(stack, world, player, hand);
 	}
 }

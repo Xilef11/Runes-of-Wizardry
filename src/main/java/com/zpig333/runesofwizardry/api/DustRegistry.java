@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -40,6 +42,9 @@ public class DustRegistry {
 	private static Map<IRune,String> inverseRunes = new LinkedHashMap<IRune, String>();
 	/** The dust requirements for all runes**/
 	private static Map<String,RunesUtil.RuneStats> duststats = new HashMap<String, RunesUtil.RuneStats>();
+	/**List of all registered inscriptions**/
+	private static Map<String,Inscription> inscriptions=new LinkedHashMap<String, Inscription>();
+	
 	//Special constants
 	/**
 	 * Represents any "magic" dust
@@ -94,6 +99,7 @@ public class DustRegistry {
 	 * @param id the id to get the rune for
 	 * @return the rune registered as {@code id}, or {@code null} if it dosen't exist
 	 */
+	@Nullable
 	public static IRune getRuneByID(String id){
 		return runes.get(id);
 	}
@@ -131,6 +137,10 @@ public class DustRegistry {
 	}
 	public static Collection<IDustStorageBlock> getAllBlocks(){
 		return blocks.values();
+	}
+	@Nullable
+	public static Inscription getInscriptionByID(String id){
+		return inscriptions.get(id);
 	}
 	/**
 	 * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
@@ -197,6 +207,21 @@ public class DustRegistry {
 		runes.put(name,rune);
 		inverseRunes.put(rune, name);
 		duststats.put(name, stats);
+	}
+	/** Validates and registers an inscription in the RunesOfWizardry system.
+	 * 
+	 * @param inscription the inscription to register
+	 * @param id the mod-unique ID for the inscription (will be prefixed with your modid)
+	 * @throws InvalidInscriptionException if the given inscription is invalid
+	 */
+	public static void registerInscription(final Inscription inscription,String id){
+		String modID = Utils.getCurrentModID();
+		String name=modID+":"+id;
+		//maybe do crash report (or skip registration)
+		if(inscriptions.containsKey(name))throw new IllegalArgumentException("An Inscription with the id: "+name+" Already exists!");
+		inscriptions.put(name,inscription);
+		//TODO register the rune for the inscription
+		
 	}
 	/**
 	 * 
