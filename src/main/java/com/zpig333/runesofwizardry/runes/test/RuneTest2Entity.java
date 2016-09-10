@@ -1,4 +1,4 @@
-package com.zpig333.runesofwizardry.runes;
+package com.zpig333.runesofwizardry.runes.test;
 
 import java.util.Set;
 

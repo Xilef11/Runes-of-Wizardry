@@ -6,6 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class Inscription {
+	public static final String NBT_ID="inscription_id";
 	/**Returns the unlocalised name for this inscription**/
 	public abstract String getName();
 	

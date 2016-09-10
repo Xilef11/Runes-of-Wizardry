@@ -23,6 +23,7 @@ import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.InvalidRuneException;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
+import com.zpig333.runesofwizardry.runes.inscription.RuneInscription;
 import com.zpig333.runesofwizardry.util.Utils;
 
 /** Dust API registry.  All dust registry methods are found here. */
@@ -44,7 +45,8 @@ public class DustRegistry {
 	private static Map<String,RunesUtil.RuneStats> duststats = new HashMap<String, RunesUtil.RuneStats>();
 	/**List of all registered inscriptions**/
 	private static Map<String,Inscription> inscriptions=new LinkedHashMap<String, Inscription>();
-	
+	//reverse inscription map
+	private static Map<Inscription,String> inverseInscriptions = new LinkedHashMap<Inscription, String>();
 	//Special constants
 	/**
 	 * Represents any "magic" dust
@@ -142,6 +144,10 @@ public class DustRegistry {
 	public static Inscription getInscriptionByID(String id){
 		return inscriptions.get(id);
 	}
+	@Nullable
+	public static String getInscriptionID(Inscription ins){
+		return inverseInscriptions.get(ins);
+	}
 	/**
 	 * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
 	 * <br/>Note: also registers it as an Item in the GameRegistry, sets up its unlocalized name and creative tab.
@@ -220,8 +226,8 @@ public class DustRegistry {
 		//maybe do crash report (or skip registration)
 		if(inscriptions.containsKey(name))throw new IllegalArgumentException("An Inscription with the id: "+name+" Already exists!");
 		inscriptions.put(name,inscription);
-		//TODO register the rune for the inscription
-		
+		inverseInscriptions.put(inscription, name);
+		registerRune(new RuneInscription(inscription), name);
 	}
 	/**
 	 * 
