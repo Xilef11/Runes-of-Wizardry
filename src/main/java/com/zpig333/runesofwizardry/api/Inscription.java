@@ -1,5 +1,7 @@
 package com.zpig333.runesofwizardry.api;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -21,6 +23,12 @@ public abstract class Inscription {
 	 * @return an array of ItemStacks that will charge this inscription up to full durability
 	 */
 	public abstract ItemStack[] getChargeItems();
+	
+	/**return extra information for charging (xp costs)**/
+	@Nullable
+	public String getExtraChargeInfo(){
+		return null;
+	}
 	
 	/** return the max/initial durability of the inscription**/
 	public abstract int getMaxDurability();
@@ -46,5 +54,9 @@ public abstract class Inscription {
 	/** This is called on every tick when the inscription is worn (in either baubles or chestplate slot)**/
 	public abstract void onWornTick(World world, EntityPlayer player,ItemStack itemStack);
 	
-	
+	/** called when the inscription is charged. return false to cancel charging**/
+	//TODO add other params form RuneENtity#onactivatedbyPlayer
+	public boolean onInscriptionCharged(EntityPlayer player, World world){
+		return true;
+	}
 }

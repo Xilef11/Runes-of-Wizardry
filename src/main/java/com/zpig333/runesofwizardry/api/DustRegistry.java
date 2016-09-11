@@ -148,6 +148,9 @@ public class DustRegistry {
 	public static String getInscriptionID(Inscription ins){
 		return inverseInscriptions.get(ins);
 	}
+	public static Set<String> getInscIDs(){
+		return inscriptions.keySet();
+	}
 	/**
 	 * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
 	 * <br/>Note: also registers it as an Item in the GameRegistry, sets up its unlocalized name and creative tab.

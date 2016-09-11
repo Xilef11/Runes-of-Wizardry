@@ -12,6 +12,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
@@ -27,6 +28,8 @@ import baubles.common.container.InventoryBaubles;
 import baubles.common.lib.PlayerHandler;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.Inscription;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 
@@ -48,8 +51,14 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	 */
 	@Override
 	public void onArmorTick(World world, EntityPlayer player,ItemStack itemStack) {
-		// TODO this is where the inscription logic will be called (based on NBT from the ItemStack
-		
+		NBTTagCompound tag = itemStack.getTagCompound();
+		if(tag!=null){
+			String id = tag.getString(Inscription.NBT_ID);
+			Inscription insc = DustRegistry.getInscriptionByID(id);
+			if(insc!=null){
+				insc.onWornTick(world, player, itemStack);
+			}
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -65,8 +74,14 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	 */
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		// TODO logic with NBT tag
-		return super.getItemStackDisplayName(stack);
+		if(stack.getMetadata()==0)return super.getItemStackDisplayName(stack);
+		NBTTagCompound tag = stack.getTagCompound();
+		if(tag!=null){
+			String id = tag.getString(Inscription.NBT_ID);
+			Inscription insc = DustRegistry.getInscriptionByID(id);
+			if(insc !=null)return insc.getName();
+		}
+		return References.modid+"_inscription.invalid";
 	}
 	
 	/* (non-Javadoc)
@@ -74,8 +89,12 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	 */
 	@Override
 	public void getSubItems(Item itemIn, CreativeTabs tab,	List<ItemStack> subItems) {
-		// TODO list all registered inscription types
-		super.getSubItems(itemIn, tab, subItems);
+		subItems.add(new ItemStack(itemIn));//blank
+		for(String id:DustRegistry.getInscIDs()){
+			ItemStack toAdd = new ItemStack(itemIn,1,1);
+			toAdd.getTagCompound().setString(Inscription.NBT_ID, id);
+			subItems.add(toAdd);
+		}
 	}
 	@Override
 	public ArmorProperties getProperties(EntityLivingBase player,ItemStack armor, DamageSource source, double damage, int slot) {
