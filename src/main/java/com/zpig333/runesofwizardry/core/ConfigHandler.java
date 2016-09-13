@@ -31,6 +31,8 @@ public class ConfigHandler {
 	public static boolean hardcoreActivation;
 	public static boolean deadDustDecay;
 	
+	public static boolean disableInscriptionCharge;
+	
 	//pretty print exported json
 	public static boolean exportPretty;
 	public static Configuration config;
@@ -53,6 +55,8 @@ public class ConfigHandler {
 		showPlaceholders=config.getBoolean("show placeholders", CAT_DEV, false, "Show the placeholder dusts in the creative menu/JEI");
 		registerTestRunes=config.getBoolean("register test runes", CAT_DEV, false, "Should the testing runes be registered?");
 		config.getCategory(CAT_DEV).get("register test runes").setRequiresMcRestart(true);
+		disableInscriptionCharge = config.getBoolean("disable inscription charging", CAT_DEV, false, "This will disable the Inscription enchanting rune, in case you prefer to use the slightly different version from the classic dusts pack.");
+		config.getCategory(CAT_DEV).get("disable inscription charging").setRequiresMcRestart(true);
 		//pretty export
 		exportPretty=config.getBoolean("prettyExport", Configuration.CATEGORY_CLIENT, false, "If set to true, exported patterns (rw_export command) will be more readable, but files will be larger");
 		//permissions
@@ -63,6 +67,7 @@ public class ConfigHandler {
 		hardcoreSacrifices = config.getBoolean("hardcore sacrifices", Configuration.CATEGORY_GENERAL, false, "If enabled, sacrificing the wrong items will burn up the rune and items.");
 		hardcoreActivation=config.getBoolean("hardcore activation", Configuration.CATEGORY_GENERAL, false, "If enabled, attempting to activate a pattern that is not a rune will burn up the pattern.");
 		deadDustDecay = config.getBoolean("Decay Dead dust", Configuration.CATEGORY_GENERAL, true, "If enabled, dusts will dissapear gradually after a rune has been deactivated");
+		
 		if(config.hasChanged()){
 			config.save();
 		}		

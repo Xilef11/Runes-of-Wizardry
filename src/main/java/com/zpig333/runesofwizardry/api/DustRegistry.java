@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.InvalidRuneException;
@@ -151,6 +152,11 @@ public class DustRegistry {
 	public static Set<String> getInscIDs(){
 		return inscriptions.keySet();
 	}
+	public static ItemStack getStackForInscription(String inscriptionID){
+		ItemStack stack = new ItemStack(WizardryRegistry.inscription,1,1);
+		stack.getSubCompound(References.modid, true).setString(Inscription.NBT_ID, inscriptionID);
+		return stack;
+	}
 	/**
 	 * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
 	 * <br/>Note: also registers it as an Item in the GameRegistry, sets up its unlocalized name and creative tab.
@@ -230,7 +236,7 @@ public class DustRegistry {
 		if(inscriptions.containsKey(name))throw new IllegalArgumentException("An Inscription with the id: "+name+" Already exists!");
 		inscriptions.put(name,inscription);
 		inverseInscriptions.put(inscription, name);
-		registerRune(new RuneInscription(inscription), name);
+		registerRune(new RuneInscription(inscription), name+"_inscription");
 	}
 	/**
 	 * 

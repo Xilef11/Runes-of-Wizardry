@@ -43,6 +43,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 		GameRegistry.register(this, new ResourceLocation(References.modid,getName()));
 		this.setCreativeTab(RunesOfWizardry.wizardry_tab);
 		setUnlocalizedName(References.modid+"_"+getName());
+		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
 	}
 	
@@ -51,7 +52,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	 */
 	@Override
 	public void onArmorTick(World world, EntityPlayer player,ItemStack itemStack) {
-		NBTTagCompound tag = itemStack.getTagCompound();
+		NBTTagCompound tag = itemStack.getSubCompound(References.modid, false);
 		if(tag!=null){
 			String id = tag.getString(Inscription.NBT_ID);
 			Inscription insc = DustRegistry.getInscriptionByID(id);
@@ -75,7 +76,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		if(stack.getMetadata()==0)return super.getItemStackDisplayName(stack);
-		NBTTagCompound tag = stack.getTagCompound();
+		NBTTagCompound tag = stack.getSubCompound(References.modid, false);
 		if(tag!=null){
 			String id = tag.getString(Inscription.NBT_ID);
 			Inscription insc = DustRegistry.getInscriptionByID(id);
@@ -92,7 +93,10 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 		subItems.add(new ItemStack(itemIn));//blank
 		for(String id:DustRegistry.getInscIDs()){
 			ItemStack toAdd = new ItemStack(itemIn,1,1);
-			toAdd.getTagCompound().setString(Inscription.NBT_ID, id);
+			toAdd.getSubCompound(References.modid, true).setString(Inscription.NBT_ID, id);
+			Inscription insc = DustRegistry.getInscriptionByID(id);
+			//FIXME figure out difference between item metadata and durability (if any)
+			if(insc!=null)toAdd.setItemDamage(insc.getMaxDurability());
 			subItems.add(toAdd);
 		}
 	}
@@ -159,4 +163,12 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 		}
 		return super.onItemRightClick(stack, world, player, hand);
 	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#isDamageable()
+	 */
+	@Override
+	public boolean isDamageable() {
+		return true;
+	}
+	
 }

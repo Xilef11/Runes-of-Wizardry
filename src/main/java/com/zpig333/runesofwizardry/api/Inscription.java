@@ -55,8 +55,11 @@ public abstract class Inscription {
 	public abstract void onWornTick(World world, EntityPlayer player,ItemStack itemStack);
 	
 	/** called when the inscription is charged. return false to cancel charging**/
-	//TODO add other params form RuneENtity#onactivatedbyPlayer
-	public boolean onInscriptionCharged(EntityPlayer player, World world){
+	public boolean onInscriptionCharged(EntityPlayer player, ItemStack[] sacrifice, boolean negated){
+		return true;
+	}
+
+	public boolean allowOredictSacrifice() {
 		return true;
 	}
 }

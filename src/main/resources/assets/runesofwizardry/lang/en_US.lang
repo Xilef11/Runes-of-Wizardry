@@ -27,7 +27,7 @@ item.runesofwizardry_broom.name=Dust Broom
 item.runesofwizardry_sacrifice_negator.name=Sacrifice Negator
 item.runesofwizardry_dust_pouch.name=Dust Pouch
 item.runesofwizardry_inscription.name=Blank Inscription
-item.runesofwizardry_inscription.invalid=Invalid Inscription
+runesofwizardry_inscription.invalid=Invalid Inscription
 
 
 #Misc crafting items
@@ -59,6 +59,8 @@ runesofwizardry.command.import.usage=[runeID|filename] [natural|centered|topleft
 runesofwizardry.command.import.nosuchrune=No Rune exists with ID: %s
 runesofwizardry.command.import.serverfilenotfound=Could not find %s, %s.json, or %s.JSON on the server
 runesofwizardry.command.import.incomplete=Incomplete pattern: you were missing dusts or there are blocks in the way
+
+runesofwizardry.rune.inscribing=Inscribing Rune of
 
 #misc words
 runesofwizardry.lang.color=Color

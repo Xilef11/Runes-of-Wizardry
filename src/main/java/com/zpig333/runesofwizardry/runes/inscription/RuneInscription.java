@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.Inscription;
@@ -39,8 +40,7 @@ public class RuneInscription extends IRune {
 	 */
 	@Override
 	public String getName() {
-		//TODO figure out how to include the name of the inscription
-		return References.modid+".rune.inscribing "+inscription.getName();
+		return RunesOfWizardry.proxy.translate(References.modid+".rune.inscribing")+" "+RunesOfWizardry.proxy.translate(inscription.getName());
 	}
 
 	/* (non-Javadoc)
@@ -74,7 +74,7 @@ public class RuneInscription extends IRune {
 	 */
 	@Override
 	public RuneEntity createRune(ItemStack[][] actualPattern, EnumFacing front,Set<BlockPos> dusts, TileEntityDustActive entity) {
-		return new RuneEntity(actualPattern, front, dusts, entity, null) {
+		return new RuneEntity(actualPattern, front, dusts, entity, this) {
 			
 			@Override
 			public void update() {
@@ -82,7 +82,8 @@ public class RuneInscription extends IRune {
 				if(!world.isRemote && this.entity.ticksExisted()>20*5){
 					ItemStack toSpawn = new ItemStack(WizardryRegistry.inscription,1,1);
 					//TODO item damage
-					toSpawn.getTagCompound().setString(Inscription.NBT_ID, DustRegistry.getInscriptionID(inscription));
+					toSpawn.getSubCompound(References.modid, true).setString(Inscription.NBT_ID, DustRegistry.getInscriptionID(inscription));
+					toSpawn.setItemDamage(0);
 					world.spawnEntityInWorld(new EntityItem(world, getPos().getX()+0.5, getPos().getY()+0.5, getPos().getZ()+0.5, toSpawn));
 				}
 			}
