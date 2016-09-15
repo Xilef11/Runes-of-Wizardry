@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,6 +36,7 @@ import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble{
+	private static String NBT_DAMAGE_ID="damage";
 	public static ArmorMaterial INSCRIPTION_MATERIAL = EnumHelper.addArmorMaterial("runesofwizardry_INSCRIPTION_MATERIAL", "runesofwizardry:original_ins"/*TODO texture*/, 0, new int[]{0,0,0,0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 	public String getName() {
 		return "inscription";
@@ -67,8 +70,38 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	 */
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
-		// TODO logic with NBT
+		NBTTagCompound tag = stack.getSubCompound(References.modid, false);
+		if(tag!=null){
+			String id = tag.getString(Inscription.NBT_ID);
+			Inscription insc = DustRegistry.getInscriptionByID(id);
+			if(insc!=null){
+				//description
+				tooltip.add("§o"+RunesOfWizardry.proxy.translate(insc.getShortDesc()));
+				boolean sneak = Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
+				if(sneak){
+					//charge items
+					tooltip.add("§l"+RunesOfWizardry.proxy.translate(References.Lang.SACRIFICE));
+					ItemStack[] items = insc.getChargeItems();
+					if(items!=null){
+						for(ItemStack s:items){
+							tooltip.add(" - "+(s.stackSize>=0? (s.stackSize<10?" ":"")+s.stackSize+"x " : RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
+						}
+					}
+					//extra sacrifice info
+					String extraInfo = insc.getExtraChargeInfo();
+					if(extraInfo!=null){
+						tooltip.add("  "+RunesOfWizardry.proxy.translate(extraInfo));
+					}else if(items==null){
+						tooltip.add("  "+RunesOfWizardry.proxy.translate(References.Lang.NOTHING));
+					}
+				}else{
+					tooltip.add("§f"+RunesOfWizardry.proxy.translate(References.Lang.HOLD_SHIFT));
+				}
+			}
+		}
 		//FIXME figure out how to remove the "when on body: " tooltip
+			//it's in the method for attribute modifiers
+		//also, maybe F3+h tooltip with inscription ID would be useful
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#getItemStackDisplayName(net.minecraft.item.ItemStack)
@@ -94,12 +127,47 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 		for(String id:DustRegistry.getInscIDs()){
 			ItemStack toAdd = new ItemStack(itemIn,1,1);
 			toAdd.getSubCompound(References.modid, true).setString(Inscription.NBT_ID, id);
-			Inscription insc = DustRegistry.getInscriptionByID(id);
-			//FIXME figure out difference between item metadata and durability (if any)
-			if(insc!=null)toAdd.setItemDamage(insc.getMaxDurability());
 			subItems.add(toAdd);
 		}
 	}
+	
+	
+	
+	/** this is used for the durability. item durability will be [max durability - what this returns]**/
+	@Override
+	public int getDamage(ItemStack stack) {
+		NBTTagCompound tag = stack.getSubCompound(References.modid, true);
+		return tag.getInteger(NBT_DAMAGE_ID);
+	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#getMetadata(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public int getMetadata(ItemStack stack) {
+		return super.getMetadata(stack);
+	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#getMaxDamage(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public int getMaxDamage(ItemStack stack) {
+		NBTTagCompound tag = stack.getSubCompound(References.modid, false);
+		if(tag!=null){
+			String id = tag.getString(Inscription.NBT_ID);
+			Inscription insc = DustRegistry.getInscriptionByID(id);
+			if(insc!=null){
+				return insc.getMaxDurability();
+			}
+		}
+		return 0;
+	}
+	/**this is to be used to set the durability**/
+	@Override
+	public void setDamage(ItemStack stack, int damage) {
+		NBTTagCompound tag = stack.getSubCompound(References.modid, true);
+		tag.setInteger(NBT_DAMAGE_ID,damage);
+	}
+	
 	@Override
 	public ArmorProperties getProperties(EntityLivingBase player,ItemStack armor, DamageSource source, double damage, int slot) {
 		//XXX may want to add logic for preventing damage in inscription (see original ItemWornInscription)

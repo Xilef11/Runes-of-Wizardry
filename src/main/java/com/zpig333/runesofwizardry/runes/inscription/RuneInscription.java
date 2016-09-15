@@ -42,6 +42,14 @@ public class RuneInscription extends IRune {
 	public String getName() {
 		return RunesOfWizardry.proxy.translate(References.modid+".rune.inscribing")+" "+RunesOfWizardry.proxy.translate(inscription.getName());
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.api.IRune#getShortDesc()
+	 */
+	@Override
+	public String getShortDesc() {
+		return RunesOfWizardry.proxy.translate(References.modid+".rune.inscribing.shortdesc",RunesOfWizardry.proxy.translate(inscription.getName()),RunesOfWizardry.proxy.translate(inscription.getShortDesc()));
+	}
 
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.api.IRune#getPattern()
@@ -81,10 +89,10 @@ public class RuneInscription extends IRune {
 				World world = this.entity.getWorld(); 
 				if(!world.isRemote && this.entity.ticksExisted()>20*5){
 					ItemStack toSpawn = new ItemStack(WizardryRegistry.inscription,1,1);
-					//TODO item damage
 					toSpawn.getSubCompound(References.modid, true).setString(Inscription.NBT_ID, DustRegistry.getInscriptionID(inscription));
-					toSpawn.setItemDamage(0);
+					toSpawn.setItemDamage(inscription.getMaxDurability());
 					world.spawnEntityInWorld(new EntityItem(world, getPos().getX()+0.5, getPos().getY()+0.5, getPos().getZ()+0.5, toSpawn));
+					this.onPatternBroken();
 				}
 			}
 			

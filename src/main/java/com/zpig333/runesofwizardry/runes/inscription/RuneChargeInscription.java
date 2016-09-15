@@ -64,7 +64,7 @@ public class RuneChargeInscription extends IRune {
 
 	@Override
 	public Vec3i getEntityPosition() {
-		return new Vec3i(0, 0, 0);
+		return new Vec3i(1, 1, 0);
 	}
 
 	@Override
@@ -86,7 +86,6 @@ public class RuneChargeInscription extends IRune {
 						this.onPatternBroken();
 						return;
 					}
-					stack.setItemDamage(in.getMaxDurability());
 					world.spawnEntityInWorld(new EntityItem(world, getPos().getX()+0.5, getPos().getY()+0.5, getPos().getZ()+0.5, stack));
 					this.onPatternBroken();
 				}
@@ -97,6 +96,7 @@ public class RuneChargeInscription extends IRune {
 			public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice, boolean negated) {
 				entity.setupBeam(0x00FF00, BeamType.RINGS);
 				entity.setDrawBeam(true);
+				//TODO tweak beam position so it's centered
 				ItemStack insc = null;
 				Inscription inscription=null;
 				for(ItemStack s:sacrifice){
@@ -191,4 +191,13 @@ public class RuneChargeInscription extends IRune {
 		if(match)return true;//if the whole list matched
 		return false;
 	}
+
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.api.IRune#getExtraSacrificeInfo()
+	 */
+	@Override
+	public String getExtraSacrificeInfo() {
+		return References.modid+".rune.chargeinscription.extrasac";
+	}
+	
 }

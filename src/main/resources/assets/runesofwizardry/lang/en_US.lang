@@ -26,8 +26,18 @@ item.runesofwizardry_runic_staff.name=Runic Staff
 item.runesofwizardry_broom.name=Dust Broom
 item.runesofwizardry_sacrifice_negator.name=Sacrifice Negator
 item.runesofwizardry_dust_pouch.name=Dust Pouch
+
+#inscription stuff
 item.runesofwizardry_inscription.name=Blank Inscription
 runesofwizardry_inscription.invalid=Invalid Inscription
+runesofwizardry.rune.inscribing=Inscribing Rune of
+runesofwizardry.rune.inscribing.shortdesc=Inscribes the %s inscription, ( %s )
+runesofwizardry.rune.chargeinscription=Rune of Inscription Enchanting
+runesofwizardry.rune.chargeinscription.shortdesc=Charges an Inscription
+runesofwizardry.rune.chargeinscription.extrasac=Sacrifice is determined by the inscription to charge
+
+runesofwizardry.inscription.test=Test Inscription
+runesofwizardry.inscription.test.shortdesc=Does Nothing
 
 
 #Misc crafting items
@@ -59,8 +69,6 @@ runesofwizardry.command.import.usage=[runeID|filename] [natural|centered|topleft
 runesofwizardry.command.import.nosuchrune=No Rune exists with ID: %s
 runesofwizardry.command.import.serverfilenotfound=Could not find %s, %s.json, or %s.JSON on the server
 runesofwizardry.command.import.incomplete=Incomplete pattern: you were missing dusts or there are blocks in the way
-
-runesofwizardry.rune.inscribing=Inscribing Rune of
 
 #misc words
 runesofwizardry.lang.color=Color
