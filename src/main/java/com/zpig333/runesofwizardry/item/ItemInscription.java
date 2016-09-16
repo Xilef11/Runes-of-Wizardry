@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -19,6 +20,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
@@ -29,6 +31,8 @@ import baubles.api.IBauble;
 import baubles.common.container.InventoryBaubles;
 import baubles.common.lib.PlayerHandler;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.Inscription;
@@ -98,10 +102,21 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 					tooltip.add("§f"+RunesOfWizardry.proxy.translate(References.Lang.HOLD_SHIFT));
 				}
 			}
+			//also, maybe F3+h tooltip with inscription ID would be useful
+			if(advanced){
+				tooltip.add(TextFormatting.DARK_GRAY+"ID: "+id);
+			}
 		}
-		//FIXME figure out how to remove the "when on body: " tooltip
-			//it's in the method for attribute modifiers
-		//also, maybe F3+h tooltip with inscription ID would be useful
+	}
+	
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.ItemArmor#getItemAttributeModifiers(net.minecraft.inventory.EntityEquipmentSlot)
+	 */
+	@Override
+	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot) {
+		//remove all attributes. this is the basic implementation from Item
+		//this removes the "when on body" tooltip
+		return HashMultimap.<String, AttributeModifier>create();
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#getItemStackDisplayName(net.minecraft.item.ItemStack)
@@ -113,7 +128,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 		if(tag!=null){
 			String id = tag.getString(Inscription.NBT_ID);
 			Inscription insc = DustRegistry.getInscriptionByID(id);
-			if(insc !=null)return insc.getName();
+			if(insc !=null)return RunesOfWizardry.proxy.translate(insc.getName());
 		}
 		return References.modid+"_inscription.invalid";
 	}
@@ -170,7 +185,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	
 	@Override
 	public ArmorProperties getProperties(EntityLivingBase player,ItemStack armor, DamageSource source, double damage, int slot) {
-		//XXX may want to add logic for preventing damage in inscription (see original ItemWornInscription)
+		// may want to add logic for preventing damage in inscription (see original ItemWornInscription)
 		return new ArmorProperties(0, 0, 0);
 	}
 	@Override

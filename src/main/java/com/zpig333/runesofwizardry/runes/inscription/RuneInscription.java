@@ -64,7 +64,11 @@ public class RuneInscription extends IRune {
 	 */
 	@Override
 	public Vec3i getEntityPosition() {
-		return new Vec3i(0,0,0);
+		//center on the pattern
+		ItemStack[][] pattern = getPattern();
+		int y=pattern.length/2;
+		int x = pattern[0].length/2;
+		return new Vec3i(x,y,0);
 	}
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.api.IRune#getSacrifice()
