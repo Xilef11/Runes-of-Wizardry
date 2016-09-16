@@ -13,6 +13,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import org.apache.logging.log4j.Level;
@@ -89,7 +90,9 @@ public class ItemRunicDictionary extends WizardryItem {
 			}else{
 				tooltip.add("§f"+RunesOfWizardry.proxy.translate(References.Lang.HOLD_SHIFT));
 			}
-
+			if(advanced){
+				tooltip.add(TextFormatting.DARK_GRAY+"ID: "+id);
+			}
 		}
 	}
 	/* (non-Javadoc)
