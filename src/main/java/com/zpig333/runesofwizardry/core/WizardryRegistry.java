@@ -183,9 +183,9 @@ public class WizardryRegistry {
 		RecipeSorter.register(References.modid+":dustPouch", RecipeDustPouch.class, RecipeSorter.Category.SHAPELESS, "");
 		GameRegistry.addRecipe(new ShapedOreRecipe(dust_pouch, " X ","YZY"," Y ",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Blocks.WOOL),'Z',new ItemStack(runic_staff)));
 		GameRegistry.addRecipe(new RecipeDustPouch());
+		//inscriptions
+		GameRegistry.addShapedRecipe(new ItemStack(inscription), " X ","YZY","YZY",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Items.GOLD_NUGGET),'Z',new ItemStack(Items.PAPER));
 	}
-
-
 
 	public static void initItemRenders() {
 		// get the item renderer

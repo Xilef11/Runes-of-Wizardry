@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
@@ -96,7 +97,7 @@ public class RuneChargeInscription extends IRune {
 			public void onRuneActivatedbyPlayer(EntityPlayer player,ItemStack[] sacrifice, boolean negated) {
 				entity.setupBeam(0x00FF00, BeamType.RINGS);
 				entity.setDrawBeam(true);
-				//TODO tweak beam position so it's centered
+				entity.beamdata.offset=new Vec3d(face.rotateY().getDirectionVec()).scale(0.5);
 				ItemStack insc = null;
 				Inscription inscription=null;
 				for(ItemStack s:sacrifice){

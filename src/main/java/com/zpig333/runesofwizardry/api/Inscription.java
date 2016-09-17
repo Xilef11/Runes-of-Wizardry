@@ -30,7 +30,9 @@ public abstract class Inscription {
 		return null;
 	}
 	
-	/** return the max/initial durability of the inscription**/
+	/** return the max/initial durability of the inscription
+	 * Note: you should use this instead of ItemStack#getMaxDamage() or else things won't work
+	 * **/
 	public abstract int getMaxDurability();
 	
 	/**
@@ -52,7 +54,7 @@ public abstract class Inscription {
 		return true;
 	}
 	/** This is called on every tick when the inscription is worn (in either baubles or chestplate slot)**/
-	public abstract void onWornTick(World world, EntityPlayer player,ItemStack itemStack);
+	public abstract void onWornTick(World world, EntityPlayer player,ItemStack stack);
 	
 	/** called when the inscription is charged. return false to cancel charging**/
 	public boolean onInscriptionCharged(EntityPlayer player, ItemStack[] sacrifice, boolean negated){

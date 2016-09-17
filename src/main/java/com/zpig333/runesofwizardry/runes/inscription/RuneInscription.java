@@ -66,8 +66,8 @@ public class RuneInscription extends IRune {
 	public Vec3i getEntityPosition() {
 		//center on the pattern
 		ItemStack[][] pattern = getPattern();
-		int y=pattern.length/2;
-		int x = pattern[0].length/2;
+		int y=pattern.length/8;// divided by 4 (4 dust per block) then divided by 2 to get (mostly) the center
+		int x = pattern[0].length/8;
 		return new Vec3i(x,y,0);
 	}
 	/* (non-Javadoc)

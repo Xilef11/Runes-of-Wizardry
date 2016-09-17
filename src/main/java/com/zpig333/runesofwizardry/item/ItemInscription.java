@@ -104,6 +104,10 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 			}
 			//also, maybe F3+h tooltip with inscription ID would be useful
 			if(advanced){
+				if (isDamaged(stack))
+	            {
+	                tooltip.add("Durability: " + (getRealMaxDamage(stack) - getDamage(stack)) + " / " + getRealMaxDamage(stack));
+	            }
 				tooltip.add(TextFormatting.DARK_GRAY+"ID: "+id);
 			}
 		}
@@ -146,36 +150,58 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 		}
 	}
 	
-	
-	
 	/** this is used for the durability. item durability will be [max durability - what this returns]**/
 	@Override
 	public int getDamage(ItemStack stack) {
 		NBTTagCompound tag = stack.getSubCompound(References.modid, true);
 		return tag.getInteger(NBT_DAMAGE_ID);
 	}
-	/* (non-Javadoc)
-	 * @see net.minecraft.item.Item#getMetadata(net.minecraft.item.ItemStack)
-	 */
-	@Override
-	public int getMetadata(ItemStack stack) {
-		return super.getMetadata(stack);
-	}
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#getMaxDamage(net.minecraft.item.ItemStack)
 	 */
+	//note: this has to return 0 or else the meta will be hardcoded to 0 for item model purposes
+	//however, it is also used for the max damage for rendering the damage bar...
 	@Override
 	public int getMaxDamage(ItemStack stack) {
+		return 0;
+	}
+	
+	private int getRealMaxDamage(ItemStack stack){
 		NBTTagCompound tag = stack.getSubCompound(References.modid, false);
 		if(tag!=null){
 			String id = tag.getString(Inscription.NBT_ID);
 			Inscription insc = DustRegistry.getInscriptionByID(id);
 			if(insc!=null){
-				return insc.getMaxDurability();
+				int max = insc.getMaxDurability();
+				return max;
 			}
 		}
 		return 0;
 	}
+	
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#showDurabilityBar(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public boolean showDurabilityBar(ItemStack stack) {
+		return isDamaged(stack);
+	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#getDurabilityForDisplay(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public double getDurabilityForDisplay(ItemStack stack) {
+		return getDamage(stack) / (double)getRealMaxDamage(stack);
+	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#isDamaged(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public boolean isDamaged(ItemStack stack) {
+		return getDamage(stack)>0;
+	}
+	
 	/**this is to be used to set the durability**/
 	@Override
 	public void setDamage(ItemStack stack, int damage) {
