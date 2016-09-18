@@ -41,7 +41,7 @@ import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble{
 	private static String NBT_DAMAGE_ID="damage";
-	public static ArmorMaterial INSCRIPTION_MATERIAL = EnumHelper.addArmorMaterial("runesofwizardry_INSCRIPTION_MATERIAL", "runesofwizardry:original_ins"/*TODO texture*/, 0, new int[]{0,0,0,0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
+	public static ArmorMaterial INSCRIPTION_MATERIAL = EnumHelper.addArmorMaterial("runesofwizardry_INSCRIPTION_MATERIAL", "runesofwizardry:inscription", 0, new int[]{0,0,0,0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 	public String getName() {
 		return "inscription";
 	}
