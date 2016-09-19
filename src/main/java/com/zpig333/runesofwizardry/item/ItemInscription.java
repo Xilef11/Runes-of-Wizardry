@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -18,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -26,6 +25,9 @@ import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import org.lwjgl.input.Keyboard;
+
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import baubles.common.container.InventoryBaubles;
@@ -53,7 +55,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#onArmorTick(net.minecraft.world.World, net.minecraft.entity.player.EntityPlayer, net.minecraft.item.ItemStack)
 	 */
@@ -68,7 +70,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 			}
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 	 */
@@ -112,7 +114,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 			}
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.ItemArmor#getItemAttributeModifiers(net.minecraft.inventory.EntityEquipmentSlot)
 	 */
@@ -136,7 +138,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 		}
 		return References.modid+"_inscription.invalid";
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#getSubItems(net.minecraft.item.Item, net.minecraft.creativetab.CreativeTabs, java.util.List)
 	 */
@@ -149,7 +151,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 			subItems.add(toAdd);
 		}
 	}
-	
+
 	/** this is used for the durability. item durability will be [max durability - what this returns]**/
 	@Override
 	public int getDamage(ItemStack stack) {
@@ -166,7 +168,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	public int getMaxDamage(ItemStack stack) {
 		return 0;
 	}
-	
+
 	private int getRealMaxDamage(ItemStack stack){
 		NBTTagCompound tag = stack.getSubCompound(References.modid, false);
 		if(tag!=null){
@@ -179,7 +181,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 		}
 		return 0;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#showDurabilityBar(net.minecraft.item.ItemStack)
 	 */
@@ -201,14 +203,14 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	public boolean isDamaged(ItemStack stack) {
 		return getDamage(stack)>0;
 	}
-	
+
 	/**this is to be used to set the durability**/
 	@Override
 	public void setDamage(ItemStack stack, int damage) {
 		NBTTagCompound tag = stack.getSubCompound(References.modid, true);
 		tag.setInteger(NBT_DAMAGE_ID,damage);
 	}
-	
+
 	@Override
 	public ArmorProperties getProperties(EntityLivingBase player,ItemStack armor, DamageSource source, double damage, int slot) {
 		// may want to add logic for preventing damage in inscription (see original ItemWornInscription)
@@ -251,7 +253,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	//equip in baubles slot if installed, chestplate slot otherwise
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
-		
+
 		ItemStack toEquip = stack.copy();
 		toEquip.stackSize = 1;
 
@@ -265,7 +267,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 							baubles.setInventorySlotContents(i, toEquip);
 							stack.stackSize--;
 						}
-						break;
+						return ActionResult.newResult(EnumActionResult.PASS, stack);
 					}
 				}
 			}
@@ -279,5 +281,5 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	public boolean isDamageable() {
 		return true;
 	}
-	
+
 }
