@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,8 +39,10 @@ import com.google.common.collect.Multimap;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.Inscription;
+import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble{
 	private static String NBT_DAMAGE_ID="damage";
@@ -61,6 +64,22 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	 */
 	@Override
 	public void onArmorTick(World world, EntityPlayer player,ItemStack itemStack) {
+		//we are in the armor slot
+		if(Loader.isModLoaded("Baubles")){
+			if(ConfigHandler.disableDoubleInscription){
+				InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
+				for(int i=0;i<baubles.getSizeInventory();i++){
+					ItemStack stack = baubles.getStackInSlot(i);
+					if(stack!=null && stack.getItem()==WizardryRegistry.inscription){
+						return;
+					}
+				}
+			}
+		}
+		doTick(world, player, itemStack);
+	}
+
+	private void doTick(World world, EntityPlayer player,ItemStack itemStack){
 		NBTTagCompound tag = itemStack.getSubCompound(References.modid, false);
 		if(tag!=null){
 			String id = tag.getString(Inscription.NBT_ID);
@@ -70,7 +89,6 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 			}
 		}
 	}
-
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 	 */
@@ -246,9 +264,21 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	public void onUnequipped(ItemStack arg0, EntityLivingBase arg1) {
 	}
 	@Override
-	public void onWornTick(ItemStack arg0, EntityLivingBase arg1) {
-		if(arg1 instanceof EntityPlayer)this.onArmorTick(arg1.worldObj, (EntityPlayer)arg1, arg0);
-		else WizardryLogger.logError("Inscription equipped by a non-player entity: "+arg1);
+	public void onWornTick(ItemStack stack, EntityLivingBase entity) {
+		//we aer in baubles slot
+		if(entity instanceof EntityPlayer){
+			EntityPlayer player = (EntityPlayer)entity;
+			if(ConfigHandler.disableDoubleInscription){
+				EntityEquipmentSlot slot = EntityLiving.getSlotForItemStack(stack);
+		        ItemStack itemstack = player.getItemStackFromSlot(slot);
+		        if(itemstack!=null && itemstack.getItem()==WizardryRegistry.inscription){
+		        	return;
+		        }
+			}
+			doTick(player.worldObj, player, stack);
+		}else{
+			WizardryLogger.logError("Inscription equipped by a non-player entity: "+entity);
+		}
 	}
 	//equip in baubles slot if installed, chestplate slot otherwise
 	@Override

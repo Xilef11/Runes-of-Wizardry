@@ -33,6 +33,9 @@ public class ConfigHandler {
 	
 	public static boolean disableInscriptionCharge;
 	
+	//will cancel the effect of inscriptions if worn in both armor and baubles slots
+	public static boolean disableDoubleInscription;
+
 	//pretty print exported json
 	public static boolean exportPretty;
 	public static Configuration config;
@@ -67,7 +70,7 @@ public class ConfigHandler {
 		hardcoreSacrifices = config.getBoolean("hardcore sacrifices", Configuration.CATEGORY_GENERAL, false, "If enabled, sacrificing the wrong items will burn up the rune and items.");
 		hardcoreActivation=config.getBoolean("hardcore activation", Configuration.CATEGORY_GENERAL, false, "If enabled, attempting to activate a pattern that is not a rune will burn up the pattern.");
 		deadDustDecay = config.getBoolean("Decay Dead dust", Configuration.CATEGORY_GENERAL, true, "If enabled, dusts will dissapear gradually after a rune has been deactivated");
-		
+		disableDoubleInscription = config.getBoolean("cancel double inscription", Configuration.CATEGORY_GENERAL, true, "If enabled, wearing an inscription in both Baubles and Chestplate slots will cancel both effects.");
 		if(config.hasChanged()){
 			config.save();
 		}		
