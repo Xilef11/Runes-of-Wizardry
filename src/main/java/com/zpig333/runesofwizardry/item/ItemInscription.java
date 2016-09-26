@@ -2,10 +2,7 @@ package com.zpig333.runesofwizardry.item;
 
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,36 +12,25 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.lwjgl.input.Keyboard;
-
-import baubles.api.BaubleType;
-import baubles.api.IBauble;
-import baubles.common.container.InventoryBaubles;
-import baubles.common.lib.PlayerHandler;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.Inscription;
-import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
-public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble{
+public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	private static String NBT_DAMAGE_ID="damage";
 	public static ArmorMaterial INSCRIPTION_MATERIAL = EnumHelper.addArmorMaterial("runesofwizardry_INSCRIPTION_MATERIAL", "runesofwizardry:inscription", 0, new int[]{0,0,0,0}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 	public String getName() {
@@ -64,22 +50,10 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 	 */
 	@Override
 	public void onArmorTick(World world, EntityPlayer player,ItemStack itemStack) {
-		//we are in the armor slot
-		if(Loader.isModLoaded("Baubles")){
-			if(ConfigHandler.disableDoubleInscription){
-				InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
-				for(int i=0;i<baubles.getSizeInventory();i++){
-					ItemStack stack = baubles.getStackInSlot(i);
-					if(stack!=null && stack.getItem()==WizardryRegistry.inscription){
-						return;
-					}
-				}
-			}
-		}
 		doTick(world, player, itemStack);
 	}
 
-	private void doTick(World world, EntityPlayer player,ItemStack itemStack){
+	protected void doTick(World world, EntityPlayer player,ItemStack itemStack){
 		NBTTagCompound tag = itemStack.getSubCompound(References.modid, false);
 		if(tag!=null){
 			String id = tag.getString(Inscription.NBT_ID);
@@ -244,66 +218,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor, IBauble
 		WizardryLogger.logInfo("Inscription damageArmor was called");
 		//no damage to item on hit?
 	}
-	//Baubles methods
-	@Override
-	public boolean canEquip(ItemStack arg0, EntityLivingBase arg1) {
-		return arg1 instanceof EntityPlayer;
-	}
-	@Override
-	public boolean canUnequip(ItemStack arg0, EntityLivingBase arg1) {
-		return true;
-	}
-	@Override
-	public BaubleType getBaubleType(ItemStack arg0) {
-		return BaubleType.AMULET;
-	}
-	@Override
-	public void onEquipped(ItemStack arg0, EntityLivingBase arg1) {
-	}
-	@Override
-	public void onUnequipped(ItemStack arg0, EntityLivingBase arg1) {
-	}
-	@Override
-	public void onWornTick(ItemStack stack, EntityLivingBase entity) {
-		//we aer in baubles slot
-		if(entity instanceof EntityPlayer){
-			EntityPlayer player = (EntityPlayer)entity;
-			if(ConfigHandler.disableDoubleInscription){
-				EntityEquipmentSlot slot = EntityLiving.getSlotForItemStack(stack);
-		        ItemStack itemstack = player.getItemStackFromSlot(slot);
-		        if(itemstack!=null && itemstack.getItem()==WizardryRegistry.inscription){
-		        	return;
-		        }
-			}
-			doTick(player.worldObj, player, stack);
-		}else{
-			WizardryLogger.logError("Inscription equipped by a non-player entity: "+entity);
-		}
-	}
-	//equip in baubles slot if installed, chestplate slot otherwise
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
-
-		ItemStack toEquip = stack.copy();
-		toEquip.stackSize = 1;
-
-		if(canEquip(toEquip, player) && Loader.isModLoaded("Baubles")) {
-			InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
-			for(int i = 0; i < baubles.getSizeInventory(); i++) {
-				if(baubles.isItemValidForSlot(i, toEquip)) {
-					ItemStack stackInSlot = baubles.getStackInSlot(i);
-					if(stackInSlot == null) {
-						if(!world.isRemote) {
-							baubles.setInventorySlotContents(i, toEquip);
-							stack.stackSize--;
-						}
-						return ActionResult.newResult(EnumActionResult.PASS, stack);
-					}
-				}
-			}
-		}
-		return super.onItemRightClick(stack, world, player, hand);
-	}
+	
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#isDamageable()
 	 */

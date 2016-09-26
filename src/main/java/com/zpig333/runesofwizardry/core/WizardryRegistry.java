@@ -12,6 +12,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -27,6 +28,7 @@ import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.ItemInscription;
+import com.zpig333.runesofwizardry.item.ItemInscriptionBauble;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
 import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
@@ -94,7 +96,8 @@ public class WizardryRegistry {
 		runic_staff = new ItemRunicStaff();
 
 		broom = new ItemBroom();
-		inscription = new ItemInscription();
+		
+		inscription = Loader.isModLoaded("Baubles")? new ItemInscriptionBauble() : new ItemInscription();
 		
 		sacrifice_negator = new ItemSacrificeNegator();
 		//dyed dust
