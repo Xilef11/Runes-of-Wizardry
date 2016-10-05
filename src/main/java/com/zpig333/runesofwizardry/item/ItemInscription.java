@@ -2,6 +2,8 @@ package com.zpig333.runesofwizardry.item;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -150,7 +152,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 		NBTTagCompound tag = stack.getSubCompound(References.modid, true);
 		return tag.getInteger(NBT_DAMAGE_ID);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#getMaxDamage(net.minecraft.item.ItemStack)
 	 */
@@ -226,5 +228,13 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	public boolean isDamageable() {
 		return true;
 	}
-
+	@Nullable
+	public ItemStack getWornInscription(EntityPlayer player){
+		ItemStack chest = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+		if(chest!=null && chest.getItem()==this){
+			return chest;
+		}
+		return null;
+	}
+	
 }

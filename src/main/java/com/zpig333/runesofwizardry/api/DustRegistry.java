@@ -14,6 +14,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -156,6 +157,17 @@ public class DustRegistry {
 		ItemStack stack = new ItemStack(WizardryRegistry.inscription,1,1);
 		stack.getSubCompound(References.modid, true).setString(Inscription.NBT_ID, inscriptionID);
 		return stack;
+	}
+	@Nullable
+	public static Inscription getInscriptionFromStack(ItemStack stack){
+		if(stack!=null && stack.getItem()==WizardryRegistry.inscription){
+			NBTTagCompound tag = stack.getSubCompound(References.modid, false);
+			if(tag!=null){
+				String id = tag.getString(Inscription.NBT_ID);
+				return getInscriptionByID(id);
+			}
+		}
+		return null;
 	}
 	/**
 	 * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!

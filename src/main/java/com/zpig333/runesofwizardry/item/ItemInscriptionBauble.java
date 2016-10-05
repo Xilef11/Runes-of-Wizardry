@@ -115,4 +115,20 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.zpig333.runesofwizardry.item.ItemInscription#getWornInscription(net.minecraft.entity.player.EntityPlayer)
+	 */
+	@Override
+	//XXXuncomment if crash with no Baubles @Optional.Method(modid="Baubles")
+	public ItemStack getWornInscription(EntityPlayer player) {
+		InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
+		for(int i=0;i<baubles.getSizeInventory();i++){
+			ItemStack stack = baubles.getStackInSlot(i);
+			if(stack!=null && stack.getItem()==WizardryRegistry.inscription){
+				return stack;
+			}
+		}
+		return super.getWornInscription(player);
+	}
+
 }
