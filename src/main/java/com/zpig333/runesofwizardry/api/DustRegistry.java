@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,6 +25,7 @@ import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.InvalidRuneException;
+import com.zpig333.runesofwizardry.item.ItemInscription;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 import com.zpig333.runesofwizardry.runes.inscription.RuneInscription;
 import com.zpig333.runesofwizardry.util.Utils;
@@ -168,6 +170,15 @@ public class DustRegistry {
 			}
 		}
 		return null;
+	}
+	/**
+	 * Returns the inscription worn by a player
+	 * @param player
+	 * @return null if no inscription is worn or if more than one inscription is worn and double inscriptions are disabled
+	 */
+	@Nullable
+	public static ItemStack getWornInscription(EntityPlayer player){
+		return ((ItemInscription)WizardryRegistry.inscription).getWornInscription(player);
 	}
 	/**
 	 * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!

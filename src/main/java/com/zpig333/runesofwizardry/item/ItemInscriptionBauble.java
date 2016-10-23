@@ -22,7 +22,6 @@ import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
-//XXX we shoud not need the separate class with @Optional, but it may keep thinks cleaner
 @Optional.Interface(modid = "Baubles", iface="baubles.api.IBauble")
 public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 		/* (non-Javadoc)
@@ -122,13 +121,20 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 	//XXXuncomment if crash with no Baubles @Optional.Method(modid="Baubles")
 	public ItemStack getWornInscription(EntityPlayer player) {
 		InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
+		ItemStack baub =null;
 		for(int i=0;i<baubles.getSizeInventory();i++){
 			ItemStack stack = baubles.getStackInSlot(i);
 			if(stack!=null && stack.getItem()==WizardryRegistry.inscription){
-				return stack;
+				baub=stack;
+				break;
 			}
 		}
-		return super.getWornInscription(player);
+		ItemStack chest =  super.getWornInscription(player);
+		if(baub!=null){
+			if(chest!=null && ConfigHandler.disableDoubleInscription)return null;
+			else return baub;
+		}
+		return chest;
 	}
 
 }
