@@ -1,9 +1,14 @@
 package com.zpig333.runesofwizardry.api;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -42,7 +47,10 @@ public abstract class Inscription {
 	public String getShortDesc(){
 		return getName()+".shortdesc";
 	}
-	
+	/** allows to add info to the ItemStack tooltip **/ 
+	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced){
+		
+	}
 	/**
 	 * Basic permissions/special conditions handling for the inscription. will be checked for both giving the inscription item and charging it.
 	 * @param player the player attempting to activate the rune
@@ -63,5 +71,9 @@ public abstract class Inscription {
 
 	public boolean allowOredictSacrifice() {
 		return true;
+	}
+	/** Allows to control what happens when the inscription is right-clicked while sneaking **/
+	public ActionResult<ItemStack> handleRightClick(ItemStack itemStackIn,	World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		return new ActionResult<ItemStack>(EnumActionResult.PASS,itemStackIn);
 	}
 }

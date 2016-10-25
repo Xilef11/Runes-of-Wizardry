@@ -86,6 +86,11 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
 
+		if(player.isSneaking()){
+			//no special case if sneaking
+			return super.onItemRightClick(stack, world, player, hand);
+		}
+		
 		ItemStack toEquip = stack.copy();
 		toEquip.stackSize = 1;
 

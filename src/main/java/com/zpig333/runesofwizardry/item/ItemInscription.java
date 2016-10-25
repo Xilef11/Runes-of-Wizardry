@@ -14,7 +14,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -97,6 +99,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 				}else{
 					tooltip.add("§f"+RunesOfWizardry.proxy.translate(References.Lang.HOLD_SHIFT));
 				}
+				insc.addInformation(stack, playerIn, tooltip, advanced);
 			}
 			//also, maybe F3+h tooltip with inscription ID would be useful
 			if(advanced){
@@ -236,5 +239,18 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 		}
 		return null;
 	}
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.ItemArmor#onItemRightClick(net.minecraft.item.ItemStack, net.minecraft.world.World, net.minecraft.entity.player.EntityPlayer, net.minecraft.util.EnumHand)
+	 */
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn,World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		if(playerIn.isSneaking()){
+			Inscription insc = DustRegistry.getInscriptionFromStack(itemStackIn);
+			return insc.handleRightClick(itemStackIn,worldIn,playerIn,hand);
+		}
+		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
+	}
+	
+	
 	
 }
