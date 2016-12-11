@@ -3,7 +3,7 @@
  *  
  *  this file was created by Xilef11 on 2015-12-14
  */
-package com.zpig333.runesofwizardry.runes;
+package com.zpig333.runesofwizardry.runes.test;
 
 import java.util.Set;
 

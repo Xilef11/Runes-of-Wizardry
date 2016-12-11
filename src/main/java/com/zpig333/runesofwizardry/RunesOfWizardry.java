@@ -27,9 +27,11 @@ import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
 import com.zpig333.runesofwizardry.network.guipackets.DustDyeUpdatePacket;
 import com.zpig333.runesofwizardry.proxy.CommonProxy;
-import com.zpig333.runesofwizardry.runes.RuneStarBeam;
-import com.zpig333.runesofwizardry.runes.RuneTest2;
-import com.zpig333.runesofwizardry.runes.RuneTesting;
+import com.zpig333.runesofwizardry.runes.inscription.RuneChargeInscription;
+import com.zpig333.runesofwizardry.runes.test.InscriptionTest;
+import com.zpig333.runesofwizardry.runes.test.RuneStarBeam;
+import com.zpig333.runesofwizardry.runes.test.RuneTest2;
+import com.zpig333.runesofwizardry.runes.test.RuneTesting;
 import com.zpig333.runesofwizardry.util.ChatUtils;
 
 @Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory",acceptedMinecraftVersions = "[1.9.4,1.11.0)")
@@ -80,6 +82,12 @@ public class RunesOfWizardry {
 			DustRegistry.registerRune(new RuneTesting(),"runetesting");
 			DustRegistry.registerRune(new RuneTest2(),"runeTest2");
 			DustRegistry.registerRune(new RuneStarBeam(), "runeStarbeam");
+		}
+		if(!ConfigHandler.disableInscriptionCharge){
+			DustRegistry.registerRune(new RuneChargeInscription(), "runeChargeInscription");
+		}
+		if(ConfigHandler.registerTestRunes){
+			DustRegistry.registerInscription(new InscriptionTest(), "inscriptiontest");
 		}
 		initNetwork();
 		// the GUI handler

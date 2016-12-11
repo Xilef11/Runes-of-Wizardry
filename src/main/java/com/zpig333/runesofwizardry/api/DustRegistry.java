@@ -8,19 +8,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.InvalidRuneException;
+import com.zpig333.runesofwizardry.item.ItemInscription;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
+import com.zpig333.runesofwizardry.runes.inscription.RuneInscription;
 import com.zpig333.runesofwizardry.util.Utils;
 
 /** Dust API registry.  All dust registry methods are found here. */
@@ -40,6 +47,10 @@ public class DustRegistry {
 	private static Map<IRune,String> inverseRunes = new LinkedHashMap<IRune, String>();
 	/** The dust requirements for all runes**/
 	private static Map<String,RunesUtil.RuneStats> duststats = new HashMap<String, RunesUtil.RuneStats>();
+	/**List of all registered inscriptions**/
+	private static Map<String,Inscription> inscriptions=new LinkedHashMap<String, Inscription>();
+	//reverse inscription map
+	private static Map<Inscription,String> inverseInscriptions = new LinkedHashMap<Inscription, String>();
 	//Special constants
 	/**
 	 * Represents any "magic" dust
@@ -94,6 +105,7 @@ public class DustRegistry {
 	 * @param id the id to get the rune for
 	 * @return the rune registered as {@code id}, or {@code null} if it dosen't exist
 	 */
+	@Nullable
 	public static IRune getRuneByID(String id){
 		return runes.get(id);
 	}
@@ -131,6 +143,42 @@ public class DustRegistry {
 	}
 	public static Collection<IDustStorageBlock> getAllBlocks(){
 		return blocks.values();
+	}
+	@Nullable
+	public static Inscription getInscriptionByID(String id){
+		return inscriptions.get(id);
+	}
+	@Nullable
+	public static String getInscriptionID(Inscription ins){
+		return inverseInscriptions.get(ins);
+	}
+	public static Set<String> getInscIDs(){
+		return inscriptions.keySet();
+	}
+	public static ItemStack getStackForInscription(String inscriptionID){
+		ItemStack stack = new ItemStack(WizardryRegistry.inscription,1,1);
+		stack.getSubCompound(References.modid, true).setString(Inscription.NBT_ID, inscriptionID);
+		return stack;
+	}
+	@Nullable
+	public static Inscription getInscriptionFromStack(ItemStack stack){
+		if(stack!=null && stack.getItem()==WizardryRegistry.inscription){
+			NBTTagCompound tag = stack.getSubCompound(References.modid, false);
+			if(tag!=null){
+				String id = tag.getString(Inscription.NBT_ID);
+				return getInscriptionByID(id);
+			}
+		}
+		return null;
+	}
+	/**
+	 * Returns the inscription worn by a player
+	 * @param player
+	 * @return null if no inscription is worn or if more than one inscription is worn and double inscriptions are disabled
+	 */
+	@Nullable
+	public static ItemStack getWornInscription(EntityPlayer player){
+		return ((ItemInscription)WizardryRegistry.inscription).getWornInscription(player);
 	}
 	/**
 	 * Registers a valid dust into the RunesOfWizardry system.  MUST EXTEND IDUST!!
@@ -197,6 +245,21 @@ public class DustRegistry {
 		runes.put(name,rune);
 		inverseRunes.put(rune, name);
 		duststats.put(name, stats);
+	}
+	/** Validates and registers an inscription in the RunesOfWizardry system.
+	 * 
+	 * @param inscription the inscription to register
+	 * @param id the mod-unique ID for the inscription (will be prefixed with your modid)
+	 * @throws InvalidInscriptionException if the given inscription is invalid
+	 */
+	public static void registerInscription(final Inscription inscription,String id){
+		String modID = Utils.getCurrentModID();
+		String name=modID+":"+id;
+		//maybe do crash report (or skip registration)
+		if(inscriptions.containsKey(name))throw new IllegalArgumentException("An Inscription with the id: "+name+" Already exists!");
+		inscriptions.put(name,inscription);
+		inverseInscriptions.put(inscription, name);
+		registerRune(new RuneInscription(inscription), name+"_inscription");
 	}
 	/**
 	 * 
