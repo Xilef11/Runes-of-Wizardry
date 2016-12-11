@@ -4,6 +4,7 @@ gradle
 minecraft
 minecraft-1.7.10
 minecraft-1.8.9
+libs
 
 #intelliJ things
 .idea
