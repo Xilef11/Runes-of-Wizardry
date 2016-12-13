@@ -9,7 +9,9 @@ import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
+import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
+import mezz.jei.api.ingredients.IModIngredientRegistration;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -49,7 +51,17 @@ public class RunesofWizardryPlugin implements IModPlugin {
 
 	@Override
 	public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
+		//NOP
+	}
 
+	@Override
+	public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
+		//probably not needed
+	}
+
+	@Override
+	public void registerIngredients(IModIngredientRegistration registry) {
+		//no need to do anything fancy here for now, we just use vanilla recipes
 	}
 
 }

@@ -14,9 +14,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Optional;
 import baubles.api.BaubleType;
+import baubles.api.BaublesApi;
 import baubles.api.IBauble;
-import baubles.common.container.InventoryBaubles;
-import baubles.common.lib.PlayerHandler;
+import baubles.api.cap.IBaublesItemHandler;
 
 import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
@@ -32,8 +32,9 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 		//we are in the armor slot
 		if(Loader.isModLoaded("Baubles")){
 			if(ConfigHandler.disableDoubleInscription){
-				InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
-				for(int i=0;i<baubles.getSizeInventory();i++){
+				//InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
+				IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
+				for(int i=0;i<baubles.getSlots();i++){
 					ItemStack stack = baubles.getStackInSlot(i);
 					if(stack!=null && stack.getItem()==WizardryRegistry.inscription){
 						return;
@@ -95,13 +96,14 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 		toEquip.stackSize = 1;
 
 		if(canEquip(toEquip, player) && Loader.isModLoaded("Baubles")) {
-			InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
-			for(int i = 0; i < baubles.getSizeInventory(); i++) {
-				if(baubles.isItemValidForSlot(i, toEquip)) {
+			//InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
+			IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
+			for(int i = 0; i < baubles.getSlots(); i++) {
+				if(baubles.isItemValidForSlot(i, toEquip,player)) {
 					ItemStack stackInSlot = baubles.getStackInSlot(i);
 					if(stackInSlot == null) {
 						if(!world.isRemote) {
-							baubles.setInventorySlotContents(i, toEquip);
+							baubles.insertItem(i, toEquip,false);
 							stack.stackSize--;
 						}
 						return ActionResult.newResult(EnumActionResult.PASS, stack);
@@ -125,9 +127,10 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 	@Override
 	//XXXuncomment if crash with no Baubles @Optional.Method(modid="Baubles")
 	public ItemStack getWornInscription(EntityPlayer player) {
-		InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
+		//InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
+		IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
 		ItemStack baub =null;
-		for(int i=0;i<baubles.getSizeInventory();i++){
+		for(int i=0;i<baubles.getSlots();i++){
 			ItemStack stack = baubles.getStackInSlot(i);
 			if(stack!=null && stack.getItem()==WizardryRegistry.inscription){
 				baub=stack;
