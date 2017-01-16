@@ -165,9 +165,9 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 	}
 	private boolean initialised=false;
 	private void init(){
-		if(initialised ||rune==null|| worldObj==null)return;
+		if(initialised ||rune==null|| world==null)return;
 		for(BlockPos p : rune.dustPositions){
-			TileEntity te = worldObj.getTileEntity(p);
+			TileEntity te = world.getTileEntity(p);
 			if(te instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te).setRune(rune);
 			}else{

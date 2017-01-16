@@ -43,12 +43,12 @@ public class RayTracer {
 		Vec3d headVec = getCorrectedHeadVec(player);
 		Vec3d lookVec = player.getLook(1);
 		Vec3d endVec = headVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
-		return player.worldObj.rayTraceBlocks(headVec, endVec, true, false, true);
+		return player.world.rayTraceBlocks(headVec, endVec, true, false, true);
 	}
 
 	public static Vec3d getCorrectedHeadVec(EntityPlayer player) {
 		double y = player.posY;
-		if (player.worldObj.isRemote) {
+		if (player.world.isRemote) {
 			//compatibility with eye height changing mods
 			y += player.getEyeHeight() - player.getDefaultEyeHeight();
 		} else {
@@ -64,7 +64,7 @@ public class RayTracer {
 	}
 
 	public static double getBlockReachDistance(EntityPlayer player) {
-		return player.worldObj.isRemote ? getBlockReachDistance_client() :
+		return player.world.isRemote ? getBlockReachDistance_client() :
 			player instanceof EntityPlayerMP ? getBlockReachDistance_server((EntityPlayerMP) player) : 5D;
 	}
 

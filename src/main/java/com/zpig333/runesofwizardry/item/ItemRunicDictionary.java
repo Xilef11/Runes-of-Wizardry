@@ -141,7 +141,7 @@ public class ItemRunicDictionary extends WizardryItem {
 	 */
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
-		if(entityLiving instanceof EntityPlayer && !entityLiving.worldObj.isRemote){
+		if(entityLiving instanceof EntityPlayer && !entityLiving.world.isRemote){
 			EntityPlayer player = (EntityPlayer)entityLiving;
 			if(!player.isSwingInProgress){
 				cycleRuneBackwards(stack,player);

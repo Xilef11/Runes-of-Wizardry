@@ -156,13 +156,13 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	//update the external connectors
 	public void updateExternalConnectors(){
 		List<int[]> result = new LinkedList<int[]>();
-		//worldObj was null when destroyed by explosion
-		if(worldObj==null||pos==null){
-			WizardryLogger.logError("WorldObj or pos was null for TED at "+worldObj+" "+pos);
+		//world was null when destroyed by explosion
+		if(world==null||pos==null){
+			WizardryLogger.logError("world or pos was null for TED at "+world+" "+pos);
 			return;
 		}
-		if(worldObj.getBlockState(pos.north()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.north());
+		if(world.getBlockState(pos.north()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)world.getTileEntity(pos.north());
 			if(ted!=null){
 				for(int i=0;i<COLS;i++){
 					int id=getSlotIDfromPosition(0, i);
@@ -175,8 +175,8 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				}
 			}
 		}
-		if(worldObj.getBlockState(pos.south()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.south());
+		if(world.getBlockState(pos.south()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)world.getTileEntity(pos.south());
 			if(ted!=null){
 				for(int i=0;i<COLS;i++){
 					int id=getSlotIDfromPosition(ROWS-1, i);
@@ -189,8 +189,8 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				}
 			}
 		}
-		if(worldObj.getBlockState(pos.west()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.west());
+		if(world.getBlockState(pos.west()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)world.getTileEntity(pos.west());
 			if(ted!=null){
 				for(int i=0;i<ROWS;i++){
 					int id=getSlotIDfromPosition(i,0);
@@ -203,8 +203,8 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				}
 			}
 		}
-		if(worldObj.getBlockState(pos.east()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.east());
+		if(world.getBlockState(pos.east()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)world.getTileEntity(pos.east());
 			if(ted!=null){
 				for(int i=0;i<ROWS;i++){
 					int id=getSlotIDfromPosition(i,COLS-1);
@@ -338,7 +338,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		updateInternalConnectors();
 		updateExternalConnectors();
 		//update neighbors
-		//worldObj.notifyNeighborsOfStateChange(getPos(), getBlockType()); NOT working FSR
+		//world.notifyNeighborsOfStateChange(getPos(), getBlockType()); NOT working FSR
 		updateNeighborConnectors();
 
 	}
@@ -390,8 +390,8 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		updateInternalConnectors();
 		updateExternalConnectors();
 		updateNeighborConnectors();
-		//worldObj.notifyBlockOfStateChange(getPos(), getBlockType());
-		//worldObj.notifyNeighborsOfStateChange(getPos(), getBlockType());
+		//world.notifyBlockOfStateChange(getPos(), getBlockType());
+		//world.notifyNeighborsOfStateChange(getPos(), getBlockType());
 	}
 	
 	/* (non-Javadoc)

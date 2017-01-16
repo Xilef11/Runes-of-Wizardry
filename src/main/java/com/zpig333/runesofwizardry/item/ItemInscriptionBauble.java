@@ -78,7 +78,7 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 		        	return;
 		        }
 			}
-			doTick(player.worldObj, player, stack);
+			doTick(player.world, player, stack);
 		}else{
 			WizardryLogger.logError("Inscription equipped by a non-player entity: "+entity);
 		}

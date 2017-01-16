@@ -15,29 +15,29 @@ ITickable {
 			BASE_DELAY=2*20;
 	@Override
 	public void update() {
-		if(nextTick<0&&!worldObj.isRemote){
-			nextTick = BASE_DELAY + worldObj.rand.nextInt(MAX_DELAY);
-			IBlockState state = worldObj.getBlockState(pos);
-			worldObj.notifyBlockUpdate(pos, state, state, 3);
+		if(nextTick<0&&!world.isRemote){
+			nextTick = BASE_DELAY + world.rand.nextInt(MAX_DELAY);
+			IBlockState state = world.getBlockState(pos);
+			world.notifyBlockUpdate(pos, state, state, 3);
 		}
 		nextTick--;
 		if(nextTick==0){
-			if(worldObj.isRemote){
-				for (int i = 0; i<worldObj.rand.nextInt(4)+1; i++){
-					worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+Math.random(), pos.getY()+Math.random()/2D, pos.getZ()+Math.random(), 0.07, 0.01D, 0.07D);
+			if(world.isRemote){
+				for (int i = 0; i<world.rand.nextInt(4)+1; i++){
+					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+Math.random(), pos.getY()+Math.random()/2D, pos.getZ()+Math.random(), 0.07, 0.01D, 0.07D);
 				}
 			}else{
 				int i;
 				do{
-					i = worldObj.rand.nextInt(getSizeInventory());
+					i = world.rand.nextInt(getSizeInventory());
 				}while(getStackInSlot(i)==null || getStackInSlot(i).getItem()!=WizardryRegistry.dust_dead);
 				setInventorySlotContents(i, null);
-				nextTick = BASE_DELAY + worldObj.rand.nextInt(MAX_DELAY);
+				nextTick = BASE_DELAY + world.rand.nextInt(MAX_DELAY);
 				if(isEmpty()){//if there is no more dust, break the block
-					worldObj.setBlockToAir(pos);
+					world.setBlockToAir(pos);
 				}
-				IBlockState state = worldObj.getBlockState(pos);
-				worldObj.notifyBlockUpdate(pos, state, state, 3);
+				IBlockState state = world.getBlockState(pos);
+				world.notifyBlockUpdate(pos, state, state, 3);
 			}
 		}
 	}

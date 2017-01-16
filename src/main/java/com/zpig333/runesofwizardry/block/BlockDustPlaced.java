@@ -471,7 +471,7 @@ public class BlockDustPlaced extends Block{
 	 * @see net.minecraft.block.Block#addHitEffects(net.minecraft.world.World, net.minecraft.util.RayTraceResult, net.minecraft.client.particle.EffectRenderer)
 	 */
 	@Override
-	public boolean addHitEffects(IBlockState state,World worldObj, RayTraceResult target,ParticleManager particleManager) {
+	public boolean addHitEffects(IBlockState state,World world, RayTraceResult target,ParticleManager particleManager) {
 		return true;//should remove "breaking" particles
 	}
 
