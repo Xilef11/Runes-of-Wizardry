@@ -231,11 +231,11 @@ public class ItemRunicDictionary extends WizardryItem {
 		}
 	}
 	public String getSelectedRuneID(ItemStack stack){
-		NBTTagCompound tag = stack.getSubCompound(References.modid, true);
+		NBTTagCompound tag = stack.getOrCreateSubCompound(References.modid);
 		return tag.getString("selectedRune");
 	}
 	public void setSelectedRuneID(ItemStack stack,String id){
-		NBTTagCompound tag = stack.getSubCompound(References.modid, true);
+		NBTTagCompound tag = stack.getOrCreateSubCompound(References.modid);
 		tag.setString("selectedRune",id);
 	}
 

@@ -1,7 +1,5 @@
 package com.zpig333.runesofwizardry.api;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -178,7 +177,7 @@ public abstract class IDust extends Item {
 	 */
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab,List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab,NonNullList<ItemStack> subItems) {
 		for(int meta:getMetaValues()){
 			subItems.add(new ItemStack(itemIn,1,meta));
 		}

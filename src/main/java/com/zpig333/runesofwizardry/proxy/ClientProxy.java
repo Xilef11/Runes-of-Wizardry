@@ -1,8 +1,5 @@
 package com.zpig333.runesofwizardry.proxy;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -12,6 +9,7 @@ import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
@@ -64,7 +62,7 @@ public class ClientProxy extends CommonProxy{
 	@Override
 	public void registerDustItemRender(IDust dustclass) {
 		if(!dustclass.hasCustomIcon()){
-			List<ItemStack> subDusts = new LinkedList<ItemStack>();
+			NonNullList<ItemStack> subDusts = NonNullList.create();
 			//Things must (probably) be registered for all meta values
 			dustclass.getSubItems(dustclass, RunesOfWizardry.wizardry_tab, subDusts);
 			for(ItemStack i:subDusts){

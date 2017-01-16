@@ -17,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -58,7 +59,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	}
 
 	protected void doTick(World world, EntityPlayer player,ItemStack itemStack){
-		NBTTagCompound tag = itemStack.getSubCompound(References.modid, false);
+		NBTTagCompound tag = itemStack.getSubCompound(References.modid);
 		if(tag!=null){
 			String id = tag.getString(Inscription.NBT_ID);
 			Inscription insc = DustRegistry.getInscriptionByID(id);
@@ -72,7 +73,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	 */
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
-		NBTTagCompound tag = stack.getSubCompound(References.modid, false);
+		NBTTagCompound tag = stack.getSubCompound(References.modid);
 		if(tag!=null){
 			String id = tag.getString(Inscription.NBT_ID);
 			Inscription insc = DustRegistry.getInscriptionByID(id);
@@ -127,7 +128,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
 		if(stack.getMetadata()==0)return super.getItemStackDisplayName(stack);
-		NBTTagCompound tag = stack.getSubCompound(References.modid, false);
+		NBTTagCompound tag = stack.getSubCompound(References.modid);
 		if(tag!=null){
 			String id = tag.getString(Inscription.NBT_ID);
 			Inscription insc = DustRegistry.getInscriptionByID(id);
@@ -140,11 +141,11 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	 * @see net.minecraft.item.Item#getSubItems(net.minecraft.item.Item, net.minecraft.creativetab.CreativeTabs, java.util.List)
 	 */
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab,	List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab,	NonNullList<ItemStack> subItems) {
 		subItems.add(new ItemStack(itemIn));//blank
 		for(String id:DustRegistry.getInscIDs()){
 			ItemStack toAdd = new ItemStack(itemIn,1,1);
-			toAdd.getSubCompound(References.modid, true).setString(Inscription.NBT_ID, id);
+			toAdd.getOrCreateSubCompound(References.modid).setString(Inscription.NBT_ID, id);
 			subItems.add(toAdd);
 		}
 	}
@@ -152,7 +153,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	/** this is used for the durability. item durability will be [max durability - what this returns]**/
 	@Override
 	public int getDamage(ItemStack stack) {
-		NBTTagCompound tag = stack.getSubCompound(References.modid, true);
+		NBTTagCompound tag = stack.getOrCreateSubCompound(References.modid);
 		return tag.getInteger(NBT_DAMAGE_ID);
 	}
 	
@@ -167,7 +168,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	}
 
 	private int getRealMaxDamage(ItemStack stack){
-		NBTTagCompound tag = stack.getSubCompound(References.modid, false);
+		NBTTagCompound tag = stack.getSubCompound(References.modid);
 		if(tag!=null){
 			String id = tag.getString(Inscription.NBT_ID);
 			Inscription insc = DustRegistry.getInscriptionByID(id);
@@ -204,7 +205,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	/**this is to be used to set the durability**/
 	@Override
 	public void setDamage(ItemStack stack, int damage) {
-		NBTTagCompound tag = stack.getSubCompound(References.modid, true);
+		NBTTagCompound tag = stack.getOrCreateSubCompound(References.modid);
 		tag.setInteger(NBT_DAMAGE_ID,damage);
 	}
 

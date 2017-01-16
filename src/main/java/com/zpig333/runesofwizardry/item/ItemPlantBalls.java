@@ -1,10 +1,9 @@
 package com.zpig333.runesofwizardry.item;
 
-import java.util.List;
-
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 public class ItemPlantBalls extends WizardryItem {
 	private final String name="plantball";
@@ -29,7 +28,7 @@ public class ItemPlantBalls extends WizardryItem {
 
 
 	@Override
-	public void getSubItems(Item item, CreativeTabs tabs, List<ItemStack> list){
+	public void getSubItems(Item item, CreativeTabs tabs, NonNullList<ItemStack> list){
 		list.add(new ItemStack(item, 1, 0));
 		list.add(new ItemStack(item, 1, 1));
 	}

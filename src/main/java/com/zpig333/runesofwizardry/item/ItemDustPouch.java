@@ -70,7 +70,7 @@ public class ItemDustPouch extends WizardryItem {
 	/** returns a stack of the dust contained in this pouch with a stacksize of min{dustAmount, amount of dust in the pouch, dust's max stacksize}**/
 	@Nullable
 	public ItemStack getDustStack(ItemStack pouch, int dustAmount){
-		NBTTagCompound tag = pouch.getSubCompound(References.modid, true);
+		NBTTagCompound tag = pouch.getOrCreateSubCompound(References.modid);
 		ItemStack type =ItemStack.loadItemStackFromNBT(tag.getCompoundTag(DUST_TYPE_TAG));
 		int amount = tag.getInteger(DUST_AMOUNT_TAG);
 		if(type!=null){
@@ -84,13 +84,13 @@ public class ItemDustPouch extends WizardryItem {
 	}
 	/** returns the amount of dust in the pouch**/
 	public int getDustAmount(ItemStack pouch){
-		NBTTagCompound tag = pouch.getSubCompound(References.modid, true);
+		NBTTagCompound tag = pouch.getOrCreateSubCompound(References.modid);
 		return tag.getInteger(DUST_AMOUNT_TAG);
 	}
 	/** checks if dust may be added to the pouch**/
 	public boolean canAddDust(ItemStack pouch, ItemStack dust){
 		if(dust==null) return false;
-		NBTTagCompound compound = pouch.getSubCompound(References.modid, true);
+		NBTTagCompound compound = pouch.getOrCreateSubCompound(References.modid);
 		ItemStack pouchType = ItemStack.loadItemStackFromNBT(compound.getCompoundTag(DUST_TYPE_TAG));
 		int amount = compound.getInteger(DUST_AMOUNT_TAG);
 		return pouchType==null || ItemStack.areItemsEqual(dust, pouchType) && ItemStack.areItemStackTagsEqual(dust, pouchType) && amount<Integer.MAX_VALUE-dust.getCount();
@@ -98,7 +98,7 @@ public class ItemDustPouch extends WizardryItem {
 	/** adds dust to the pouch. returns false if the dust could not be added**/
 	public boolean addDust(ItemStack pouch, ItemStack dust){
 		if(dust==null) return false;
-		NBTTagCompound compound = pouch.getSubCompound(References.modid, true);
+		NBTTagCompound compound = pouch.getOrCreateSubCompound(References.modid);
 		ItemStack pouchType = ItemStack.loadItemStackFromNBT(compound.getCompoundTag(DUST_TYPE_TAG));
 		int amount = compound.getInteger(DUST_AMOUNT_TAG);
 		boolean ok = pouchType==null || ItemStack.areItemsEqual(dust, pouchType) && ItemStack.areItemStackTagsEqual(dust, pouchType) && amount<Integer.MAX_VALUE-dust.getCount();
@@ -120,7 +120,7 @@ public class ItemDustPouch extends WizardryItem {
 	/** empties a pouch. returns true if items were deleted**/
 	@Nullable
 	public boolean clear(ItemStack pouch){
-		NBTTagCompound tag = pouch.getSubCompound(References.modid, true);
+		NBTTagCompound tag = pouch.getOrCreateSubCompound(References.modid);
 		int amount = tag.getInteger(DUST_AMOUNT_TAG);
 		ItemStack contents = ItemStack.loadItemStackFromNBT(tag.getCompoundTag(DUST_TYPE_TAG));
 		tag.removeTag(DUST_TYPE_TAG);

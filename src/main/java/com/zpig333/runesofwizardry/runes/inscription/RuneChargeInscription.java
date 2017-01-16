@@ -106,7 +106,7 @@ public class RuneChargeInscription extends IRune {
 						break;
 					}
 				}
-				NBTTagCompound tag = insc.getSubCompound(References.modid, false);
+				NBTTagCompound tag = insc.getSubCompound(References.modid);
 				if(tag!=null){
 					String id = tag.getString(Inscription.NBT_ID);
 					inscription = DustRegistry.getInscriptionByID(id);
@@ -166,7 +166,7 @@ public class RuneChargeInscription extends IRune {
 			}
 		}
 		if(inscription==null)return false;
-		NBTTagCompound tag = inscription.getSubCompound(References.modid, false);
+		NBTTagCompound tag = inscription.getSubCompound(References.modid);
 		if(tag==null)return false;
 		String id = tag.getString(Inscription.NBT_ID);
 		Inscription insc = DustRegistry.getInscriptionByID(id);
