@@ -116,7 +116,7 @@ public class CommandImportPattern implements ICommand {
 					pattern = new ItemStack[runepattern.length][runepattern[0].length];
 					for(int r=0;r<pattern.length;r++){
 						for(int c=0;c<pattern[r].length;c++){
-							pattern[r][c]=ItemStack.copyItemStack(runepattern[r][c]);
+							pattern[r][c]=runepattern[r][c].copy();
 						}
 					}
 				}else{
@@ -254,7 +254,7 @@ public class CommandImportPattern implements ICommand {
 									}
 									if(n>0)missing=true;
 									//XXX this will update rendering all the time so it might be slow
-									if(n==0||s==null||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), ItemStack.copyItemStack(s));
+									if(n==0||s==null||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), s.copy());
 								}
 							}
 							if(ted.isEmpty()){//remove the TE if we couldn't place any dust in it

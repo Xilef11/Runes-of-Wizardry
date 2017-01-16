@@ -75,7 +75,7 @@ public class ItemDustPouch extends WizardryItem {
 		int amount = tag.getInteger(DUST_AMOUNT_TAG);
 		if(type!=null){
 			int toGive =Math.min(Math.min(dustAmount, amount),type.getMaxStackSize());
-			type = ItemStack.copyItemStack(type);
+			type = type.copy();//FIXME dafuq is this line doing?
 			type.setCount(toGive);
 			amount-=toGive;
 			tag.setInteger(DUST_AMOUNT_TAG, amount);
@@ -104,7 +104,7 @@ public class ItemDustPouch extends WizardryItem {
 		boolean ok = pouchType==null || ItemStack.areItemsEqual(dust, pouchType) && ItemStack.areItemStackTagsEqual(dust, pouchType) && amount<Integer.MAX_VALUE-dust.getCount();
 		if(ok){
 			if(pouchType==null){
-				pouchType = ItemStack.copyItemStack(dust);
+				pouchType = dust.copy();
 				pouchType.setCount(1);
 				NBTTagCompound type = new NBTTagCompound();
 				pouchType.writeToNBT(type);

@@ -60,7 +60,7 @@ public class ItemRunicStaff extends WizardryItem {
 
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack){
-		return ItemStack.copyItemStack(itemStack);
+		return itemStack.copy();
 	}
 
 }

@@ -75,7 +75,7 @@ public class RunesUtil {
 						if(!(stack.getItem() instanceof IDust)) throw new InvalidRuneException(rune,"The Item at position "+i+", "+j+" is not an IDust");
 						if(stack.getCount()!=1) throw new InvalidRuneException(rune,"The number of dusts at position "+i+", "+j+" must be 1");
 						//add to dust cost calculation
-						if(stack!=null)dusts.add(ItemStack.copyItemStack(stack));
+						if(stack!=null)dusts.add(stack.copy());
 					}
 				}
 			}else{
@@ -138,7 +138,7 @@ public class RunesUtil {
 				negated=true;
 			}else{
 				//add all items that are not the sacrifice negator
-				stacks.add(ItemStack.copyItemStack(s));//copy the stack just in case a rune needs it
+				stacks.add(s.copy());//copy the stack just in case a rune needs it
 			}
 		}
 		WizardryLogger.logInfo("Found sacrifice: "+Arrays.deepToString(stacks.toArray(new ItemStack[0])));
