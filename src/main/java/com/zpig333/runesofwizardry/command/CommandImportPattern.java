@@ -68,27 +68,27 @@ public class CommandImportPattern implements ICommand {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.minecraft.command.ICommand#getCommandName()
+	 * @see net.minecraft.command.ICommand#getName()
 	 */
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "rw_import";
 	}
 
 	/* (non-Javadoc)
-	 * @see net.minecraft.command.ICommand#getCommandUsage(net.minecraft.command.ICommandSender)
+	 * @see net.minecraft.command.ICommand#getUsage(net.minecraft.command.ICommandSender)
 	 */
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		//it gets partially translated - OK
-		return getCommandName()+" "+locKey+".usage";
+		return getName()+" "+locKey+".usage";
 	}
 
 	/* (non-Javadoc)
-	 * @see net.minecraft.command.ICommand#getCommandAliases()
+	 * @see net.minecraft.command.ICommand#getAliases()
 	 */
 	@Override
-	public List<String> getCommandAliases() {
+	public List<String> getAliases() {
 		return aliases;
 	}
 
@@ -103,7 +103,7 @@ public class CommandImportPattern implements ICommand {
 		if(!world.isRemote){
 			if(sender instanceof EntityPlayer){
 				EntityPlayer player = (EntityPlayer) sender;
-				if(args.length<1 || args.length>2)throw new WrongUsageException(getCommandUsage(sender));
+				if(args.length<1 || args.length>2)throw new WrongUsageException(getUsage(sender));
 				//get the pattern from args
 				ItemStack[][] pattern = null;
 				IRune rune=null;
@@ -302,7 +302,7 @@ public class CommandImportPattern implements ICommand {
 	 * @see net.minecraft.command.ICommand#addTabCompletionOptions(net.minecraft.command.ICommandSender, java.lang.String[], net.minecraft.util.BlockPos)
 	 */
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender,String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender,String[] args, BlockPos pos) {
 		LinkedList<String> options = new LinkedList<String>();
 		for(String id:DustRegistry.getRuneIDs()){
 			if(StringUtils.containsIgnoreCase(id, args[0]))options.add(id);

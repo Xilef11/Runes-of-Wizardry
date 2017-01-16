@@ -110,7 +110,7 @@ public class ItemRunicDictionary extends WizardryItem {
 						if(playerIn.experienceLevel>=xpReq){
 							playerIn.removeExperienceLevel(xpReq);
 							playerIn.getFoodStats().addStats(-foodReq, 0);
-							//MinecraftServer.getServer().getCommandManager().executeCommand(playerIn, CommandImportPattern.instance().getCommandName()+" "+runeID);
+							//MinecraftServer.getServer().getCommandManager().executeCommand(playerIn, CommandImportPattern.instance().getName()+" "+runeID);
 							try {
 								//We run it this way to ignore the permissions on the command
 								//careful with the null there
