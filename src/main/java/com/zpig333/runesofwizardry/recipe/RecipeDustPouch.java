@@ -57,7 +57,7 @@ public class RecipeDustPouch implements IRecipe {
 			return ItemStack.copyItemStack(pouch);
 		}else{//taking dust out or clearing
 			dust = ((ItemDustPouch)pouch.getItem()).getDustStack(pouch, Integer.MAX_VALUE);
-			if(dust==null || dust.stackSize==0){//clear the pouch
+			if(dust==null || dust.getCount()==0){//clear the pouch
 				((ItemDustPouch)pouch.getItem()).clear(pouch);
 				return pouch;
 			}else{
@@ -93,7 +93,7 @@ public class RecipeDustPouch implements IRecipe {
 					slot=i;
 					pouch=ItemStack.copyItemStack(stack);
 					ItemStack s = ((ItemDustPouch)pouch.getItem()).getDustStack(pouch, Integer.MAX_VALUE);
-					remainder = !(s==null || s.stackSize==0);
+					remainder = !(s==null || s.getCount()==0);
 				}
 			}
 		}

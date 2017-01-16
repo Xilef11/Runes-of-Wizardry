@@ -78,14 +78,14 @@ public class BlockDustDye extends BlockContainer{
 					float f1 = this.random.nextFloat() * 0.8F + 0.1F;
 					EntityItem entityitem;
 
-					for (float f2 = this.random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; world.spawnEntityInWorld(entityitem)) {
+					for (float f2 = this.random.nextFloat() * 0.8F + 0.1F; itemstack.getCount() > 0; world.spawnEntityInWorld(entityitem)) {
 						int j1 = this.random.nextInt(21) + 10;
 
-						if (j1 > itemstack.stackSize) {
-							j1 = itemstack.stackSize;
+						if (j1 > itemstack.getCount()) {
+							j1 = itemstack.getCount();
 						}
 
-						itemstack.stackSize -= j1;
+						itemstack.setCount(itemstack.getCount() - j1);
 						entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 						float f3 = 0.05F;
 						entityitem.motionX = (float) this.random.nextGaussian() * f3;

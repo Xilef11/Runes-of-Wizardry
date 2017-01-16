@@ -86,7 +86,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 					ItemStack[] items = insc.getChargeItems();
 					if(items!=null){
 						for(ItemStack s:items){
-							tooltip.add(" - "+(s.stackSize>=0? (s.stackSize<10?" ":"")+s.stackSize+"x " : RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
+							tooltip.add(" - "+(s.getCount()>=0? (s.getCount()<10?" ":"")+s.getCount()+"x " : RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
 						}
 					}
 					//extra sacrifice info

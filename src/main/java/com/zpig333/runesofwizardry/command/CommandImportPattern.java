@@ -226,23 +226,23 @@ public class CommandImportPattern implements ICommand {
 									ItemStack s = stacks[col];
 									int n=0;
 									if(s!=null){
-										n=s.stackSize;
+										n=s.getCount();
 										//n is the number of wanted items
-										//n=player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.stackSize, s.getTagCompound());
+										//n=player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.getCount(), s.getTagCompound());
 										for(int i=0;i<player.inventory.getSizeInventory()&&n>0;i++){
 											ItemStack playerStack = player.inventory.getStackInSlot(i);
 											if(playerStack==null)continue;
 											//if the item matches
 											if(ItemStack.areItemsEqual(s, playerStack)&&ItemStack.areItemStackTagsEqual(s, playerStack)){
-												int originalSize = playerStack.stackSize;
+												int originalSize = playerStack.getCount();
 												int remainder = originalSize-n;
-												playerStack.stackSize= remainder>0? remainder : 0;
-												if(playerStack.stackSize==0)player.inventory.removeStackFromSlot(i);
+												playerStack.setCount(remainder>0? remainder : 0);
+												if(playerStack.getCount()==0)player.inventory.removeStackFromSlot(i);
 												n-= remainder>0? n : originalSize;
 											}else if(playerStack.getItem() instanceof ItemDustPouch){												ItemDustPouch pouch = (ItemDustPouch)playerStack.getItem();
 											ItemStack dust = pouch.getDustStack(playerStack, n);
 											if(ItemStack.areItemsEqual(s,dust)&&ItemStack.areItemStackTagsEqual(s, dust)){
-												int originalSize = dust.stackSize;
+												int originalSize = dust.getCount();
 												n-= originalSize;
 											}else{
 												//re-add the dust if it didn't match

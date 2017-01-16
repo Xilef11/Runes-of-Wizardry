@@ -216,14 +216,14 @@ public class BlockDustPlaced extends Block{
 					float f1 = random.nextFloat() * 0.8F + 0.1F;
 					EntityItem entityitem;
 
-					for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; worldIn.spawnEntityInWorld(entityitem)) {
+					for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.getCount() > 0; worldIn.spawnEntityInWorld(entityitem)) {
 						int j1 = random.nextInt(21) + 10;
 
-						if (j1 > itemstack.stackSize) {
-							j1 = itemstack.stackSize;
+						if (j1 > itemstack.getCount()) {
+							j1 = itemstack.getCount();
 						}
 
-						itemstack.stackSize -= j1;
+						itemstack.setCount(itemstack.getCount() - j1);
 						entityitem = new EntityItem(worldIn, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 						float f3 = 0.05F;
 						entityitem.motionX = (float) random.nextGaussian() * f3;
@@ -327,7 +327,7 @@ public class BlockDustPlaced extends Block{
 		//convert dust pouch to dust
 		if(heldItem.getItem() instanceof ItemDustPouch&& (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){//XXX could be switched to a capability
 			heldItem = ((ItemDustPouch)heldItem.getItem()).getDustStack(heldItem, 1);
-			if(heldItem==null || heldItem.stackSize<1)return false;
+			if(heldItem==null || heldItem.getCount()<1)return false;
 		}
 		if(heldItem.getItem() instanceof IDust && (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){
 			//place dust in the inventory
@@ -336,7 +336,7 @@ public class BlockDustPlaced extends Block{
 				newItem= heldItem.splitStack(1);//grab one item from the stack
 			}else{
 				newItem = heldItem.copy();
-				newItem.stackSize=1;
+				newItem.setCount(1);
 			}
 			tileDust.setInventorySlotContents(slotID, newItem);
 			worldIn.playSound(null,pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getPlaceSound(),SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);

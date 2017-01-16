@@ -73,7 +73,7 @@ public class RunesUtil {
 					ItemStack stack = row[j];
 					if(stack!=null){//null stacks are OK
 						if(!(stack.getItem() instanceof IDust)) throw new InvalidRuneException(rune,"The Item at position "+i+", "+j+" is not an IDust");
-						if(stack.stackSize!=1) throw new InvalidRuneException(rune,"The number of dusts at position "+i+", "+j+" must be 1");
+						if(stack.getCount()!=1) throw new InvalidRuneException(rune,"The number of dusts at position "+i+", "+j+" must be 1");
 						//add to dust cost calculation
 						if(stack!=null)dusts.add(ItemStack.copyItemStack(stack));
 					}

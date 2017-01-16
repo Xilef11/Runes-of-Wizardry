@@ -293,7 +293,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		{
 			ItemStack itemstack;
 
-			if (this.contents[co[0]][co[1]].stackSize <= count)
+			if (this.contents[co[0]][co[1]].getCount() <= count)
 			{
 				itemstack = this.contents[co[0]][co[1]];
 				this.contents[co[0]][co[1]] = null;
@@ -303,7 +303,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 			{
 				itemstack = this.contents[co[0]][co[1]].splitStack(count);
 
-				if (this.contents[co[0]][co[1]].stackSize == 0)
+				if (this.contents[co[0]][co[1]].getCount() == 0)
 				{
 					this.contents[co[0]][co[1]] = null;
 				}
@@ -330,8 +330,8 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		int[] co=getPositionFromSlotID(index);
 		contents[co[0]][co[1]]=stack;
-		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-			stack.stackSize = getInventoryStackLimit();
+		if (stack != null && stack.getCount() > getInventoryStackLimit()) {
+			stack.setCount(getInventoryStackLimit());
 		} 
 		//update the rendering stuff
 		updateCenterColors();

@@ -49,7 +49,7 @@ public class TileEntityDustDye extends TileEntity{
 		}
 		compound.setInteger("color", color);
 		if(pouch!=null){
-			dust.stackSize=itemPouch.getDustAmount(pouch);
+			dust.setCount(itemPouch.getDustAmount(pouch));
 			itemPouch.clear(pouch);
 			itemPouch.addDust(pouch, dust);
 		}

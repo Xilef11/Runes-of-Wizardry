@@ -36,7 +36,7 @@ public class ItemDustPouch extends WizardryItem {
 		if(worldIn.isRemote)return EnumActionResult.SUCCESS;
 		ItemStack dustStack = getDustStack(stack, 1);//get a stack of the dust
 		//use that stack
-		EnumActionResult placed =  dustStack!=null && dustStack.stackSize>0? dustStack.getItem().onItemUse(dustStack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ) : EnumActionResult.PASS;
+		EnumActionResult placed =  dustStack!=null && dustStack.getCount()>0? dustStack.getItem().onItemUse(dustStack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ) : EnumActionResult.PASS;
 		if(placed!=EnumActionResult.SUCCESS)addDust(stack, dustStack);//re-add the dust if it wasn't placed
 		return placed;
 	}
@@ -76,7 +76,7 @@ public class ItemDustPouch extends WizardryItem {
 		if(type!=null){
 			int toGive =Math.min(Math.min(dustAmount, amount),type.getMaxStackSize());
 			type = ItemStack.copyItemStack(type);
-			type.stackSize=toGive;
+			type.setCount(toGive);
 			amount-=toGive;
 			tag.setInteger(DUST_AMOUNT_TAG, amount);
 		}
@@ -93,7 +93,7 @@ public class ItemDustPouch extends WizardryItem {
 		NBTTagCompound compound = pouch.getSubCompound(References.modid, true);
 		ItemStack pouchType = ItemStack.loadItemStackFromNBT(compound.getCompoundTag(DUST_TYPE_TAG));
 		int amount = compound.getInteger(DUST_AMOUNT_TAG);
-		return pouchType==null || ItemStack.areItemsEqual(dust, pouchType) && ItemStack.areItemStackTagsEqual(dust, pouchType) && amount<Integer.MAX_VALUE-dust.stackSize;
+		return pouchType==null || ItemStack.areItemsEqual(dust, pouchType) && ItemStack.areItemStackTagsEqual(dust, pouchType) && amount<Integer.MAX_VALUE-dust.getCount();
 	}
 	/** adds dust to the pouch. returns false if the dust could not be added**/
 	public boolean addDust(ItemStack pouch, ItemStack dust){
@@ -101,17 +101,17 @@ public class ItemDustPouch extends WizardryItem {
 		NBTTagCompound compound = pouch.getSubCompound(References.modid, true);
 		ItemStack pouchType = ItemStack.loadItemStackFromNBT(compound.getCompoundTag(DUST_TYPE_TAG));
 		int amount = compound.getInteger(DUST_AMOUNT_TAG);
-		boolean ok = pouchType==null || ItemStack.areItemsEqual(dust, pouchType) && ItemStack.areItemStackTagsEqual(dust, pouchType) && amount<Integer.MAX_VALUE-dust.stackSize;
+		boolean ok = pouchType==null || ItemStack.areItemsEqual(dust, pouchType) && ItemStack.areItemStackTagsEqual(dust, pouchType) && amount<Integer.MAX_VALUE-dust.getCount();
 		if(ok){
 			if(pouchType==null){
 				pouchType = ItemStack.copyItemStack(dust);
-				pouchType.stackSize=1;
+				pouchType.setCount(1);
 				NBTTagCompound type = new NBTTagCompound();
 				pouchType.writeToNBT(type);
 				compound.setTag(DUST_TYPE_TAG, type);
 				pouch.setItemDamage(1);
 			}
-			amount+=dust.stackSize;
+			amount+=dust.getCount();
 			compound.setInteger(DUST_AMOUNT_TAG, amount);
 		}
 		return ok;

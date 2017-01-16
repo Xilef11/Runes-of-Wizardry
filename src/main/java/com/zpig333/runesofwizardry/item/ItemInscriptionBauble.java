@@ -93,7 +93,7 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 		}
 		
 		ItemStack toEquip = stack.copy();
-		toEquip.stackSize = 1;
+		toEquip.setCount(1);
 
 		if(canEquip(toEquip, player) && Loader.isModLoaded("Baubles")) {
 			//InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
@@ -104,7 +104,7 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 					if(stackInSlot == null) {
 						if(!world.isRemote) {
 							baubles.insertItem(i, toEquip,false);
-							stack.stackSize--;
+							stack.setCount(stack.getCount()-1);
 						}
 						return ActionResult.newResult(EnumActionResult.PASS, stack);
 					}

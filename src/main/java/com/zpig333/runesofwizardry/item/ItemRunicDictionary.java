@@ -61,7 +61,7 @@ public class ItemRunicDictionary extends WizardryItem {
 				//dusts
 				tooltip.add("§l"+RunesOfWizardry.proxy.translate(References.Lang.REQUIRES));
 				for(ItemStack s:stats.dustCosts){
-					tooltip.add(" - "+(s.stackSize<10?" ":"")+s.stackSize+"x "+s.getDisplayName());
+					tooltip.add(" - "+(s.getCount()<10?" ":"")+s.getCount()+"x "+s.getDisplayName());
 				}
 				tooltip.add(RunesOfWizardry.proxy.translate(References.Lang.misc+"runesize", stats.xsize,stats.ysize,stats.centerx,stats.centery));
 				//sacrifice
@@ -73,7 +73,7 @@ public class ItemRunicDictionary extends WizardryItem {
 						if(i>0)tooltip.add(" "+RunesOfWizardry.proxy.translate(References.Lang.OR));
 						if(sac!=null){
 							for(ItemStack s:sac){
-								tooltip.add(" - "+(s.stackSize>=0? (s.stackSize<10?" ":"")+s.stackSize+"x " : RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
+								tooltip.add(" - "+(s.getCount()>=0? (s.getCount()<10?" ":"")+s.getCount()+"x " : RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
 							}
 						}else{
 							tooltip.add("   "+RunesOfWizardry.proxy.translate(References.Lang.NOTHING));

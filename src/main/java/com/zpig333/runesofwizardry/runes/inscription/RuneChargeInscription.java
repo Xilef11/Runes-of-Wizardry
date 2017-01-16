@@ -186,7 +186,7 @@ public class RuneChargeInscription extends IRune {
 				partial=Utils.stacksEqualWildcardSize(wantStack, foundStack, insc.allowOredictSacrifice());
 				if(!partial&&j==0)match=false;
 				j++;
-			}while(wantStack.stackSize<0 && partial);//while the found list has items that match the current wildcard item
+			}while(wantStack.getCount()<0 && partial);//while the found list has items that match the current wildcard item
 			j-=2;
 		}
 		if(match)return true;//if the whole list matched
