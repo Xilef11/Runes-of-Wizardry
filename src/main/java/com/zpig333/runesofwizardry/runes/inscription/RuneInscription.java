@@ -95,7 +95,7 @@ public class RuneInscription extends IRune {
 					ItemStack toSpawn = new ItemStack(WizardryRegistry.inscription,1,1);
 					toSpawn.getOrCreateSubCompound(References.modid).setString(Inscription.NBT_ID, DustRegistry.getInscriptionID(inscription));
 					toSpawn.setItemDamage(inscription.getMaxDurability());
-					world.spawnEntityInWorld(new EntityItem(world, getPos().getX()+0.5, getPos().getY()+0.5, getPos().getZ()+0.5, toSpawn));
+					world.spawnEntity(new EntityItem(world, getPos().getX()+0.5, getPos().getY()+0.5, getPos().getZ()+0.5, toSpawn));
 					this.onPatternBroken();
 				}
 			}

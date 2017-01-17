@@ -84,7 +84,7 @@ public class BlockDustPlaced extends Block{
 	}
 	@Deprecated
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState state,World worldIn, BlockPos pos)
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state,IBlockAccess worldIn, BlockPos pos)
 	{	//No collision
 		//return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX()+1, pos.getY()+0.0625F, pos.getZ()+1.0F);
 		//return new AxisAlignedBB(pos, pos.add(1,1,1));
@@ -216,7 +216,7 @@ public class BlockDustPlaced extends Block{
 					float f1 = random.nextFloat() * 0.8F + 0.1F;
 					EntityItem entityitem;
 
-					for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.getCount() > 0; worldIn.spawnEntityInWorld(entityitem)) {
+					for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.getCount() > 0; worldIn.spawnEntity(entityitem)) {
 						int j1 = random.nextInt(21) + 10;
 
 						if (j1 > itemstack.getCount()) {
@@ -236,7 +236,7 @@ public class BlockDustPlaced extends Block{
 					}
 				}
 			}
-			worldIn.notifyNeighborsOfStateChange(pos, state.getBlock());
+			worldIn.notifyNeighborsOfStateChange(pos, state.getBlock(),true);
 		}
 
 		super.breakBlock(worldIn, pos, state);
@@ -267,7 +267,7 @@ public class BlockDustPlaced extends Block{
 		return null;//this block should not be dropped!
 	}
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(playerIn.isSneaking() || tile==null){
 			return false;
@@ -303,7 +303,7 @@ public class BlockDustPlaced extends Block{
 		int slotID = TileEntityDustPlaced.getSlotIDfromPosition(row, col);
 
 		ItemStack dustStack = tileDust.getStackInSlot(slotID);
-
+		ItemStack heldItem = playerIn.getHeldItem(hand);
 		if(heldItem==null){
 			if (dustStack !=null){
 				//drop the dust piece
@@ -383,7 +383,8 @@ public class BlockDustPlaced extends Block{
 	 */
 	@Deprecated
 	@Override
-	public void neighborChanged(IBlockState state,World worldIn, BlockPos pos, Block neighborBlock) {
+	//public void neighborChanged(IBlockState state,World worldIn, BlockPos pos, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos){
 		if(worldIn.isAirBlock(pos.down())&&!worldIn.restoringBlockSnapshots){
 			this.breakBlock(worldIn, pos, state);
 			worldIn.setBlockToAir(pos);
@@ -393,7 +394,7 @@ public class BlockDustPlaced extends Block{
 		if(te instanceof TileEntityDustPlaced){
 			RuneEntity rune = ((TileEntityDustPlaced)te).getRune();
 			if(rune!=null){
-				rune.handleBlockUpdate(worldIn, pos,state, neighborBlock);
+				rune.handleBlockUpdate(worldIn, pos,state, fromPos);
 			}
 		}
 	}

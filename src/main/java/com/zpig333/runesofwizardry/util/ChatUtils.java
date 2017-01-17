@@ -102,7 +102,7 @@ public class ChatUtils
 	{
 		for (ITextComponent c : lines)
 		{
-			player.addChatComponentMessage(c);
+			player.sendMessage(c);
 		}
 	}
 

@@ -1,7 +1,7 @@
 package com.zpig333.runesofwizardry;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -115,8 +115,9 @@ public class RunesOfWizardry {
 	/** the tab in the Creative inventory for our stuff**/
 	public static CreativeTabs wizardry_tab = new CreativeTabs(References.modid+"_main") {
 		@Override
-		public Item getTabIconItem() {
-			return WizardryRegistry.runic_dictionary;
+		public ItemStack getTabIconItem() {
+			return new ItemStack(WizardryRegistry.runic_dictionary);
 		}
+		
 	};
 }

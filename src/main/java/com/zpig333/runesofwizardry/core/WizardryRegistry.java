@@ -1,6 +1,5 @@
 package com.zpig333.runesofwizardry.core;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -274,24 +273,24 @@ public class WizardryRegistry {
 						+ ((ItemInscription)inscription).getName()+"_painted", "inventory"));
 	}
 	
-	/**Register the rendering/icon for all dusts that use the default model**/
-	@Deprecated
-	public static void registerDustItemRendering(){
-		//The location of the JSON for default dusts
-		ModelResourceLocation dustModel = new ModelResourceLocation(References.texture_path+"default_dusts","inventory");
-
-		for(IDust d:DustRegistry.getAllDusts()){
-			if(!d.hasCustomIcon()){
-				List<ItemStack> subDusts = new LinkedList<ItemStack>();
-				//Things must (probably) be registered for all meta values
-				d.getSubItems(d, RunesOfWizardry.wizardry_tab, subDusts);
-				for(ItemStack i:subDusts){
-					ModelLoader.setCustomModelResourceLocation(d, i.getMetadata(), dustModel);
-				}
-			}
-
-		}
-	}
+//	/**Register the rendering/icon for all dusts that use the default model**/
+//	@Deprecated
+//	public static void registerDustItemRendering(){
+//		//The location of the JSON for default dusts
+//		ModelResourceLocation dustModel = new ModelResourceLocation(References.texture_path+"default_dusts","inventory");
+//
+//		for(IDust d:DustRegistry.getAllDusts()){
+//			if(!d.hasCustomIcon()){
+//				LinkedList<ItemStack> subDusts = new LinkedList<ItemStack>();
+//				//Things must (probably) be registered for all meta values
+//				d.getSubItems(d, RunesOfWizardry.wizardry_tab, subDusts);
+//				for(ItemStack i:subDusts){
+//					ModelLoader.setCustomModelResourceLocation(d, i.getMetadata(), dustModel);
+//				}
+//			}
+//
+//		}
+//	}
 	/**registers the rendering for our blocks**/
 	public static void registerBlockRenders() {
 		//lavastone bricks

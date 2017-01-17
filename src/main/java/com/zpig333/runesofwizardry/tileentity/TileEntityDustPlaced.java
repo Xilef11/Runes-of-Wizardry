@@ -361,7 +361,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		// Handled with onBlockActivated?
 		return false;
 	}
@@ -427,7 +427,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 			byte slot = tag.getByte("Slot");
 			if (slot >= 0 && slot < getSizeInventory()) {
 				int[] coords = getPositionFromSlotID(slot);
-				contents[coords[0]][coords[1]] = ItemStack.loadItemStackFromNBT(tag);
+				contents[coords[0]][coords[1]] = new ItemStack(tag);
 			}
 		}
 		if(!tagCompound.getBoolean("inRune"))this.rune=null;

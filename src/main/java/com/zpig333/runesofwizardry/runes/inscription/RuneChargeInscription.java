@@ -87,7 +87,7 @@ public class RuneChargeInscription extends IRune {
 						this.onPatternBroken();
 						return;
 					}
-					world.spawnEntityInWorld(new EntityItem(world, getPos().getX()+0.5, getPos().getY()+0.5, getPos().getZ()+0.5, stack));
+					world.spawnEntity(new EntityItem(world, getPos().getX()+0.5, getPos().getY()+0.5, getPos().getZ()+0.5, stack));
 					this.onPatternBroken();
 				}
 				
@@ -114,7 +114,7 @@ public class RuneChargeInscription extends IRune {
 				}
 				if(inscription==null){
 					this.onPatternBroken();
-					player.addChatMessage(new TextComponentTranslation(References.modid+"_inscription.invalid"));
+					player.sendMessage(new TextComponentTranslation(References.modid+"_inscription.invalid"));
 					return;
 				}
 				if(!inscription.canBeActivatedByPlayer(player, entity.getWorld(), getPos())){

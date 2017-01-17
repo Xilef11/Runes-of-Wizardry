@@ -112,7 +112,7 @@ public class RunesUtil {
 		ItemStack pattern[][] = finder.toArray();
 		RuneFacing match = matchPattern(pattern);
 		if(match==null){
-			player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.norune"));
+			player.sendMessage(new TextComponentTranslation("runesofwizardry.message.norune"));
 			if(ConfigHandler.hardcoreActivation){
 				for(BlockPos p:finder.getDustPositions()){
 					killDusts(world, p);
@@ -147,7 +147,7 @@ public class RunesUtil {
 		if(!negated){
 			if(!match.rune.sacrificeMatches(stacks)){
 				//translation OK
-				player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.badsacrifice", new TextComponentTranslation(match.rune.getName())));
+				player.sendMessage(new TextComponentTranslation("runesofwizardry.message.badsacrifice", new TextComponentTranslation(match.rune.getName())));
 				if(ConfigHandler.hardcoreSacrifices){
 					for(EntityItem e:sacList){
 						if(world instanceof WorldServer){

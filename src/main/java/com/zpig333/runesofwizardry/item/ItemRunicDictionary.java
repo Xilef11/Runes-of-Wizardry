@@ -99,10 +99,10 @@ public class ItemRunicDictionary extends WizardryItem {
 	 * @see net.minecraft.item.Item#onItemUse(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.util.EnumFacing, float, float, float)
 	 */
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote){
 			if(playerIn.isSneaking()){
-				String runeID = getSelectedRuneID(stack);
+				String runeID = getSelectedRuneID(playerIn.getHeldItem(hand));
 				if(!runeID.equals("")){
 					int xpReq = ConfigHandler.dictionaryImportXP;
 					int foodReq = ConfigHandler.dictionaryImportHunger;
@@ -130,7 +130,8 @@ public class ItemRunicDictionary extends WizardryItem {
 	 * @see net.minecraft.item.Item#onItemRightClick(net.minecraft.item.ItemStack, net.minecraft.world.World, net.minecraft.entity.player.EntityPlayer)
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		ItemStack itemStackIn = playerIn.getHeldItem(hand);
 		if(!worldIn.isRemote && !playerIn.isSneaking()){
 			cycleRune(itemStackIn,playerIn);
 		}

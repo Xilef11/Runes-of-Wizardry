@@ -127,7 +127,7 @@ public class CommandExportPattern implements ICommand {
 			TextComponentString filename = new TextComponentString(output.getName());
 			filename.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, output.getAbsolutePath()));
 			filename.getStyle().setUnderlined(true);
-			player.addChatMessage(new TextComponentTranslation(locKey+".message", finder.getNumBlocks(), filename));
+			player.sendMessage(new TextComponentTranslation(locKey+".message", finder.getNumBlocks(), filename));
 		}
 	}
 

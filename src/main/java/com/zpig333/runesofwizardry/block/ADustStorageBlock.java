@@ -1,8 +1,5 @@
 package com.zpig333.runesofwizardry.block;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.SoundType;

@@ -3,6 +3,7 @@ package com.zpig333.runesofwizardry.recipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.api.IDust;
@@ -77,11 +78,12 @@ public class RecipeDustPouch implements IRecipe {
 	}
 
 	@Override
-	public ItemStack[] getRemainingItems(InventoryCrafting inv) {
+	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
+		//TODO figure out the null itemstack stuff
 		ItemStack pouch = null;
 		int slot=0;
 		boolean remainder = false;
-		ItemStack[] r = new ItemStack[inv.getSizeInventory()];
+		NonNullList<ItemStack> r = NonNullList.create();
 		for(int i=0;i<inv.getSizeInventory();i++){
 			ItemStack stack = inv.getStackInSlot(i);
 			if(stack!=null){
@@ -97,7 +99,7 @@ public class RecipeDustPouch implements IRecipe {
 				}
 			}
 		}
-		if(remainder)r[slot]=pouch;
+		if(remainder)r.add(slot,pouch);
 		return r;
 	}
 

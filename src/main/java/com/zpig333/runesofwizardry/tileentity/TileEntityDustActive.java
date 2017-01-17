@@ -124,7 +124,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			NBTTagCompound tag = tagList.getCompoundTagAt(i);
 			int r = tag.getInteger("Row");
 			int c = tag.getInteger("Col");
-			ItemStack s = ItemStack.loadItemStackFromNBT(tag);
+			ItemStack s = new ItemStack(tag);
 			items.add(new ArrayElement(r, c, s));
 			if(r>maxRow)maxRow=r;
 			if(c>maxCol)maxCol=c;

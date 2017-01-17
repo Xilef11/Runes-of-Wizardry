@@ -244,12 +244,14 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	 * @see net.minecraft.item.ItemArmor#onItemRightClick(net.minecraft.item.ItemStack, net.minecraft.world.World, net.minecraft.entity.player.EntityPlayer, net.minecraft.util.EnumHand)
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn,World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if(playerIn.isSneaking()){
+			ItemStack itemStackIn = playerIn.getHeldItem(hand);
 			Inscription insc = DustRegistry.getInscriptionFromStack(itemStackIn);
+			//TODO itemstack param should probably be removed from handleRC to follow new convention
 			return insc.handleRightClick(itemStackIn,worldIn,playerIn,hand);
 		}
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
+		return super.onItemRightClick(worldIn, playerIn, hand);
 	}
 	
 	

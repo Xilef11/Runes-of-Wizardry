@@ -1,7 +1,5 @@
 package com.zpig333.runesofwizardry.item;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -85,13 +83,13 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 	}
 	//equip in baubles slot if installed, chestplate slot otherwise
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
 		if(player.isSneaking()){
 			//no special case if sneaking
-			return super.onItemRightClick(stack, world, player, hand);
+			return super.onItemRightClick(world, player, hand);
 		}
-		
+		ItemStack stack = player.getHeldItem(hand);
 		ItemStack toEquip = stack.copy();
 		toEquip.setCount(1);
 
@@ -111,7 +109,7 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 				}
 			}
 		}
-		return super.onItemRightClick(stack, world, player, hand);
+		return super.onItemRightClick(world, player, hand);
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#isDamageable()

@@ -139,7 +139,7 @@ public abstract class IDust extends Item {
 	 * 
 	 */
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		//see ItemRedstone#onItemUse
 		if(world.isRemote){
 			return EnumActionResult.SUCCESS;
@@ -154,7 +154,7 @@ public abstract class IDust extends Item {
 			}else{
 				world.setBlockState(pos.up(), WizardryRegistry.dust_placed.getDefaultState());
 				IBlockState state =  world.getBlockState(pos.up());
-				return state.getBlock().onBlockActivated(world, pos.up(), state, player, hand, stack, facing, hitX, hitY, hitZ)? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
+				return state.getBlock().onBlockActivated(world, pos.up(), state, player, hand, facing, hitX, hitY, hitZ)? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
 				//return true;
 			}
 		}

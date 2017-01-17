@@ -81,7 +81,7 @@ public class ContainerDustDye extends Container {
 			if (stackInSlot.getCount() == stack.getCount()) {
 				return null;
 			}
-			slotObject.onPickupFromSlot(player, stackInSlot);
+			slotObject.onTake(player, stackInSlot);
 		}
 		return stack;
 	}

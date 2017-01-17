@@ -32,11 +32,12 @@ public class ItemDustPouch extends WizardryItem {
 	 * @see net.minecraft.item.Item#onItemUse(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.util.EnumFacing, float, float, float)
 	 */
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(worldIn.isRemote)return EnumActionResult.SUCCESS;
+		ItemStack stack = playerIn.getHeldItem(hand);
 		ItemStack dustStack = getDustStack(stack, 1);//get a stack of the dust
 		//use that stack
-		EnumActionResult placed =  dustStack!=null && dustStack.getCount()>0? dustStack.getItem().onItemUse(dustStack, playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ) : EnumActionResult.PASS;
+		EnumActionResult placed =  dustStack!=null && dustStack.getCount()>0? dustStack.getItem().onItemUse(playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ) : EnumActionResult.PASS;
 		if(placed!=EnumActionResult.SUCCESS)addDust(stack, dustStack);//re-add the dust if it wasn't placed
 		return placed;
 	}
@@ -71,7 +72,7 @@ public class ItemDustPouch extends WizardryItem {
 	@Nullable
 	public ItemStack getDustStack(ItemStack pouch, int dustAmount){
 		NBTTagCompound tag = pouch.getOrCreateSubCompound(References.modid);
-		ItemStack type =ItemStack.loadItemStackFromNBT(tag.getCompoundTag(DUST_TYPE_TAG));
+		ItemStack type =new ItemStack(tag.getCompoundTag(DUST_TYPE_TAG));
 		int amount = tag.getInteger(DUST_AMOUNT_TAG);
 		if(type!=null){
 			int toGive =Math.min(Math.min(dustAmount, amount),type.getMaxStackSize());
@@ -91,7 +92,7 @@ public class ItemDustPouch extends WizardryItem {
 	public boolean canAddDust(ItemStack pouch, ItemStack dust){
 		if(dust==null) return false;
 		NBTTagCompound compound = pouch.getOrCreateSubCompound(References.modid);
-		ItemStack pouchType = ItemStack.loadItemStackFromNBT(compound.getCompoundTag(DUST_TYPE_TAG));
+		ItemStack pouchType = new ItemStack(compound.getCompoundTag(DUST_TYPE_TAG));
 		int amount = compound.getInteger(DUST_AMOUNT_TAG);
 		return pouchType==null || ItemStack.areItemsEqual(dust, pouchType) && ItemStack.areItemStackTagsEqual(dust, pouchType) && amount<Integer.MAX_VALUE-dust.getCount();
 	}
@@ -99,10 +100,11 @@ public class ItemDustPouch extends WizardryItem {
 	public boolean addDust(ItemStack pouch, ItemStack dust){
 		if(dust==null) return false;
 		NBTTagCompound compound = pouch.getOrCreateSubCompound(References.modid);
-		ItemStack pouchType = ItemStack.loadItemStackFromNBT(compound.getCompoundTag(DUST_TYPE_TAG));
+		ItemStack pouchType = new ItemStack(compound.getCompoundTag(DUST_TYPE_TAG));
 		int amount = compound.getInteger(DUST_AMOUNT_TAG);
 		boolean ok = pouchType==null || ItemStack.areItemsEqual(dust, pouchType) && ItemStack.areItemStackTagsEqual(dust, pouchType) && amount<Integer.MAX_VALUE-dust.getCount();
 		if(ok){
+			//FIXME figure out this stuff (1.11)
 			if(pouchType==null){
 				pouchType = dust.copy();
 				pouchType.setCount(1);
@@ -122,7 +124,7 @@ public class ItemDustPouch extends WizardryItem {
 	public boolean clear(ItemStack pouch){
 		NBTTagCompound tag = pouch.getOrCreateSubCompound(References.modid);
 		int amount = tag.getInteger(DUST_AMOUNT_TAG);
-		ItemStack contents = ItemStack.loadItemStackFromNBT(tag.getCompoundTag(DUST_TYPE_TAG));
+		ItemStack contents = new ItemStack(tag.getCompoundTag(DUST_TYPE_TAG));
 		tag.removeTag(DUST_TYPE_TAG);
 		tag.removeTag(DUST_AMOUNT_TAG);
 		pouch.setItemDamage(0);

@@ -125,7 +125,7 @@ public class CommandImportPattern implements ICommand {
 						pattern = PatternUtils.importFromJson(args[0]);
 						JsonUtils.clearItemStackJson();
 					} catch (FileNotFoundException e) {
-						sender.addChatMessage(new TextComponentTranslation(locKey+".serverfilenotfound", args[0], args[0], args[0]));
+						sender.sendMessage(new TextComponentTranslation(locKey+".serverfilenotfound", args[0], args[0], args[0]));
 						return;
 					} catch (IOException e) {
 						WizardryLogger.logException(Level.ERROR, e, "Error while importing pattern from JSON");
@@ -276,7 +276,7 @@ public class CommandImportPattern implements ICommand {
 			}
 		}
 		if(missing){
-			player.addChatComponentMessage(new TextComponentTranslation(locKey+".incomplete"));
+			player.sendMessage(new TextComponentTranslation(locKey+".incomplete"));
 		}
 		world.playSound(null, topLeft, SoundEvents.BLOCK_SAND_PLACE, SoundCategory.BLOCKS, 0.7f, 1.5f);
 	}
