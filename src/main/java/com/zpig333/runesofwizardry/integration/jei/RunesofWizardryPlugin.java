@@ -35,11 +35,11 @@ public class RunesofWizardryPlugin implements IModPlugin {
 	public void register(IModRegistry registry) {
 		IJeiHelpers helper = registry.getJeiHelpers();
 		//blacklist stuff
-		helper.getItemBlacklist().addItemToBlacklist(new ItemStack(WizardryRegistry.dust_placed,1,OreDictionary.WILDCARD_VALUE));
+		helper.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(WizardryRegistry.dust_placed,1,OreDictionary.WILDCARD_VALUE));
 		if(!ConfigHandler.showPlaceholders){
 			for(DustPlaceholder d:DustRegistry.getPlaceholders()){
 				for(int meta:d.getMetaValues()){
-					helper.getItemBlacklist().addItemToBlacklist(new ItemStack(d,1,meta));
+					helper.getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(d,1,meta));
 				}
 			}
 		}
