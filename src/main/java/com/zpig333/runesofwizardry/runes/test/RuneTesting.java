@@ -5,6 +5,8 @@
  */
 package com.zpig333.runesofwizardry.runes.test;
 
+import static net.minecraft.item.ItemStack.EMPTY;
+
 import java.util.Set;
 
 import net.minecraft.item.ItemStack;
@@ -32,13 +34,13 @@ public class RuneTesting extends IRune {
 		ItemStack blaze = new ItemStack(RWDusts.dust_blaze);
 		return new ItemStack[][]{
 				{blaze,blaze,blaze,blaze,blaze,blaze,blaze,blaze},
-				{null,null,null,null,null,null,null,blaze},
-				{null,null,null,null,null,null,null,blaze},
-				{null,null,null,null,null,null,null,blaze},
-				{null,null,null,null,null,null,null,blaze},
-				{null,null,null,null,null,null,null,blaze},
-				{null,null,null,null,null,null,null,blaze},
-				{null,null,null,null,null,null,null,blaze}
+				{EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,blaze},
+				{EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,blaze},
+				{EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,blaze},
+				{EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,blaze},
+				{EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,blaze},
+				{EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,blaze},
+				{EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,blaze}
 		};
 	}
 

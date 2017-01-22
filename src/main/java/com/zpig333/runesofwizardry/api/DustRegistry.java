@@ -257,9 +257,9 @@ public class DustRegistry {
 		String name=modID+":"+id;
 		//maybe do crash report (or skip registration)
 		if(inscriptions.containsKey(name))throw new IllegalArgumentException("An Inscription with the id: "+name+" Already exists!");
+		registerRune(new RuneInscription(inscription), name+"_inscription");
 		inscriptions.put(name,inscription);
 		inverseInscriptions.put(inscription, name);
-		registerRune(new RuneInscription(inscription), name+"_inscription");
 	}
 	/**
 	 * 

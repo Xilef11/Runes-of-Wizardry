@@ -1,5 +1,7 @@
 package com.zpig333.runesofwizardry.runes.test;
 
+import static net.minecraft.item.ItemStack.EMPTY;
+
 import java.util.Set;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,10 +28,10 @@ public class RuneStarBeam extends IRune {
 	public ItemStack[][] getPattern() {
 		ItemStack ender = new ItemStack(RWDusts.dust_ender);
 		return new ItemStack[][]{
-				{null,ender,ender,null},
+				{EMPTY,ender,ender,EMPTY},
 				{ender,ender,ender,ender},
 				{ender,ender,ender,ender},
-				{null,ender,ender,null}
+				{EMPTY,ender,ender,EMPTY}
 		};
 	}
 
