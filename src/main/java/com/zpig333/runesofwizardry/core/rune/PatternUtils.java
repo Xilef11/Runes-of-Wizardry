@@ -146,7 +146,13 @@ public class PatternUtils {
 		while(!file.createNewFile()){
 			file = new File(exportFolder, name+"_"+n+".json");
 		}
-		Writer out = new BufferedWriter(new FileWriter(file)); 
+		Writer out = new BufferedWriter(new FileWriter(file));
+		//Convert ItemStack.EMPTY to null (makes things easier on import to make sure == works)
+		for(int i=0;i<pattern.length;i++){
+			for(int j=0;j<pattern[i].length;j++){
+				if(pattern[i][j]==ItemStack.EMPTY)pattern[i][j]=null;
+			}
+		}
 		gson.toJson(pattern,out);
 		out.close();
 		return file;
@@ -173,9 +179,15 @@ public class PatternUtils {
 
 		Gson gson = JsonUtils.getItemStackGson();
 		Reader read = new BufferedReader(new InputStreamReader(in));
-		ItemStack[][] stack = gson.fromJson(read, ItemStack[][].class);
+		ItemStack[][] pattern = gson.fromJson(read, ItemStack[][].class);
 		read.close();
-		return stack;
+		//convert nulls to ItemStack.EMPTY
+		for(int i=0;i<pattern.length;i++){
+			for(int j=0;j<pattern[i].length;j++){
+				if(pattern[i][j]==null)pattern[i][j]=ItemStack.EMPTY;
+			}
+		}
+		return pattern;
 	}
 	/**
 	 * Returns the ItemStack[][] pattern described by the json file {@code filename} in the export dir (runesofwizardry_patterns)
@@ -201,6 +213,12 @@ public class PatternUtils {
 		Reader read = new FileReader(infile);
 		Gson gson = JsonUtils.getItemStackGson();
 		ItemStack[][] stacks = gson.fromJson(read, ItemStack[][].class);
+		//convert nulls to ItemStack.EMPTY
+		for(int i=0;i<stacks.length;i++){
+			for(int j=0;j<stacks[i].length;j++){
+				if(stacks[i][j]==null)stacks[i][j]=ItemStack.EMPTY;
+			}
+		}
 		read.close();
 		return stacks;
 	}
