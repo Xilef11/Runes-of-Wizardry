@@ -32,7 +32,7 @@ ITickable {
 				do{
 					i = world.rand.nextInt(getSizeInventory());
 				}while(getStackInSlot(i)==ItemStack.EMPTY || getStackInSlot(i).getItem()!=WizardryRegistry.dust_dead);
-				setInventorySlotContents(i, null);
+				setInventorySlotContents(i, ItemStack.EMPTY);
 				nextTick = BASE_DELAY + world.rand.nextInt(MAX_DELAY);
 				if(isEmpty()){//if there is no more dust, break the block
 					world.setBlockToAir(pos);

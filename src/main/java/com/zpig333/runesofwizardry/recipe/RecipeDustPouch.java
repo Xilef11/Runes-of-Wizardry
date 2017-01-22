@@ -38,11 +38,11 @@ public class RecipeDustPouch implements IRecipe {
 		}
 		return pouch!=ItemStack.EMPTY && (dust==ItemStack.EMPTY || ((ItemDustPouch)pouch.getItem()).canAddDust(pouch, dust));//all we have is a single pouch and (possibly) dust
 	}
-
+	//FIXME something is broken with the recipe
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inv) {
-		ItemStack pouch = null;
-		ItemStack dust = null;
+		ItemStack pouch = ItemStack.EMPTY;
+		ItemStack dust = ItemStack.EMPTY;
 		for(int i=0;i<inv.getSizeInventory();i++){
 			ItemStack stack = inv.getStackInSlot(i);
 			if(stack==ItemStack.EMPTY)continue;
@@ -79,8 +79,7 @@ public class RecipeDustPouch implements IRecipe {
 
 	@Override
 	public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
-		//TODO figure out the null itemstack stuff
-		ItemStack pouch = null;
+		ItemStack pouch = ItemStack.EMPTY;
 		int slot=0;
 		boolean remainder = false;
 		NonNullList<ItemStack> r = NonNullList.create();
@@ -88,7 +87,7 @@ public class RecipeDustPouch implements IRecipe {
 			ItemStack stack = inv.getStackInSlot(i);
 			if(stack!=ItemStack.EMPTY){
 				if(stack.getItem()instanceof IDust){
-					inv.setInventorySlotContents(i, null);
+					inv.setInventorySlotContents(i, ItemStack.EMPTY);
 					return r;//no remainder if we have dust
 				}
 				if(stack.getItem() instanceof ItemDustPouch){
