@@ -199,7 +199,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 				for(int c=0;c<rune.placedPattern[r].length;c++){
 					ItemStack stack = rune.placedPattern[r][c];
 					NBTTagCompound tag = new NBTTagCompound();
-					if (stack != null) {
+					if (stack != ItemStack.EMPTY) {
 						stack.writeToNBT(tag);
 						tag.setInteger("Row", r);
 						tag.setInteger("Col", c);

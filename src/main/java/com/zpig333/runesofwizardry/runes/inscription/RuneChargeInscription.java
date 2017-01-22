@@ -101,7 +101,7 @@ public class RuneChargeInscription extends IRune {
 				ItemStack insc = null;
 				Inscription inscription=null;
 				for(ItemStack s:sacrifice){
-					if(s!=null && s.getItem()==WizardryRegistry.inscription && s.getMetadata()==1){
+					if(s!=ItemStack.EMPTY && s.getItem()==WizardryRegistry.inscription && s.getMetadata()==1){
 						insc=s;
 						break;
 					}
@@ -153,11 +153,11 @@ public class RuneChargeInscription extends IRune {
 	@Override
 	public boolean sacrificeMatches(List<ItemStack> droppedItems) {
 		boolean negated=false;
-		ItemStack inscription=null;
+		ItemStack inscription=ItemStack.EMPTY;
 		if(droppedItems!=null)droppedItems = Utils.sortAndMergeStacks(droppedItems);
 		else return false;
 		for(ItemStack stack:droppedItems){
-			if(stack!=null){
+			if(stack!=ItemStack.EMPTY){
 				Item item = stack.getItem();
 				if(item==WizardryRegistry.inscription && stack.getMetadata()==1){
 					inscription=stack;
@@ -165,7 +165,7 @@ public class RuneChargeInscription extends IRune {
 				if(item==WizardryRegistry.sacrifice_negator)negated=true;
 			}
 		}
-		if(inscription==null)return false;
+		if(inscription==ItemStack.EMPTY)return false;
 		NBTTagCompound tag = inscription.getSubCompound(References.modid);
 		if(tag==null)return false;
 		String id = tag.getString(Inscription.NBT_ID);

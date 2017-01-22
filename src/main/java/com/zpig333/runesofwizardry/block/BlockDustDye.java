@@ -73,7 +73,7 @@ public class BlockDustDye extends BlockContainer{
 			IItemHandler inventory = tileentityDustDye.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 			for (int i1 = 0; i1 < inventory.getSlots(); ++i1) {
 				ItemStack itemstack = inventory.extractItem(i1, Integer.MAX_VALUE, false);
-				if (itemstack != null) {
+				if (itemstack != ItemStack.EMPTY) {
 					float f = this.random.nextFloat() * 0.8F + 0.1F;
 					float f1 = this.random.nextFloat() * 0.8F + 0.1F;
 					EntityItem entityitem;

@@ -99,8 +99,8 @@ public class PatternUtils {
 				ItemStack secStack = second[r][c];
 				ItemStack firstStack = first[r][c];
 				if(firstStack!=secStack){//efficiency again
-					//if one is null, its not equal to the other (because null==null above)
-					if(firstStack==null || secStack == null)return false;
+					//if one is null, its not equal to the other (because empty==empty above)
+					if(firstStack==ItemStack.EMPTY || secStack == ItemStack.EMPTY)return false;
 					IDust dust1 = DustRegistry.getDustFromItemStack(firstStack);
 					IDust dust2 = DustRegistry.getDustFromItemStack(secStack);
 					//if at least one of the dusts accepts the other as a match, its OK.
@@ -121,7 +121,7 @@ public class PatternUtils {
 	public static boolean isEmpty(ItemStack[][] pattern){
 		for(ItemStack[] i:pattern){
 			for(ItemStack s:i){
-				if(s!=null)return false;
+				if(s!=ItemStack.EMPTY)return false;
 			}
 		}
 		return true;

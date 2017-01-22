@@ -71,11 +71,11 @@ public class RunesUtil {
 				//Make sure every stack is an IDust and contains 1 item
 				for(int j=0;j<row.length;j++){
 					ItemStack stack = row[j];
-					if(stack!=null){//null stacks are OK
+					if(stack!=ItemStack.EMPTY){//null stacks are OK
 						if(!(stack.getItem() instanceof IDust)) throw new InvalidRuneException(rune,"The Item at position "+i+", "+j+" is not an IDust");
 						if(stack.getCount()!=1) throw new InvalidRuneException(rune,"The number of dusts at position "+i+", "+j+" must be 1");
 						//add to dust cost calculation
-						if(stack!=null)dusts.add(stack.copy());
+						if(stack!=ItemStack.EMPTY)dusts.add(stack.copy());
 					}
 				}
 			}else{
@@ -304,7 +304,7 @@ public class RunesUtil {
 			ItemStack[][] contents = ted.getContents();
 			for(int i=0;i<contents.length;i++){
 				for(int j=0;j<contents[i].length;j++){
-					if(contents[i][j]!=null)contents[i][j]=new ItemStack(WizardryRegistry.dust_dead);
+					if(contents[i][j]!=ItemStack.EMPTY)contents[i][j]=new ItemStack(WizardryRegistry.dust_dead);
 				}
 			}
 			if(ConfigHandler.deadDustDecay){

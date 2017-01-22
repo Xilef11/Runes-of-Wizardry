@@ -211,7 +211,7 @@ public class BlockDustPlaced extends Block{
 			Random random = new Random();
 			for (int i1 = 0; i1 < tileentityDustPlaced.getSizeInventory(); i1++) {
 				ItemStack itemstack = tileentityDustPlaced.getStackInSlot(i1);
-				if (itemstack != null && itemstack.getItem()!=WizardryRegistry.dust_dead) {
+				if (itemstack != ItemStack.EMPTY && itemstack.getItem()!=WizardryRegistry.dust_dead) {
 					float f = random.nextFloat() * 0.8F + 0.1F;
 					float f1 = random.nextFloat() * 0.8F + 0.1F;
 					EntityItem entityitem;
@@ -304,8 +304,8 @@ public class BlockDustPlaced extends Block{
 
 		ItemStack dustStack = tileDust.getStackInSlot(slotID);
 		ItemStack heldItem = playerIn.getHeldItem(hand);
-		if(heldItem==null){
-			if (dustStack !=null){
+		if(heldItem==ItemStack.EMPTY){
+			if (dustStack !=ItemStack.EMPTY){
 				//drop the dust piece
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
@@ -314,7 +314,7 @@ public class BlockDustPlaced extends Block{
 				tileDust.setInventorySlotContents(slotID, null);
 				worldIn.playSound(null,pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				//drop the itemStack
-				if(!playerIn.capabilities.isCreativeMode&& dustStack!=null && !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
+				if(!playerIn.capabilities.isCreativeMode&& dustStack!=ItemStack.EMPTY && !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, state);
 					worldIn.setBlockToAir(pos);
@@ -325,13 +325,13 @@ public class BlockDustPlaced extends Block{
 			}
 		}
 		//convert dust pouch to dust
-		if(heldItem.getItem() instanceof ItemDustPouch&& (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){//XXX could be switched to a capability
+		if(heldItem.getItem() instanceof ItemDustPouch&& (dustStack ==ItemStack.EMPTY||dustStack.getItem() instanceof DustPlaceholder)){//XXX could be switched to a capability
 			heldItem = ((ItemDustPouch)heldItem.getItem()).getDustStack(heldItem, 1);
-			if(heldItem==null || heldItem.getCount()<1)return false;
+			if(heldItem==ItemStack.EMPTY || heldItem.getCount()<1)return false;
 		}
-		if(heldItem.getItem() instanceof IDust && (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){
+		if(heldItem.getItem() instanceof IDust && (dustStack ==ItemStack.EMPTY||dustStack.getItem() instanceof DustPlaceholder)){
 			//place dust in the inventory
-			ItemStack newItem=null;
+			ItemStack newItem=ItemStack.EMPTY;
 			if(!playerIn.capabilities.isCreativeMode){
 				newItem= heldItem.splitStack(1);//grab one item from the stack
 			}else{
@@ -437,7 +437,7 @@ public class BlockDustPlaced extends Block{
 
 			ItemStack dustStack = tileDust.getStackInSlot(slotID);
 
-			if (dustStack !=null){
+			if (dustStack !=ItemStack.EMPTY){
 				//drop the dust piece
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
@@ -446,7 +446,7 @@ public class BlockDustPlaced extends Block{
 				tileDust.setInventorySlotContents(slotID, null);
 				worldIn.playSound(null,pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getPlaceSound(),SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				//drop the itemStack
-				if(!playerIn.capabilities.isCreativeMode && dustStack!=null && !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
+				if(!playerIn.capabilities.isCreativeMode && dustStack!=ItemStack.EMPTY && !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, worldIn.getBlockState(pos));
 					worldIn.setBlockToAir(pos);

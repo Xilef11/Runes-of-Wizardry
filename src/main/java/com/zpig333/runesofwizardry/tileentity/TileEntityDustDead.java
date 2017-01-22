@@ -1,6 +1,7 @@
 package com.zpig333.runesofwizardry.tileentity;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
@@ -30,7 +31,7 @@ ITickable {
 				int i;
 				do{
 					i = world.rand.nextInt(getSizeInventory());
-				}while(getStackInSlot(i)==null || getStackInSlot(i).getItem()!=WizardryRegistry.dust_dead);
+				}while(getStackInSlot(i)==ItemStack.EMPTY || getStackInSlot(i).getItem()!=WizardryRegistry.dust_dead);
 				setInventorySlotContents(i, null);
 				nextTick = BASE_DELAY + world.rand.nextInt(MAX_DELAY);
 				if(isEmpty()){//if there is no more dust, break the block

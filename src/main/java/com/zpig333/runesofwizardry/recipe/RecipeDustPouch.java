@@ -14,19 +14,19 @@ public class RecipeDustPouch implements IRecipe {
 	//http://www.minecraftforge.net/forum/index.php/topic,23133.0.html
 	@Override
 	public boolean matches(InventoryCrafting inv, World worldIn) {
-		ItemStack pouch=null;
-		ItemStack dust = null;//only 1 dust stack for now
+		ItemStack pouch=ItemStack.EMPTY;
+		ItemStack dust = ItemStack.EMPTY;//only 1 dust stack for now
 		for(int i=0;i<inv.getSizeInventory();i++){
 			ItemStack stack = inv.getStackInSlot(i);
-			if(stack!=null){
+			if(stack!=ItemStack.EMPTY){
 				if(stack.getItem() instanceof ItemDustPouch){
-					if(pouch==null){
+					if(pouch==ItemStack.EMPTY){
 						pouch=stack.copy();
 					}else{//if we have more than one pouch
 						return false;
 					}
 				}else if(stack.getItem()instanceof IDust){
-					if(dust==null){
+					if(dust==ItemStack.EMPTY){
 						dust=stack;
 					}else{
 						return false;//if we already have dust
@@ -36,7 +36,7 @@ public class RecipeDustPouch implements IRecipe {
 				}
 			}
 		}
-		return pouch!=null && (dust==null || ((ItemDustPouch)pouch.getItem()).canAddDust(pouch, dust));//all we have is a single pouch and (possibly) dust
+		return pouch!=ItemStack.EMPTY && (dust==ItemStack.EMPTY || ((ItemDustPouch)pouch.getItem()).canAddDust(pouch, dust));//all we have is a single pouch and (possibly) dust
 	}
 
 	@Override
@@ -45,20 +45,20 @@ public class RecipeDustPouch implements IRecipe {
 		ItemStack dust = null;
 		for(int i=0;i<inv.getSizeInventory();i++){
 			ItemStack stack = inv.getStackInSlot(i);
-			if(stack==null)continue;
+			if(stack==ItemStack.EMPTY)continue;
 			if(stack.getItem() instanceof ItemDustPouch){
 				pouch=stack.copy();
 			}else if(stack.getItem() instanceof IDust){
 				dust=stack;
 			}
 		}
-		if(dust!=null){
+		if(dust!=ItemStack.EMPTY){
 			//putting dust in
 			((ItemDustPouch)pouch.getItem()).addDust(pouch, dust);
 			return pouch.copy();
 		}else{//taking dust out or clearing
 			dust = ((ItemDustPouch)pouch.getItem()).getDustStack(pouch, Integer.MAX_VALUE);
-			if(dust==null || dust.getCount()==0){//clear the pouch
+			if(dust==ItemStack.EMPTY || dust.getCount()==0){//clear the pouch
 				((ItemDustPouch)pouch.getItem()).clear(pouch);
 				return pouch;
 			}else{
@@ -86,7 +86,7 @@ public class RecipeDustPouch implements IRecipe {
 		NonNullList<ItemStack> r = NonNullList.create();
 		for(int i=0;i<inv.getSizeInventory();i++){
 			ItemStack stack = inv.getStackInSlot(i);
-			if(stack!=null){
+			if(stack!=ItemStack.EMPTY){
 				if(stack.getItem()instanceof IDust){
 					inv.setInventorySlotContents(i, null);
 					return r;//no remainder if we have dust
@@ -95,7 +95,7 @@ public class RecipeDustPouch implements IRecipe {
 					slot=i;
 					pouch=stack.copy();
 					ItemStack s = ((ItemDustPouch)pouch.getItem()).getDustStack(pouch, Integer.MAX_VALUE);
-					remainder = !(s==null || s.getCount()==0);
+					remainder = !(s==ItemStack.EMPTY || s.getCount()==0);
 				}
 			}
 		}

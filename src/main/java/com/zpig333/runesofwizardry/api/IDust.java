@@ -117,7 +117,7 @@ public abstract class IDust extends Item {
 	 * @return true for the dusts to connect (checks if the itemstacks are equal by default)
 	 */
 	public boolean shouldConnect(ItemStack thisDust, ItemStack otherDust){
-		if(thisDust==null || otherDust==null)return false;
+		if(thisDust==ItemStack.EMPTY || otherDust==ItemStack.EMPTY)return false;
 		if(!(thisDust.getItem() instanceof IDust && otherDust.getItem() instanceof IDust))return false;
 		return ItemStack.areItemStacksEqual(thisDust, otherDust);
 	}
@@ -129,7 +129,7 @@ public abstract class IDust extends Item {
 	 */
 	public boolean dustsMatch(ItemStack thisDust, ItemStack other){
 		if(thisDust==other)return true;//efficiency
-		if(thisDust==null || other == null)return false;//only one is null
+		if(thisDust==ItemStack.EMPTY || other == ItemStack.EMPTY)return false;//only one is null
 		//make sure both are dusts
 		if(!(thisDust.getItem() instanceof IDust && other.getItem() instanceof IDust))return false;
 		return (ItemStack.areItemStacksEqual(thisDust, other));
