@@ -5,6 +5,7 @@
  */
 package com.zpig333.runesofwizardry.tileentity;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,6 +70,9 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 
 	public TileEntityDustPlaced() {
 		super();
+		for(int i=0;i<contents.length;i++){
+			Arrays.fill(contents[i],ItemStack.EMPTY);
+		}
 	}
 	/**
 	 * Returns the Contents of this TE (not a copy)
