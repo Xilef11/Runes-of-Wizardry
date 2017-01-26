@@ -102,7 +102,7 @@ public class PatternFinder {
 						int row = i*TileEntityDustPlaced.ROWS + r;
 						int col = j*TileEntityDustPlaced.COLS +c;
 						//put what dust we found, or nothing if there is nothing
-						result[row][col] = elem!=null? elem.dusts[r][c] : null;
+						result[row][col] = elem!=null? elem.dusts[r][c] : ItemStack.EMPTY;
 					}
 				}
 			}
