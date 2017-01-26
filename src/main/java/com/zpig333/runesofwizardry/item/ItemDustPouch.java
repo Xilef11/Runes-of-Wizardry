@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 public class ItemDustPouch extends WizardryItem {
 	private final String name="dust_pouch";
@@ -79,7 +78,8 @@ public class ItemDustPouch extends WizardryItem {
 		if(type!=ItemStack.EMPTY){
 			int toGive =Math.min(Math.min(dustAmount, amount),type.getMaxStackSize());
 			type = type.copy();//FIXME dafuq is this line doing?
-			type.setCount(toGive);
+			//looks like size 0 ItemStacks are automatically converted to Empty...
+			type.setCount(toGive==0? 1 : toGive);
 			amount-=toGive;
 			tag.setInteger(DUST_AMOUNT_TAG, amount);
 		}

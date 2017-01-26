@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
-
+//FIXME sometimes crafting a pouch by itself will break the crafting grid (it doesn't even call "matches")
 public class RecipeDustPouch implements IRecipe {
 	//http://www.minecraftforge.net/forum/index.php/topic,23133.0.html
 	@Override
@@ -38,7 +38,6 @@ public class RecipeDustPouch implements IRecipe {
 		}
 		return pouch!=ItemStack.EMPTY && (dust==ItemStack.EMPTY || ((ItemDustPouch)pouch.getItem()).canAddDust(pouch, dust));//all we have is a single pouch and (possibly) dust
 	}
-	//FIXME something is broken with the recipe
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inv) {
 		ItemStack pouch = ItemStack.EMPTY;
@@ -58,7 +57,7 @@ public class RecipeDustPouch implements IRecipe {
 			return pouch.copy();
 		}else{//taking dust out or clearing
 			dust = ((ItemDustPouch)pouch.getItem()).getDustStack(pouch, Integer.MAX_VALUE);
-			if(dust==ItemStack.EMPTY || dust.getCount()==0){//clear the pouch
+			if(dust==ItemStack.EMPTY || ((ItemDustPouch)pouch.getItem()).getDustAmount(pouch)==0){//clear the pouch
 				((ItemDustPouch)pouch.getItem()).clear(pouch);
 				return pouch;
 			}else{
@@ -82,7 +81,7 @@ public class RecipeDustPouch implements IRecipe {
 		ItemStack pouch = ItemStack.EMPTY;
 		int slot=0;
 		boolean remainder = false;
-		NonNullList<ItemStack> r = NonNullList.create();
+		NonNullList<ItemStack> r = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 		for(int i=0;i<inv.getSizeInventory();i++){
 			ItemStack stack = inv.getStackInSlot(i);
 			if(stack!=ItemStack.EMPTY){
@@ -94,11 +93,11 @@ public class RecipeDustPouch implements IRecipe {
 					slot=i;
 					pouch=stack.copy();
 					ItemStack s = ((ItemDustPouch)pouch.getItem()).getDustStack(pouch, Integer.MAX_VALUE);
-					remainder = !(s==ItemStack.EMPTY || s.getCount()==0);
+					remainder = !(s==ItemStack.EMPTY || ((ItemDustPouch)pouch.getItem()).getDustAmount(pouch)==0);
 				}
 			}
 		}
-		if(remainder)r.add(slot,pouch);
+		if(remainder)r.set(slot,pouch);
 		return r;
 	}
 
