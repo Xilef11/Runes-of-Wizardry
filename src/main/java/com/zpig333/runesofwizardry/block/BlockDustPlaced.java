@@ -222,8 +222,6 @@ public class BlockDustPlaced extends Block{
 						if (j1 > itemstack.getCount()) {
 							j1 = itemstack.getCount();
 						}
-
-						itemstack.setCount(itemstack.getCount() - j1);
 						entityitem = new EntityItem(worldIn, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 						float f3 = 0.05F;
 						entityitem.motionX = (float) random.nextGaussian() * f3;
@@ -233,6 +231,7 @@ public class BlockDustPlaced extends Block{
 						if (itemstack.hasTagCompound()) {
 							entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
 						}
+						itemstack.setCount(itemstack.getCount() - j1);
 					}
 				}
 			}
