@@ -35,11 +35,13 @@ public class ItemDustPouch extends WizardryItem {
 	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(worldIn.isRemote)return EnumActionResult.SUCCESS;
 		ItemStack stack = playerIn.getHeldItem(hand);
-		ItemStack dustStack = getDustStack(stack, 1);//get a stack of the dust
-		//use that stack
-		EnumActionResult placed =  dustStack!=ItemStack.EMPTY && dustStack.getCount()>0? dustStack.getItem().onItemUse(playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ) : EnumActionResult.PASS;
-		if(placed!=EnumActionResult.SUCCESS)addDust(stack, dustStack);//re-add the dust if it wasn't placed
-		return placed;
+			if(getDustAmount(stack)!=0){
+			ItemStack dustStack = getDustStack(stack, 1);//get a stack of the dust
+			//use that stack
+			addDust(stack, dustStack);//re-add the dust if it wasn't placed
+			return dustStack.getItem().onItemUse(playerIn, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+		}
+			return EnumActionResult.PASS;
 	}
 
 	/* (non-Javadoc)
