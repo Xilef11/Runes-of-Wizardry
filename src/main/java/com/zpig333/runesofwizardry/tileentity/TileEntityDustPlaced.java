@@ -106,7 +106,9 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		int[][]result = new int[ROWS][COLS];
 		for(int i=0;i<result.length;i++){
 			for(int j=0;j<result[i].length;j++){
-				if(contents[i][j]!=ItemStack.EMPTY){
+				//FIXME must not have properly converted the stack somewhere...
+				//if(contents[i][j]!=ItemStack.EMPTY){
+				if(!ItemStack.areItemStacksEqual(ItemStack.EMPTY,contents[i][j])){
 					result[i][j]=DustRegistry.getDustFromItemStack(contents[i][j]).getPlacedColor(contents[i][j]);
 				}else{
 					result[i][j]=-1;
