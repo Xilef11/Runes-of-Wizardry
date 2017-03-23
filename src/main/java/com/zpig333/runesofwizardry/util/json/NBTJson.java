@@ -125,7 +125,8 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
 		return value;
 	}
 	private NBTBase deserializewithReflection(byte type, JsonElement tag, JsonDeserializationContext context) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-		Method create = ReflectionHelper.findMethod(NBTBase.class, null, new String[]{"createNewByType","func_150284_a"}, NBTBase.class);
+		//Method create = ReflectionHelper.findMethod(NBTBase.class, null, new String[]{"createNewByType","func_150284_a"}, NBTBase.class);
+		Method create = ReflectionHelper.findMethod(NBTBase.class, "createNewByType","func_150284_a", NBTBase.class);
 		Class<?> nbtClass = null;
 		nbtClass = create.invoke(null, type).getClass();
 		return context.deserialize(tag, nbtClass);
