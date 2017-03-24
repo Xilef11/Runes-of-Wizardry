@@ -98,7 +98,7 @@ public class PatternUtils {
 			for(int c=0;c<first[0].length;c++){
 				ItemStack secStack = second[r][c];
 				ItemStack firstStack = first[r][c];
-				if(firstStack!=secStack){//efficiency again
+				if(firstStack!=secStack && !(firstStack.isEmpty() && secStack.isEmpty())){//efficiency again
 					//if one is null, its not equal to the other (because empty==empty above)
 					if(firstStack.isEmpty() || secStack.isEmpty())return false;
 					IDust dust1 = DustRegistry.getDustFromItemStack(firstStack);
