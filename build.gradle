@@ -45,7 +45,7 @@ compileJava {
 //MC stuff
 def majorVersion = "0"
 def minorVersion = "8"
-def bugfix = ".0"
+def bugfix = ".1"
 def devVersion = "-dev"
 def forgeVersion="1.11.2-13.20.0.2260"
 def mcVersion = forgeVersion.substring(0,forgeVersion.indexOf('-'))
