@@ -235,7 +235,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	@Nullable
 	public ItemStack getWornInscription(EntityPlayer player){
 		ItemStack chest = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
-		if(chest!=ItemStack.EMPTY && chest.getItem()==this){
+		if(!chest.isEmpty() && chest.getItem()==this){
 			return chest;
 		}
 		return null;

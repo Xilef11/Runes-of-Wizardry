@@ -100,7 +100,7 @@ public class PatternUtils {
 				ItemStack firstStack = first[r][c];
 				if(firstStack!=secStack){//efficiency again
 					//if one is null, its not equal to the other (because empty==empty above)
-					if(firstStack==ItemStack.EMPTY || secStack == ItemStack.EMPTY)return false;
+					if(firstStack.isEmpty() || secStack.isEmpty())return false;
 					IDust dust1 = DustRegistry.getDustFromItemStack(firstStack);
 					IDust dust2 = DustRegistry.getDustFromItemStack(secStack);
 					//if at least one of the dusts accepts the other as a match, its OK.
@@ -121,7 +121,7 @@ public class PatternUtils {
 	public static boolean isEmpty(ItemStack[][] pattern){
 		for(ItemStack[] i:pattern){
 			for(ItemStack s:i){
-				if(s!=ItemStack.EMPTY)return false;
+				if(!s.isEmpty())return false;
 			}
 		}
 		return true;
@@ -150,7 +150,7 @@ public class PatternUtils {
 		//Convert ItemStack.EMPTY to null (makes things easier on import to make sure == works)
 		for(int i=0;i<pattern.length;i++){
 			for(int j=0;j<pattern[i].length;j++){
-				if(pattern[i][j]==ItemStack.EMPTY)pattern[i][j]=null;
+				if(pattern[i][j].isEmpty())pattern[i][j]=null;
 			}
 		}
 		gson.toJson(pattern,out);

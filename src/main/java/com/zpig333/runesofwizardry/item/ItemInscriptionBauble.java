@@ -34,7 +34,7 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 				IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
 				for(int i=0;i<baubles.getSlots();i++){
 					ItemStack stack = baubles.getStackInSlot(i);
-					if(stack!=ItemStack.EMPTY && stack.getItem()==WizardryRegistry.inscription){
+					if(!stack.isEmpty() && stack.getItem()==WizardryRegistry.inscription){
 						return;
 					}
 				}
@@ -72,7 +72,7 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 			if(ConfigHandler.disableDoubleInscription){
 				EntityEquipmentSlot slot = EntityLiving.getSlotForItemStack(stack);
 		        ItemStack itemstack = player.getItemStackFromSlot(slot);
-		        if(itemstack!=ItemStack.EMPTY && itemstack.getItem()==WizardryRegistry.inscription){
+		        if(!itemstack.isEmpty() && itemstack.getItem()==WizardryRegistry.inscription){
 		        	return;
 		        }
 			}
@@ -99,7 +99,7 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 			for(int i = 0; i < baubles.getSlots(); i++) {
 				if(baubles.isItemValidForSlot(i, toEquip,player)) {
 					ItemStack stackInSlot = baubles.getStackInSlot(i);
-					if(stackInSlot == ItemStack.EMPTY) {
+					if(stackInSlot.isEmpty()) {
 						if(!world.isRemote) {
 							baubles.insertItem(i, toEquip,false);
 							stack.setCount(stack.getCount()-1);
@@ -130,14 +130,14 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 		ItemStack baub =ItemStack.EMPTY;
 		for(int i=0;i<baubles.getSlots();i++){
 			ItemStack stack = baubles.getStackInSlot(i);
-			if(stack!=ItemStack.EMPTY && stack.getItem()==WizardryRegistry.inscription){
+			if(!stack.isEmpty() && stack.getItem()==WizardryRegistry.inscription){
 				baub=stack;
 				break;
 			}
 		}
 		ItemStack chest =  super.getWornInscription(player);
-		if(baub!=ItemStack.EMPTY){
-			if(chest!=ItemStack.EMPTY && ConfigHandler.disableDoubleInscription)return null;
+		if(!baub.isEmpty()){
+			if(!chest.isEmpty() && ConfigHandler.disableDoubleInscription)return null;
 			else return baub;
 		}
 		return chest;

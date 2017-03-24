@@ -162,7 +162,7 @@ public class DustRegistry {
 	}
 	@Nullable
 	public static Inscription getInscriptionFromStack(ItemStack stack){
-		if(stack!=ItemStack.EMPTY && stack.getItem()==WizardryRegistry.inscription){
+		if(!stack.isEmpty() && stack.getItem()==WizardryRegistry.inscription){
 			NBTTagCompound tag = stack.getSubCompound(References.modid);
 			if(tag!=null){
 				String id = tag.getString(Inscription.NBT_ID);

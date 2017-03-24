@@ -93,10 +93,10 @@ public class ContainerDustDye extends Container {
 		@Override
 		public boolean isItemValid(ItemStack stack){
 			//only allow dyed dusts in the slot
-			if(stack!=ItemStack.EMPTY){
+			if(!stack.isEmpty()){
 				if(stack.getItem()instanceof ItemDustPouch){
 					ItemStack dust = ((ItemDustPouch)stack.getItem()).getDustStack(stack, 0);
-					if(dust!=ItemStack.EMPTY)stack=dust;
+					if(!dust.isEmpty())stack=dust;
 					else return false;
 				}
 				if(stack.getItem()==WizardryRegistry.dust_dyed)return true;

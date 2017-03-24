@@ -107,8 +107,8 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		for(int i=0;i<result.length;i++){
 			for(int j=0;j<result[i].length;j++){
 				//FIXME must not have properly converted the stack somewhere...
-				//if(contents[i][j]!=ItemStack.EMPTY){
-				if(!ItemStack.areItemStacksEqual(ItemStack.EMPTY,contents[i][j])){
+				//if(contents[i][j]!.isEmpty()){
+				if(!contents[i][j].isEmpty()){
 					result[i][j]=DustRegistry.getDustFromItemStack(contents[i][j]).getPlacedColor(contents[i][j]);
 				}else{
 					result[i][j]=-1;
@@ -173,7 +173,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				for(int i=0;i<COLS;i++){
 					int id=getSlotIDfromPosition(0, i);
 					int otherSlot=id+((ROWS-1)*COLS);
-					if(contents[0][i]!=ItemStack.EMPTY){
+					if(!contents[0][i].isEmpty()){
 						if(dustsMatch(contents[0][i], ted.getStackInSlot(otherSlot))){
 							result.add(new int[]{0,i,DustRegistry.getDustFromItemStack(contents[0][i]).getPlacedColor(contents[0][i]),EnumFacing.NORTH.getIndex()});
 						}
@@ -187,7 +187,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				for(int i=0;i<COLS;i++){
 					int id=getSlotIDfromPosition(ROWS-1, i);
 					int otherSlot=id-((ROWS-1)*COLS);
-					if(contents[ROWS-1][i]!=ItemStack.EMPTY){
+					if(!contents[ROWS-1][i].isEmpty()){
 						if(dustsMatch(contents[ROWS-1][i], ted.getStackInSlot(otherSlot))){
 							result.add(new int[]{ROWS-1,i,DustRegistry.getDustFromItemStack(contents[ROWS-1][i]).getPlacedColor(contents[ROWS-1][i]),EnumFacing.SOUTH.getIndex()});
 						}
@@ -201,7 +201,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				for(int i=0;i<ROWS;i++){
 					int id=getSlotIDfromPosition(i,0);
 					int otherSlot=id+(COLS-1);
-					if(contents[i][0]!=ItemStack.EMPTY){
+					if(!contents[i][0].isEmpty()){
 						if(dustsMatch(contents[i][0], ted.getStackInSlot(otherSlot))){
 							result.add(new int[]{i,0,DustRegistry.getDustFromItemStack(contents[i][0]).getPlacedColor(contents[i][0]),EnumFacing.WEST.getIndex()});
 						}
@@ -215,7 +215,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				for(int i=0;i<ROWS;i++){
 					int id=getSlotIDfromPosition(i,COLS-1);
 					int otherSlot=id-(COLS-1);
-					if(contents[i][COLS-1]!=ItemStack.EMPTY){
+					if(!contents[i][COLS-1].isEmpty()){
 						if(dustsMatch(contents[i][COLS-1], ted.getStackInSlot(otherSlot))){//should be true OK
 							result.add(new int[]{i,COLS-1,DustRegistry.getDustFromItemStack(contents[i][COLS-1]).getPlacedColor(contents[i][COLS-1]),EnumFacing.EAST.getIndex()});
 						}
@@ -226,11 +226,11 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		externalConnectors=result;
 	}
 	private boolean dustsMatch(ItemStack stack1, ItemStack stack2){
-		if(stack1!=ItemStack.EMPTY && stack1.getItem()instanceof IDust){
+		if(!stack1.isEmpty() && stack1.getItem()instanceof IDust){
 			IDust dust1 = DustRegistry.getDustFromItemStack(stack1);
 			return dust1.shouldConnect(stack1, stack2);
 		}
-		if(stack2!=ItemStack.EMPTY && stack2.getItem() instanceof IDust){
+		if(!stack2.isEmpty() && stack2.getItem() instanceof IDust){
 			IDust dust2 = DustRegistry.getDustFromItemStack(stack2);
 			return dust2.shouldConnect(stack2, stack1);
 		}
@@ -283,7 +283,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public boolean isEmpty(){
 		for(int i=0;i<contents.length;i++){
 			for(int j=0;j<contents[i].length;j++){
-				if(contents[i][j]!=ItemStack.EMPTY)return false;
+				if(!contents[i][j].isEmpty())return false;
 			}
 		}
 		return true;
@@ -295,7 +295,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		int[] co=getPositionFromSlotID(index);
-		if (this.contents[co[0]][co[1]] != ItemStack.EMPTY)
+		if (!this.contents[co[0]][co[1]].isEmpty())
 		{
 			ItemStack itemstack;
 
@@ -326,7 +326,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		ItemStack stack = getStackInSlot(index);
-		if (stack != ItemStack.EMPTY) {
+		if (!stack.isEmpty()) {
 			setInventorySlotContents(index, ItemStack.EMPTY);
 		}
 		return stack;
@@ -336,7 +336,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		int[] co=getPositionFromSlotID(index);
 		contents[co[0]][co[1]]=stack;
-		if (stack != ItemStack.EMPTY && stack.getCount() > getInventoryStackLimit()) {
+		if (!stack.isEmpty() && stack.getCount() > getInventoryStackLimit()) {
 			stack.setCount(getInventoryStackLimit());
 		} 
 		//update the rendering stuff
@@ -445,7 +445,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < getSizeInventory(); i++) {
 			ItemStack stack = getStackInSlot(i);
-			if (stack != ItemStack.EMPTY) {
+			if (!stack.isEmpty()) {
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setByte("Slot", (byte) i);
 				stack.writeToNBT(tag);

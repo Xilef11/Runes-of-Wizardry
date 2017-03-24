@@ -23,7 +23,7 @@ public class PickupEventHandler {
 			for(int i=0;i<inv.getSizeInventory();i++){
 				//if(i==inv.currentItem)continue;//supposedly avoids deleting items
 				ItemStack stack = inv.getStackInSlot(i);
-				if(stack!=ItemStack.EMPTY && stack.getItem() instanceof ItemDustPouch){
+				if(!stack.isEmpty() && stack.getItem() instanceof ItemDustPouch){
 					ItemDustPouch pouch = (ItemDustPouch)stack.getItem();
 					ItemStack contents = pouch.getDustStack(stack, 0);//get the dust type
 					if(ItemStack.areItemsEqual(dust, contents)&&ItemStack.areItemStackTagsEqual(dust, contents)){

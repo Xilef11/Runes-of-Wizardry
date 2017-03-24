@@ -225,13 +225,13 @@ public class CommandImportPattern implements ICommand {
 								for (int col = 0; col < stacks.length; col++) {
 									ItemStack s = stacks[col];
 									int n=0;
-									if(s!=ItemStack.EMPTY){
+									if(!s.isEmpty()){
 										n=s.getCount();
 										//n is the number of wanted items
 										//n=player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.getCount(), s.getTagCompound());
 										for(int i=0;i<player.inventory.getSizeInventory()&&n>0;i++){
 											ItemStack playerStack = player.inventory.getStackInSlot(i);
-											if(playerStack==ItemStack.EMPTY)continue;
+											if(playerStack.isEmpty())continue;
 											//if the item matches
 											if(ItemStack.areItemsEqual(s, playerStack)&&ItemStack.areItemStackTagsEqual(s, playerStack)){
 												int originalSize = playerStack.getCount();
@@ -254,7 +254,7 @@ public class CommandImportPattern implements ICommand {
 									}
 									if(n>0)missing=true;
 									//XXX this will update rendering all the time so it might be slow
-									if(n==0||s==ItemStack.EMPTY||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), s.copy());
+									if(n==0||s.isEmpty()||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), s.copy());
 								}
 							}
 							if(ted.isEmpty()){//remove the TE if we couldn't place any dust in it
