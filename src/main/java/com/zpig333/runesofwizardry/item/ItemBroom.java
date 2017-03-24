@@ -38,11 +38,11 @@ public class ItemBroom extends WizardryItem {
 		return EnumAction.BLOCK;
 	}
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
 		//XXX UPDATE
 		//playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 	/**
 	 * How long it takes to use or consume an item

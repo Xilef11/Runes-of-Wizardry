@@ -5,6 +5,7 @@
  */
 package com.zpig333.runesofwizardry.tileentity;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,6 +70,9 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 
 	public TileEntityDustPlaced() {
 		super();
+		for(int i=0;i<contents.length;i++){
+			Arrays.fill(contents[i],ItemStack.EMPTY);
+		}
 	}
 	/**
 	 * Returns the Contents of this TE (not a copy)
@@ -102,7 +106,9 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		int[][]result = new int[ROWS][COLS];
 		for(int i=0;i<result.length;i++){
 			for(int j=0;j<result[i].length;j++){
-				if(contents[i][j]!=null){
+				//FIXME must not have properly converted the stack somewhere...
+				//if(contents[i][j]!.isEmpty()){
+				if(!contents[i][j].isEmpty()){
 					result[i][j]=DustRegistry.getDustFromItemStack(contents[i][j]).getPlacedColor(contents[i][j]);
 				}else{
 					result[i][j]=-1;
@@ -156,18 +162,18 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	//update the external connectors
 	public void updateExternalConnectors(){
 		List<int[]> result = new LinkedList<int[]>();
-		//worldObj was null when destroyed by explosion
-		if(worldObj==null||pos==null){
-			WizardryLogger.logError("WorldObj or pos was null for TED at "+worldObj+" "+pos);
+		//world was null when destroyed by explosion
+		if(world==null||pos==null){
+			WizardryLogger.logError("world or pos was null for TED at "+world+" "+pos);
 			return;
 		}
-		if(worldObj.getBlockState(pos.north()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.north());
+		if(world.getBlockState(pos.north()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)world.getTileEntity(pos.north());
 			if(ted!=null){
 				for(int i=0;i<COLS;i++){
 					int id=getSlotIDfromPosition(0, i);
 					int otherSlot=id+((ROWS-1)*COLS);
-					if(contents[0][i]!=null){
+					if(!contents[0][i].isEmpty()){
 						if(dustsMatch(contents[0][i], ted.getStackInSlot(otherSlot))){
 							result.add(new int[]{0,i,DustRegistry.getDustFromItemStack(contents[0][i]).getPlacedColor(contents[0][i]),EnumFacing.NORTH.getIndex()});
 						}
@@ -175,13 +181,13 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				}
 			}
 		}
-		if(worldObj.getBlockState(pos.south()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.south());
+		if(world.getBlockState(pos.south()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)world.getTileEntity(pos.south());
 			if(ted!=null){
 				for(int i=0;i<COLS;i++){
 					int id=getSlotIDfromPosition(ROWS-1, i);
 					int otherSlot=id-((ROWS-1)*COLS);
-					if(contents[ROWS-1][i]!=null){
+					if(!contents[ROWS-1][i].isEmpty()){
 						if(dustsMatch(contents[ROWS-1][i], ted.getStackInSlot(otherSlot))){
 							result.add(new int[]{ROWS-1,i,DustRegistry.getDustFromItemStack(contents[ROWS-1][i]).getPlacedColor(contents[ROWS-1][i]),EnumFacing.SOUTH.getIndex()});
 						}
@@ -189,13 +195,13 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				}
 			}
 		}
-		if(worldObj.getBlockState(pos.west()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.west());
+		if(world.getBlockState(pos.west()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)world.getTileEntity(pos.west());
 			if(ted!=null){
 				for(int i=0;i<ROWS;i++){
 					int id=getSlotIDfromPosition(i,0);
 					int otherSlot=id+(COLS-1);
-					if(contents[i][0]!=null){
+					if(!contents[i][0].isEmpty()){
 						if(dustsMatch(contents[i][0], ted.getStackInSlot(otherSlot))){
 							result.add(new int[]{i,0,DustRegistry.getDustFromItemStack(contents[i][0]).getPlacedColor(contents[i][0]),EnumFacing.WEST.getIndex()});
 						}
@@ -203,13 +209,13 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 				}
 			}
 		}
-		if(worldObj.getBlockState(pos.east()).getBlock() == WizardryRegistry.dust_placed){
-			TileEntityDustPlaced ted = (TileEntityDustPlaced)worldObj.getTileEntity(pos.east());
+		if(world.getBlockState(pos.east()).getBlock() == WizardryRegistry.dust_placed){
+			TileEntityDustPlaced ted = (TileEntityDustPlaced)world.getTileEntity(pos.east());
 			if(ted!=null){
 				for(int i=0;i<ROWS;i++){
 					int id=getSlotIDfromPosition(i,COLS-1);
 					int otherSlot=id-(COLS-1);
-					if(contents[i][COLS-1]!=null){
+					if(!contents[i][COLS-1].isEmpty()){
 						if(dustsMatch(contents[i][COLS-1], ted.getStackInSlot(otherSlot))){//should be true OK
 							result.add(new int[]{i,COLS-1,DustRegistry.getDustFromItemStack(contents[i][COLS-1]).getPlacedColor(contents[i][COLS-1]),EnumFacing.EAST.getIndex()});
 						}
@@ -220,11 +226,11 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		externalConnectors=result;
 	}
 	private boolean dustsMatch(ItemStack stack1, ItemStack stack2){
-		if(stack1!=null && stack1.getItem()instanceof IDust){
+		if(!stack1.isEmpty() && stack1.getItem()instanceof IDust){
 			IDust dust1 = DustRegistry.getDustFromItemStack(stack1);
 			return dust1.shouldConnect(stack1, stack2);
 		}
-		if(stack2!=null && stack2.getItem() instanceof IDust){
+		if(!stack2.isEmpty() && stack2.getItem() instanceof IDust){
 			IDust dust2 = DustRegistry.getDustFromItemStack(stack2);
 			return dust2.shouldConnect(stack2, stack1);
 		}
@@ -277,7 +283,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public boolean isEmpty(){
 		for(int i=0;i<contents.length;i++){
 			for(int j=0;j<contents[i].length;j++){
-				if(contents[i][j]!=null)return false;
+				if(!contents[i][j].isEmpty())return false;
 			}
 		}
 		return true;
@@ -289,11 +295,11 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	@Override
 	public ItemStack decrStackSize(int index, int count) {
 		int[] co=getPositionFromSlotID(index);
-		if (this.contents[co[0]][co[1]] != null)
+		if (!this.contents[co[0]][co[1]].isEmpty())
 		{
 			ItemStack itemstack;
 
-			if (this.contents[co[0]][co[1]].stackSize <= count)
+			if (this.contents[co[0]][co[1]].getCount() <= count)
 			{
 				itemstack = this.contents[co[0]][co[1]];
 				this.contents[co[0]][co[1]] = null;
@@ -303,7 +309,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 			{
 				itemstack = this.contents[co[0]][co[1]].splitStack(count);
 
-				if (this.contents[co[0]][co[1]].stackSize == 0)
+				if (this.contents[co[0]][co[1]].getCount() == 0)
 				{
 					this.contents[co[0]][co[1]] = null;
 				}
@@ -320,8 +326,8 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
 		ItemStack stack = getStackInSlot(index);
-		if (stack != null) {
-			setInventorySlotContents(index, null);
+		if (!stack.isEmpty()) {
+			setInventorySlotContents(index, ItemStack.EMPTY);
 		}
 		return stack;
 	}
@@ -330,15 +336,15 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		int[] co=getPositionFromSlotID(index);
 		contents[co[0]][co[1]]=stack;
-		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
-			stack.stackSize = getInventoryStackLimit();
+		if (!stack.isEmpty() && stack.getCount() > getInventoryStackLimit()) {
+			stack.setCount(getInventoryStackLimit());
 		} 
 		//update the rendering stuff
 		updateCenterColors();
 		updateInternalConnectors();
 		updateExternalConnectors();
 		//update neighbors
-		//worldObj.notifyNeighborsOfStateChange(getPos(), getBlockType()); NOT working FSR
+		//world.notifyNeighborsOfStateChange(getPos(), getBlockType()); NOT working FSR
 		updateNeighborConnectors();
 
 	}
@@ -361,7 +367,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
+	public boolean isUsableByPlayer(EntityPlayer player) {
 		// Handled with onBlockActivated?
 		return false;
 	}
@@ -390,8 +396,8 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		updateInternalConnectors();
 		updateExternalConnectors();
 		updateNeighborConnectors();
-		//worldObj.notifyBlockOfStateChange(getPos(), getBlockType());
-		//worldObj.notifyNeighborsOfStateChange(getPos(), getBlockType());
+		//world.notifyBlockOfStateChange(getPos(), getBlockType());
+		//world.notifyNeighborsOfStateChange(getPos(), getBlockType());
 	}
 	
 	/* (non-Javadoc)
@@ -427,7 +433,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 			byte slot = tag.getByte("Slot");
 			if (slot >= 0 && slot < getSizeInventory()) {
 				int[] coords = getPositionFromSlotID(slot);
-				contents[coords[0]][coords[1]] = ItemStack.loadItemStackFromNBT(tag);
+				contents[coords[0]][coords[1]] = new ItemStack(tag);
 			}
 		}
 		if(!tagCompound.getBoolean("inRune"))this.rune=null;
@@ -439,7 +445,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < getSizeInventory(); i++) {
 			ItemStack stack = getStackInSlot(i);
-			if (stack != null) {
+			if (!stack.isEmpty()) {
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setByte("Slot", (byte) i);
 				stack.writeToNBT(tag);
@@ -471,7 +477,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		// let's just do the same thing as inventoryBasic
 		for(int i=0;i<contents.length;i++){
 			for(int j=0;j<contents[i].length;j++){
-				contents[i][j]=null;
+				contents[i][j]=ItemStack.EMPTY;
 			}
 		}
 	}

@@ -124,7 +124,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			NBTTagCompound tag = tagList.getCompoundTagAt(i);
 			int r = tag.getInteger("Row");
 			int c = tag.getInteger("Col");
-			ItemStack s = ItemStack.loadItemStackFromNBT(tag);
+			ItemStack s = new ItemStack(tag);
 			items.add(new ArrayElement(r, c, s));
 			if(r>maxRow)maxRow=r;
 			if(c>maxCol)maxCol=c;
@@ -165,9 +165,9 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 	}
 	private boolean initialised=false;
 	private void init(){
-		if(initialised ||rune==null|| worldObj==null)return;
+		if(initialised ||rune==null|| world==null)return;
 		for(BlockPos p : rune.dustPositions){
-			TileEntity te = worldObj.getTileEntity(p);
+			TileEntity te = world.getTileEntity(p);
 			if(te instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te).setRune(rune);
 			}else{
@@ -199,7 +199,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 				for(int c=0;c<rune.placedPattern[r].length;c++){
 					ItemStack stack = rune.placedPattern[r][c];
 					NBTTagCompound tag = new NBTTagCompound();
-					if (stack != null) {
+					if (!stack.isEmpty()) {
 						stack.writeToNBT(tag);
 						tag.setInteger("Row", r);
 						tag.setInteger("Col", c);

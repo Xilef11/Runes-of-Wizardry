@@ -26,8 +26,8 @@ public class ItemStackComparator implements Comparator<ItemStack> {
 			Integer meta1 = arg1.getMetadata();
 			result = meta0.compareTo(meta1);
 			if(result==0){
-				Integer amount0 = arg0.stackSize;
-				Integer amount1 = arg1.stackSize;
+				Integer amount0 = arg0.getCount();
+				Integer amount1 = arg1.getCount();
 				result = amount0.compareTo(amount1);
 			}
 		}

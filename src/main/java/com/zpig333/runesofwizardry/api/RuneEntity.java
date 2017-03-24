@@ -7,7 +7,6 @@ package com.zpig333.runesofwizardry.api;
 
 import java.util.Set;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -145,7 +144,7 @@ public abstract class RuneEntity{
 		return false;
 	}
 	/** Triggered when a neighbor block to any block in this rune updates. used to update redstone signal status **/
-	public void handleBlockUpdate(World worldIn, BlockPos pos,IBlockState state, Block neighborBlock) {
+	public void handleBlockUpdate(World worldIn, BlockPos pos,IBlockState state, BlockPos neighborBlock) {
 		//is the block calling the update recieving a signal?	
 		boolean newRS = worldIn.isBlockPowered(pos);
 		if(newRS){

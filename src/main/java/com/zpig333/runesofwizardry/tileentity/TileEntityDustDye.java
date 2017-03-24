@@ -29,14 +29,14 @@ public class TileEntityDustDye extends TileEntity{
 	public void dye(int color){
 		//technically, this stack should not be modified
 		ItemStack dust = inventory.getStackInSlot(0);
-		if(dust==null)return;
+		if(dust.isEmpty())return;
 		ItemStack pouch = null;
 		ItemDustPouch itemPouch = null;
 		if(dust.getItem() instanceof ItemDustPouch){
 			pouch = dust;
 			itemPouch = (ItemDustPouch)pouch.getItem();
 			dust = itemPouch.getDustStack(pouch, 0);
-			if(dust==null || dust.getItem()!=WizardryRegistry.dust_dyed){
+			if(dust.isEmpty() || dust.getItem()!=WizardryRegistry.dust_dyed){
 				WizardryLogger.logError("the TEDustDye at "+getPos()+" had a pouch with null/non dyed dust");
 				return;
 			}
@@ -48,8 +48,8 @@ public class TileEntityDustDye extends TileEntity{
 			dust.setTagCompound(compound);
 		}
 		compound.setInteger("color", color);
-		if(pouch!=null){
-			dust.stackSize=itemPouch.getDustAmount(pouch);
+		if(!pouch.isEmpty()){
+			dust.setCount(itemPouch.getDustAmount(pouch));
 			itemPouch.clear(pouch);
 			itemPouch.addDust(pouch, dust);
 		}
@@ -138,12 +138,12 @@ public class TileEntityDustDye extends TileEntity{
 		 */
 		@Override
 		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-			if(stack==null || stack.getItem()==WizardryRegistry.dust_dyed){
+			if(stack.isEmpty() || stack.getItem()==WizardryRegistry.dust_dyed){
 				return super.insertItem(slot, stack, simulate);
 			}else if(stack.getItem() instanceof ItemDustPouch){
 				ItemDustPouch pouch = (ItemDustPouch)stack.getItem();
 				ItemStack dust = pouch.getDustStack(stack, 0);
-				if(dust!=null && dust.getItem()==WizardryRegistry.dust_dyed){
+				if(!dust.isEmpty() && dust.getItem()==WizardryRegistry.dust_dyed){
 					return super.insertItem(slot, stack, simulate);
 				}
 			}

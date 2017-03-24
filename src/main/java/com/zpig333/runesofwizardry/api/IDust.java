@@ -1,7 +1,5 @@
 package com.zpig333.runesofwizardry.api;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -118,7 +117,7 @@ public abstract class IDust extends Item {
 	 * @return true for the dusts to connect (checks if the itemstacks are equal by default)
 	 */
 	public boolean shouldConnect(ItemStack thisDust, ItemStack otherDust){
-		if(thisDust==null || otherDust==null)return false;
+		if(thisDust.isEmpty() || otherDust.isEmpty())return false;
 		if(!(thisDust.getItem() instanceof IDust && otherDust.getItem() instanceof IDust))return false;
 		return ItemStack.areItemStacksEqual(thisDust, otherDust);
 	}
@@ -130,7 +129,7 @@ public abstract class IDust extends Item {
 	 */
 	public boolean dustsMatch(ItemStack thisDust, ItemStack other){
 		if(thisDust==other)return true;//efficiency
-		if(thisDust==null || other == null)return false;//only one is null
+		if(thisDust.isEmpty() || other.isEmpty())return false;//only one is null
 		//make sure both are dusts
 		if(!(thisDust.getItem() instanceof IDust && other.getItem() instanceof IDust))return false;
 		return (ItemStack.areItemStacksEqual(thisDust, other));
@@ -140,7 +139,7 @@ public abstract class IDust extends Item {
 	 * 
 	 */
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
 		//see ItemRedstone#onItemUse
 		if(world.isRemote){
 			return EnumActionResult.SUCCESS;
@@ -155,7 +154,7 @@ public abstract class IDust extends Item {
 			}else{
 				world.setBlockState(pos.up(), WizardryRegistry.dust_placed.getDefaultState());
 				IBlockState state =  world.getBlockState(pos.up());
-				return state.getBlock().onBlockActivated(world, pos.up(), state, player, hand, stack, facing, hitX, hitY, hitZ)? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
+				return state.getBlock().onBlockActivated(world, pos.up(), state, player, hand, facing, hitX, hitY, hitZ)? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
 				//return true;
 			}
 		}
@@ -178,7 +177,7 @@ public abstract class IDust extends Item {
 	 */
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab,List<ItemStack> subItems) {
+	public void getSubItems(Item itemIn, CreativeTabs tab,NonNullList<ItemStack> subItems) {
 		for(int meta:getMetaValues()){
 			subItems.add(new ItemStack(itemIn,1,meta));
 		}

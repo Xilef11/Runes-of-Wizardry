@@ -40,7 +40,7 @@ public class DustDyeRequestUpdatePacket implements IMessage{
 		public DustDyeUpdatePacket onMessage(DustDyeRequestUpdatePacket message, MessageContext ctx) {
 			EntityPlayer player = ctx.getServerHandler().playerEntity;
 			BlockPos position=new BlockPos(message.posX, message.posY, message.posZ);
-			TileEntity te = player.worldObj.getTileEntity(position);
+			TileEntity te = player.world.getTileEntity(position);
 			if(te instanceof TileEntityDustDye){
 				TileEntityDustDye ted = (TileEntityDustDye)te;
 				return new DustDyeUpdatePacket(position, ted.getColorString());

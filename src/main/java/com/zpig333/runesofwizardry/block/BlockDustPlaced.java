@@ -84,7 +84,7 @@ public class BlockDustPlaced extends Block{
 	}
 	@Deprecated
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(IBlockState state,World worldIn, BlockPos pos)
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state,IBlockAccess worldIn, BlockPos pos)
 	{	//No collision
 		//return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX()+1, pos.getY()+0.0625F, pos.getZ()+1.0F);
 		//return new AxisAlignedBB(pos, pos.add(1,1,1));
@@ -211,19 +211,17 @@ public class BlockDustPlaced extends Block{
 			Random random = new Random();
 			for (int i1 = 0; i1 < tileentityDustPlaced.getSizeInventory(); i1++) {
 				ItemStack itemstack = tileentityDustPlaced.getStackInSlot(i1);
-				if (itemstack != null && itemstack.getItem()!=WizardryRegistry.dust_dead) {
+				if (!itemstack.isEmpty() && itemstack.getItem()!=WizardryRegistry.dust_dead) {
 					float f = random.nextFloat() * 0.8F + 0.1F;
 					float f1 = random.nextFloat() * 0.8F + 0.1F;
 					EntityItem entityitem;
 
-					for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; worldIn.spawnEntityInWorld(entityitem)) {
+					for (float f2 = random.nextFloat() * 0.8F + 0.1F; itemstack.getCount() > 0; worldIn.spawnEntity(entityitem)) {
 						int j1 = random.nextInt(21) + 10;
 
-						if (j1 > itemstack.stackSize) {
-							j1 = itemstack.stackSize;
+						if (j1 > itemstack.getCount()) {
+							j1 = itemstack.getCount();
 						}
-
-						itemstack.stackSize -= j1;
 						entityitem = new EntityItem(worldIn, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 						float f3 = 0.05F;
 						entityitem.motionX = (float) random.nextGaussian() * f3;
@@ -233,10 +231,11 @@ public class BlockDustPlaced extends Block{
 						if (itemstack.hasTagCompound()) {
 							entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
 						}
+						itemstack.setCount(itemstack.getCount() - j1);
 					}
 				}
 			}
-			worldIn.notifyNeighborsOfStateChange(pos, state.getBlock());
+			worldIn.notifyNeighborsOfStateChange(pos, state.getBlock(),true);
 		}
 
 		super.breakBlock(worldIn, pos, state);
@@ -267,7 +266,7 @@ public class BlockDustPlaced extends Block{
 		return null;//this block should not be dropped!
 	}
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(playerIn.isSneaking() || tile==null){
 			return false;
@@ -303,18 +302,18 @@ public class BlockDustPlaced extends Block{
 		int slotID = TileEntityDustPlaced.getSlotIDfromPosition(row, col);
 
 		ItemStack dustStack = tileDust.getStackInSlot(slotID);
-
-		if(heldItem==null){
-			if (dustStack !=null){
+		ItemStack heldItem = playerIn.getHeldItem(hand);
+		if(heldItem.isEmpty()){
+			if (!dustStack.isEmpty()){
 				//drop the dust piece
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 					dustStack = tileDust.getStackInSlot(slotID);//re-grab the stack in case the rune changed it
 				}
-				tileDust.setInventorySlotContents(slotID, null);
+				tileDust.setInventorySlotContents(slotID, ItemStack.EMPTY);
 				worldIn.playSound(null,pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getBreakSound(), SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				//drop the itemStack
-				if(!playerIn.capabilities.isCreativeMode&& dustStack!=null && !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
+				if(!playerIn.capabilities.isCreativeMode&& !dustStack.isEmpty() && !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, state);
 					worldIn.setBlockToAir(pos);
@@ -325,18 +324,18 @@ public class BlockDustPlaced extends Block{
 			}
 		}
 		//convert dust pouch to dust
-		if(heldItem.getItem() instanceof ItemDustPouch&& (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){//XXX could be switched to a capability
+		if(heldItem.getItem() instanceof ItemDustPouch&& (dustStack.isEmpty()||dustStack.getItem() instanceof DustPlaceholder)){//XXX could be switched to a capability
 			heldItem = ((ItemDustPouch)heldItem.getItem()).getDustStack(heldItem, 1);
-			if(heldItem==null || heldItem.stackSize<1)return false;
+			if(heldItem.isEmpty() || heldItem.getCount()<1)return false;
 		}
-		if(heldItem.getItem() instanceof IDust && (dustStack ==null||dustStack.getItem() instanceof DustPlaceholder)){
+		if(heldItem.getItem() instanceof IDust && (dustStack.isEmpty()||dustStack.getItem() instanceof DustPlaceholder)){
 			//place dust in the inventory
-			ItemStack newItem=null;
+			ItemStack newItem=ItemStack.EMPTY;
 			if(!playerIn.capabilities.isCreativeMode){
 				newItem= heldItem.splitStack(1);//grab one item from the stack
 			}else{
 				newItem = heldItem.copy();
-				newItem.stackSize=1;
+				newItem.setCount(1);
 			}
 			tileDust.setInventorySlotContents(slotID, newItem);
 			worldIn.playSound(null,pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getPlaceSound(),SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
@@ -383,7 +382,8 @@ public class BlockDustPlaced extends Block{
 	 */
 	@Deprecated
 	@Override
-	public void neighborChanged(IBlockState state,World worldIn, BlockPos pos, Block neighborBlock) {
+	//public void neighborChanged(IBlockState state,World worldIn, BlockPos pos, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos){
 		if(worldIn.isAirBlock(pos.down())&&!worldIn.restoringBlockSnapshots){
 			this.breakBlock(worldIn, pos, state);
 			worldIn.setBlockToAir(pos);
@@ -393,7 +393,7 @@ public class BlockDustPlaced extends Block{
 		if(te instanceof TileEntityDustPlaced){
 			RuneEntity rune = ((TileEntityDustPlaced)te).getRune();
 			if(rune!=null){
-				rune.handleBlockUpdate(worldIn, pos,state, neighborBlock);
+				rune.handleBlockUpdate(worldIn, pos,state, fromPos);
 			}
 		}
 	}
@@ -436,16 +436,16 @@ public class BlockDustPlaced extends Block{
 
 			ItemStack dustStack = tileDust.getStackInSlot(slotID);
 
-			if (dustStack !=null){
+			if (!dustStack.isEmpty()){
 				//drop the dust piece
 				if(tileDust.isInRune()){
 					tileDust.getRune().onPatternBrokenByPlayer(playerIn);
 					dustStack = tileDust.getStackInSlot(slotID);
 				}
-				tileDust.setInventorySlotContents(slotID, null);
+				tileDust.setInventorySlotContents(slotID, ItemStack.EMPTY);
 				worldIn.playSound(null,pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, SoundType.SAND.getPlaceSound(),SoundCategory.BLOCKS, (SoundType.SAND.getVolume() + 1.0F) / 2.0F, SoundType.GROUND.getPitch() * 0.8F);
 				//drop the itemStack
-				if(!playerIn.capabilities.isCreativeMode && dustStack!=null && !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
+				if(!playerIn.capabilities.isCreativeMode && !dustStack.isEmpty() && !(dustStack.getItem() instanceof DustPlaceholder))spawnAsEntity(worldIn, pos, dustStack);
 				if(tileDust.isEmpty()){//if there is no more dust, break the block
 					this.breakBlock(worldIn, pos, worldIn.getBlockState(pos));
 					worldIn.setBlockToAir(pos);
@@ -471,7 +471,7 @@ public class BlockDustPlaced extends Block{
 	 * @see net.minecraft.block.Block#addHitEffects(net.minecraft.world.World, net.minecraft.util.RayTraceResult, net.minecraft.client.particle.EffectRenderer)
 	 */
 	@Override
-	public boolean addHitEffects(IBlockState state,World worldObj, RayTraceResult target,ParticleManager particleManager) {
+	public boolean addHitEffects(IBlockState state,World world, RayTraceResult target,ParticleManager particleManager) {
 		return true;//should remove "breaking" particles
 	}
 

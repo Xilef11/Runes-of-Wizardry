@@ -35,14 +35,14 @@ public class Utils {
 				ItemStack is2 = sorted.get(i);
 				while(i<sorted.size()&&ItemStack.areItemsEqual(current, is2)&&ItemStack.areItemStackTagsEqual(current, is2)){
 					int maxSize = current.getMaxStackSize();
-					if(current.stackSize+is2.stackSize>maxSize){
-						int toAdd = maxSize-current.stackSize;
-						current.stackSize=maxSize;
-						is2.stackSize-=toAdd;
+					if(current.getCount()+is2.getCount()>maxSize){
+						int toAdd = maxSize-current.getCount();
+						current.setCount(maxSize);
+						is2.setCount(is2.getCount()-toAdd);
 						merged.add(current);
 						current=is2;
 					}else{
-						current.stackSize+=is2.stackSize;
+						current.setCount(current.getCount()+is2.getCount());
 					}
 					i++;
 					if(i<sorted.size())is2=sorted.get(i);
@@ -82,7 +82,7 @@ public class Utils {
 				for(int checkID:OreDictionary.getOreIDs(toCheck)){
 					haveIDs=true;//both items have IDs, so we can check them using oreDict
 					if(wantedID==checkID){
-						if(wanted.stackSize==toCheck.stackSize||wanted.stackSize<0){
+						if(wanted.getCount()==toCheck.getCount()||wanted.getCount()<0){
 							return true;
 						}
 					}
@@ -97,7 +97,7 @@ public class Utils {
 		}else{
 			if(!OreDictionary.itemMatches(wanted, toCheck, false))return false;
 			if(!ItemStack.areItemStackTagsEqual(wanted, toCheck))return false;
-			return wanted.stackSize==toCheck.stackSize || wanted.stackSize<0;
+			return wanted.getCount()==toCheck.getCount() || wanted.getCount()<0;
 		}
 	}
 }

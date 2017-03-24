@@ -1,7 +1,7 @@
 package com.zpig333.runesofwizardry;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -34,7 +34,7 @@ import com.zpig333.runesofwizardry.runes.test.RuneTest2;
 import com.zpig333.runesofwizardry.runes.test.RuneTesting;
 import com.zpig333.runesofwizardry.util.ChatUtils;
 
-@Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory",acceptedMinecraftVersions = "[1.9.4,1.11.0)")
+@Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory",acceptedMinecraftVersions = "[1.11.0,1.11.2]")
 public class RunesOfWizardry {
 
 	@SidedProxy(clientSide = References.client_proxy, serverSide = References.server_proxy)
@@ -115,8 +115,9 @@ public class RunesOfWizardry {
 	/** the tab in the Creative inventory for our stuff**/
 	public static CreativeTabs wizardry_tab = new CreativeTabs(References.modid+"_main") {
 		@Override
-		public Item getTabIconItem() {
-			return WizardryRegistry.runic_dictionary;
+		public ItemStack getTabIconItem() {
+			return new ItemStack(WizardryRegistry.runic_dictionary);
 		}
+		
 	};
 }

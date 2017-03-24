@@ -71,11 +71,12 @@ public class RunesUtil {
 				//Make sure every stack is an IDust and contains 1 item
 				for(int j=0;j<row.length;j++){
 					ItemStack stack = row[j];
-					if(stack!=null){//null stacks are OK
+					if(stack==null) throw new InvalidRuneException(rune, "Some ItemStacks in this Rune's pattern are null. please use ItemStack.EMPTY");
+					if(!stack.isEmpty()){//null stacks are OK
 						if(!(stack.getItem() instanceof IDust)) throw new InvalidRuneException(rune,"The Item at position "+i+", "+j+" is not an IDust");
-						if(stack.stackSize!=1) throw new InvalidRuneException(rune,"The number of dusts at position "+i+", "+j+" must be 1");
+						if(stack.getCount()!=1) throw new InvalidRuneException(rune,"The number of dusts at position "+i+", "+j+" must be 1");
 						//add to dust cost calculation
-						if(stack!=null)dusts.add(ItemStack.copyItemStack(stack));
+						if(!stack.isEmpty())dusts.add(stack.copy());
 					}
 				}
 			}else{
@@ -112,7 +113,7 @@ public class RunesUtil {
 		ItemStack pattern[][] = finder.toArray();
 		RuneFacing match = matchPattern(pattern);
 		if(match==null){
-			player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.norune"));
+			player.sendMessage(new TextComponentTranslation("runesofwizardry.message.norune"));
 			if(ConfigHandler.hardcoreActivation){
 				for(BlockPos p:finder.getDustPositions()){
 					killDusts(world, p);
@@ -138,7 +139,7 @@ public class RunesUtil {
 				negated=true;
 			}else{
 				//add all items that are not the sacrifice negator
-				stacks.add(ItemStack.copyItemStack(s));//copy the stack just in case a rune needs it
+				stacks.add(s.copy());//copy the stack just in case a rune needs it
 			}
 		}
 		WizardryLogger.logInfo("Found sacrifice: "+Arrays.deepToString(stacks.toArray(new ItemStack[0])));
@@ -147,7 +148,7 @@ public class RunesUtil {
 		if(!negated){
 			if(!match.rune.sacrificeMatches(stacks)){
 				//translation OK
-				player.addChatComponentMessage(new TextComponentTranslation("runesofwizardry.message.badsacrifice", new TextComponentTranslation(match.rune.getName())));
+				player.sendMessage(new TextComponentTranslation("runesofwizardry.message.badsacrifice", new TextComponentTranslation(match.rune.getName())));
 				if(ConfigHandler.hardcoreSacrifices){
 					for(EntityItem e:sacList){
 						if(world instanceof WorldServer){
@@ -304,7 +305,7 @@ public class RunesUtil {
 			ItemStack[][] contents = ted.getContents();
 			for(int i=0;i<contents.length;i++){
 				for(int j=0;j<contents[i].length;j++){
-					if(contents[i][j]!=null)contents[i][j]=new ItemStack(WizardryRegistry.dust_dead);
+					if(!contents[i][j].isEmpty())contents[i][j]=new ItemStack(WizardryRegistry.dust_dead);
 				}
 			}
 			if(ConfigHandler.deadDustDecay){

@@ -39,11 +39,11 @@ public class ItemRunicStaff extends WizardryItem {
 	 * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
 		//XXX UPDATE
 		//playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-		return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
+		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 	/**
 	 * How long it takes to use or consume an item
@@ -60,7 +60,7 @@ public class ItemRunicStaff extends WizardryItem {
 
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack){
-		return ItemStack.copyItemStack(itemStack);
+		return itemStack.copy();
 	}
 
 }

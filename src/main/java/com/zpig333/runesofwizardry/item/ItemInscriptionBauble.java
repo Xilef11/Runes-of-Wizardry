@@ -1,7 +1,5 @@
 package com.zpig333.runesofwizardry.item;
 
-import javax.annotation.Nonnull;
-
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,7 +34,7 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 				IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
 				for(int i=0;i<baubles.getSlots();i++){
 					ItemStack stack = baubles.getStackInSlot(i);
-					if(stack!=null && stack.getItem()==WizardryRegistry.inscription){
+					if(!stack.isEmpty() && stack.getItem()==WizardryRegistry.inscription){
 						return;
 					}
 				}
@@ -74,26 +72,26 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 			if(ConfigHandler.disableDoubleInscription){
 				EntityEquipmentSlot slot = EntityLiving.getSlotForItemStack(stack);
 		        ItemStack itemstack = player.getItemStackFromSlot(slot);
-		        if(itemstack!=null && itemstack.getItem()==WizardryRegistry.inscription){
+		        if(!itemstack.isEmpty() && itemstack.getItem()==WizardryRegistry.inscription){
 		        	return;
 		        }
 			}
-			doTick(player.worldObj, player, stack);
+			doTick(player.world, player, stack);
 		}else{
 			WizardryLogger.logError("Inscription equipped by a non-player entity: "+entity);
 		}
 	}
 	//equip in baubles slot if installed, chestplate slot otherwise
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 
 		if(player.isSneaking()){
 			//no special case if sneaking
-			return super.onItemRightClick(stack, world, player, hand);
+			return super.onItemRightClick(world, player, hand);
 		}
-		
+		ItemStack stack = player.getHeldItem(hand);
 		ItemStack toEquip = stack.copy();
-		toEquip.stackSize = 1;
+		toEquip.setCount(1);
 
 		if(canEquip(toEquip, player) && Loader.isModLoaded("Baubles")) {
 			//InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
@@ -101,17 +99,17 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 			for(int i = 0; i < baubles.getSlots(); i++) {
 				if(baubles.isItemValidForSlot(i, toEquip,player)) {
 					ItemStack stackInSlot = baubles.getStackInSlot(i);
-					if(stackInSlot == null) {
+					if(stackInSlot.isEmpty()) {
 						if(!world.isRemote) {
 							baubles.insertItem(i, toEquip,false);
-							stack.stackSize--;
+							stack.setCount(stack.getCount()-1);
 						}
 						return ActionResult.newResult(EnumActionResult.PASS, stack);
 					}
 				}
 			}
 		}
-		return super.onItemRightClick(stack, world, player, hand);
+		return super.onItemRightClick(world, player, hand);
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#isDamageable()
@@ -129,17 +127,17 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 	public ItemStack getWornInscription(EntityPlayer player) {
 		//InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
 		IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
-		ItemStack baub =null;
+		ItemStack baub =ItemStack.EMPTY;
 		for(int i=0;i<baubles.getSlots();i++){
 			ItemStack stack = baubles.getStackInSlot(i);
-			if(stack!=null && stack.getItem()==WizardryRegistry.inscription){
+			if(!stack.isEmpty() && stack.getItem()==WizardryRegistry.inscription){
 				baub=stack;
 				break;
 			}
 		}
 		ItemStack chest =  super.getWornInscription(player);
-		if(baub!=null){
-			if(chest!=null && ConfigHandler.disableDoubleInscription)return null;
+		if(!baub.isEmpty()){
+			if(!chest.isEmpty() && ConfigHandler.disableDoubleInscription)return null;
 			else return baub;
 		}
 		return chest;

@@ -15,7 +15,7 @@ public class PickupEventHandler {
 	public void onPickupDust(EntityItemPickupEvent event){
 		ItemStack dust = event.getItem().getEntityItem();
 		//WizardryLogger.logInfo(dust);
-		if(dust.getItem() instanceof IDust && dust.stackSize>0){
+		if(dust.getItem() instanceof IDust && dust.getCount()>0){
 			EntityPlayer player = event.getEntityPlayer();
 			//Couldn't get a zombie to pick up dust, but adding the check doen't hurt
 			if(player==null)return;
@@ -23,14 +23,14 @@ public class PickupEventHandler {
 			for(int i=0;i<inv.getSizeInventory();i++){
 				//if(i==inv.currentItem)continue;//supposedly avoids deleting items
 				ItemStack stack = inv.getStackInSlot(i);
-				if(stack!=null && stack.getItem() instanceof ItemDustPouch){
+				if(!stack.isEmpty() && stack.getItem() instanceof ItemDustPouch){
 					ItemDustPouch pouch = (ItemDustPouch)stack.getItem();
 					ItemStack contents = pouch.getDustStack(stack, 0);//get the dust type
 					if(ItemStack.areItemsEqual(dust, contents)&&ItemStack.areItemStackTagsEqual(dust, contents)){
 						boolean ok = pouch.addDust(stack, dust);
 						event.setResult(Result.ALLOW);
 						if(ok){
-							dust.stackSize=0;
+							dust.setCount(0);
 							return;
 						}
 					}

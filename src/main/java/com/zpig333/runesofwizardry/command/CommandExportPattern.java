@@ -58,27 +58,27 @@ public class CommandExportPattern implements ICommand {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.minecraft.command.ICommand#getCommandName()
+	 * @see net.minecraft.command.ICommand#getName()
 	 */
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "rw_export";
 	}
 
 	/* (non-Javadoc)
-	 * @see net.minecraft.command.ICommand#getCommandUsage(net.minecraft.command.ICommandSender)
+	 * @see net.minecraft.command.ICommand#getUsage(net.minecraft.command.ICommandSender)
 	 */
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		//should return unlocalized string
-		return getCommandName()+" "+locKey+".usage";
+		return getName()+" "+locKey+".usage";
 	}
 
 	/* (non-Javadoc)
-	 * @see net.minecraft.command.ICommand#getCommandAliases()
+	 * @see net.minecraft.command.ICommand#getAliases()
 	 */
 	@Override
-	public List<String> getCommandAliases() {
+	public List<String> getAliases() {
 		return aliases;
 	}
 
@@ -92,7 +92,7 @@ public class CommandExportPattern implements ICommand {
 		if(world.isRemote && sender instanceof EntityPlayer){
 			EntityPlayer player = (EntityPlayer) sender;
 			if(args.length!=1){
-				throw new WrongUsageException(getCommandUsage(sender));
+				throw new WrongUsageException(getUsage(sender));
 			}
 			//get the block the player is looking at
 			RayTraceResult look = player.rayTrace(RayTracer.getBlockReachDistance(player), 1f);
@@ -127,7 +127,7 @@ public class CommandExportPattern implements ICommand {
 			TextComponentString filename = new TextComponentString(output.getName());
 			filename.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, output.getAbsolutePath()));
 			filename.getStyle().setUnderlined(true);
-			player.addChatMessage(new TextComponentTranslation(locKey+".message", finder.getNumBlocks(), filename));
+			player.sendMessage(new TextComponentTranslation(locKey+".message", finder.getNumBlocks(), filename));
 		}
 	}
 
@@ -144,7 +144,7 @@ public class CommandExportPattern implements ICommand {
 	 * @see net.minecraft.command.ICommand#addTabCompletionOptions(net.minecraft.command.ICommandSender, java.lang.String[], net.minecraft.util.BlockPos)
 	 */
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args,BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,BlockPos pos) {
 		return null;
 	}
 

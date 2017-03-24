@@ -1,8 +1,8 @@
 {
     "textures": {
-		"particle": "runesofwizardry:blocks/dustStorage_bg",
-        "bg": "runesofwizardry:blocks/dustStorage_bg",
-        "fg": "runesofwizardry:blocks/dustStorage_fg"
+		"particle": "runesofwizardry:blocks/duststorage_bg",
+        "bg": "runesofwizardry:blocks/duststorage_bg",
+        "fg": "runesofwizardry:blocks/duststorage_fg"
     },
     "elements": [
         {   "name": "back",

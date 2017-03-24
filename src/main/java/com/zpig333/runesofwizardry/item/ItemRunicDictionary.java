@@ -61,7 +61,7 @@ public class ItemRunicDictionary extends WizardryItem {
 				//dusts
 				tooltip.add("§l"+RunesOfWizardry.proxy.translate(References.Lang.REQUIRES));
 				for(ItemStack s:stats.dustCosts){
-					tooltip.add(" - "+(s.stackSize<10?" ":"")+s.stackSize+"x "+s.getDisplayName());
+					tooltip.add(" - "+(s.getCount()<10?" ":"")+s.getCount()+"x "+s.getDisplayName());
 				}
 				tooltip.add(RunesOfWizardry.proxy.translate(References.Lang.misc+"runesize", stats.xsize,stats.ysize,stats.centerx,stats.centery));
 				//sacrifice
@@ -73,7 +73,7 @@ public class ItemRunicDictionary extends WizardryItem {
 						if(i>0)tooltip.add(" "+RunesOfWizardry.proxy.translate(References.Lang.OR));
 						if(sac!=null){
 							for(ItemStack s:sac){
-								tooltip.add(" - "+(s.stackSize>=0? (s.stackSize<10?" ":"")+s.stackSize+"x " : RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
+								tooltip.add(" - "+(s.getCount()>=0? (s.getCount()<10?" ":"")+s.getCount()+"x " : RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
 							}
 						}else{
 							tooltip.add("   "+RunesOfWizardry.proxy.translate(References.Lang.NOTHING));
@@ -99,10 +99,10 @@ public class ItemRunicDictionary extends WizardryItem {
 	 * @see net.minecraft.item.Item#onItemUse(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.util.EnumFacing, float, float, float)
 	 */
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote){
 			if(playerIn.isSneaking()){
-				String runeID = getSelectedRuneID(stack);
+				String runeID = getSelectedRuneID(playerIn.getHeldItem(hand));
 				if(!runeID.equals("")){
 					int xpReq = ConfigHandler.dictionaryImportXP;
 					int foodReq = ConfigHandler.dictionaryImportHunger;
@@ -110,7 +110,7 @@ public class ItemRunicDictionary extends WizardryItem {
 						if(playerIn.experienceLevel>=xpReq){
 							playerIn.removeExperienceLevel(xpReq);
 							playerIn.getFoodStats().addStats(-foodReq, 0);
-							//MinecraftServer.getServer().getCommandManager().executeCommand(playerIn, CommandImportPattern.instance().getCommandName()+" "+runeID);
+							//MinecraftServer.getServer().getCommandManager().executeCommand(playerIn, CommandImportPattern.instance().getName()+" "+runeID);
 							try {
 								//We run it this way to ignore the permissions on the command
 								//careful with the null there
@@ -130,7 +130,8 @@ public class ItemRunicDictionary extends WizardryItem {
 	 * @see net.minecraft.item.Item#onItemRightClick(net.minecraft.item.ItemStack, net.minecraft.world.World, net.minecraft.entity.player.EntityPlayer)
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
+		ItemStack itemStackIn = playerIn.getHeldItem(hand);
 		if(!worldIn.isRemote && !playerIn.isSneaking()){
 			cycleRune(itemStackIn,playerIn);
 		}
@@ -141,7 +142,7 @@ public class ItemRunicDictionary extends WizardryItem {
 	 */
 	@Override
 	public boolean onEntitySwing(EntityLivingBase entityLiving, ItemStack stack) {
-		if(entityLiving instanceof EntityPlayer && !entityLiving.worldObj.isRemote){
+		if(entityLiving instanceof EntityPlayer && !entityLiving.world.isRemote){
 			EntityPlayer player = (EntityPlayer)entityLiving;
 			if(!player.isSwingInProgress){
 				cycleRuneBackwards(stack,player);
@@ -231,11 +232,11 @@ public class ItemRunicDictionary extends WizardryItem {
 		}
 	}
 	public String getSelectedRuneID(ItemStack stack){
-		NBTTagCompound tag = stack.getSubCompound(References.modid, true);
+		NBTTagCompound tag = stack.getOrCreateSubCompound(References.modid);
 		return tag.getString("selectedRune");
 	}
 	public void setSelectedRuneID(ItemStack stack,String id){
-		NBTTagCompound tag = stack.getSubCompound(References.modid, true);
+		NBTTagCompound tag = stack.getOrCreateSubCompound(References.modid);
 		tag.setString("selectedRune",id);
 	}
 

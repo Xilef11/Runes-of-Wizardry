@@ -1,8 +1,5 @@
 package com.zpig333.runesofwizardry.block;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.SoundType;
@@ -14,6 +11,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -80,9 +78,9 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 	// - the "metadata" value of the block is set to the colours metadata
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list)
+	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list)
 	{	
-		List<ItemStack> dusts = new LinkedList<ItemStack>();
+		NonNullList<ItemStack> dusts = NonNullList.create();
 		this.getIDust().getSubItems(itemIn, tab, dusts);
 		for(ItemStack i:dusts){
 			list.add(new ItemStack(itemIn,1,i.getMetadata()));

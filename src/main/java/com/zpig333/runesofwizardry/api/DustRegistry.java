@@ -157,13 +157,13 @@ public class DustRegistry {
 	}
 	public static ItemStack getStackForInscription(String inscriptionID){
 		ItemStack stack = new ItemStack(WizardryRegistry.inscription,1,1);
-		stack.getSubCompound(References.modid, true).setString(Inscription.NBT_ID, inscriptionID);
+		stack.getOrCreateSubCompound(References.modid).setString(Inscription.NBT_ID, inscriptionID);
 		return stack;
 	}
 	@Nullable
 	public static Inscription getInscriptionFromStack(ItemStack stack){
-		if(stack!=null && stack.getItem()==WizardryRegistry.inscription){
-			NBTTagCompound tag = stack.getSubCompound(References.modid, false);
+		if(!stack.isEmpty() && stack.getItem()==WizardryRegistry.inscription){
+			NBTTagCompound tag = stack.getSubCompound(References.modid);
 			if(tag!=null){
 				String id = tag.getString(Inscription.NBT_ID);
 				return getInscriptionByID(id);
@@ -257,9 +257,9 @@ public class DustRegistry {
 		String name=modID+":"+id;
 		//maybe do crash report (or skip registration)
 		if(inscriptions.containsKey(name))throw new IllegalArgumentException("An Inscription with the id: "+name+" Already exists!");
+		registerRune(new RuneInscription(inscription), name+"_inscription");
 		inscriptions.put(name,inscription);
 		inverseInscriptions.put(inscription, name);
-		registerRune(new RuneInscription(inscription), name+"_inscription");
 	}
 	/**
 	 * 

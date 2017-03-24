@@ -29,7 +29,7 @@ public class ItemStackJson implements JsonDeserializer<ItemStack>,JsonSerializer
 	@Override
 	public JsonElement serialize(ItemStack src, Type typeOfSrc,	JsonSerializationContext context) {
 		JsonObject object = new JsonObject();
-		int stackSize = src.stackSize;
+		int stackSize = src.getCount();
 		String item = ((ResourceLocation)Item.REGISTRY.getNameForObject(src.getItem())).toString();
 		JsonElement nbt = context.serialize(src.getTagCompound());
 		int meta = src.getItemDamage();
@@ -50,7 +50,7 @@ public class ItemStackJson implements JsonDeserializer<ItemStack>,JsonSerializer
 		NBTTagCompound nbt = context.deserialize(object.get("stackTagCompound"),NBTTagCompound.class);
 		int meta = object.get("itemDamage").getAsInt();
 		ItemStack stack = new ItemStack(item);
-		stack.stackSize=size;
+		stack.setCount(size);
 		stack.setTagCompound(nbt);
 		stack.setItemDamage(meta);
 		return stack;

@@ -87,7 +87,7 @@ public class RuneChargeInscription extends IRune {
 						this.onPatternBroken();
 						return;
 					}
-					world.spawnEntityInWorld(new EntityItem(world, getPos().getX()+0.5, getPos().getY()+0.5, getPos().getZ()+0.5, stack));
+					world.spawnEntity(new EntityItem(world, getPos().getX()+0.5, getPos().getY()+0.5, getPos().getZ()+0.5, stack));
 					this.onPatternBroken();
 				}
 				
@@ -101,12 +101,12 @@ public class RuneChargeInscription extends IRune {
 				ItemStack insc = null;
 				Inscription inscription=null;
 				for(ItemStack s:sacrifice){
-					if(s!=null && s.getItem()==WizardryRegistry.inscription && s.getMetadata()==1){
+					if(!s.isEmpty() && s.getItem()==WizardryRegistry.inscription && s.getMetadata()==1){
 						insc=s;
 						break;
 					}
 				}
-				NBTTagCompound tag = insc.getSubCompound(References.modid, false);
+				NBTTagCompound tag = insc.getSubCompound(References.modid);
 				if(tag!=null){
 					String id = tag.getString(Inscription.NBT_ID);
 					inscription = DustRegistry.getInscriptionByID(id);
@@ -114,7 +114,7 @@ public class RuneChargeInscription extends IRune {
 				}
 				if(inscription==null){
 					this.onPatternBroken();
-					player.addChatMessage(new TextComponentTranslation(References.modid+"_inscription.invalid"));
+					player.sendMessage(new TextComponentTranslation(References.modid+"_inscription.invalid"));
 					return;
 				}
 				if(!inscription.canBeActivatedByPlayer(player, entity.getWorld(), getPos())){
@@ -153,11 +153,11 @@ public class RuneChargeInscription extends IRune {
 	@Override
 	public boolean sacrificeMatches(List<ItemStack> droppedItems) {
 		boolean negated=false;
-		ItemStack inscription=null;
+		ItemStack inscription=ItemStack.EMPTY;
 		if(droppedItems!=null)droppedItems = Utils.sortAndMergeStacks(droppedItems);
 		else return false;
 		for(ItemStack stack:droppedItems){
-			if(stack!=null){
+			if(!stack.isEmpty()){
 				Item item = stack.getItem();
 				if(item==WizardryRegistry.inscription && stack.getMetadata()==1){
 					inscription=stack;
@@ -165,8 +165,8 @@ public class RuneChargeInscription extends IRune {
 				if(item==WizardryRegistry.sacrifice_negator)negated=true;
 			}
 		}
-		if(inscription==null)return false;
-		NBTTagCompound tag = inscription.getSubCompound(References.modid, false);
+		if(inscription.isEmpty())return false;
+		NBTTagCompound tag = inscription.getSubCompound(References.modid);
 		if(tag==null)return false;
 		String id = tag.getString(Inscription.NBT_ID);
 		Inscription insc = DustRegistry.getInscriptionByID(id);
@@ -186,7 +186,7 @@ public class RuneChargeInscription extends IRune {
 				partial=Utils.stacksEqualWildcardSize(wantStack, foundStack, insc.allowOredictSacrifice());
 				if(!partial&&j==0)match=false;
 				j++;
-			}while(wantStack.stackSize<0 && partial);//while the found list has items that match the current wildcard item
+			}while(wantStack.getCount()<0 && partial);//while the found list has items that match the current wildcard item
 			j-=2;
 		}
 		if(match)return true;//if the whole list matched

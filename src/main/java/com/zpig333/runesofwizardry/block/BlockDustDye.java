@@ -73,19 +73,19 @@ public class BlockDustDye extends BlockContainer{
 			IItemHandler inventory = tileentityDustDye.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 			for (int i1 = 0; i1 < inventory.getSlots(); ++i1) {
 				ItemStack itemstack = inventory.extractItem(i1, Integer.MAX_VALUE, false);
-				if (itemstack != null) {
+				if (!itemstack.isEmpty()) {
 					float f = this.random.nextFloat() * 0.8F + 0.1F;
 					float f1 = this.random.nextFloat() * 0.8F + 0.1F;
 					EntityItem entityitem;
 
-					for (float f2 = this.random.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; world.spawnEntityInWorld(entityitem)) {
+					for (float f2 = this.random.nextFloat() * 0.8F + 0.1F; itemstack.getCount() > 0; world.spawnEntity(entityitem)) {
 						int j1 = this.random.nextInt(21) + 10;
 
-						if (j1 > itemstack.stackSize) {
-							j1 = itemstack.stackSize;
+						if (j1 > itemstack.getCount()) {
+							j1 = itemstack.getCount();
 						}
 
-						itemstack.stackSize -= j1;
+						itemstack.setCount(itemstack.getCount() - j1);
 						entityitem = new EntityItem(world, pos.getX() + f, pos.getY() + f1, pos.getZ() + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 						float f3 = 0.05F;
 						entityitem.motionX = (float) this.random.nextGaussian() * f3;
@@ -99,14 +99,15 @@ public class BlockDustDye extends BlockContainer{
 				}
 			}
 			//world.func_147453_f is updateNeighborsOnBlockChange(x, y, z, block)
-			world.notifyBlockOfStateChange(pos, state.getBlock());
+			//XXX not sure of this one (1.11)
+			world.notifyNeighborsOfStateChange(pos, state.getBlock(),true);
 		}
 		super.breakBlock(world, pos, state);
 
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ){
 		if (world.isRemote)
 		{
 			return true;
@@ -127,12 +128,13 @@ public class BlockDustDye extends BlockContainer{
 	 */
 	@Deprecated
 	@Override
-	public void neighborChanged(IBlockState state,World worldIn, BlockPos pos, Block neighborBlock) {
+	//public void neighborChanged(IBlockState state,World worldIn, BlockPos pos, Block neighborBlock) {
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos){
 		TileEntity te = worldIn.getTileEntity(pos);
 		if(te instanceof TileEntityDustDye){
 			((TileEntityDustDye)te).handleBlockUpdate(worldIn.isBlockPowered(pos));
 		}
-		super.neighborChanged(state, worldIn, pos, neighborBlock);
+		super.neighborChanged(state, worldIn, pos, blockIn,fromPos);
 	}
 	
 	

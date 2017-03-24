@@ -27,7 +27,7 @@ public class ItemPestle extends WizardryItem {
 	@Override
 	public ItemStack getContainerItem(ItemStack itemStack){
 		//itemStack.setMetadata(itemStack.getMetadata() + 1);
-		return ItemStack.copyItemStack(itemStack);
+		return itemStack.copy();
 	}
 	
 

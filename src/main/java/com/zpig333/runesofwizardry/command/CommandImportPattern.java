@@ -68,27 +68,27 @@ public class CommandImportPattern implements ICommand {
 	}
 
 	/* (non-Javadoc)
-	 * @see net.minecraft.command.ICommand#getCommandName()
+	 * @see net.minecraft.command.ICommand#getName()
 	 */
 	@Override
-	public String getCommandName() {
+	public String getName() {
 		return "rw_import";
 	}
 
 	/* (non-Javadoc)
-	 * @see net.minecraft.command.ICommand#getCommandUsage(net.minecraft.command.ICommandSender)
+	 * @see net.minecraft.command.ICommand#getUsage(net.minecraft.command.ICommandSender)
 	 */
 	@Override
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		//it gets partially translated - OK
-		return getCommandName()+" "+locKey+".usage";
+		return getName()+" "+locKey+".usage";
 	}
 
 	/* (non-Javadoc)
-	 * @see net.minecraft.command.ICommand#getCommandAliases()
+	 * @see net.minecraft.command.ICommand#getAliases()
 	 */
 	@Override
-	public List<String> getCommandAliases() {
+	public List<String> getAliases() {
 		return aliases;
 	}
 
@@ -103,7 +103,7 @@ public class CommandImportPattern implements ICommand {
 		if(!world.isRemote){
 			if(sender instanceof EntityPlayer){
 				EntityPlayer player = (EntityPlayer) sender;
-				if(args.length<1 || args.length>2)throw new WrongUsageException(getCommandUsage(sender));
+				if(args.length<1 || args.length>2)throw new WrongUsageException(getUsage(sender));
 				//get the pattern from args
 				ItemStack[][] pattern = null;
 				IRune rune=null;
@@ -116,7 +116,7 @@ public class CommandImportPattern implements ICommand {
 					pattern = new ItemStack[runepattern.length][runepattern[0].length];
 					for(int r=0;r<pattern.length;r++){
 						for(int c=0;c<pattern[r].length;c++){
-							pattern[r][c]=ItemStack.copyItemStack(runepattern[r][c]);
+							pattern[r][c]=runepattern[r][c].copy();
 						}
 					}
 				}else{
@@ -125,7 +125,7 @@ public class CommandImportPattern implements ICommand {
 						pattern = PatternUtils.importFromJson(args[0]);
 						JsonUtils.clearItemStackJson();
 					} catch (FileNotFoundException e) {
-						sender.addChatMessage(new TextComponentTranslation(locKey+".serverfilenotfound", args[0], args[0], args[0]));
+						sender.sendMessage(new TextComponentTranslation(locKey+".serverfilenotfound", args[0], args[0], args[0]));
 						return;
 					} catch (IOException e) {
 						WizardryLogger.logException(Level.ERROR, e, "Error while importing pattern from JSON");
@@ -225,24 +225,24 @@ public class CommandImportPattern implements ICommand {
 								for (int col = 0; col < stacks.length; col++) {
 									ItemStack s = stacks[col];
 									int n=0;
-									if(s!=null){
-										n=s.stackSize;
+									if(!s.isEmpty()){
+										n=s.getCount();
 										//n is the number of wanted items
-										//n=player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.stackSize, s.getTagCompound());
+										//n=player.inventory.clearMatchingItems(s.getItem(), s.getMetadata(), s.getCount(), s.getTagCompound());
 										for(int i=0;i<player.inventory.getSizeInventory()&&n>0;i++){
 											ItemStack playerStack = player.inventory.getStackInSlot(i);
-											if(playerStack==null)continue;
+											if(playerStack.isEmpty())continue;
 											//if the item matches
 											if(ItemStack.areItemsEqual(s, playerStack)&&ItemStack.areItemStackTagsEqual(s, playerStack)){
-												int originalSize = playerStack.stackSize;
+												int originalSize = playerStack.getCount();
 												int remainder = originalSize-n;
-												playerStack.stackSize= remainder>0? remainder : 0;
-												if(playerStack.stackSize==0)player.inventory.removeStackFromSlot(i);
+												playerStack.setCount(remainder>0? remainder : 0);
+												if(playerStack.getCount()==0)player.inventory.removeStackFromSlot(i);
 												n-= remainder>0? n : originalSize;
 											}else if(playerStack.getItem() instanceof ItemDustPouch){												ItemDustPouch pouch = (ItemDustPouch)playerStack.getItem();
 											ItemStack dust = pouch.getDustStack(playerStack, n);
 											if(ItemStack.areItemsEqual(s,dust)&&ItemStack.areItemStackTagsEqual(s, dust)){
-												int originalSize = dust.stackSize;
+												int originalSize = dust.getCount();
 												n-= originalSize;
 											}else{
 												//re-add the dust if it didn't match
@@ -254,7 +254,7 @@ public class CommandImportPattern implements ICommand {
 									}
 									if(n>0)missing=true;
 									//XXX this will update rendering all the time so it might be slow
-									if(n==0||s==null||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), ItemStack.copyItemStack(s));
+									if(n==0||s.isEmpty()||s.getItem() instanceof DustPlaceholder)ted.setInventorySlotContents(TileEntityDustPlaced.getSlotIDfromPosition(row, col), s.copy());
 								}
 							}
 							if(ted.isEmpty()){//remove the TE if we couldn't place any dust in it
@@ -276,7 +276,7 @@ public class CommandImportPattern implements ICommand {
 			}
 		}
 		if(missing){
-			player.addChatComponentMessage(new TextComponentTranslation(locKey+".incomplete"));
+			player.sendMessage(new TextComponentTranslation(locKey+".incomplete"));
 		}
 		world.playSound(null, topLeft, SoundEvents.BLOCK_SAND_PLACE, SoundCategory.BLOCKS, 0.7f, 1.5f);
 	}
@@ -302,7 +302,7 @@ public class CommandImportPattern implements ICommand {
 	 * @see net.minecraft.command.ICommand#addTabCompletionOptions(net.minecraft.command.ICommandSender, java.lang.String[], net.minecraft.util.BlockPos)
 	 */
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender,String[] args, BlockPos pos) {
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender,String[] args, BlockPos pos) {
 		LinkedList<String> options = new LinkedList<String>();
 		for(String id:DustRegistry.getRuneIDs()){
 			if(StringUtils.containsIgnoreCase(id, args[0]))options.add(id);

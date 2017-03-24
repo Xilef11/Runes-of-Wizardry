@@ -72,16 +72,16 @@ public class ContainerDustDye extends Container {
 				return null;
 			}
 
-			if (stackInSlot.stackSize == 0) {
+			if (stackInSlot.getCount() == 0) {
 				slotObject.putStack(null);
 			} else {
 				slotObject.onSlotChanged();
 			}
 
-			if (stackInSlot.stackSize == stack.stackSize) {
+			if (stackInSlot.getCount() == stack.getCount()) {
 				return null;
 			}
-			slotObject.onPickupFromSlot(player, stackInSlot);
+			slotObject.onTake(player, stackInSlot);
 		}
 		return stack;
 	}
@@ -93,10 +93,10 @@ public class ContainerDustDye extends Container {
 		@Override
 		public boolean isItemValid(ItemStack stack){
 			//only allow dyed dusts in the slot
-			if(stack!=null){
+			if(!stack.isEmpty()){
 				if(stack.getItem()instanceof ItemDustPouch){
 					ItemStack dust = ((ItemDustPouch)stack.getItem()).getDustStack(stack, 0);
-					if(dust!=null)stack=dust;
+					if(!dust.isEmpty())stack=dust;
 					else return false;
 				}
 				if(stack.getItem()==WizardryRegistry.dust_dyed)return true;
