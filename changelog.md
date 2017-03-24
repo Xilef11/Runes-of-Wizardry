@@ -1,1 +1,2 @@
 - Updated to 1.11/1.11.2
+- Beta release because the new ItemStack stuff can cause hard-to-find bugs.
