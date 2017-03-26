@@ -96,7 +96,7 @@ public class WizardryRegistry {
 
 		broom = new ItemBroom();
 		
-		inscription = Loader.isModLoaded("Baubles")? new ItemInscriptionBauble() : new ItemInscription();
+		inscription = Loader.isModLoaded("baubles")? new ItemInscriptionBauble() : new ItemInscription();
 		
 		sacrifice_negator = new ItemSacrificeNegator();
 		//dyed dust

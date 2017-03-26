@@ -20,7 +20,7 @@ import com.zpig333.runesofwizardry.core.ConfigHandler;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
-@Optional.Interface(modid = "Baubles", iface="baubles.api.IBauble")
+@Optional.Interface(modid = "baubles", iface="baubles.api.IBauble")
 public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 		/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#onArmorTick(net.minecraft.world.World, net.minecraft.entity.player.EntityPlayer, net.minecraft.item.ItemStack)
@@ -28,7 +28,7 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 	@Override
 	public void onArmorTick(World world, EntityPlayer player,ItemStack itemStack) {
 		//we are in the armor slot
-		if(Loader.isModLoaded("Baubles")){
+		if(Loader.isModLoaded("baubles")){
 			if(ConfigHandler.disableDoubleInscription){
 				//InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
 				IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
@@ -54,7 +54,7 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 		return true;
 	}
 	@Override
-	@Optional.Method(modid="Baubles")
+	@Optional.Method(modid="baubles")
 	public BaubleType getBaubleType(ItemStack arg0) {
 		return BaubleType.AMULET;
 	}
@@ -93,7 +93,7 @@ public class ItemInscriptionBauble extends ItemInscription implements IBauble{
 		ItemStack toEquip = stack.copy();
 		toEquip.setCount(1);
 
-		if(canEquip(toEquip, player) && Loader.isModLoaded("Baubles")) {
+		if(canEquip(toEquip, player) && Loader.isModLoaded("baubles")) {
 			//InventoryBaubles baubles = PlayerHandler.getPlayerBaubles(player);
 			IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
 			for(int i = 0; i < baubles.getSlots(); i++) {
