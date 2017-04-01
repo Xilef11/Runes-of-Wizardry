@@ -56,8 +56,12 @@ public class RecipeDustPouch implements IRecipe {
 			((ItemDustPouch)pouch.getItem()).addDust(pouch, dust);
 			return pouch.copy();
 		}else{//taking dust out or clearing
+			if(((ItemDustPouch)pouch.getItem()).getDustAmount(pouch)==0){
+				((ItemDustPouch)pouch.getItem()).clear(pouch);
+				return pouch;
+			}
 			dust = ((ItemDustPouch)pouch.getItem()).getDustStack(pouch, Integer.MAX_VALUE);
-			if(dust.isEmpty() || ((ItemDustPouch)pouch.getItem()).getDustAmount(pouch)==0){//clear the pouch
+			if(dust.isEmpty()){//clear the pouch
 				((ItemDustPouch)pouch.getItem()).clear(pouch);
 				return pouch;
 			}else{
@@ -92,8 +96,9 @@ public class RecipeDustPouch implements IRecipe {
 				if(stack.getItem() instanceof ItemDustPouch){
 					slot=i;
 					pouch=stack.copy();
+					remainder = ((ItemDustPouch)pouch.getItem()).getDustAmount(pouch)==0;
 					ItemStack s = ((ItemDustPouch)pouch.getItem()).getDustStack(pouch, Integer.MAX_VALUE);
-					remainder = !(s.isEmpty() || ((ItemDustPouch)pouch.getItem()).getDustAmount(pouch)==0);
+					remainder=!(s.isEmpty()||remainder);
 				}
 			}
 		}

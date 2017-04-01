@@ -30,7 +30,7 @@ public class TileEntityDustDye extends TileEntity{
 		//technically, this stack should not be modified
 		ItemStack dust = inventory.getStackInSlot(0);
 		if(dust.isEmpty())return;
-		ItemStack pouch = null;
+		ItemStack pouch = ItemStack.EMPTY;
 		ItemDustPouch itemPouch = null;
 		if(dust.getItem() instanceof ItemDustPouch){
 			pouch = dust;

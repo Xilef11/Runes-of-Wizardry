@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.material.Material;
@@ -174,9 +175,9 @@ public class DustRegistry {
 	/**
 	 * Returns the inscription worn by a player
 	 * @param player
-	 * @return null if no inscription is worn or if more than one inscription is worn and double inscriptions are disabled
+	 * @return ItemStack.EMPTY if no inscription is worn or if more than one inscription is worn and double inscriptions are disabled
 	 */
-	@Nullable
+	@Nonnull
 	public static ItemStack getWornInscription(EntityPlayer player){
 		return ((ItemInscription)WizardryRegistry.inscription).getWornInscription(player);
 	}

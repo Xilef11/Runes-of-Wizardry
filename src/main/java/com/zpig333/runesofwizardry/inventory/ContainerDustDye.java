@@ -54,7 +54,7 @@ public class ContainerDustDye extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
-		ItemStack stack = null;
+		ItemStack stack = ItemStack.EMPTY;
 		Slot slotObject = inventorySlots.get(slot);
 
 		//null checks and checks if the item can be stacked (maxStackSize > 1)
@@ -65,21 +65,21 @@ public class ContainerDustDye extends Container {
 			//merges the item into player inventory since it's in the tileEntity
 			if (slot < 9) {
 				if (!this.mergeItemStack(stackInSlot, 0, 35, true)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			} //places it into the tileEntity if possible since its in the player inventory
 			else if (!this.mergeItemStack(stackInSlot, 0, 9, false)) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 
 			if (stackInSlot.getCount() == 0) {
-				slotObject.putStack(null);
+				slotObject.putStack(ItemStack.EMPTY);
 			} else {
 				slotObject.onSlotChanged();
 			}
 
 			if (stackInSlot.getCount() == stack.getCount()) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 			slotObject.onTake(player, stackInSlot);
 		}
@@ -95,7 +95,8 @@ public class ContainerDustDye extends Container {
 			//only allow dyed dusts in the slot
 			if(!stack.isEmpty()){
 				if(stack.getItem()instanceof ItemDustPouch){
-					ItemStack dust = ((ItemDustPouch)stack.getItem()).getDustStack(stack, 0);
+					ItemStack dust = ((ItemDustPouch)stack.getItem()).getDustStack(stack, 1);
+					((ItemDustPouch)stack.getItem()).addDust(stack, dust);
 					if(!dust.isEmpty())stack=dust;
 					else return false;
 				}

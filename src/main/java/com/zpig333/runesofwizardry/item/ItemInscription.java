@@ -2,6 +2,7 @@ package com.zpig333.runesofwizardry.item;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -232,13 +233,13 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	public boolean isDamageable() {
 		return true;
 	}
-	@Nullable
+	@Nonnull
 	public ItemStack getWornInscription(EntityPlayer player){
 		ItemStack chest = player.getItemStackFromSlot(EntityEquipmentSlot.CHEST);
 		if(!chest.isEmpty() && chest.getItem()==this){
 			return chest;
 		}
-		return null;
+		return ItemStack.EMPTY;
 	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.ItemArmor#onItemRightClick(net.minecraft.item.ItemStack, net.minecraft.world.World, net.minecraft.entity.player.EntityPlayer, net.minecraft.util.EnumHand)

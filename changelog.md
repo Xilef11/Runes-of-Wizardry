@@ -1,0 +1,5 @@
+- Fix Baubles integration
+- Fix arcane dye GUI texture
+- Fix crashes in arcane dye
+- Fix dust pouch crafting
+- Fix arcane dye removing dust from pouches
