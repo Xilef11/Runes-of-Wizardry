@@ -53,7 +53,7 @@ public class RuneChargeInscription extends IRune {
 
 	private void setupPattern() {
 		try {
-			pattern = PatternUtils.importFromJson(new ResourceLocation(References.modid, "patterns/runeChargeInscription.json"));
+			pattern = PatternUtils.importFromJson(new ResourceLocation(References.modid, "patterns/runechargeinscription.json"));
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 		} catch (JsonIOException e) {
