@@ -10,6 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IRune;
+import com.zpig333.runesofwizardry.api.RuneEntity;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
@@ -22,11 +27,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.api.IRune;
-import com.zpig333.runesofwizardry.api.RuneEntity;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 /** This TileEntity replaces a TileEntityDustPlaced when a rune is formed.
  * @author Xilef11
@@ -135,7 +135,13 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		int modC = maxCol%TileEntityDustPlaced.COLS;
 		if(modC!=0)maxCol+=(TileEntityDustPlaced.COLS-modC);
 		ItemStack[][] stacks = new ItemStack[maxRow+1][maxCol+1];
-
+		//fill with EMPTY to prevent NPE
+		for(int i=0;i<stacks.length;i++){
+			for(int j=0;j<stacks[i].length;j++){
+				stacks[i][j]=ItemStack.EMPTY;
+			}
+		}
+		//set our dusts
 		for(ArrayElement a:items){
 			stacks[a.row][a.col]=a.stack;
 		}
