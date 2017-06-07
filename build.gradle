@@ -26,6 +26,7 @@ buildscript {
 		maven {
 			url "https://plugins.gradle.org/m2/"
 		}
+		
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
@@ -94,6 +95,13 @@ repositories {
   maven {
     url "http://dvs1.progwml6.com/files/maven"
   }
+  ivy{
+	url "https://dl.dropboxusercontent.com/u/47135879/"
+	//artifactPattern "https://dl.dropboxusercontent.com/u/47135879/[artifact]-[revision]-[classifier].[ext]"
+	layout "pattern" , {
+		artifact "[artifact]-[revision](-[classifier]).[ext]"
+	}
+  }
 }
 dependencies {
        // you may put jars on which you depend on in ./libs
@@ -120,9 +128,12 @@ dependencies {
 	deobfCompile "mezz.jei:jei_"+jeiversion+":api"
 	runtime "mezz.jei:jei_"+jeiversion
 	
-	compile files(
-		'libs/Baubles-'+baublesversion+'-deobf.jar'
-	)
+	deobfCompile "baubles:Baubles:"+baublesversion//+":api"
+	//runtime "baubles:Baubles:"+baublesversion
+	
+	//compile files(
+	//	'libs/Baubles-'+baublesversion+'-deobf.jar'
+	//)
 }
 
 processResources
