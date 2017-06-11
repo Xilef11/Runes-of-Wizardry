@@ -1,0 +1,2 @@
+- Fix NPE/crash when saving and reloading active runes
+- update to latest 1.11.2 dependencies

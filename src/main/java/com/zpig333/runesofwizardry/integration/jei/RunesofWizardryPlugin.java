@@ -68,8 +68,6 @@ public class RunesofWizardryPlugin implements IModPlugin {
 
 	@Override
 	public void registerCategories(IRecipeCategoryRegistration registry) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
