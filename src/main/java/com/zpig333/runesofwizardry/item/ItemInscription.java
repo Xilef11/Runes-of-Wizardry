@@ -3,7 +3,16 @@ package com.zpig333.runesofwizardry.item;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+
+import org.lwjgl.input.Keyboard;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.Inscription;
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,16 +34,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import org.lwjgl.input.Keyboard;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
-import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.api.Inscription;
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	private static String NBT_DAMAGE_ID="damage";

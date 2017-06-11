@@ -12,6 +12,7 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
+import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -43,10 +44,11 @@ public class RunesofWizardryPlugin implements IModPlugin {
 				}
 			}
 		}
-		registry.addDescription(new ItemStack(WizardryRegistry.runic_dictionary), References.Lang.Jei.DICT);
-		registry.addDescription(new ItemStack(WizardryRegistry.runic_staff), References.Lang.Jei.STAFF);
-		registry.addDescription(new ItemStack(WizardryRegistry.broom), References.Lang.Jei.BROOM);
-		registry.addDescription(new ItemStack(WizardryRegistry.dust_pouch), References.Lang.Jei.POUCH);
+		//registry.addIngredientInfo(ingredient, ingredientClass, descriptionKeys);
+		registry.addIngredientInfo(new ItemStack(WizardryRegistry.runic_dictionary),ItemStack.class, References.Lang.Jei.DICT);
+		registry.addIngredientInfo(new ItemStack(WizardryRegistry.runic_staff),ItemStack.class, References.Lang.Jei.STAFF);
+		registry.addIngredientInfo(new ItemStack(WizardryRegistry.broom),ItemStack.class, References.Lang.Jei.BROOM);
+		registry.addIngredientInfo(new ItemStack(WizardryRegistry.dust_pouch),ItemStack.class, References.Lang.Jei.POUCH);
 	}
 
 	@Override
@@ -62,6 +64,12 @@ public class RunesofWizardryPlugin implements IModPlugin {
 	@Override
 	public void registerIngredients(IModIngredientRegistration registry) {
 		//no need to do anything fancy here for now, we just use vanilla recipes
+	}
+
+	@Override
+	public void registerCategories(IRecipeCategoryRegistration registry) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
