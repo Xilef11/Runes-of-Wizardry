@@ -3,15 +3,6 @@ package com.zpig333.runesofwizardry.client.render;
 import java.awt.Color;
 import java.util.Random;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
-import net.minecraft.client.renderer.tileentity.TileEntityBeaconRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
-
 import org.lwjgl.opengl.GL11;
 
 import com.zpig333.runesofwizardry.core.References;
@@ -20,14 +11,23 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive.BeamData;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.tileentity.TileEntityBeaconRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
+
 public class RenderDustActive extends RenderDustPlaced {
 
 	/* (non-Javadoc)
 	 * @see com.zpig333.runesofwizardry.client.render.RenderDustPlaced#renderTileEntityAt(com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced, double, double, double, float, int)
 	 */
 	@Override
-	public void renderTileEntityAt(TileEntityDustPlaced tileEntity,	double relativeX, double relativeY, double relativeZ,float partialTicks, int blockDamageProgress) {
-		super.renderTileEntityAt(tileEntity, relativeX, relativeY, relativeZ,partialTicks, blockDamageProgress);
+	public void render(TileEntityDustPlaced tileEntity,	double relativeX, double relativeY, double relativeZ,float partialTicks, int blockDamageProgress, float alpha) {
+		super.render(tileEntity, relativeX, relativeY, relativeZ,partialTicks, blockDamageProgress, alpha);
 		if(!(tileEntity instanceof TileEntityDustActive)){
 			WizardryLogger.logError("TileEntity was not active dust for rendering by RenderDustActive");
 			return;
@@ -55,7 +55,7 @@ public class RenderDustActive extends RenderDustPlaced {
     {
 		//the star disappears sometimes (especially if it's *far* from the dust) - this is because the TE is not in the view. can't do much about it.
         Tessellator tes = Tessellator.getInstance();
-        VertexBuffer vb = tes.getBuffer();
+        BufferBuilder vb = tes.getBuffer();
         Vec3d off = te.stardata.offset;
 
         RenderHelper.disableStandardItemLighting();

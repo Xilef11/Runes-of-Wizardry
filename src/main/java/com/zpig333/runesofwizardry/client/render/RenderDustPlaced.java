@@ -8,18 +8,20 @@ package com.zpig333.runesofwizardry.client.render;
 import java.awt.Color;
 import java.util.Set;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexBuffer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 
 /** Renders the placed dust
  * @author Xilef11
@@ -27,13 +29,14 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPlaced> {
 
 	private static final ResourceLocation dustTexture = new ResourceLocation(References.texture_path + "textures/blocks/dust_top.png");
+	
 	/* (non-Javadoc)
 	 * @see net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer#renderTileEntityAt(net.minecraft.tileentity.TileEntity, double, double, double, float, int)
 	 * see http://github.com/TheGreyGhost/MinecraftByExample/ MBE21 TESR
 	 */ 
 	@Override
-	public void renderTileEntityAt(final TileEntityDustPlaced tileEntity, double relativeX,
-			double relativeY, double relativeZ, float partialTicks, int blockDamageProgress) {
+	public void render(final TileEntityDustPlaced tileEntity, double relativeX,
+			double relativeY, double relativeZ, float partialTicks, int blockDamageProgress, float alpha) {
 
 		try{
 			//save GL state
@@ -44,7 +47,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 			GlStateManager.translate(relativeX, relativeY, relativeZ);
 			//grab the tesselator
 			final Tessellator tesselator = Tessellator.getInstance();
-			final VertexBuffer buffer = tesselator.getBuffer();
+			final BufferBuilder buffer = tesselator.getBuffer();
 			//set texture
 			this.bindTexture(dustTexture);
 
@@ -94,7 +97,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 	}
 	private static final double offset = 0.058;
 	final double y = 0.01;//y coordinate at which to draw the things
-	private void drawCenterVertex(int row, int col, int colorInt, VertexBuffer renderer, Tessellator tes){
+	private void drawCenterVertex(int row, int col, int colorInt, BufferBuilder renderer, Tessellator tes){
 		Color color = new Color(colorInt);
 		double rowBegin = row/(float)TileEntityDustPlaced.ROWS + offset;
 		double rowEnd = (row+1)/(float)TileEntityDustPlaced.ROWS - offset;
@@ -114,7 +117,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 		tes.draw();
 	}
 	private final static double thin = 0.02;
-	private void drawInternalConnector(int row1, int col1, int row2, int col2, int color1, int color2, VertexBuffer buffer, Tessellator tes){
+	private void drawInternalConnector(int row1, int col1, int row2, int col2, int color1, int color2, BufferBuilder buffer, Tessellator tes){
 
 		double row1begin = row1/(float)TileEntityDustPlaced.ROWS + offset,
 				row1end = (row1+1)/(float)TileEntityDustPlaced.ROWS - offset,
@@ -175,7 +178,7 @@ public class RenderDustPlaced extends TileEntitySpecialRenderer<TileEntityDustPl
 		}
 		tes.draw();
 	}
-	private void drawExternalConnector(int row, int col, int colorIn, EnumFacing direction, VertexBuffer renderer, Tessellator tes){
+	private void drawExternalConnector(int row, int col, int colorIn, EnumFacing direction, BufferBuilder renderer, Tessellator tes){
 		double rowBegin = row/(float)TileEntityDustPlaced.ROWS + offset;
 		double rowEnd = (row+1)/(float)TileEntityDustPlaced.ROWS - offset;
 		double colBegin = col/(float)TileEntityDustPlaced.COLS + offset;
