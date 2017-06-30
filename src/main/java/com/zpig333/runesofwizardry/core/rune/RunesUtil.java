@@ -134,7 +134,7 @@ public class RunesUtil {
 		}
 		List<ItemStack> stacks= new LinkedList<ItemStack>();
 		for(EntityItem e: sacList){
-			ItemStack s =e.getEntityItem(); 
+			ItemStack s =e.getItem(); 
 			if(s.getItem()==WizardryRegistry.sacrifice_negator){
 				negated=true;
 			}else{

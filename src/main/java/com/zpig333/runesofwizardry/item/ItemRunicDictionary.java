@@ -108,7 +108,7 @@ public class ItemRunicDictionary extends WizardryItem {
 					int foodReq = ConfigHandler.dictionaryImportHunger;
 					if(xpReq>=0){
 						if(playerIn.experienceLevel>=xpReq){
-							playerIn.removeExperienceLevel(xpReq);
+							playerIn.addExperienceLevel(-1*xpReq);
 							playerIn.getFoodStats().addStats(-foodReq, 0);
 							//MinecraftServer.getServer().getCommandManager().executeCommand(playerIn, CommandImportPattern.instance().getName()+" "+runeID);
 							try {

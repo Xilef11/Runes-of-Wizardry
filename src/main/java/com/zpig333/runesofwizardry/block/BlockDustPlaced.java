@@ -229,7 +229,7 @@ public class BlockDustPlaced extends Block{
 						entityitem.motionZ = (float) random.nextGaussian() * f3;
 
 						if (itemstack.hasTagCompound()) {
-							entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+							entityitem.getItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
 						}
 						itemstack.setCount(itemstack.getCount() - j1);
 					}

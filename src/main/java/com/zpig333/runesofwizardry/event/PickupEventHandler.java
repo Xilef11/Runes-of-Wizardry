@@ -13,7 +13,7 @@ import com.zpig333.runesofwizardry.item.ItemDustPouch;
 public class PickupEventHandler {
 	@SubscribeEvent
 	public void onPickupDust(EntityItemPickupEvent event){
-		ItemStack dust = event.getItem().getEntityItem();
+		ItemStack dust = event.getItem().getItem();
 		//WizardryLogger.logInfo(dust);
 		if(dust.getItem() instanceof IDust && dust.getCount()>0){
 			EntityPlayer player = event.getEntityPlayer();

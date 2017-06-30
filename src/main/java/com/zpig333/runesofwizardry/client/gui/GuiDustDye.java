@@ -64,7 +64,7 @@ public class GuiDustDye extends GuiContainer {
 		//GuiTextField(int id, FontRenderer font, int xPos, int yPos, int width, int height)
 		//id is useless apparently
 		//here, 0,0 is the top left of the texture...
-		textColor = new GuiTextField(0, this.fontRendererObj, 105, 14, 45, 12);
+		textColor = new GuiTextField(0, this.fontRenderer, 105, 14, 45, 12);
 		textColor.setMaxStringLength(6);
 		textColor.setEnableBackgroundDrawing(false);
 		textColor.setVisible(true);
@@ -187,7 +187,7 @@ public class GuiDustDye extends GuiContainer {
 		//				black=0x191919;
 		EnumDyeColor[] colors = EnumDyeColor.values();
 		int id = row*4 + col;
-		color=colors[id].getMapColor().colorValue;
+		color=colors[id].getColorValue();
 		//color+=0x050505; //Colors are off compared to wool colors FSR
 		/*
 		if(row==0){
@@ -219,14 +219,14 @@ public class GuiDustDye extends GuiContainer {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		//draw text and stuff here
 		//the parameters for drawString are: string, x, y, color
-		fontRendererObj.drawString(WizardryRegistry.dust_dye.getLocalizedName(), 8, 6, 4210752);
+		fontRenderer.drawString(WizardryRegistry.dust_dye.getLocalizedName(), 8, 6, 4210752);
 		//draws "Inventory" or your regional equivalent
-		fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 3, 4210752);
+		fontRenderer.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 3, 4210752);
 		textColor.drawTextBox();
 		if(!validColor){
 			GL11.glPushMatrix();//GL stuff to make it bigger
 			GL11.glScalef(1.6F, 1.55F, 1.5F);
-			fontRendererObj.drawString("!", 61, 8, 0xFF0000);
+			fontRenderer.drawString("!", 61, 8, 0xFF0000);
 			GL11.glPopMatrix();
 		}
 		// x1, y1, x2, y2, color (NOTE: first byte (2 char) of color is alpha)
