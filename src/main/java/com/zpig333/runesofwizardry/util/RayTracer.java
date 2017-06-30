@@ -22,7 +22,7 @@ public class RayTracer {
 		Vec3d headVec = getCorrectedHeadVec(player);
 		Vec3d lookVec = player.getLook(1.0F);
 		double reach = getBlockReachDistance(player);
-		Vec3d endVec = headVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
+		Vec3d endVec = headVec.addVector(lookVec.x * reach, lookVec.y * reach, lookVec.z * reach);
 		return b.collisionRayTrace(world, pos, headVec, endVec);
 	}
 
@@ -42,7 +42,7 @@ public class RayTracer {
 	public static RayTraceResult retrace(EntityPlayer player, double reach) {
 		Vec3d headVec = getCorrectedHeadVec(player);
 		Vec3d lookVec = player.getLook(1);
-		Vec3d endVec = headVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
+		Vec3d endVec = headVec.addVector(lookVec.x * reach, lookVec.y * reach, lookVec.z * reach);
 		return player.world.rayTraceBlocks(headVec, endVec, true, false, true);
 	}
 
@@ -72,6 +72,6 @@ public class RayTracer {
 		Vec3d headVec = getCorrectedHeadVec(player);
 		Vec3d lookVec = player.getLook(1.0F);
 		double reach = getBlockReachDistance(player);
-		return headVec.addVector(lookVec.xCoord * reach, lookVec.yCoord * reach, lookVec.zCoord * reach);
+		return headVec.addVector(lookVec.x * reach, lookVec.y * reach, lookVec.z * reach);
 	}
 }

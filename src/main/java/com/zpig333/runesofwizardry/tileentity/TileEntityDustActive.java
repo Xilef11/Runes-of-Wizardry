@@ -261,9 +261,9 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			tag.setFloat("starScale", scale);
 			tag.setFloat("starScaleY", yscale);
 			tag.setBoolean("starRender", doRender);
-			tag.setDouble("starOffsetX", offset.xCoord);
-			tag.setDouble("starOffsetY", offset.yCoord);
-			tag.setDouble("starOffsetZ", offset.zCoord);
+			tag.setDouble("starOffsetX", offset.x);
+			tag.setDouble("starOffsetY", offset.y);
+			tag.setDouble("starOffsetZ", offset.z);
 			return tag;
 		}
 		public void readNBT(NBTTagCompound tag){
@@ -315,9 +315,9 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			tag.setBoolean("beamRender", doRender);
 			tag.setBoolean("beamRotate", doesRotate);
 			tag.setInteger("beamHeight", height);
-			tag.setDouble("beamOffsetX", offset.xCoord);
-			tag.setDouble("beamOffsetY", offset.yCoord);
-			tag.setDouble("beamOffsetZ", offset.zCoord);
+			tag.setDouble("beamOffsetX", offset.x);
+			tag.setDouble("beamOffsetY", offset.y);
+			tag.setDouble("beamOffsetZ", offset.z);
 			tag.setDouble("beamRad", beamRadius);
 			tag.setDouble("beamGlowRad", glowRadius);
 			if(type==BeamType.CUSTOM){

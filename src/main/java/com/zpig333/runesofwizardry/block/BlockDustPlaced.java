@@ -420,8 +420,8 @@ public class BlockDustPlaced extends Block{
 				if(rune.handleLeftClick(worldIn, pos, playerIn, hit))return;
 			}
 			//make it relative to the block hit and find the row/column hit
-			double posX = (hit.xCoord - pos.getX() )* TileEntityDustPlaced.COLS;
-			double posZ = (hit.zCoord - pos.getZ() )* TileEntityDustPlaced.ROWS;
+			double posX = (hit.x - pos.getX() )* TileEntityDustPlaced.COLS;
+			double posZ = (hit.z - pos.getZ() )* TileEntityDustPlaced.ROWS;
 			int row = (int) posZ;
 			int col = (int) posX;
 

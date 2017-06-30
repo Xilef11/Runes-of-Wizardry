@@ -77,7 +77,7 @@ public class RenderDustActive extends RenderDustPlaced {
         float yOffset = 0;
         float scale = te.stardata.scale;
         if(te.ticksExisted() < BIRTHLENGTH){
-        	double offset = off.yCoord +0.5;
+        	double offset = off.y +0.5;
         	double offsetPerc = offset/(1-0.1875);
         	double perc = ((double)ticks / (double) BIRTHLENGTH);
 
@@ -97,7 +97,7 @@ public class RenderDustActive extends RenderDustPlaced {
         GL11.glPushMatrix();
 
         //center 1 block above TE by default
-        GlStateManager.translate(0.5+off.xCoord, 1+off.yCoord+yOffset, 0.5+off.zCoord);
+        GlStateManager.translate(0.5+off.x, 1+off.y+yOffset, 0.5+off.z);
 
         GL11.glScalef(0.02F, 0.02F, 0.02F);
         GL11.glScalef(scale,scale,scale);
@@ -154,7 +154,7 @@ public class RenderDustActive extends RenderDustPlaced {
 		float[] colors = new float[]{beamColor.getRed()/255F,beamColor.getGreen()/255F,beamColor.getBlue()/255F};
 		//renderBeamSegment(double x, double y, double z, double partialTicks, double shouldBeamrender, double totalWorldTime, int verticalOffset, int height, float[] colors, double beamRadius, double glowRadius)
 		//looks like shouldBeamRender affects the scale/speed of the texture animation
-		TileEntityBeaconRenderer.renderBeamSegment(off.xCoord, off.yCoord, off.zCoord, partialTicks, getTextureScale(te.beamdata), te.beamdata.doesRotate?(double)te.getWorld().getTotalWorldTime() : partialTicks, 0, te.beamdata.height, colors, te.beamdata.beamRadius,te.beamdata.glowRadius);
+		TileEntityBeaconRenderer.renderBeamSegment(off.x, off.y, off.z, partialTicks, getTextureScale(te.beamdata), te.beamdata.doesRotate?(double)te.getWorld().getTotalWorldTime() : partialTicks, 0, te.beamdata.height, colors, te.beamdata.beamRadius,te.beamdata.glowRadius);
 		GlStateManager.enableFog();
 	}
 	
