@@ -2,24 +2,6 @@ package com.zpig333.runesofwizardry.core;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.RecipeSorter;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
-
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
@@ -46,6 +28,28 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustDead;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+@Mod.EventBusSubscriber
 public class WizardryRegistry {
 
 	public static Block dust_blocks;
@@ -66,7 +70,8 @@ public class WizardryRegistry {
 	//dyed dust
 	public static Item dust_dyed;
 	/**create the instances for all the blocks**/
-	public static void initBlocks(){
+	@SubscribeEvent
+	public static void initBlocks(RegistryEvent.Register<Block> event){
 
 		lavastone_bricks = new BlockLavastone_bricks(Material.ROCK);
 		//Bust Dye + its TileEntity
@@ -78,11 +83,15 @@ public class WizardryRegistry {
 		GameRegistry.registerTileEntity(TileEntityDustPlaced.class, "te_dust_placed");
 		GameRegistry.registerTileEntity(TileEntityDustActive.class, "te_dust_active");
 		GameRegistry.registerTileEntity(TileEntityDustDead.class, "te_dust_dead");
+		
+		//register blocks
+		event.getRegistry().registerAll(lavastone_bricks, dust_dye, dust_placed);
 
 	}
 
-	/**Creates the instances for all the items**/
-	public static void initItems(){
+	/**Creates and registers the instances for all the items**/
+	@SubscribeEvent
+	public static void initItems(RegistryEvent.Register<Item> event){
 
 		pestle = new ItemPestle();
 
@@ -123,6 +132,14 @@ public class WizardryRegistry {
 		};
 
 		dust_pouch = new ItemDustPouch();
+		
+		//register all items
+		event.getRegistry().registerAll(pestle, plantballs, nether_paste, lavastone, runic_dictionary, runic_staff, dust_pouch, broom, sacrifice_negator, inscription, dust_dead, dust_dyed);
+		
+		//register ItemBlocks
+		event.getRegistry().register(new ItemBlock(lavastone_bricks).setRegistryName(lavastone_bricks.getRegistryName()));
+		event.getRegistry().register(new ItemBlock(dust_dye).setRegistryName(dust_dye.getRegistryName()));
+		event.getRegistry().register(new ItemBlock(dust_placed).setRegistryName(dust_placed.getRegistryName()));
 	}
 
 	/**Registers all our dusts with the DustRegistry**/

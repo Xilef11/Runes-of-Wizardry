@@ -5,12 +5,10 @@
  */
 package com.zpig333.runesofwizardry.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
+
+import net.minecraft.item.Item;
 
 /** Class for all (simple) Items from this mod
  * @author Xilef11
@@ -20,9 +18,9 @@ public abstract class WizardryItem extends Item {
 
 	public WizardryItem(){
 		super();
-		GameRegistry.register(this, new ResourceLocation(References.modid,getName()));
 		this.setCreativeTab(RunesOfWizardry.wizardry_tab);
 		setUnlocalizedName(References.modid+"_"+getName());
+		setRegistryName(References.modid,getName());
 	}
 
 	/** returns the internal name of this item**/

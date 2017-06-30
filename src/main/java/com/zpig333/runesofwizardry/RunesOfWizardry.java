@@ -50,8 +50,6 @@ public class RunesOfWizardry {
 	public static void preInit(FMLPreInitializationEvent event) {
 		//config
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
-		WizardryRegistry.initBlocks();
-		WizardryRegistry.initItems();
 		WizardryRegistry.initDusts();
 		if(event.getSide()==Side.CLIENT){
 			// initialize the item renders

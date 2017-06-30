@@ -21,7 +21,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,12 +28,10 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	private static String NBT_DAMAGE_ID="damage";
@@ -44,9 +41,9 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	}
 	public ItemInscription() {
 		super(INSCRIPTION_MATERIAL, 0,EntityEquipmentSlot.CHEST);
-		GameRegistry.register(this, new ResourceLocation(References.modid,getName()));
 		this.setCreativeTab(RunesOfWizardry.wizardry_tab);
 		setUnlocalizedName(References.modid+"_"+getName());
+		setRegistryName(References.modid,getName());
 		this.setHasSubtypes(true);
 		this.setMaxStackSize(1);
 	}
