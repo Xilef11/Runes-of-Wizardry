@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -48,7 +49,7 @@ public abstract class Inscription {
 		return getName()+".shortdesc";
 	}
 	/** allows to add info to the ItemStack tooltip **/ 
-	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced){
+	public void addInformation(ItemStack stack, World world,List<String> tooltip, ITooltipFlag advanced){
 		
 	}
 	/**

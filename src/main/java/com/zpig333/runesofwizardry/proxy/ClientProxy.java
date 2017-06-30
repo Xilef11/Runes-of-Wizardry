@@ -64,7 +64,7 @@ public class ClientProxy extends CommonProxy{
 		if(!dustclass.hasCustomIcon()){
 			NonNullList<ItemStack> subDusts = NonNullList.create();
 			//Things must (probably) be registered for all meta values
-			dustclass.getSubItems(dustclass, RunesOfWizardry.wizardry_tab, subDusts);
+			dustclass.getSubItems(RunesOfWizardry.wizardry_tab, subDusts);
 			for(ItemStack i:subDusts){
 				ModelLoader.setCustomModelResourceLocation(dustclass, i.getMetadata(), dustModel);
 			}

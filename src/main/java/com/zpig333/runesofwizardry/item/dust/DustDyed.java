@@ -2,17 +2,18 @@ package com.zpig333.runesofwizardry.item.dust;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
+import com.zpig333.runesofwizardry.api.IDust;
+
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import com.zpig333.runesofwizardry.api.IDust;
+import net.minecraft.world.World;
 
 public class DustDyed extends IDust{
 
 	//add tooltip
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List<String> data, boolean bool){
+	public void addInformation(ItemStack stack, World world, List<String> data, ITooltipFlag flag){
 		//if the stack has no tag compound, create one and set the color to white
 		if(stack.getTagCompound()==null){
 			NBTTagCompound compound = new NBTTagCompound();

@@ -3,6 +3,7 @@ package com.zpig333.runesofwizardry.item;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.command.CommandException;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,7 +46,7 @@ public class ItemRunicDictionary extends WizardryItem {
 	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 	 */
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag){
 		//tooltip.add("Unimplemented");
 		String id = getSelectedRuneID(stack);
 		if(id.length()>0){
@@ -90,7 +91,7 @@ public class ItemRunicDictionary extends WizardryItem {
 			}else{
 				tooltip.add("§f"+RunesOfWizardry.proxy.translate(References.Lang.HOLD_SHIFT));
 			}
-			if(advanced){
+			if(flag.isAdvanced()){
 				tooltip.add(TextFormatting.DARK_GRAY+"ID: "+id);
 			}
 		}

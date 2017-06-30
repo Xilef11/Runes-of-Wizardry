@@ -14,6 +14,7 @@ import com.zpig333.runesofwizardry.api.Inscription;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryLogger;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -72,7 +73,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 	 */
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag){
 		NBTTagCompound tag = stack.getSubCompound(References.modid);
 		if(tag!=null){
 			String id = tag.getString(Inscription.NBT_ID);
@@ -100,10 +101,10 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 				}else{
 					tooltip.add("§f"+RunesOfWizardry.proxy.translate(References.Lang.HOLD_SHIFT));
 				}
-				insc.addInformation(stack, playerIn, tooltip, advanced);
+				insc.addInformation(stack, world, tooltip, flag);
 			}
 			//also, maybe F3+h tooltip with inscription ID would be useful
-			if(advanced){
+			if(flag.isAdvanced()){
 				if (isDamaged(stack))
 	            {
 	                tooltip.add("Durability: " + (getRealMaxDamage(stack) - getDamage(stack)) + " / " + getRealMaxDamage(stack));
@@ -141,10 +142,10 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	 * @see net.minecraft.item.Item#getSubItems(net.minecraft.item.Item, net.minecraft.creativetab.CreativeTabs, java.util.List)
 	 */
 	@Override
-	public void getSubItems(Item itemIn, CreativeTabs tab,	NonNullList<ItemStack> subItems) {
-		subItems.add(new ItemStack(itemIn));//blank
+	public void getSubItems(CreativeTabs tab,	NonNullList<ItemStack> subItems) {
+		subItems.add(new ItemStack(this));//blank
 		for(String id:DustRegistry.getInscIDs()){
-			ItemStack toAdd = new ItemStack(itemIn,1,1);
+			ItemStack toAdd = new ItemStack(this,1,1);
 			toAdd.getOrCreateSubCompound(References.modid).setString(Inscription.NBT_ID, id);
 			subItems.add(toAdd);
 		}

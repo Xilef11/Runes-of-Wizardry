@@ -78,12 +78,14 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 	// - the "metadata" value of the block is set to the colours metadata
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list)
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list)
 	{	
 		NonNullList<ItemStack> dusts = NonNullList.create();
-		this.getIDust().getSubItems(itemIn, tab, dusts);
+		this.getIDust().getSubItems(tab, dusts);
 		for(ItemStack i:dusts){
-			list.add(new ItemStack(itemIn,1,i.getMetadata()));
+			ItemStack clone = i.copy();
+			clone.setCount(1);
+			list.add(clone);
 		}
 	}
 	/* (non-Javadoc)

@@ -7,9 +7,11 @@ package com.zpig333.runesofwizardry.item.dust;
 
 import java.util.List;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -91,7 +93,7 @@ public abstract class DustPlaceholder extends IDust {
 	 */
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag){
 		tooltip.add(RunesOfWizardry.proxy.translate(References.Lang.PLACEHOLDER));
 	}
 	/* (non-Javadoc)

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -48,13 +49,13 @@ public class ItemDustPouch extends WizardryItem {
 	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 	 */
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn,List<String> tooltip, boolean advanced) {
-		super.addInformation(stack, playerIn, tooltip, advanced);
+	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag){
+		super.addInformation(stack, world, tooltip, flag);
 		ItemStack dustType = getDustStack(stack, 0);
 		if(!dustType.isEmpty()){
 			tooltip.add(dustType.getDisplayName()+" x"+getDustAmount(stack));
 			//tooltip.add(I18n.translateToLocal(dustType.getUnlocalizedName()+".name")+" x"+getDustAmount(stack));
-			if(dustType.getItem()!=null)dustType.getItem().addInformation(dustType, playerIn, tooltip, advanced);
+			if(dustType.getItem()!=null)dustType.getItem().addInformation(dustType, world, tooltip, flag);
 		}
 	}
 
