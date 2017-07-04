@@ -4,6 +4,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import com.zpig333.runesofwizardry.api.IDust;
@@ -71,11 +72,6 @@ public class RecipeDustPouch implements IRecipe {
 	}
 
 	@Override
-	public int getRecipeSize() {
-		return 4;
-	}
-
-	@Override
 	public ItemStack getRecipeOutput() {
 		return new ItemStack(WizardryRegistry.dust_pouch);
 	}
@@ -104,6 +100,29 @@ public class RecipeDustPouch implements IRecipe {
 		}
 		if(remainder)r.set(slot,pouch);
 		return r;
+	}
+	
+	@Override
+	public IRecipe setRegistryName(ResourceLocation name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public ResourceLocation getRegistryName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Class<IRecipe> getRegistryType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public boolean canFit(int width, int height) {
+		return width*height>2;
 	}
 
 }
