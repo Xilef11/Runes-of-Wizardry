@@ -11,15 +11,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.core.References;
@@ -30,6 +21,14 @@ import com.zpig333.runesofwizardry.item.ItemInscription;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 import com.zpig333.runesofwizardry.runes.inscription.RuneInscription;
 import com.zpig333.runesofwizardry.util.Utils;
+
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
@@ -193,6 +192,7 @@ public class DustRegistry {
 		}
 		String modID = Utils.getCurrentModID();
 		dustclass.setUnlocalizedName(modID+"_"+dustclass.getName());
+		dustclass.setRegistryName(modID,dustclass.getName());
 		dustclass.setCreativeTab(dustclass.creativeTab());
 		//list of subItems
 		int[] metavalues = dustclass.getMetaValues();
@@ -201,7 +201,6 @@ public class DustRegistry {
 			dustclass.setHasSubtypes(true);
 		}
 		//register the dust item with the appropriate modid
-		GameRegistry.register(dustclass, new ResourceLocation(modID,dustclass.getName()));
 		RunesOfWizardry.proxy.registerDustItemRender(dustclass);
 		//create the block form of the dust
 		IDustStorageBlock dustBlock;

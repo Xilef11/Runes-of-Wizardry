@@ -1,5 +1,8 @@
 package com.zpig333.runesofwizardry.block;
 
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.SoundType;
@@ -8,17 +11,11 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 
 public abstract class ADustStorageBlock extends BlockFalling implements IDustStorageBlock {
 
@@ -29,10 +26,7 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 		setSoundType(SoundType.SAND);
 		setHarvestLevel("shovel", 0);
 		setUnlocalizedName(modID+"_"+getName());
-		ResourceLocation loc = new ResourceLocation(modID,getName());
-		GameRegistry.register(this,loc);
-		DustStorageItemBlock ib = new DustStorageItemBlock(this);
-		GameRegistry.register(ib, loc);
+		setRegistryName(modID,getName());
 	}
 
 	/* (non-Javadoc)

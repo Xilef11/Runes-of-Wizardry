@@ -5,9 +5,11 @@ import java.util.List;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
+import com.zpig333.runesofwizardry.block.DustStorageItemBlock;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.ItemInscription;
@@ -87,6 +89,10 @@ public class WizardryRegistry {
 		//register blocks
 		event.getRegistry().registerAll(lavastone_bricks, dust_dye, dust_placed);
 
+		//register dust blocks
+		for(IDustStorageBlock block : DustRegistry.getAllBlocks()){
+			event.getRegistry().register(block.getInstance());
+		}
 	}
 
 	/**Creates and registers the instances for all the items**/
@@ -140,6 +146,13 @@ public class WizardryRegistry {
 		event.getRegistry().register(new ItemBlock(lavastone_bricks).setRegistryName(lavastone_bricks.getRegistryName()));
 		event.getRegistry().register(new ItemBlock(dust_dye).setRegistryName(dust_dye.getRegistryName()));
 		event.getRegistry().register(new ItemBlock(dust_placed).setRegistryName(dust_placed.getRegistryName()));
+		
+		//addon dust items
+		for(IDust dust: DustRegistry.getAllDusts()){
+			event.getRegistry().register(dust);
+			IDustStorageBlock dustBlock = DustRegistry.getBlock(dust);
+			if(dustBlock!=null)event.getRegistry().register(new DustStorageItemBlock(dustBlock.getInstance()));
+		}
 	}
 
 	/**Registers all our dusts with the DustRegistry**/

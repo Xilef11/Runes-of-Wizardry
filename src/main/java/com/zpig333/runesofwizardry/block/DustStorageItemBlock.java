@@ -18,6 +18,7 @@ import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 public class DustStorageItemBlock extends ItemBlock {
 	public DustStorageItemBlock(Block block) {
 		super(block);
+		setRegistryName(block.getRegistryName());
 	}
 
 	/* (non-Javadoc)
