@@ -2,6 +2,7 @@ package com.zpig333.runesofwizardry.core;
 
 import java.util.List;
 
+import com.zpig333.runesofwizardry.RecipeDumper;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
@@ -173,52 +174,52 @@ public class WizardryRegistry {
 	public static void initCrafting(){
 		//Allows plants to be mashed down into a plantball.  Each plant goes for 1 plantball
 		//flowers
-		GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.RED_FLOWER, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.YELLOW_FLOWER, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+		RecipeDumper.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.RED_FLOWER, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+		RecipeDumper.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.YELLOW_FLOWER, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
 		//tall GROUND
-		GameRegistry.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.TALLGRASS, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
+		RecipeDumper.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.TALLGRASS, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
 		//Leaves
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(plantballs, 1, 0), "treeLeaves", new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE)));
+		RecipeDumper.addShapelessRecipe(new ItemStack(plantballs, 1, 0), "treeLeaves", new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
 		//saplings
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(plantballs, 1, 0), "treeSapling", new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE)));
+		RecipeDumper.addShapelessRecipe(new ItemStack(plantballs, 1, 0), "treeSapling", new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
 		//would be nice to have other plants easily (i.e all at once) in the oredict...
 
 		//Craft the small plant balls into larger ones... for now.
-		GameRegistry.addRecipe(new ItemStack(plantballs, 1, 1), new Object[]{
+		RecipeDumper.addShapedRecipe(new ItemStack(plantballs, 1, 1), new Object[]{
 			"XXX", "XXX", "XXX", 'X', new ItemStack(plantballs, 1, 0)
 		});
 
 		//craft the pestle
-		GameRegistry.addRecipe(new ItemStack(pestle,1,0), new Object[]{
+		RecipeDumper.addShapedRecipe(new ItemStack(pestle,1,0), new Object[]{
 			" Y ", "X X", " X ", 'X',new ItemStack(Blocks.STONE),'Y',new ItemStack(Items.BONE)
 		});
 
 		//lavastone
-		GameRegistry.addShapelessRecipe(new ItemStack(nether_paste,1),
+		RecipeDumper.addShapelessRecipe(new ItemStack(nether_paste,1),
 				new ItemStack(Blocks.NETHERRACK),new ItemStack(pestle,1,OreDictionary.WILDCARD_VALUE),new ItemStack(Items.BLAZE_POWDER));
 		GameRegistry.addSmelting(nether_paste, new ItemStack(lavastone,1), 0.2F);
-		GameRegistry.addRecipe(new ItemStack(lavastone_bricks,4),new Object[]{
+		RecipeDumper.addShapedRecipe(new ItemStack(lavastone_bricks,4),new Object[]{
 			"XX","XX",'X',new ItemStack(lavastone,1)
 		});
 
 		//the dyed dusts
-		GameRegistry.addShapelessRecipe(new ItemStack(dust_dyed,32), new ItemStack(Items.BRICK, 1), new ItemStack(Items.DYE, 1, 15), new ItemStack(pestle, 1,OreDictionary.WILDCARD_VALUE));
-		GameRegistry.addShapedRecipe(new ItemStack(dust_dye), "XXX","XYX","XXX",'X',new ItemStack(Items.DYE,1,OreDictionary.WILDCARD_VALUE),'Y',new ItemStack(dust_dyed));
+		RecipeDumper.addShapelessRecipe(new ItemStack(dust_dyed,32), new ItemStack(Items.BRICK, 1), new ItemStack(Items.DYE, 1, 15), new ItemStack(pestle, 1,OreDictionary.WILDCARD_VALUE));
+		RecipeDumper.addShapedRecipe(new ItemStack(dust_dye), "XXX","XYX","XXX",'X',new ItemStack(Items.DYE,1,OreDictionary.WILDCARD_VALUE),'Y',new ItemStack(dust_dyed));
 		//inert dust
-		GameRegistry.addShapelessRecipe(new ItemStack(RWDusts.dust_inert), new ItemStack(Items.CLAY_BALL),new ItemStack(Items.DYE,1,15),new ItemStack(pestle,1, OreDictionary.WILDCARD_VALUE));
+		RecipeDumper.addShapelessRecipe(new ItemStack(RWDusts.dust_inert), new ItemStack(Items.CLAY_BALL),new ItemStack(Items.DYE,1,15),new ItemStack(pestle,1, OreDictionary.WILDCARD_VALUE));
 		//broom
-		GameRegistry.addShapedRecipe(new ItemStack(broom), "  X"," Y ", 'X',new ItemStack(Items.WHEAT),'Y',new ItemStack(Items.STICK));
+		RecipeDumper.addShapedRecipe(new ItemStack(broom), "  X"," Y ", 'X',new ItemStack(Items.WHEAT),'Y',new ItemStack(Items.STICK));
 		//book
-		GameRegistry.addShapelessRecipe(new ItemStack(WizardryRegistry.runic_dictionary), new ItemStack(Items.ENCHANTED_BOOK,1,OreDictionary.WILDCARD_VALUE),new ItemStack(WizardryRegistry.runic_staff));
+		RecipeDumper.addShapelessRecipe(new ItemStack(WizardryRegistry.runic_dictionary), new ItemStack(Items.ENCHANTED_BOOK,1,OreDictionary.WILDCARD_VALUE),new ItemStack(WizardryRegistry.runic_staff));
 		//staff
-		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), " XY"," ZX","X  ",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Blocks.GLASS),'Z',new ItemStack(Items.STICK));
-		GameRegistry.addShapedRecipe(new ItemStack(runic_staff), "YX ","XZ ","  X",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Blocks.GLASS),'Z',new ItemStack(Items.STICK));
+		RecipeDumper.addShapedRecipe(new ItemStack(runic_staff), " XY"," ZX","X  ",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Blocks.GLASS),'Z',new ItemStack(Items.STICK));
+		RecipeDumper.addShapedRecipe(new ItemStack(runic_staff), "YX ","XZ ","  X",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Blocks.GLASS),'Z',new ItemStack(Items.STICK));
 		//pouches
 		RecipeSorter.register(References.modid+":dustPouch", RecipeDustPouch.class, RecipeSorter.Category.SHAPELESS, "");
-		GameRegistry.addRecipe(new ShapedOreRecipe(dust_pouch, " X ","YZY"," Y ",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Blocks.WOOL),'Z',new ItemStack(runic_staff)));
+		RecipeDumper.addShapedRecipe(new ItemStack(dust_pouch), " X ","YZY"," Y ",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Blocks.WOOL),'Z',new ItemStack(runic_staff));
 		GameRegistry.addRecipe(new RecipeDustPouch());
 		//inscriptions
-		GameRegistry.addShapedRecipe(new ItemStack(inscription), " X ","YZY","YZY",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Items.GOLD_NUGGET),'Z',new ItemStack(Items.PAPER));
+		RecipeDumper.addShapedRecipe(new ItemStack(inscription), " X ","YZY","YZY",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Items.GOLD_NUGGET),'Z',new ItemStack(Items.PAPER));
 	}
 
 	public static void initItemRenders() {

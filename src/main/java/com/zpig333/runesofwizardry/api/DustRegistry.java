@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.zpig333.runesofwizardry.RecipeDumper;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.core.References;
@@ -222,9 +223,9 @@ public class DustRegistry {
 			//Crafting the blocks
 			for(int i:metavalues){
 				ItemStack dust = new ItemStack(dustclass,1,i);
-				GameRegistry.addShapedRecipe(new ItemStack(dustBlock.getInstance(), 1, i), 
+				RecipeDumper.addShapedRecipe(new ItemStack(dustBlock.getInstance(), 1, i), 
 						new Object[]{"XXX","XXX","XXX",'X',dust});
-				GameRegistry.addShapelessRecipe(new ItemStack(dustclass,9,i), new ItemStack(dustBlock.getInstance(), 1, i));
+				RecipeDumper.addShapelessRecipe(new ItemStack(dustclass,9,i), new ItemStack(dustBlock.getInstance(), 1, i));
 
 			}
 		}
@@ -274,7 +275,7 @@ public class DustRegistry {
 			recipe[i]=materials[i];
 		}
 		recipe[materials.length]=blockIn;
-		GameRegistry.addShapelessRecipe(blockOut, (Object[])recipe);
+		RecipeDumper.addShapelessRecipe(blockOut, (Object[])recipe);
 	}
 
 	/** Returns the dust class from an ItemStack
