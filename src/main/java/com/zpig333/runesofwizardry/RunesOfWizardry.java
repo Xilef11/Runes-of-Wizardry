@@ -34,7 +34,7 @@ import com.zpig333.runesofwizardry.runes.test.RuneTest2;
 import com.zpig333.runesofwizardry.runes.test.RuneTesting;
 import com.zpig333.runesofwizardry.util.ChatUtils;
 
-@Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory",acceptedMinecraftVersions = "[1.11.0,1.11.2]")
+@Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory",acceptedMinecraftVersions = "[1.12,1.13)")
 public class RunesOfWizardry {
 
 	@SidedProxy(clientSide = References.client_proxy, serverSide = References.server_proxy)
@@ -50,6 +50,8 @@ public class RunesOfWizardry {
 	public static void preInit(FMLPreInitializationEvent event) {
 		//config
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
+		WizardryRegistry.initItems();
+		WizardryRegistry.initBlocks();
 		WizardryRegistry.initDusts();
 		if(event.getSide()==Side.CLIENT){
 			// initialize the item renders

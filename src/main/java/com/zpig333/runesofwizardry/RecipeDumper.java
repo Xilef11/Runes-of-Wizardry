@@ -150,7 +150,8 @@ public class RecipeDumper {
 				}
 				
 				if (stack.hasTagCompound()) {
-					throw new IllegalArgumentException("nbt not implemented");
+					System.out.println(stack.toString());
+					//throw new IllegalArgumentException("nbt not implemented");
 				}
 
 				return ret;

@@ -128,7 +128,7 @@ dependencies {
 	deobfCompile "mezz.jei:jei_"+jeiversion+":api"
 	runtime "mezz.jei:jei_"+jeiversion
 	
-	deobfCompile "baubles:Baubles:"+baublesversion//+":api"
+	deobfProvided "baubles:Baubles:"+baublesversion//+":api"
 	//runtime "baubles:Baubles:"+baublesversion
 	
 	//compile files(

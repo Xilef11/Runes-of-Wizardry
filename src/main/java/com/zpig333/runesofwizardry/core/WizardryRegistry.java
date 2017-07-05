@@ -67,13 +67,13 @@ public class WizardryRegistry {
 	public static Item broom;
 	public static Item sacrifice_negator;
 	public static Item inscription;
+	
+	//dyed dust
+	public static IDust dust_dyed;
 	public static IDust dust_dead;
 
-	//dyed dust
-	public static Item dust_dyed;
 	/**create the instances for all the blocks**/
-	@SubscribeEvent
-	public static void initBlocks(RegistryEvent.Register<Block> event){
+	public static void initBlocks(){
 
 		lavastone_bricks = new BlockLavastone_bricks(Material.ROCK);
 		//Bust Dye + its TileEntity
@@ -86,6 +86,9 @@ public class WizardryRegistry {
 		GameRegistry.registerTileEntity(TileEntityDustActive.class, "te_dust_active");
 		GameRegistry.registerTileEntity(TileEntityDustDead.class, "te_dust_dead");
 		
+	}
+	@SubscribeEvent
+	public static void onBlocksRegister(RegistryEvent.Register<Block> event){
 		//register blocks
 		event.getRegistry().registerAll(lavastone_bricks, dust_dye, dust_placed);
 
@@ -95,9 +98,8 @@ public class WizardryRegistry {
 		}
 	}
 
-	/**Creates and registers the instances for all the items**/
-	@SubscribeEvent
-	public static void initItems(RegistryEvent.Register<Item> event){
+	/**Creates the instances for all the items**/
+	public static void initItems(){
 
 		pestle = new ItemPestle();
 
@@ -116,7 +118,9 @@ public class WizardryRegistry {
 		inscription = Loader.isModLoaded("baubles")? new ItemInscriptionBauble() : new ItemInscription();
 		
 		sacrifice_negator = new ItemSacrificeNegator();
-		//dyed dust
+
+		dust_pouch = new ItemDustPouch();
+		
 		dust_dyed = new DustDyed();
 		dust_dead = new DustPlaceholder("dead", 0xbebebe, false){
 			/* (non-Javadoc)
@@ -136,17 +140,18 @@ public class WizardryRegistry {
 				return other.getItem()==thisDust.getItem();
 			}
 		};
-
-		dust_pouch = new ItemDustPouch();
 		
+	}
+	@SubscribeEvent
+	public static void onItemRegister(RegistryEvent.Register<Item> event){
 		//register all items
-		event.getRegistry().registerAll(pestle, plantballs, nether_paste, lavastone, runic_dictionary, runic_staff, dust_pouch, broom, sacrifice_negator, inscription, dust_dead, dust_dyed);
-		
+		event.getRegistry().registerAll(pestle, plantballs, nether_paste, lavastone, runic_dictionary, runic_staff, dust_pouch, broom, sacrifice_negator, inscription);
+
 		//register ItemBlocks
 		event.getRegistry().register(new ItemBlock(lavastone_bricks).setRegistryName(lavastone_bricks.getRegistryName()));
 		event.getRegistry().register(new ItemBlock(dust_dye).setRegistryName(dust_dye.getRegistryName()));
 		event.getRegistry().register(new ItemBlock(dust_placed).setRegistryName(dust_placed.getRegistryName()));
-		
+
 		//addon dust items
 		for(IDust dust: DustRegistry.getAllDusts()){
 			event.getRegistry().register(dust);
@@ -163,7 +168,7 @@ public class WizardryRegistry {
 		DustRegistry.registerDust(RWDusts.dust_blaze);
 		DustRegistry.registerDust(RWDusts.dust_glowstone);
 		DustRegistry.registerDust(RWDusts.dust_ender);
-
+		
 		DustRegistry.registerDust((IDust) dust_dyed);
 		DustRegistry.registerDust(dust_dead);
 		DustRegistry.registerDust(DustRegistry.MAGIC_DUST);
