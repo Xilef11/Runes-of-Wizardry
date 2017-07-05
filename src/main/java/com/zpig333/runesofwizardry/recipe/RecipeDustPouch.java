@@ -1,17 +1,17 @@
 package com.zpig333.runesofwizardry.recipe;
 
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.ItemDustPouch;
+
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-
-import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.item.ItemDustPouch;
 //FIXME sometimes crafting a pouch by itself will break the crafting grid (it doesn't even call "matches")
-public class RecipeDustPouch implements IRecipe {
+public class RecipeDustPouch extends net.minecraftforge.registries.IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
+	
 	//http://www.minecraftforge.net/forum/index.php/topic,23133.0.html
 	@Override
 	public boolean matches(InventoryCrafting inv, World worldIn) {
@@ -100,24 +100,6 @@ public class RecipeDustPouch implements IRecipe {
 		}
 		if(remainder)r.set(slot,pouch);
 		return r;
-	}
-	
-	@Override
-	public IRecipe setRegistryName(ResourceLocation name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public ResourceLocation getRegistryName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public Class<IRecipe> getRegistryType() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	@Override

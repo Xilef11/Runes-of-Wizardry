@@ -40,6 +40,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
@@ -49,8 +50,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 @Mod.EventBusSubscriber
 public class WizardryRegistry {
@@ -217,11 +216,15 @@ public class WizardryRegistry {
 		//pouches
 		RecipeSorter.register(References.modid+":dustPouch", RecipeDustPouch.class, RecipeSorter.Category.SHAPELESS, "");
 		RecipeDumper.addShapedRecipe(new ItemStack(dust_pouch), " X ","YZY"," Y ",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Blocks.WOOL),'Z',new ItemStack(runic_staff));
-		GameRegistry.addRecipe(new RecipeDustPouch());
 		//inscriptions
 		RecipeDumper.addShapedRecipe(new ItemStack(inscription), " X ","YZY","YZY",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Items.GOLD_NUGGET),'Z',new ItemStack(Items.PAPER));
 	}
 
+	@SubscribeEvent
+	public static void onRecipeRegister(RegistryEvent.Register<IRecipe> event){
+		event.getRegistry().register(new RecipeDustPouch().setRegistryName(References.modid, "dustpouch"));
+	}
+	
 	public static void initItemRenders() {
 		// get the item renderer
 		// pestle
