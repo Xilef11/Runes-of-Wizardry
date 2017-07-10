@@ -15,14 +15,14 @@ public class CommonProxy {
 		//Client only
 
 	}
-
-	public void registerDustItemRender(IDust dustclass) {
-		// Client only
-	}
-
-	public void registerDustBlockRender(ADustStorageBlock dustBlock) {
-		// client only
-	}
+//
+//	public void registerDustItemRender(IDust dustclass) {
+//		// Client only
+//	}
+//
+//	public void registerDustBlockRender(ADustStorageBlock dustBlock) {
+//		// client only
+//	}
 
 	public void registerColors(){
 		

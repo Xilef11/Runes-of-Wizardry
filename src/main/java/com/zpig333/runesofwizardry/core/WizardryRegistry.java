@@ -7,6 +7,7 @@ import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.block.BlockDustDye;
 import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
@@ -33,7 +34,9 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -41,7 +44,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Loader;
@@ -94,6 +99,7 @@ public class WizardryRegistry {
 
 		//register dust blocks
 		for(IDustStorageBlock block : DustRegistry.getAllBlocks()){
+			WizardryLogger.logInfo("Registering dust block: "+block.getName());
 			event.getRegistry().register(block.getInstance());
 		}
 	}
@@ -156,7 +162,10 @@ public class WizardryRegistry {
 		for(IDust dust: DustRegistry.getAllDusts()){
 			event.getRegistry().register(dust);
 			IDustStorageBlock dustBlock = DustRegistry.getBlock(dust);
-			if(dustBlock!=null)event.getRegistry().register(new DustStorageItemBlock(dustBlock.getInstance()));
+			if(dustBlock!=null){
+				WizardryLogger.logInfo("registering dust itemblock: "+dustBlock.getName());
+				event.getRegistry().register(new DustStorageItemBlock(dustBlock.getInstance()));
+			}
 		}
 	}
 
@@ -230,7 +239,8 @@ public class WizardryRegistry {
 		event.getRegistry().register(new RecipeDustPouch().setRegistryName(References.modid, "dustpouch"));
 	}
 	
-	public static void initItemRenders() {
+	@SubscribeEvent
+	public static void initItemRenders(ModelRegistryEvent event) {
 		// get the item renderer
 		// pestle
 		ModelLoader.setCustomModelResourceLocation(
@@ -314,26 +324,48 @@ public class WizardryRegistry {
 						+ ((ItemInscription)inscription).getName()+"_painted", "inventory"));
 	}
 	
-//	/**Register the rendering/icon for all dusts that use the default model**/
-//	@Deprecated
-//	public static void registerDustItemRendering(){
-//		//The location of the JSON for default dusts
-//		ModelResourceLocation dustModel = new ModelResourceLocation(References.texture_path+"default_dusts","inventory");
-//
-//		for(IDust d:DustRegistry.getAllDusts()){
-//			if(!d.hasCustomIcon()){
-//				LinkedList<ItemStack> subDusts = new LinkedList<ItemStack>();
-//				//Things must (probably) be registered for all meta values
-//				d.getSubItems(d, RunesOfWizardry.wizardry_tab, subDusts);
-//				for(ItemStack i:subDusts){
-//					ModelLoader.setCustomModelResourceLocation(d, i.getMetadata(), dustModel);
-//				}
-//			}
-//
-//		}
-//	}
+	/**Register the rendering/icon for all dusts that use the default model**/
+	@SubscribeEvent
+	public static void registerDustRendering(ModelRegistryEvent event){
+		//The location of the JSON for default dusts
+		ModelResourceLocation dustModel = new ModelResourceLocation(References.texture_path+"default_dusts","inventory");
+
+		for(IDust dustclass:DustRegistry.getAllDusts()){
+			if(!dustclass.hasCustomIcon()){
+				NonNullList<ItemStack> subDusts = NonNullList.create();
+				//Things must (probably) be registered for all meta values
+				dustclass.getSubItems(RunesOfWizardry.wizardry_tab, subDusts);
+				for(ItemStack i:subDusts){
+					ModelLoader.setCustomModelResourceLocation(dustclass, i.getMetadata(), dustModel);
+				}
+			}
+		}
+
+		ModelResourceLocation blockModel = new ModelResourceLocation(References.texture_path+"dust_storage","inventory");
+		//register dust blocks
+		for(IDustStorageBlock dustBlock : DustRegistry.getAllBlocks()){
+			IDust dust = dustBlock.getIDust();
+			for(int meta:dust.getMetaValues()){
+				ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dustBlock.getInstance()), meta, blockModel);
+			}
+			if(dustBlock instanceof ADustStorageBlock){
+				WizardryLogger.logInfo("Creating StateMapper for "+dustBlock.getName());
+				StateMapperBase mapper = new StateMapperBase() {
+					@Override
+					protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
+						ModelResourceLocation loc =new ModelResourceLocation(References.texture_path+"dust_storage");
+						//System.err.println(loc.toString());
+						return loc;
+					}
+				};
+				ModelLoader.setCustomStateMapper(dustBlock.getInstance(), mapper);
+			}
+		}
+	}
+	
 	/**registers the rendering for our blocks**/
-	public static void registerBlockRenders() {
+	@SubscribeEvent
+	public static void registerBlockRenders(ModelRegistryEvent event) {
 		//lavastone bricks
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(lavastone_bricks), 0, new ModelResourceLocation(References.texture_path + ((BlockLavastone_bricks) lavastone_bricks).getName(), "inventory"));
 		//Dust Dye

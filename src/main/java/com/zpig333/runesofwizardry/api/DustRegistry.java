@@ -12,7 +12,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.zpig333.runesofwizardry.RecipeDumper;
-import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
@@ -201,7 +200,7 @@ public class DustRegistry {
 			dustclass.setHasSubtypes(true);
 		}
 		//register the dust item with the appropriate modid
-		RunesOfWizardry.proxy.registerDustItemRender(dustclass);
+		//RunesOfWizardry.proxy.registerDustItemRender(dustclass);
 		//create the block form of the dust
 		IDustStorageBlock dustBlock;
 		if(!dustclass.hasCustomBlock()){
@@ -213,7 +212,7 @@ public class DustRegistry {
 				}
 
 			};
-			RunesOfWizardry.proxy.registerDustBlockRender((ADustStorageBlock)dustBlock);
+			//RunesOfWizardry.proxy.registerDustBlockRender((ADustStorageBlock)dustBlock);
 		}else {
 			dustBlock = dustclass.getCustomBlock();
 		}
