@@ -212,20 +212,13 @@ public class DustRegistry {
 				}
 
 			};
+			dustBlock.getInstance().setCreativeTab(dustclass.creativeTab());
 			//RunesOfWizardry.proxy.registerDustBlockRender((ADustStorageBlock)dustBlock);
 		}else {
 			dustBlock = dustclass.getCustomBlock();
 		}
 		if(dustBlock!=null){
 			blocks.put(dustclass, dustBlock);
-			//Crafting the blocks
-			for(int i:metavalues){
-				ItemStack dust = new ItemStack(dustclass,1,i);
-				RecipeDumper.addShapedRecipe(new ItemStack(dustBlock.getInstance(), 1, i), 
-						new Object[]{"XXX","XXX","XXX",'X',dust});
-				RecipeDumper.addShapelessRecipe(new ItemStack(dustclass,9,i), new ItemStack(dustBlock.getInstance(), 1, i));
-
-			}
 		}
 
 	}

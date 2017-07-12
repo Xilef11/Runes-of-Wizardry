@@ -232,6 +232,18 @@ public class WizardryRegistry {
 		RecipeDumper.addShapedRecipe(new ItemStack(dust_pouch), " X ","YZY"," Y ",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Blocks.WOOL),'Z',new ItemStack(runic_staff));
 		//inscriptions
 		RecipeDumper.addShapedRecipe(new ItemStack(inscription), " X ","YZY","YZY",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Items.GOLD_NUGGET),'Z',new ItemStack(Items.PAPER));
+	
+		for(IDustStorageBlock dustBlock:DustRegistry.getAllBlocks()){
+			IDust dust = dustBlock.getIDust();
+			//Crafting the blocks
+			for(int i:dust.getMetaValues()){
+				ItemStack dustStack = new ItemStack(dust,1,i);
+				RecipeDumper.addShapedRecipe(new ItemStack(dustBlock.getInstance(), 1, i), 
+						new Object[]{"XXX","XXX","XXX",'X',dustStack});
+				RecipeDumper.addShapelessRecipe(new ItemStack(dust,9,i), new ItemStack(dustBlock.getInstance(), 1, i));
+
+			}
+		}
 	}
 
 	@SubscribeEvent
