@@ -15,7 +15,6 @@ import com.zpig333.runesofwizardry.block.DustStorageItemBlock;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.ItemInscription;
-import com.zpig333.runesofwizardry.item.ItemInscriptionBauble;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
 import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
@@ -121,7 +120,7 @@ public class WizardryRegistry {
 
 		broom = new ItemBroom();
 		
-		inscription = Loader.isModLoaded("baubles")? new ItemInscriptionBauble() : new ItemInscription();
+		inscription =  new ItemInscription();//TODO re-add Baubles when it's ready.
 		
 		sacrifice_negator = new ItemSacrificeNegator();
 
