@@ -74,12 +74,8 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list)
 	{	
-		NonNullList<ItemStack> dusts = NonNullList.create();
-		this.getIDust().getSubItems(tab, dusts);
-		for(ItemStack i:dusts){
-			ItemStack clone = i.copy();
-			clone.setCount(1);
-			list.add(clone);
+		for(int meta:this.getIDust().getMetaValues()){
+			list.add(new ItemStack(this,1,meta));
 		}
 	}
 	/* (non-Javadoc)

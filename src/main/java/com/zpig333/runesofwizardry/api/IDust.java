@@ -178,8 +178,10 @@ public abstract class IDust extends Item {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void getSubItems(CreativeTabs tab,NonNullList<ItemStack> subItems) {
-		for(int meta:getMetaValues()){
-			subItems.add(new ItemStack(this,1,meta));
+		if(this.isInCreativeTab(tab)){
+			for(int meta:getMetaValues()){
+				subItems.add(new ItemStack(this,1,meta));
+			}
 		}
 	}
 	
