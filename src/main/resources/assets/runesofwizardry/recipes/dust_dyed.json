@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "runesofwizardry:dust_dyed",
+    "count": 32
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:brick"
+    },
+    {
+      "item": "minecraft:dye",
+      "data": 15
+    },
+    {
+      "item": "runesofwizardry:pestle",
+      "data": 32767
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

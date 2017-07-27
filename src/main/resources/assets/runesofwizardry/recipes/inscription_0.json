@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "runesofwizardry:inscription",
+    "data": 0
+  },
+  "pattern": [
+    " X ",
+    "YZY",
+    "YZY"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:string"
+    },
+    "Y": {
+      "item": "minecraft:gold_nugget"
+    },
+    "Z": {
+      "item": "minecraft:paper"
+    }
+  }
+}

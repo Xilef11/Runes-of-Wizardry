@@ -266,7 +266,8 @@ public class DustRegistry {
 			recipe[i]=materials[i];
 		}
 		recipe[materials.length]=blockIn;
-		RecipeDumper.addShapelessRecipe(blockOut, (Object[])recipe);
+		//TODO figure out how to add generated recipes/custom recipe types.
+		//RecipeDumper.addShapelessRecipe(blockOut, (Object[])recipe);
 	}
 
 	/** Returns the dust class from an ItemStack

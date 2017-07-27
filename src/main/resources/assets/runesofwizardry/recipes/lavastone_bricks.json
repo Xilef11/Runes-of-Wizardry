@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "runesofwizardry:lavastone_bricks",
+    "count": 4
+  },
+  "pattern": [
+    "XX",
+    "XX"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "runesofwizardry:lavastone"
+    }
+  }
+}

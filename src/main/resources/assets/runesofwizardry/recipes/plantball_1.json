@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "runesofwizardry:plantball",
+    "data": 1
+  },
+  "pattern": [
+    "XXX",
+    "XXX",
+    "XXX"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "runesofwizardry:plantball",
+      "data": 0
+    }
+  }
+}

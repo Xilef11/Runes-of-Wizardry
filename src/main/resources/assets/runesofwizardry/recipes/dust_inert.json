@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "runesofwizardry:dust_inert"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:clay_ball"
+    },
+    {
+      "item": "minecraft:dye",
+      "data": 15
+    },
+    {
+      "item": "runesofwizardry:pestle",
+      "data": 32767
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -184,65 +184,22 @@ public class WizardryRegistry {
 	}
 	/**Create the (vanilla) recipes**/
 	public static void initCrafting(){
-		//Allows plants to be mashed down into a plantball.  Each plant goes for 1 plantball
-		//flowers
-		RecipeDumper.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.RED_FLOWER, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-		RecipeDumper.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.YELLOW_FLOWER, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-		//tall GROUND
-		RecipeDumper.addShapelessRecipe(new ItemStack(plantballs, 1, 0), new ItemStack(Blocks.TALLGRASS, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-		//Leaves
-		RecipeDumper.addShapelessRecipe(new ItemStack(plantballs, 1, 0), "treeLeaves", new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-		//saplings
-		RecipeDumper.addShapelessRecipe(new ItemStack(plantballs, 1, 0), "treeSapling", new ItemStack(pestle, 1, OreDictionary.WILDCARD_VALUE));
-		//would be nice to have other plants easily (i.e all at once) in the oredict...
-
-		//Craft the small plant balls into larger ones... for now.
-		RecipeDumper.addShapedRecipe(new ItemStack(plantballs, 1, 1), new Object[]{
-			"XXX", "XXX", "XXX", 'X', new ItemStack(plantballs, 1, 0)
-		});
-
-		//craft the pestle
-		RecipeDumper.addShapedRecipe(new ItemStack(pestle,1,0), new Object[]{
-			" Y ", "X X", " X ", 'X',new ItemStack(Blocks.STONE),'Y',new ItemStack(Items.BONE)
-		});
-
-		//lavastone
-		RecipeDumper.addShapelessRecipe(new ItemStack(nether_paste,1),
-				new ItemStack(Blocks.NETHERRACK),new ItemStack(pestle,1,OreDictionary.WILDCARD_VALUE),new ItemStack(Items.BLAZE_POWDER));
 		GameRegistry.addSmelting(nether_paste, new ItemStack(lavastone,1), 0.2F);
-		RecipeDumper.addShapedRecipe(new ItemStack(lavastone_bricks,4),new Object[]{
-			"XX","XX",'X',new ItemStack(lavastone,1)
-		});
-
-		//the dyed dusts
-		RecipeDumper.addShapelessRecipe(new ItemStack(dust_dyed,32), new ItemStack(Items.BRICK, 1), new ItemStack(Items.DYE, 1, 15), new ItemStack(pestle, 1,OreDictionary.WILDCARD_VALUE));
-		RecipeDumper.addShapedRecipe(new ItemStack(dust_dye), "XXX","XYX","XXX",'X',new ItemStack(Items.DYE,1,OreDictionary.WILDCARD_VALUE),'Y',new ItemStack(dust_dyed));
-		//inert dust
-		RecipeDumper.addShapelessRecipe(new ItemStack(RWDusts.dust_inert), new ItemStack(Items.CLAY_BALL),new ItemStack(Items.DYE,1,15),new ItemStack(pestle,1, OreDictionary.WILDCARD_VALUE));
-		//broom
-		RecipeDumper.addShapedRecipe(new ItemStack(broom), "  X"," Y ", 'X',new ItemStack(Items.WHEAT),'Y',new ItemStack(Items.STICK));
-		//book
-		RecipeDumper.addShapelessRecipe(new ItemStack(WizardryRegistry.runic_dictionary), new ItemStack(Items.ENCHANTED_BOOK,1,OreDictionary.WILDCARD_VALUE),new ItemStack(WizardryRegistry.runic_staff));
-		//staff
-		RecipeDumper.addShapedRecipe(new ItemStack(runic_staff), " XY"," ZX","X  ",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Blocks.GLASS),'Z',new ItemStack(Items.STICK));
-		RecipeDumper.addShapedRecipe(new ItemStack(runic_staff), "YX ","XZ ","  X",'X',new ItemStack(Items.GOLD_NUGGET),'Y',new ItemStack(Blocks.GLASS),'Z',new ItemStack(Items.STICK));
-		//pouches
+//		//pouches
 		RecipeSorter.register(References.modid+":dustPouch", RecipeDustPouch.class, RecipeSorter.Category.SHAPELESS, "");
-		RecipeDumper.addShapedRecipe(new ItemStack(dust_pouch), " X ","YZY"," Y ",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Blocks.WOOL),'Z',new ItemStack(runic_staff));
-		//inscriptions
-		RecipeDumper.addShapedRecipe(new ItemStack(inscription), " X ","YZY","YZY",'X',new ItemStack(Items.STRING),'Y',new ItemStack(Items.GOLD_NUGGET),'Z',new ItemStack(Items.PAPER));
 	
-		for(IDustStorageBlock dustBlock:DustRegistry.getAllBlocks()){
-			IDust dust = dustBlock.getIDust();
-			//Crafting the blocks
-			for(int i:dust.getMetaValues()){
-				ItemStack dustStack = new ItemStack(dust,1,i);
-				RecipeDumper.addShapedRecipe(new ItemStack(dustBlock.getInstance(), 1, i), 
-						new Object[]{"XXX","XXX","XXX",'X',dustStack});
-				RecipeDumper.addShapelessRecipe(new ItemStack(dust,9,i), new ItemStack(dustBlock.getInstance(), 1, i));
-
-			}
-		}
+		//TODO figure out how to add programatically-generated recipes for the blocks.
+//		for(IDustStorageBlock dustBlock:DustRegistry.getAllBlocks()){
+//			IDust dust = dustBlock.getIDust();
+//			//Crafting the blocks
+//			for(int i:dust.getMetaValues()){
+//				ItemStack dustStack = new ItemStack(dust,1,i);
+//				RecipeDumper.addShapedRecipe(new ItemStack(dustBlock.getInstance(), 1, i), 
+//						new Object[]{"XXX","XXX","XXX",'X',dustStack});
+//				RecipeDumper.addShapelessRecipe(new ItemStack(dust,9,i), new ItemStack(dustBlock.getInstance(), 1, i));
+//
+//			}
+//		}
 	}
 
 	@SubscribeEvent

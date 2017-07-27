@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "runesofwizardry:pestle"
+  },
+  "pattern": [
+    " Y ",
+    "X X",
+    " X "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:stone",
+      "data": 0
+    },
+    "Y": {
+      "item": "minecraft:bone"
+    }
+  }
+}

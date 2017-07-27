@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "runesofwizardry:runic_staff"
+  },
+  "pattern": [
+    " XY",
+    " ZX",
+    "X  "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:gold_nugget"
+    },
+    "Y": {
+      "item": "minecraft:glass"
+    },
+    "Z": {
+      "item": "minecraft:stick"
+    }
+  }
+}

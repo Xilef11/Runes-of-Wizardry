@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "runesofwizardry:broom"
+  },
+  "pattern": [
+    "  X",
+    " Y "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:wheat"
+    },
+    "Y": {
+      "item": "minecraft:stick"
+    }
+  }
+}

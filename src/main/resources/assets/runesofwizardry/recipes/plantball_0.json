@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "runesofwizardry:plantball",
+    "data": 0
+  },
+  "ingredients": [
+    [
+	    {
+	      "item": "minecraft:red_flower",
+	      "data": 32767
+	    },
+	    {
+	      "item": "minecraft:yellow_flower",
+	      "data": 32767
+	    },
+	    {
+	      "item": "minecraft:tallgrass",
+	      "data": 32767
+	    },
+	    {
+	      "type": "forge:ore_dict",
+	      "ore" : "treeLeaves"
+	    },
+	    {
+	      "type": "forge:ore_dict",
+	      "ore": "treeSapling"
+	    }
+    ],
+    {
+      "item": "runesofwizardry:pestle",
+      "data": 32767
+    }
+  ],
+  "type": "forge:ore_shapeless"
+}

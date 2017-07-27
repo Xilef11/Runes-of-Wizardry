@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "runesofwizardry:nether_paste"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:netherrack"
+    },
+    {
+      "item": "runesofwizardry:pestle",
+      "data": 32767
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

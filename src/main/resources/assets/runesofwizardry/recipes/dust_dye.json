@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "runesofwizardry:dust_dye"
+  },
+  "pattern": [
+    "XXX",
+    "XYX",
+    "XXX"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "X": {
+      "item": "minecraft:dye",
+      "data": 32767
+    },
+    "Y": {
+      "item": "runesofwizardry:dust_dyed"
+    }
+  }
+}

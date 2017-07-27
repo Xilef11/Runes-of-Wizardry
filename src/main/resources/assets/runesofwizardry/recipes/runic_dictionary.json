@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "runesofwizardry:runic_dictionary"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:enchanted_book",
+      "data": 32767
+    },
+    {
+      "item": "runesofwizardry:runic_staff"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}
