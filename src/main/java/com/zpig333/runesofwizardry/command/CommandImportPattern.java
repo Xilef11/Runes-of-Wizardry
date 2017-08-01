@@ -55,7 +55,7 @@ public class CommandImportPattern implements ICommand {
 	private static final String locKey="runesofwizardry.command.import";
 	public CommandImportPattern() {
 		//define aliases here
-		aliases = new LinkedList<String>();
+		aliases = new LinkedList<>();
 		//aliases.add(I18n.translateToLocal("runesofwizardry.command.export"));
 	}
 	/* (non-Javadoc)
@@ -303,7 +303,7 @@ public class CommandImportPattern implements ICommand {
 	 */
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender,String[] args, BlockPos pos) {
-		LinkedList<String> options = new LinkedList<String>();
+		LinkedList<String> options = new LinkedList<>();
 		for(String id:DustRegistry.getRuneIDs()){
 			if(StringUtils.containsIgnoreCase(id, args[0]))options.add(id);
 		}

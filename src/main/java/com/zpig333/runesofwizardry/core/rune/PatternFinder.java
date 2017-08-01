@@ -35,7 +35,7 @@ public class PatternFinder {
 	public PatternFinder(World world,BlockPos initialBlock){
 		this.world=world;
 		initial = new DustElement(initialBlock);
-		map = new HashMap<BlockPos, DustElement>();
+		map = new HashMap<>();
 		map.put(initialBlock, initial);
 		northMost=eastMost=westMost=southMost=initialBlock;
 	}

@@ -110,7 +110,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		ticksExisted = tagCompound.getLong("ticksExisted");
 		String runeID = tagCompound.getString("runeID");
 		//read the blockpos
-		Set<BlockPos> posSet = new LinkedHashSet<BlockPos>();
+		Set<BlockPos> posSet = new LinkedHashSet<>();
 		NBTTagList positions = tagCompound.getTagList("dustPositions", 11);//11 is int array
 		for(int i=0;i<positions.tagCount();i++){
 			int[] p = positions.getIntArrayAt(i);
@@ -118,7 +118,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		}
 		//read the Rune's ItemStacks
 		NBTTagList tagList = tagCompound.getTagList("Pattern",10);
-		List<ArrayElement> items = new LinkedList<ArrayElement>();
+		List<ArrayElement> items = new LinkedList<>();
 		int maxRow=0,maxCol=0;
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = tagList.getCompoundTagAt(i);

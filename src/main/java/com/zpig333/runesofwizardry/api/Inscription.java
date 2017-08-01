@@ -75,6 +75,6 @@ public abstract class Inscription {
 	}
 	/** Allows to control what happens when the inscription is right-clicked while sneaking **/
 	public ActionResult<ItemStack> handleRightClick(ItemStack itemStackIn,	World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		return new ActionResult<ItemStack>(EnumActionResult.PASS,itemStackIn);
+		return new ActionResult<>(EnumActionResult.PASS,itemStackIn);
 	}
 }

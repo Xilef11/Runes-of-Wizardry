@@ -58,7 +58,7 @@ public class RunesUtil {
 	public static RuneStats validateRune(IRune rune){
 		ItemStack[][] pattern = rune.getPattern();
 		int rows = pattern.length;
-		List<ItemStack> dusts = new LinkedList<ItemStack>();
+		List<ItemStack> dusts = new LinkedList<>();
 		//rows must be a multiple of 4
 		if(rows % TileEntityDustPlaced.ROWS !=0) throw new InvalidRuneException(rune,"The number of rows ("+rows+") is not a multiple of "+TileEntityDustPlaced.ROWS);
 
@@ -128,11 +128,11 @@ public class RunesUtil {
 		//sacrifice
 		ItemStack[] sacrifice=null;
 		boolean negated=false;
-		Set<EntityItem> sacList=new HashSet<EntityItem>();
+		Set<EntityItem> sacList=new HashSet<>();
 		for(BlockPos p: finder.getDustPositions()){
 			sacList.addAll(world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(p,p.add(1,1,1))));
 		}
-		List<ItemStack> stacks= new LinkedList<ItemStack>();
+		List<ItemStack> stacks= new LinkedList<>();
 		for(EntityItem e: sacList){
 			ItemStack s =e.getItem(); 
 			if(s.getItem()==WizardryRegistry.sacrifice_negator){

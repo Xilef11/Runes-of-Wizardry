@@ -21,12 +21,12 @@ public class Utils {
 	 * @return
 	 */
 	public static List<ItemStack> sortAndMergeStacks(List<ItemStack> in){
-		List<ItemStack> sorted = new LinkedList<ItemStack>(in);
+		List<ItemStack> sorted = new LinkedList<>(in);
 		Comparator<ItemStack> cmp = new ItemStackComparator();
 		Collections.sort(sorted, cmp);
 		WizardryLogger.logDebug("Sorted list: "+Arrays.deepToString(sorted.toArray(new ItemStack[0])));
 		//merge not happening correctly (fixed?)
-		List<ItemStack> merged = new LinkedList<ItemStack>();
+		List<ItemStack> merged = new LinkedList<>();
 		int i=0;
 		while(i<sorted.size()){
 			ItemStack current = sorted.get(i);

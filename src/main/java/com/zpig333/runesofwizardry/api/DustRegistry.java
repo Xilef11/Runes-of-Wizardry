@@ -32,23 +32,23 @@ import net.minecraft.nbt.NBTTagCompound;
 public class DustRegistry {
 
 	/** List of all registered dusts **/
-	private static List<IDust> dusts = new LinkedList<IDust>();
-	private static List<DustPlaceholder> placeholders = new LinkedList<DustPlaceholder>();
+	private static List<IDust> dusts = new LinkedList<>();
+	private static List<DustPlaceholder> placeholders = new LinkedList<>();
 	/** map of all the storage blocks**/
-	private static Map<IDust,IDustStorageBlock> blocks = new HashMap<IDust,IDustStorageBlock>();
+	private static Map<IDust,IDustStorageBlock> blocks = new HashMap<>();
 	/** Map of all the infusion recipes **/
 	//FUTURE use a custom IRecipe or something
 	//private static Map<ItemStack[], ItemStack> recipes = new HashMap<ItemStack[], ItemStack>();
 	/**List of all registered runes**/
-	private static Map<String,IRune> runes = new LinkedHashMap<String, IRune>();
+	private static Map<String,IRune> runes = new LinkedHashMap<>();
 	//this is less safe than the BiMap thing, but will stay in registration order
-	private static Map<IRune,String> inverseRunes = new LinkedHashMap<IRune, String>();
+	private static Map<IRune,String> inverseRunes = new LinkedHashMap<>();
 	/** The dust requirements for all runes**/
-	private static Map<String,RunesUtil.RuneStats> duststats = new HashMap<String, RunesUtil.RuneStats>();
+	private static Map<String,RunesUtil.RuneStats> duststats = new HashMap<>();
 	/**List of all registered inscriptions**/
-	private static Map<String,Inscription> inscriptions=new LinkedHashMap<String, Inscription>();
+	private static Map<String,Inscription> inscriptions=new LinkedHashMap<>();
 	//reverse inscription map
-	private static Map<Inscription,String> inverseInscriptions = new LinkedHashMap<Inscription, String>();
+	private static Map<Inscription,String> inverseInscriptions = new LinkedHashMap<>();
 	//Special constants
 	/**
 	 * Represents any "magic" dust
@@ -82,21 +82,21 @@ public class DustRegistry {
 	 * @return a LinkedList of all the dusts, in the order they were registered
 	 */
 	public static List<IDust> getAllDusts(){
-		return new LinkedList<IDust>(dusts);
+		return new LinkedList<>(dusts);
 	}
 	/**
 	 * returns all registered placeholder dusts
 	 * @return a LinkedList of the placeholder dusts, in the order of registration
 	 */
 	public static List<DustPlaceholder> getPlaceholders(){
-		return new LinkedList<DustPlaceholder>(placeholders);
+		return new LinkedList<>(placeholders);
 	}
 	/** returns all the registered runes
 	 * 
 	 * @return a LinkedList of all runes, in the order they were registered
 	 */
 	public static List<IRune> getAllRunes(){
-		return new LinkedList<IRune>(runes.values());
+		return new LinkedList<>(runes.values());
 	}
 	/**
 	 * Returns the rune registered as the given id, or null if the ID is not found

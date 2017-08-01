@@ -8,12 +8,9 @@ import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
-import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
@@ -58,39 +55,6 @@ public class ClientProxy extends CommonProxy{
 			}
 		}
 	}
-//	private ModelResourceLocation dustModel = new ModelResourceLocation(References.texture_path+"default_dusts","inventory");
-//	@Override
-//	public void registerDustItemRender(IDust dustclass) {
-//		if(!dustclass.hasCustomIcon()){
-//			NonNullList<ItemStack> subDusts = NonNullList.create();
-//			//Things must (probably) be registered for all meta values
-//			dustclass.getSubItems(RunesOfWizardry.wizardry_tab, subDusts);
-//			for(ItemStack i:subDusts){
-//				ModelLoader.setCustomModelResourceLocation(dustclass, i.getMetadata(), dustModel);
-//			}
-//		}
-//	}
-//	private ModelResourceLocation blockModel = new ModelResourceLocation(References.texture_path+"dust_storage","inventory");
-//	@Override
-//	public void registerDustBlockRender(ADustStorageBlock dustBlock) {
-//		IDust dust = dustBlock.getIDust();
-//		for(int meta:dust.getMetaValues()){
-//			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dustBlock.getInstance()), meta, blockModel);
-//		}
-//		registerDustBlockStateMapper(dustBlock);
-//	}
-//	private void registerDustBlockStateMapper(ADustStorageBlock block){
-//		WizardryLogger.logInfo("Creating StateMapper for "+block.getName());
-//		StateMapperBase mapper = new StateMapperBase() {
-//			@Override
-//			protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
-//				ModelResourceLocation loc =new ModelResourceLocation(References.texture_path+"dust_storage");
-//				//System.err.println(loc.toString());
-//				return loc;
-//			}
-//		};
-//		ModelLoader.setCustomStateMapper(block.getInstance(), mapper);
-//	}
 	@Override
 	public void registerColors(){
 		ItemColors items = Minecraft.getMinecraft().getItemColors();

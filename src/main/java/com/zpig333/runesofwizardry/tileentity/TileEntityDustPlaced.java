@@ -127,7 +127,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	}
 	//update the data for the internal connectors
 	protected void updateInternalConnectors(){
-		HashSet<int[]> result = new HashSet<int[]>();
+		HashSet<int[]> result = new HashSet<>();
 		for(int i=0;i<contents.length;i++){
 			for(int j=0;j<contents[i].length;j++){
 				if(i+1<contents.length && dustsMatch(contents[i][j],contents[i+1][j])){
@@ -161,7 +161,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 	}
 	//update the external connectors
 	public void updateExternalConnectors(){
-		List<int[]> result = new LinkedList<int[]>();
+		List<int[]> result = new LinkedList<>();
 		//world was null when destroyed by explosion
 		if(world==null||pos==null){
 			WizardryLogger.logError("world or pos was null for TED at "+world+" "+pos);

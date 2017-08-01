@@ -45,7 +45,7 @@ public class CommandExportPattern implements ICommand {
 	private static final String locKey="runesofwizardry.command.export";
 	public CommandExportPattern() {
 		//define aliases here
-		aliases = new LinkedList<String>();
+		aliases = new LinkedList<>();
 		//aliases.add(I18n.translateToLocal("runesofwizardry.command.export"));
 	}
 	/* (non-Javadoc)
