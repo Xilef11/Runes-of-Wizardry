@@ -11,7 +11,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.zpig333.runesofwizardry.RecipeDumper;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;

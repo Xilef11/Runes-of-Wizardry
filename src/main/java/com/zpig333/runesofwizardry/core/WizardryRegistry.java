@@ -43,7 +43,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -54,6 +56,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 @Mod.EventBusSubscriber
 public class WizardryRegistry {
@@ -185,21 +188,25 @@ public class WizardryRegistry {
 	/**Create the (vanilla) recipes**/
 	public static void initCrafting(){
 		GameRegistry.addSmelting(nether_paste, new ItemStack(lavastone,1), 0.2F);
-//		//pouches
+		//pouches
 		RecipeSorter.register(References.modid+":dustPouch", RecipeDustPouch.class, RecipeSorter.Category.SHAPELESS, "");
-	
-		//TODO figure out how to add programatically-generated recipes for the blocks.
-//		for(IDustStorageBlock dustBlock:DustRegistry.getAllBlocks()){
-//			IDust dust = dustBlock.getIDust();
-//			//Crafting the blocks
-//			for(int i:dust.getMetaValues()){
-//				ItemStack dustStack = new ItemStack(dust,1,i);
-//				RecipeDumper.addShapedRecipe(new ItemStack(dustBlock.getInstance(), 1, i), 
-//						new Object[]{"XXX","XXX","XXX",'X',dustStack});
-//				RecipeDumper.addShapelessRecipe(new ItemStack(dust,9,i), new ItemStack(dustBlock.getInstance(), 1, i));
-//
-//			}
-//		}
+
+		//Crafting the blocks
+		for(IDustStorageBlock dustBlock:DustRegistry.getAllBlocks()){
+			IDust dustclass = dustBlock.getIDust();
+			String modID = dustclass.getRegistryName().getResourceDomain();
+			for(int i:dustclass.getMetaValues()){
+				GameRegistry.addShapedRecipe(new ResourceLocation(modID,dustclass.getName()+"_to_block"+i),null,new ItemStack(dustBlock.getInstance(), 1, i), 
+						new Object[]{"XXX","XXX","XXX",'X',new ItemStack(dustclass,1,i)});
+
+				ItemStack block = new ItemStack(dustBlock.getInstance(), 1, i);
+
+				GameRegistry.addShapelessRecipe(new ResourceLocation(modID,dustclass.getName()+"_from_block"+i),null,
+						new ItemStack(dustclass,9,i), Ingredient.fromStacks(block));
+
+			}
+		}
+
 	}
 
 	@SubscribeEvent
