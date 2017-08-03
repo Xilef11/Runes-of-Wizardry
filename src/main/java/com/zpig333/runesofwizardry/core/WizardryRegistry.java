@@ -41,7 +41,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -50,7 +49,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.RecipeSorter;
 
 @Mod.EventBusSubscriber
 public class WizardryRegistry {
@@ -182,9 +180,7 @@ public class WizardryRegistry {
 	/**Create the (vanilla) recipes**/
 	public static void initCrafting(){
 		GameRegistry.addSmelting(nether_paste, new ItemStack(lavastone,1), 0.2F);
-		//pouches
-		RecipeSorter.register(References.modid+":dustPouch", RecipeDustPouch.class, RecipeSorter.Category.SHAPELESS, "");
-
+		
 		//Crafting the blocks
 		for(IDustStorageBlock dustBlock:DustRegistry.getAllBlocks()){
 			IDust dustclass = dustBlock.getIDust();
@@ -301,7 +297,6 @@ public class WizardryRegistry {
 
 		for(IDust dustclass:DustRegistry.getAllDusts()){
 			if(!dustclass.hasCustomIcon()){
-				NonNullList<ItemStack> subDusts = NonNullList.create();
 				//Things must (probably) be registered for all meta values
 				for(int meta:dustclass.getMetaValues()){
 					ModelLoader.setCustomModelResourceLocation(dustclass, meta, dustModel);

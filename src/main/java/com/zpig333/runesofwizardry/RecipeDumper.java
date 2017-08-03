@@ -166,6 +166,7 @@ public class RecipeDumper {
 			throw new IllegalArgumentException("Not a block, item, stack, or od name");
 		}
 
+		@SuppressWarnings("unused")
 		private static void generateConstants() {
 			List<Map<String, Object>> json = new ArrayList<>();
 			for (String s : USED_OD_NAMES) {
