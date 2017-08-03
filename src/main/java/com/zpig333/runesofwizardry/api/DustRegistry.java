@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.InvalidRuneException;
@@ -26,7 +27,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /** Dust API registry.  All dust registry methods are found here. */
 public class DustRegistry {
@@ -259,14 +263,19 @@ public class DustRegistry {
 	 * @param blockOut the result (usually a block of your dust)
 	 */
 	public static void registerBlockInfusion(ItemStack[] materials, ItemStack blockIn, ItemStack blockOut){
-		//FUTURE temporary until we figure out what we want
-		ItemStack[] recipe = new ItemStack[materials.length+1];
-		for(int i=0;i<materials.length;i++){
-			recipe[i]=materials[i];
+		WizardryLogger.logInfo("Registering infusion for "+blockOut);
+		// FUTURE temporary until we figure out what we want
+		Ingredient[] recipe = new Ingredient[materials.length + 1];
+		for (int i = 0; i < materials.length; i++) {
+			recipe[i] = Ingredient.fromStacks(materials[i]);
 		}
-		recipe[materials.length]=blockIn;
-		//TODO figure out how to add generated recipes/custom recipe types.
-		//RecipeDumper.addShapelessRecipe(blockOut, (Object[])recipe);
+		recipe[materials.length] = Ingredient.fromStacks(blockIn);
+		// TODO figure out how to add generated recipes/custom recipe types.
+		GameRegistry.addShapelessRecipe(
+				new ResourceLocation(References.modid,
+						blockOut.getItem().getRegistryName().toString().replace(':', '_') + "_infusion"
+								+ blockOut.getMetadata()),
+				new ResourceLocation(References.modid, "infusion"), blockOut, recipe);
 	}
 
 	/** Returns the dust class from an ItemStack

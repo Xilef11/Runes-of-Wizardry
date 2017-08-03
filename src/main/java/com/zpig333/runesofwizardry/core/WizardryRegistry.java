@@ -190,12 +190,12 @@ public class WizardryRegistry {
 			IDust dustclass = dustBlock.getIDust();
 			String modID = dustclass.getRegistryName().getResourceDomain();
 			for(int i:dustclass.getMetaValues()){
-				GameRegistry.addShapedRecipe(new ResourceLocation(modID,dustclass.getName()+"_to_block"+i),null,new ItemStack(dustBlock.getInstance(), 1, i), 
+				GameRegistry.addShapedRecipe(new ResourceLocation(References.modid,modID+"_"+dustclass.getName()+"_to_block"+i),null,new ItemStack(dustBlock.getInstance(), 1, i), 
 						new Object[]{"XXX","XXX","XXX",'X',new ItemStack(dustclass,1,i)});
 
 				ItemStack block = new ItemStack(dustBlock.getInstance(), 1, i);
 
-				GameRegistry.addShapelessRecipe(new ResourceLocation(modID,dustclass.getName()+"_from_block"+i),null,
+				GameRegistry.addShapelessRecipe(new ResourceLocation(References.modid,modID+"_"+dustclass.getName()+"_from_block"+i),null,
 						new ItemStack(dustclass,9,i), Ingredient.fromStacks(block));
 
 			}
