@@ -9,16 +9,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+import com.zpig333.runesofwizardry.util.Utils;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
-
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
-import com.zpig333.runesofwizardry.util.Utils;
 
 /** This Abstract class defines a rune created by placing patterns of arcane dust.<br>
  * This should be a singleton class like Items and Blocks.
@@ -88,7 +88,7 @@ public abstract class IRune {
 			if(droppedItems!=null&& possibility!=null){
 				List<ItemStack> wanted = Arrays.asList(possibility);
 				wanted = Utils.sortAndMergeStacks(wanted);
-				WizardryLogger.logInfo("Comparing sacrifices: "+Arrays.deepToString(wanted.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));
+				RunesOfWizardry.log().info("Comparing sacrifices: "+Arrays.deepToString(wanted.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));
 				boolean match=true;
 				int j=0;
 				for(int i=0;i<wanted.size()&&match;i++){

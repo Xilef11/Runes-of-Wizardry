@@ -1,11 +1,11 @@
 package com.zpig333.runesofwizardry.block;
 
+import com.zpig333.runesofwizardry.api.IDust;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemStack;
-
-import com.zpig333.runesofwizardry.api.IDust;
 
 public class DustStorageItemBlockColor implements IItemColor {
 	private static DustStorageItemBlockColor instance=null;

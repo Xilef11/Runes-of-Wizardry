@@ -9,15 +9,15 @@ import static net.minecraft.item.ItemStack.EMPTY;
 
 import java.util.Set;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
-
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.item.dust.RWDusts;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 
 /**
  * @author Xilef11

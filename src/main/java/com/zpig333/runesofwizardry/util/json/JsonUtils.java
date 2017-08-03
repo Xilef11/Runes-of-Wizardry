@@ -5,12 +5,12 @@
  */
 package com.zpig333.runesofwizardry.util.json;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zpig333.runesofwizardry.core.ConfigHandler;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * @author Xilef11

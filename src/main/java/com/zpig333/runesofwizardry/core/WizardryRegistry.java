@@ -95,7 +95,7 @@ public class WizardryRegistry {
 
 		//register dust blocks
 		for(IDustStorageBlock block : DustRegistry.getAllBlocks()){
-			WizardryLogger.logInfo("Registering dust block: "+block.getName());
+			RunesOfWizardry.log().info("Registering dust block: "+block.getName());
 			event.getRegistry().register(block.getInstance());
 		}
 	}
@@ -159,7 +159,7 @@ public class WizardryRegistry {
 			event.getRegistry().register(dust);
 			IDustStorageBlock dustBlock = DustRegistry.getBlock(dust);
 			if(dustBlock!=null){
-				WizardryLogger.logInfo("registering dust itemblock: "+dustBlock.getName());
+				RunesOfWizardry.log().info("registering dust itemblock: "+dustBlock.getName());
 				event.getRegistry().register(new DustStorageItemBlock(dustBlock.getInstance()));
 			}
 		}
@@ -317,7 +317,7 @@ public class WizardryRegistry {
 				ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dustBlock.getInstance()), meta, blockModel);
 			}
 			if(dustBlock instanceof ADustStorageBlock){
-				WizardryLogger.logInfo("Creating StateMapper for "+dustBlock.getName());
+				RunesOfWizardry.log().info("Creating StateMapper for "+dustBlock.getName());
 				StateMapperBase mapper = new StateMapperBase() {
 					@Override
 					protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {

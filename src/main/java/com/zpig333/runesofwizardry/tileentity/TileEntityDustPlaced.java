@@ -11,6 +11,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.RuneEntity;
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -27,13 +34,6 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.api.RuneEntity;
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 /**The TileEntity that holds placed dust
  * @author Xilef11
@@ -164,7 +164,7 @@ public class TileEntityDustPlaced extends TileEntity implements IInventory{
 		List<int[]> result = new LinkedList<>();
 		//world was null when destroyed by explosion
 		if(world==null||pos==null){
-			WizardryLogger.logError("world or pos was null for TED at "+world+" "+pos);
+			RunesOfWizardry.log().error("world or pos was null for TED at "+world+" "+pos);
 			return;
 		}
 		if(world.getBlockState(pos.north()).getBlock() == WizardryRegistry.dust_placed){

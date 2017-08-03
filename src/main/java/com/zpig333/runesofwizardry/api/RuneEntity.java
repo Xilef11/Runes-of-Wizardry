@@ -7,6 +7,9 @@ package com.zpig333.runesofwizardry.api;
 
 import java.util.Set;
 
+import com.zpig333.runesofwizardry.core.rune.RunesUtil;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,9 +19,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import com.zpig333.runesofwizardry.core.rune.RunesUtil;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 /** This class is the superclass for all "Entities" that create the effects of runes.
  * @author Xilef11

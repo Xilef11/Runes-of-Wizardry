@@ -5,8 +5,8 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive.BeamData;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
@@ -29,7 +29,7 @@ public class RenderDustActive extends RenderDustPlaced {
 	public void render(TileEntityDustPlaced tileEntity,	double relativeX, double relativeY, double relativeZ,float partialTicks, int blockDamageProgress, float alpha) {
 		super.render(tileEntity, relativeX, relativeY, relativeZ,partialTicks, blockDamageProgress, alpha);
 		if(!(tileEntity instanceof TileEntityDustActive)){
-			WizardryLogger.logError("TileEntity was not active dust for rendering by RenderDustActive");
+			RunesOfWizardry.log().error("TileEntity was not active dust for rendering by RenderDustActive");
 			return;
 		}
 		//save GL state

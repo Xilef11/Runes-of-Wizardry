@@ -1,8 +1,8 @@
 package com.zpig333.runesofwizardry.item.dust;
 
-import net.minecraft.item.ItemStack;
-
 import com.zpig333.runesofwizardry.api.IDust;
+
+import net.minecraft.item.ItemStack;
 
 public class DustInert extends IDust {
 	public DustInert(){

@@ -3,6 +3,18 @@ package com.zpig333.runesofwizardry.client.gui;
 import java.awt.Color;
 import java.io.IOException;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.inventory.ContainerDustDye;
+import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
+import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
+import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -10,20 +22,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
-
-import org.apache.logging.log4j.Level;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
-import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.inventory.ContainerDustDye;
-import com.zpig333.runesofwizardry.network.guipackets.DustDyeButtonPacket;
-import com.zpig333.runesofwizardry.network.guipackets.DustDyeRequestUpdatePacket;
-import com.zpig333.runesofwizardry.network.guipackets.DustDyeTextPacket;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class GuiDustDye extends GuiContainer {
 
@@ -130,7 +128,7 @@ public class GuiDustDye extends GuiContainer {
 			validColor=true;
 		}catch(NumberFormatException e){
 			//this might spam a bit...
-			WizardryLogger.logDebug("GuiDustDye could not parse colorString to Integer");
+			RunesOfWizardry.log().debug("GuiDustDye could not parse colorString to Integer");
 			validColor=false;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -153,7 +151,7 @@ public class GuiDustDye extends GuiContainer {
 		try {
 			super.mouseClicked(mouseX, mouseY, clickedButton);
 		} catch (IOException e) {
-			WizardryLogger.logException(Level.ERROR, e, "Mouse Click IO Error in GuiDustDye");
+			RunesOfWizardry.log().error("Mouse Click IO Error in GuiDustDye",e);
 		}
 	}
 	//use the color squares on the GUI to set the color
@@ -167,7 +165,7 @@ public class GuiDustDye extends GuiContainer {
 		//sometimes it gets too big near the end
 		if(col==4)col=3;
 		if(row==4)row=3;
-		WizardryLogger.logInfo("Selected a color, col: "+col+" row: "+row);
+		RunesOfWizardry.log().info("Selected a color, col: "+col+" row: "+row);
 		int color=0;
 		//		final int white=0xffffff,
 		//				orange=0xd87f33,
@@ -203,7 +201,7 @@ public class GuiDustDye extends GuiContainer {
 		}else if(row==3){
 
 		}else{
-			WizardryLogger.logError("Wrong row number in GuiDustDye#chooseColor");
+			RunesOfWizardry.log().error("Wrong row number in GuiDustDye#chooseColor");
 		}
 		 */
 		textColor.setText(Integer.toHexString(color));
@@ -254,7 +252,7 @@ public class GuiDustDye extends GuiContainer {
 			//send the selected colour to the server
 			RunesOfWizardry.networkWrapper.sendToServer(new DustDyeButtonPacket(colorInt,PARENT.getPos()));
 			break;
-		default: WizardryLogger.logDebug("Button clicked "+button.displayString+" "+button.id);
+		default: RunesOfWizardry.log().debug("Button clicked "+button.displayString+" "+button.id);
 		}
 
 

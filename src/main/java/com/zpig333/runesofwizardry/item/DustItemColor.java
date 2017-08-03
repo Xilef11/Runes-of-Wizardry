@@ -1,9 +1,9 @@
 package com.zpig333.runesofwizardry.item;
 
+import com.zpig333.runesofwizardry.api.IDust;
+
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.ItemStack;
-
-import com.zpig333.runesofwizardry.api.IDust;
 
 public class DustItemColor implements IItemColor {
 	private static DustItemColor instance=null;

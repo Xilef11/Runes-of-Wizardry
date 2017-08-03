@@ -1,17 +1,6 @@
 package com.zpig333.runesofwizardry;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.ClientCommandHandler;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
+import org.apache.logging.log4j.Logger;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.command.CommandExportPattern;
@@ -34,6 +23,19 @@ import com.zpig333.runesofwizardry.runes.test.RuneTest2;
 import com.zpig333.runesofwizardry.runes.test.RuneTesting;
 import com.zpig333.runesofwizardry.util.ChatUtils;
 
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
+
 @Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory",acceptedMinecraftVersions = "[1.12,1.13)")
 public class RunesOfWizardry {
 
@@ -42,12 +44,18 @@ public class RunesOfWizardry {
 
 	@Mod.Instance(References.modid)
 	public static RunesOfWizardry instance = new RunesOfWizardry();
-
+	
 	// packet handler thingy
 	public static SimpleNetworkWrapper networkWrapper;
+	
+	private static Logger log;
+	
+	/**Returns the logger for this mod **/
+	public static Logger log(){return log;}
 
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
+		log = event.getModLog();
 		//config
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		WizardryRegistry.initItems();

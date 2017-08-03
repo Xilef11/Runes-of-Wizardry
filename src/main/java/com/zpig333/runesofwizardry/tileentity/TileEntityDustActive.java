@@ -10,10 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.api.RuneEntity;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -150,7 +150,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 		//re-create the rune
 		IRune rune = DustRegistry.getRuneByID(runeID);
 		if(rune==null){
-			WizardryLogger.logError("Active Dust at "+getPos()+" loaded invalid runeID "+runeID+" from NBT");
+			RunesOfWizardry.log().error("Active Dust at "+getPos()+" loaded invalid runeID "+runeID+" from NBT");
 			this.rune=null;//this should make the rune do nothing.
 		}else{
 			RuneEntity entity = rune.createRune(stacks,facing, posSet, this);
@@ -177,7 +177,7 @@ public class TileEntityDustActive extends TileEntityDustPlaced implements ITicka
 			if(te instanceof TileEntityDustPlaced){
 				((TileEntityDustPlaced)te).setRune(rune);
 			}else{
-				WizardryLogger.logError("TileEntity at pos: "+p+" wasn't placed dust! (TEDustActive#init)");
+				RunesOfWizardry.log().error("TileEntity at pos: "+p+" wasn't placed dust! (TEDustActive#init)");
 			}
 		}
 		rune.isAnyBlockPowered();

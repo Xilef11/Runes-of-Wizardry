@@ -1,9 +1,9 @@
 package com.zpig333.runesofwizardry.item.dust;
 
-import net.minecraft.item.ItemStack;
-
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
+
+import net.minecraft.item.ItemStack;
 
 public class DustPlant extends IDust {
 	public DustPlant(){

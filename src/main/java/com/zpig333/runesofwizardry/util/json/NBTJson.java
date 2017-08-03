@@ -5,6 +5,15 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagByteArray;
@@ -19,17 +28,6 @@ import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-
-import org.apache.logging.log4j.Level;
-
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 /**
  * Converts a NBTTagCompound to and from a JsonObject
  * @author Xilef11
@@ -72,7 +70,7 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
 			try {
 				value = deserializewithReflection(type, tag, context);
 			} catch (Exception e1) {
-				WizardryLogger.logException(Level.ERROR, e1, "Could not deserialize NBT using reflection");
+				RunesOfWizardry.log().error("Could not deserialize NBT using reflection",e1);
 				value = deserializeType(type, val, context);
 			}
 			tagCompound.setTag(key, value);

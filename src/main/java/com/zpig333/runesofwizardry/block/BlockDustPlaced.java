@@ -2,10 +2,10 @@ package com.zpig333.runesofwizardry.block;
 
 import java.util.Random;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.RuneEntity;
 import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.item.ItemBroom;
@@ -108,7 +108,7 @@ public class BlockDustPlaced extends Block{
 				ei.setPickupDelay(20);
 			}else{
 				//double dist = p.getDistanceToEntity(ei);
-				//WizardryLogger.logInfo("Distance: "+dist);
+				//RunesOfWizardry.log().info("Distance: "+dist);
 				Integer pickupDelay = ReflectionHelper.getPrivateValue(EntityItem.class, ei, "delayBeforeCanPickup","field_145804_b");
 				if (pickupDelay > 10) {
 					ei.setPickupDelay(10);//10 is the default, but there's no getDefaultPickupDelay, so its better to hardcode it in both uses
@@ -267,10 +267,10 @@ public class BlockDustPlaced extends Block{
 			return false;
 		}
 
-		//WizardryLogger.logInfo("DustPlaced block activated. pos= "+pos+" hitX: "+hitX+" hitY: "+hitY+" hitZ: "+hitZ);
+		//RunesOfWizardry.log().info("DustPlaced block activated. pos= "+pos+" hitX: "+hitX+" hitY: "+hitY+" hitZ: "+hitZ);
 		if(! (tile instanceof TileEntityDustPlaced)){
 			//something is wrong
-			WizardryLogger.logError("The TileEntity attached to the BlockDustPlaced at "+pos+" has bad type: "+tile.getClass());
+			RunesOfWizardry.log().error("The TileEntity attached to the BlockDustPlaced at "+pos+" has bad type: "+tile.getClass());
 			return false;
 		}
 		TileEntityDustPlaced tileDust = (TileEntityDustPlaced) tile;
@@ -287,7 +287,7 @@ public class BlockDustPlaced extends Block{
 		int row = (int) posZ;
 		int col = (int) posX;
 
-		//WizardryLogger.logInfo("Slot coords is "+row+" "+col);
+		//RunesOfWizardry.log().info("Slot coords is "+row+" "+col);
 		//make sure we are within bounds
 		if(row<0)row=0;
 		if(row>TileEntityDustPlaced.ROWS-1)row=TileEntityDustPlaced.ROWS-1;
@@ -402,14 +402,14 @@ public class BlockDustPlaced extends Block{
 		//called when the block is left-clicked, but does not have hitX Y Z ...
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(! (tile instanceof TileEntityDustPlaced)){
-			WizardryLogger.logError("The TileEntity attached to the BlockDustPlaced at "+pos+" has bad type: "+tile.getClass());
+			RunesOfWizardry.log().error("The TileEntity attached to the BlockDustPlaced at "+pos+" has bad type: "+tile.getClass());
 		}
 		TileEntityDustPlaced tileDust = (TileEntityDustPlaced) tile;
 		if(!worldIn.isRemote){
 			//Raytrace for the hit position
 			RayTraceResult hitPos = RayTracer.retraceBlock(worldIn, playerIn, pos);
 			Vec3d hit = hitPos.hitVec;//this is null client side
-			//WizardryLogger.logInfo("DustPlaced block clicked. pos= "+pos+" lookX: "+look.xCoord+" lookY: "+look.yCoord+" lookZ: "+look.zCoord);
+			//RunesOfWizardry.log().info("DustPlaced block clicked. pos= "+pos+" lookX: "+look.xCoord+" lookY: "+look.yCoord+" lookZ: "+look.zCoord);
 			if(tileDust.isInRune()){
 				RuneEntity rune = tileDust.getRune();
 				if(rune.handleLeftClick(worldIn, pos, playerIn, hit))return;
@@ -420,7 +420,7 @@ public class BlockDustPlaced extends Block{
 			int row = (int) posZ;
 			int col = (int) posX;
 
-			//WizardryLogger.logInfo("Slot coords is "+row+" "+col);
+			//RunesOfWizardry.log().info("Slot coords is "+row+" "+col);
 			//make sure we are within bounds
 			if(row<0)row=0;
 			if(row>TileEntityDustPlaced.ROWS-1)row=TileEntityDustPlaced.ROWS-1;

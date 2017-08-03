@@ -5,6 +5,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IRune;
+import com.zpig333.runesofwizardry.api.Inscription;
+import com.zpig333.runesofwizardry.api.RuneEntity;
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.core.rune.PatternUtils;
+import com.zpig333.runesofwizardry.core.rune.RunesUtil;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive.BeamType;
+import com.zpig333.runesofwizardry.util.Utils;
+
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -17,21 +32,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
-
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.api.IRune;
-import com.zpig333.runesofwizardry.api.Inscription;
-import com.zpig333.runesofwizardry.api.RuneEntity;
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.core.rune.PatternUtils;
-import com.zpig333.runesofwizardry.core.rune.RunesUtil;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive.BeamType;
-import com.zpig333.runesofwizardry.util.Utils;
 
 public class RuneChargeInscription extends IRune {
 	private ItemStack[][] pattern=null;
@@ -119,7 +119,7 @@ public class RuneChargeInscription extends IRune {
 				}
 				if(!inscription.canBeActivatedByPlayer(player, entity.getWorld(), getPos())){
 					RunesUtil.deactivateRune(this);
-					WizardryLogger.logInfo("Player "+player.getName()+" did not have permission to activate inscription "+inscriptionID+" at "+entity.getWorld()+" pos "+getPos());
+					RunesOfWizardry.log().info("Player "+player.getName()+" did not have permission to activate inscription "+inscriptionID+" at "+entity.getWorld()+" pos "+getPos());
 					return;
 				}
 				if(!inscription.onInscriptionCharged(player, sacrifice, negated)){
@@ -175,7 +175,7 @@ public class RuneChargeInscription extends IRune {
 		ItemStack[] sacrifice = insc.getChargeItems();
 		List<ItemStack> want = Arrays.asList(sacrifice);
 		want = Utils.sortAndMergeStacks(want);
-		WizardryLogger.logInfo("Comparing sacrifices: "+Arrays.deepToString(want.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));
+		RunesOfWizardry.log().info("Comparing sacrifices: "+Arrays.deepToString(want.toArray(new ItemStack[0]))+" and "+Arrays.deepToString(droppedItems.toArray(new ItemStack[0])));
 		boolean match=true;
 		int j=0;
 		for(int i=0;i<want.size()&&match;i++){

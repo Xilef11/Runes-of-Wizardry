@@ -5,6 +5,12 @@
  */
 package com.zpig333.runesofwizardry.integration.jei;
 
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.core.ConfigHandler;
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
+
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IJeiRuntime;
 import mezz.jei.api.IModPlugin;
@@ -15,12 +21,6 @@ import mezz.jei.api.ingredients.IModIngredientRegistration;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.core.ConfigHandler;
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 
 /** This class configures JEI
  * @author Xilef11

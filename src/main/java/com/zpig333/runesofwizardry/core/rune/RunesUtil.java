@@ -11,6 +11,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IRune;
+import com.zpig333.runesofwizardry.api.RuneEntity;
+import com.zpig333.runesofwizardry.block.BlockDustPlaced;
+import com.zpig333.runesofwizardry.core.ConfigHandler;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustDead;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
+import com.zpig333.runesofwizardry.util.ArrayUtils;
+import com.zpig333.runesofwizardry.util.Utils;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,22 +40,6 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-
-import org.apache.logging.log4j.Level;
-
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.api.IRune;
-import com.zpig333.runesofwizardry.api.RuneEntity;
-import com.zpig333.runesofwizardry.block.BlockDustPlaced;
-import com.zpig333.runesofwizardry.core.ConfigHandler;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustDead;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
-import com.zpig333.runesofwizardry.util.ArrayUtils;
-import com.zpig333.runesofwizardry.util.Utils;
 
 /** internal Utility/logic methods for Runes
  * @author Xilef11
@@ -105,7 +103,7 @@ public class RunesUtil {
 			TileEntityDustPlaced ted = (TileEntityDustPlaced) initial;
 			if(ted.isInRune())return;//maybe add message or something
 		}else{
-			WizardryLogger.logError("activateRune was called on a BlockPos that isn't placed dust!");
+			RunesOfWizardry.log().error("activateRune was called on a BlockPos that isn't placed dust!");
 			//return;
 		}
 		PatternFinder finder = new PatternFinder(world, pos);
@@ -122,7 +120,7 @@ public class RunesUtil {
 			return;
 		}
 		if(!match.rune.canBeActivatedByPlayer(player, world, pos)){
-			WizardryLogger.logInfo("Player "+player.getName()+" did not have permission to activate "+match.rune.getName()+" at "+world+" pos "+pos);
+			RunesOfWizardry.log().info("Player "+player.getName()+" did not have permission to activate "+match.rune.getName()+" at "+world+" pos "+pos);
 			return;
 		}
 		//sacrifice
@@ -142,7 +140,7 @@ public class RunesUtil {
 				stacks.add(s.copy());//copy the stack just in case a rune needs it
 			}
 		}
-		WizardryLogger.logInfo("Found sacrifice: "+Arrays.deepToString(stacks.toArray(new ItemStack[0])));
+		RunesOfWizardry.log().info("Found sacrifice: "+Arrays.deepToString(stacks.toArray(new ItemStack[0])));
 		//check if sacrifice matches rune
 		if(stacks.isEmpty())stacks=null;
 		if(!negated){
@@ -194,7 +192,7 @@ public class RunesUtil {
 		break;
 		default: throw new IllegalStateException("A rune is facing in an invalid direction: "+match.rune.getName()+" at "+pos+" facing "+match.top);
 		}
-		WizardryLogger.logInfo("Top-left block is :"+topLeft+" and entity Pos is: "+entityPos);
+		RunesOfWizardry.log().info("Top-left block is :"+topLeft+" and entity Pos is: "+entityPos);
 		//check that the entity position is valid
 		if(!finder.getDustPositions().contains(entityPos)){
 			throw new IllegalStateException("Tried to create a Rune with invalid entity position"); 
@@ -222,7 +220,7 @@ public class RunesUtil {
 		}
 		//entity.setRune(runeEnt);
 		entity.updateRendering();
-		WizardryLogger.logInfo("Formed Rune: "+match.rune.getName()+" facing "+match.top+" by "+player.getDisplayNameString());
+		RunesOfWizardry.log().info("Formed Rune: "+match.rune.getName()+" facing "+match.top+" by "+player.getDisplayNameString());
 		runeEnt.onRuneActivatedbyPlayer(player,sacrifice,negated);
 	}
 	/**
@@ -264,7 +262,7 @@ public class RunesUtil {
 		}else{
 			//throw new IllegalStateException("TileEntity wasn't placed dust: "+te);
 			Throwable t = new IllegalStateException("TileEntity wasn't placed dust: "+te);
-			WizardryLogger.logException(Level.ERROR, t, "Error deactivating rune (1)");
+			RunesOfWizardry.log().error("Error deactivating rune (1)",t);
 		}
 		//set all entities as not in a rune
 		for(BlockPos p:rune.dustPositions){
@@ -276,7 +274,7 @@ public class RunesUtil {
 			}else{
 				//throw new IllegalStateException("TileEntity wasn't placed dust: "+te1);
 				Throwable t = new IllegalStateException("TileEntity wasn't placed dust: "+te1);
-				WizardryLogger.logException(Level.ERROR, t, "Error deactivating rune (2)");
+				RunesOfWizardry.log().error("Error deactivating rune (2)",t);
 			}
 		}
 	}
@@ -320,7 +318,7 @@ public class RunesUtil {
 			IBlockState state = worldIn.getBlockState(pos);
 			worldIn.notifyBlockUpdate(pos, state, state, 3);
 		}else{
-			WizardryLogger.logError("killDustForEntity was called with a BlockPos that does not have a TileEntityDustPlaced! :"+pos);
+			RunesOfWizardry.log().error("killDustForEntity was called with a BlockPos that does not have a TileEntityDustPlaced! :"+pos);
 		}
 	}
 	/**

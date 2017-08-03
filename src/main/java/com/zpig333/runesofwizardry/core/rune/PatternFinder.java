@@ -9,14 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 /**
  * This class Finds a pattern of dust around a block in the World.
@@ -46,9 +46,9 @@ public class PatternFinder {
 		try{
 			recursiveSearch(initial);
 		}catch(StackOverflowError e){
-			WizardryLogger.logError("Stack Overflowed");
+			RunesOfWizardry.log().error("Stack Overflowed");
 		}
-		WizardryLogger.logInfo("Finished finding dust pattern. Found "+map.size()+" blocks in "+n+" calls");
+		RunesOfWizardry.log().info("Finished finding dust pattern. Found "+map.size()+" blocks in "+n+" calls");
 	}
 	//actually creates the structure for dusts
 	private int n=0;
@@ -90,7 +90,7 @@ public class PatternFinder {
 		int blocksX = (seCorner.getX() - nwCorner.getX())+1;
 		//vertical number of blocks
 		int blocksZ = (seCorner.getZ() - nwCorner.getZ())+1;
-		WizardryLogger.logInfo("Converting to array: there are "+blocksX+" horizontal blocks and "+blocksZ+" vertical blocks. NW corner is "+nwCorner+" and SE corner is "+seCorner);
+		RunesOfWizardry.log().info("Converting to array: there are "+blocksX+" horizontal blocks and "+blocksZ+" vertical blocks. NW corner is "+nwCorner+" and SE corner is "+seCorner);
 		ItemStack[][] result = new ItemStack[blocksZ*TileEntityDustPlaced.ROWS][blocksX*TileEntityDustPlaced.COLS];
 		for(int i=0;i<blocksZ;i++){//for each row of blocks
 			for(int j=0;j<blocksX;j++){//for each column of blocks

@@ -5,11 +5,11 @@
  */
 package com.zpig333.runesofwizardry.event;
 
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+
 import net.minecraft.block.Block;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 /**
  * @author Xilef11

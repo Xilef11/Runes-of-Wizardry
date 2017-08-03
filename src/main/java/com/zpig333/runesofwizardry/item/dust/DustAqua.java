@@ -1,10 +1,10 @@
 package com.zpig333.runesofwizardry.item.dust;
 
+import com.zpig333.runesofwizardry.api.IDust;
+
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
-
-import com.zpig333.runesofwizardry.api.IDust;
 
 public class DustAqua extends IDust {
 	@Override

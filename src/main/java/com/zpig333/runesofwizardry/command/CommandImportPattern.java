@@ -10,6 +10,20 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IRune;
+import com.zpig333.runesofwizardry.core.ConfigHandler;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.core.rune.PatternUtils;
+import com.zpig333.runesofwizardry.item.ItemDustPouch;
+import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
+import com.zpig333.runesofwizardry.util.RayTracer;
+import com.zpig333.runesofwizardry.util.json.JsonUtils;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;
@@ -29,21 +43,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.Level;
-
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.api.IRune;
-import com.zpig333.runesofwizardry.core.ConfigHandler;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.core.rune.PatternUtils;
-import com.zpig333.runesofwizardry.item.ItemDustPouch;
-import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
-import com.zpig333.runesofwizardry.util.RayTracer;
-import com.zpig333.runesofwizardry.util.json.JsonUtils;
 
 /**
  * @author Xilef11
@@ -128,7 +127,7 @@ public class CommandImportPattern implements ICommand {
 						sender.sendMessage(new TextComponentTranslation(locKey+".serverfilenotfound", args[0], args[0], args[0]));
 						return;
 					} catch (IOException e) {
-						WizardryLogger.logException(Level.ERROR, e, "Error while importing pattern from JSON");
+						RunesOfWizardry.log().error("Error while importing pattern from JSON",e);
 					}
 				}
 
@@ -137,7 +136,7 @@ public class CommandImportPattern implements ICommand {
 				BlockPos lookPos = look.getBlockPos();
 				Block block = world.getBlockState(lookPos).getBlock();
 				EnumFacing playerFacing = player.getHorizontalFacing();
-				WizardryLogger.logInfo("Import Pattern: Looking at block: "+block.getUnlocalizedName()+" at "+lookPos+" facing: "+playerFacing);
+				RunesOfWizardry.log().info("Import Pattern: Looking at block: "+block.getUnlocalizedName()+" at "+lookPos+" facing: "+playerFacing);
 				//allows to replace placed dust
 				if(world.getBlockState(lookPos).getBlock()==WizardryRegistry.dust_placed)lookPos=lookPos.down();
 				//place the pattern depending on arg

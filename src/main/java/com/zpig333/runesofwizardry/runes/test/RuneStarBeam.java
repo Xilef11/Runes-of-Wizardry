@@ -4,18 +4,18 @@ import static net.minecraft.item.ItemStack.EMPTY;
 
 import java.util.Set;
 
+import com.zpig333.runesofwizardry.api.IRune;
+import com.zpig333.runesofwizardry.api.RuneEntity;
+import com.zpig333.runesofwizardry.item.dust.RWDusts;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive.BeamType;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
-
-import com.zpig333.runesofwizardry.api.IRune;
-import com.zpig333.runesofwizardry.api.RuneEntity;
-import com.zpig333.runesofwizardry.item.dust.RWDusts;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive.BeamType;
 
 public class RuneStarBeam extends IRune {
 

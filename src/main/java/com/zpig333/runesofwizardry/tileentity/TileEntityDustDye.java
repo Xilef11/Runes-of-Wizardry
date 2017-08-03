@@ -1,5 +1,9 @@
 package com.zpig333.runesofwizardry.tileentity;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.ItemDustPouch;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -7,10 +11,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.item.ItemDustPouch;
 
 
 public class TileEntityDustDye extends TileEntity{
@@ -37,7 +37,7 @@ public class TileEntityDustDye extends TileEntity{
 			itemPouch = (ItemDustPouch)pouch.getItem();
 			dust = itemPouch.getDustStack(pouch, 0);
 			if(dust.isEmpty() || dust.getItem()!=WizardryRegistry.dust_dyed){
-				WizardryLogger.logError("the TEDustDye at "+getPos()+" had a pouch with null/non dyed dust");
+				RunesOfWizardry.log().error("the TEDustDye at "+getPos()+" had a pouch with null/non dyed dust");
 				return;
 			}
 		}
@@ -62,7 +62,7 @@ public class TileEntityDustDye extends TileEntity{
 			try{
 				this.dye(Integer.parseInt(colorString,16));
 			}catch(NumberFormatException e){
-				WizardryLogger.logInfo("Dust Dye: unable to parse color "+colorString+" on redstone toggle");
+				RunesOfWizardry.log().info("Dust Dye: unable to parse color "+colorString+" on redstone toggle");
 			}
 		}
 		pastRedstoneState=newRedstone;

@@ -11,9 +11,9 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.InvalidRuneException;
@@ -263,7 +263,7 @@ public class DustRegistry {
 	 * @param blockOut the result (usually a block of your dust)
 	 */
 	public static void registerBlockInfusion(ItemStack[] materials, ItemStack blockIn, ItemStack blockOut){
-		WizardryLogger.logInfo("Registering infusion for "+blockOut);
+		RunesOfWizardry.log().info("Registering infusion for "+blockOut);
 		// FUTURE temporary until we figure out what we want
 		Ingredient[] recipe = new Ingredient[materials.length + 1];
 		for (int i = 0; i < materials.length; i++) {

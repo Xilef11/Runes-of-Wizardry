@@ -17,10 +17,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Writer;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -30,6 +26,10 @@ import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.ArrayUtils;
 import com.zpig333.runesofwizardry.util.json.JsonUtils;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 
 /** This class contains utility methods for managing the ItemStack[][] patterns
  * @author Xilef11

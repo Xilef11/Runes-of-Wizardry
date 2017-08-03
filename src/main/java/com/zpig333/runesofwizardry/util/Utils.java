@@ -6,12 +6,12 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.oredict.OreDictionary;
-
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 public class Utils {
 	private Utils(){}
@@ -24,7 +24,7 @@ public class Utils {
 		List<ItemStack> sorted = new LinkedList<>(in);
 		Comparator<ItemStack> cmp = new ItemStackComparator();
 		Collections.sort(sorted, cmp);
-		WizardryLogger.logDebug("Sorted list: "+Arrays.deepToString(sorted.toArray(new ItemStack[0])));
+		RunesOfWizardry.log().debug("Sorted list: "+Arrays.deepToString(sorted.toArray(new ItemStack[0])));
 		//merge not happening correctly (fixed?)
 		List<ItemStack> merged = new LinkedList<>();
 		int i=0;
@@ -52,7 +52,7 @@ public class Utils {
 			}
 			merged.add(current);
 		}
-		WizardryLogger.logDebug("Merged list: "+Arrays.deepToString(merged.toArray(new ItemStack[0])));
+		RunesOfWizardry.log().debug("Merged list: "+Arrays.deepToString(merged.toArray(new ItemStack[0])));
 		return merged;
 	}
 	public static String getCurrentModID(){

@@ -1,12 +1,12 @@
 package com.zpig333.runesofwizardry.tileentity;
 
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
-
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 public class TileEntityDustDead extends TileEntityDustPlaced implements
 ITickable {

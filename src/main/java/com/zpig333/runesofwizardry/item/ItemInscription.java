@@ -12,7 +12,6 @@ import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.Inscription;
 import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -219,7 +218,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	}
 	@Override
 	public void damageArmor(EntityLivingBase entity, ItemStack stack,DamageSource source, int damage, int slot) {
-		WizardryLogger.logInfo("Inscription damageArmor was called");
+		RunesOfWizardry.log().info("Inscription damageArmor was called");
 		//no damage to item on hit?
 	}
 	

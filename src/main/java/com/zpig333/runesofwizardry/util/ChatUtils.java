@@ -1,5 +1,7 @@
 package com.zpig333.runesofwizardry.util;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
@@ -12,8 +14,6 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import com.zpig333.runesofwizardry.RunesOfWizardry;
 /*Utilities to mess with the chat. adapted from Blood Magic: https://github.com/WayofTime/BloodMagic/blob/698358df237d2c894afb20a3312203c8c2bf8e65/src/main/java/WayofTime/bloodmagic/util/ChatUtil.java
  * by WayOfTime, licensed under Creative Commons Attribution 4.0 International Public License
  */

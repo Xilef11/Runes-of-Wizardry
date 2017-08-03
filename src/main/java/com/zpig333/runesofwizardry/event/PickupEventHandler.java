@@ -1,5 +1,8 @@
 package com.zpig333.runesofwizardry.event;
 
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.item.ItemDustPouch;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -7,14 +10,11 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.item.ItemDustPouch;
-
 public class PickupEventHandler {
 	@SubscribeEvent
 	public void onPickupDust(EntityItemPickupEvent event){
 		ItemStack dust = event.getItem().getItem();
-		//WizardryLogger.logInfo(dust);
+		//RunesOfWizardry.log().info(dust);
 		if(dust.getItem() instanceof IDust && dust.getCount()>0){
 			EntityPlayer player = event.getEntityPlayer();
 			//Couldn't get a zombie to pick up dust, but adding the check doen't hurt

@@ -5,11 +5,11 @@
  */
 package com.zpig333.runesofwizardry.block;
 
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-
-import com.zpig333.runesofwizardry.api.IDustStorageBlock;
 
 /**
  * @author Xilef11

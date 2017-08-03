@@ -1,5 +1,21 @@
 package com.zpig333.runesofwizardry.proxy;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IDust;
+import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+import com.zpig333.runesofwizardry.block.ADustStorageBlock;
+import com.zpig333.runesofwizardry.block.DustStorageBlockColor;
+import com.zpig333.runesofwizardry.block.DustStorageItemBlockColor;
+import com.zpig333.runesofwizardry.client.render.RenderDustActive;
+import com.zpig333.runesofwizardry.client.render.RenderDustPlaced;
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.item.DustItemColor;
+import com.zpig333.runesofwizardry.item.DustPouchItemColor;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -10,22 +26,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.api.IDustStorageBlock;
-import com.zpig333.runesofwizardry.block.ADustStorageBlock;
-import com.zpig333.runesofwizardry.block.DustStorageBlockColor;
-import com.zpig333.runesofwizardry.block.DustStorageItemBlockColor;
-import com.zpig333.runesofwizardry.client.render.RenderDustActive;
-import com.zpig333.runesofwizardry.client.render.RenderDustPlaced;
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.item.DustItemColor;
-import com.zpig333.runesofwizardry.item.DustPouchItemColor;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 public class ClientProxy extends CommonProxy{
 
@@ -42,7 +42,7 @@ public class ClientProxy extends CommonProxy{
 	public void createDustStorageStateMappers() {
 		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
 			if(b.getInstance() instanceof ADustStorageBlock){
-				WizardryLogger.logInfo("Creating StateMapper for "+b.getName());
+				RunesOfWizardry.log().info("Creating StateMapper for "+b.getName());
 				StateMapperBase mapper = new StateMapperBase() {
 					@Override
 					protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {

@@ -2,15 +2,15 @@ package com.zpig333.runesofwizardry.runes.test;
 
 import java.util.Set;
 
+import com.zpig333.runesofwizardry.api.IRune;
+import com.zpig333.runesofwizardry.api.RuneEntity;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-
-import com.zpig333.runesofwizardry.api.IRune;
-import com.zpig333.runesofwizardry.api.RuneEntity;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 public class RuneTestEntity extends RuneEntity {
 	public RuneTestEntity(ItemStack[][] actualPattern, EnumFacing face,Set<BlockPos> dusts,	TileEntityDustActive entity,IRune creator) {

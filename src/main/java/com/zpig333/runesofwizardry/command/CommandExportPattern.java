@@ -10,6 +10,14 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.gson.JsonIOException;
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.core.rune.PatternFinder;
+import com.zpig333.runesofwizardry.core.rune.PatternUtils;
+import com.zpig333.runesofwizardry.util.RayTracer;
+import com.zpig333.runesofwizardry.util.json.JsonUtils;
+
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -25,16 +33,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.World;
-
-import org.apache.logging.log4j.Level;
-
-import com.google.gson.JsonIOException;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.core.rune.PatternFinder;
-import com.zpig333.runesofwizardry.core.rune.PatternUtils;
-import com.zpig333.runesofwizardry.util.RayTracer;
-import com.zpig333.runesofwizardry.util.json.JsonUtils;
 
 /**
  * @author Xilef11
@@ -99,7 +97,7 @@ public class CommandExportPattern implements ICommand {
 			BlockPos lookPos = look.getBlockPos();
 			Block block = world.getBlockState(lookPos).getBlock();
 			EnumFacing playerFacing = player.getHorizontalFacing();
-			WizardryLogger.logInfo("Export Pattern: Looking at block: "+block.getUnlocalizedName()+" at "+lookPos+" facing: "+playerFacing);
+			RunesOfWizardry.log().info("Export Pattern: Looking at block: "+block.getUnlocalizedName()+" at "+lookPos+" facing: "+playerFacing);
 			if(block!=WizardryRegistry.dust_placed){
 				//gets localised.
 				throw new CommandException(locKey+".nodust");
@@ -117,10 +115,10 @@ public class CommandExportPattern implements ICommand {
 				output = PatternUtils.exportPatternJson(pattern, args[0]);
 				JsonUtils.clearItemStackJson();
 			} catch (JsonIOException e) {
-				WizardryLogger.logException(Level.ERROR, e, "Unable to save pattern");
+				RunesOfWizardry.log().error("Unable to save pattern",e);
 				throw new CommandException(locKey+".message.error");
 			} catch (IOException e) {
-				WizardryLogger.logException(Level.ERROR, e, "Unable to save pattern");
+				RunesOfWizardry.log().error("Unable to save pattern",e);
 				throw new CommandException(locKey+".message.error");
 			}
 			//info message with link

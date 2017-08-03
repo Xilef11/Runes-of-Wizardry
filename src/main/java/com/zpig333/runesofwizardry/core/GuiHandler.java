@@ -1,14 +1,14 @@
 package com.zpig333.runesofwizardry.core;
 
+import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
+import com.zpig333.runesofwizardry.inventory.ContainerDustDye;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-
-import com.zpig333.runesofwizardry.client.gui.GuiDustDye;
-import com.zpig333.runesofwizardry.inventory.ContainerDustDye;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustDye;
 
 public class GuiHandler implements IGuiHandler {
 	@Override

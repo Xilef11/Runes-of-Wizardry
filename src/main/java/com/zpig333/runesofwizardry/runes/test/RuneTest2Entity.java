@@ -2,6 +2,10 @@ package com.zpig333.runesofwizardry.runes.test;
 
 import java.util.Set;
 
+import com.zpig333.runesofwizardry.api.IRune;
+import com.zpig333.runesofwizardry.api.RuneEntity;
+import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
@@ -9,10 +13,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
-
-import com.zpig333.runesofwizardry.api.IRune;
-import com.zpig333.runesofwizardry.api.RuneEntity;
-import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 
 public class RuneTest2Entity extends RuneEntity {
 

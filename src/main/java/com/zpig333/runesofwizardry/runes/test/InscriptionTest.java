@@ -1,16 +1,17 @@
 package com.zpig333.runesofwizardry.runes.test;
 
 import static net.minecraft.item.ItemStack.EMPTY;
+
+import com.zpig333.runesofwizardry.api.Inscription;
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.item.dust.RWDusts;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-
-import com.zpig333.runesofwizardry.api.Inscription;
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.item.dust.RWDusts;
 
 public class InscriptionTest extends Inscription {
 

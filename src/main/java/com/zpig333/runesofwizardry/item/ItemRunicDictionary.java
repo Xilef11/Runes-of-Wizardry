@@ -3,6 +3,18 @@ package com.zpig333.runesofwizardry.item;
 import java.util.List;
 import java.util.Set;
 
+import org.lwjgl.input.Keyboard;
+
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.DustRegistry;
+import com.zpig333.runesofwizardry.api.IRune;
+import com.zpig333.runesofwizardry.command.CommandImportPattern;
+import com.zpig333.runesofwizardry.core.ConfigHandler;
+import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.core.rune.RunesUtil.RuneStats;
+import com.zpig333.runesofwizardry.util.ChatUtils;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.command.CommandException;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,20 +28,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-
-import org.apache.logging.log4j.Level;
-import org.lwjgl.input.Keyboard;
-
-import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.api.DustRegistry;
-import com.zpig333.runesofwizardry.api.IRune;
-import com.zpig333.runesofwizardry.command.CommandImportPattern;
-import com.zpig333.runesofwizardry.core.ConfigHandler;
-import com.zpig333.runesofwizardry.core.References;
-import com.zpig333.runesofwizardry.core.WizardryLogger;
-import com.zpig333.runesofwizardry.core.WizardryRegistry;
-import com.zpig333.runesofwizardry.core.rune.RunesUtil.RuneStats;
-import com.zpig333.runesofwizardry.util.ChatUtils;
 
 public class ItemRunicDictionary extends WizardryItem {
 	private final String name="runic_dictionary";
@@ -117,7 +115,7 @@ public class ItemRunicDictionary extends WizardryItem {
 								//careful with the null there
 								CommandImportPattern.instance().execute(null, playerIn, new String[]{runeID});
 							} catch (CommandException e) {
-								WizardryLogger.logException(Level.ERROR, e, "Exception while importing rune via Dictionary");
+								RunesOfWizardry.log().error("Exception while importing rune via Dictionary",e);
 							}
 							playerIn.inventoryContainer.detectAndSendChanges();
 						}
