@@ -242,11 +242,6 @@ if(project.hasProperty('curseKey')){
 	  apiKey = project.curseKey
 	  project {
 		id = '235927'
-		addGameVersion mcVersion
-		addGameVersion 'Java 8'
-		addGameVersion 'Java 7'
-		addGameVersion '1.11.2'
-		addGameVersion '1.11'
 		//version pulled from ForgeGradle includes java 6
 		changelogType='markdown'
 		changelog = file('changelog.md').getText()+"\n\nBuilt with Forge "+forgeVersion+"\nBaubles: "+baublesversion+"\nJEI: "+jeiversion

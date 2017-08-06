@@ -1,0 +1,2 @@
+- Update to 1.12
+- Remove Baubles integration - it's not updated yet :(
