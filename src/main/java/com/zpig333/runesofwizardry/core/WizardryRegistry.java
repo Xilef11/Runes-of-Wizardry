@@ -32,9 +32,7 @@ import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -312,16 +310,7 @@ public class WizardryRegistry {
 				ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(dustBlock.getInstance()), meta, blockModel);
 			}
 			if(dustBlock instanceof ADustStorageBlock){
-				RunesOfWizardry.log().info("Creating StateMapper for "+dustBlock.getName());
-				StateMapperBase mapper = new StateMapperBase() {
-					@Override
-					protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
-						ModelResourceLocation loc =new ModelResourceLocation(References.texture_path+"dust_storage");
-						//System.err.println(loc.toString());
-						return loc;
-					}
-				};
-				ModelLoader.setCustomStateMapper(dustBlock.getInstance(), mapper);
+				RunesOfWizardry.proxy.registerDustStateMapper((ADustStorageBlock)dustBlock);
 			}
 		}
 	}

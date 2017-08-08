@@ -38,22 +38,17 @@ public class ClientProxy extends CommonProxy{
 	}
 
 	@Override
-	@Deprecated
-	public void createDustStorageStateMappers() {
-		for(IDustStorageBlock b:DustRegistry.getAllBlocks()){
-			if(b.getInstance() instanceof ADustStorageBlock){
-				RunesOfWizardry.log().info("Creating StateMapper for "+b.getName());
-				StateMapperBase mapper = new StateMapperBase() {
-					@Override
-					protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
-						ModelResourceLocation loc =new ModelResourceLocation(References.texture_path+"dust_storage");
-						//System.err.println(loc.toString());
-						return loc;
-					}
-				};
-				ModelLoader.setCustomStateMapper(b.getInstance(), mapper);
+	public void registerDustStateMapper(ADustStorageBlock dustBlock){
+		RunesOfWizardry.log().info("Creating StateMapper for "+dustBlock.getName());
+		StateMapperBase mapper = new StateMapperBase() {
+			@Override
+			protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
+				ModelResourceLocation loc =new ModelResourceLocation(References.texture_path+"dust_storage");
+				//System.err.println(loc.toString());
+				return loc;
 			}
-		}
+		};
+		ModelLoader.setCustomStateMapper(dustBlock.getInstance(), mapper);
 	}
 	@Override
 	public void registerColors(){

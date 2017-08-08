@@ -1,5 +1,6 @@
 package com.zpig333.runesofwizardry.proxy;
 
+import com.zpig333.runesofwizardry.block.ADustStorageBlock;
 
 public class CommonProxy {
 
@@ -7,10 +8,9 @@ public class CommonProxy {
 	public void registerTESRs(){
 
 	}
-	@Deprecated
-	public void createDustStorageStateMappers() {
-		//Client only
-
+	
+	public void registerDustStateMapper(ADustStorageBlock dustBlock){
+		
 	}
 
 	public void registerColors(){
