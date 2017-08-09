@@ -12,6 +12,8 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class Inscription {
 	public static final String NBT_ID="inscription_id";
@@ -49,6 +51,7 @@ public abstract class Inscription {
 		return getName()+".shortdesc";
 	}
 	/** allows to add info to the ItemStack tooltip **/ 
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, World world,List<String> tooltip, ITooltipFlag advanced){
 		
 	}

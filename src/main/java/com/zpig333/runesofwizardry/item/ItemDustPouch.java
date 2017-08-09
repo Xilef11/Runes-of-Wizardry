@@ -15,6 +15,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemDustPouch extends WizardryItem {
 	private final String name="dust_pouch";
@@ -49,6 +51,7 @@ public class ItemDustPouch extends WizardryItem {
 	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 	 */
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag){
 		super.addInformation(stack, world, tooltip, flag);
 		ItemStack dustType = getDustStack(stack, 0);

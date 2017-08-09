@@ -31,6 +31,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	private static String NBT_DAMAGE_ID="damage";
@@ -69,6 +71,7 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 	 */
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag){
 		NBTTagCompound tag = stack.getSubCompound(References.modid);
 		if(tag!=null){

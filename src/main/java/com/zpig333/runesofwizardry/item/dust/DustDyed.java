@@ -8,11 +8,14 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class DustDyed extends IDust{
 
 	//add tooltip
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, World world, List<String> data, ITooltipFlag flag){
 		//if the stack has no tag compound, create one and set the color to white
 		if(stack.getTagCompound()==null){

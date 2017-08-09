@@ -28,6 +28,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemRunicDictionary extends WizardryItem {
 	private final String name="runic_dictionary";
@@ -44,6 +46,7 @@ public class ItemRunicDictionary extends WizardryItem {
 	 * @see net.minecraft.item.Item#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 	 */
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag){
 		//tooltip.add("Unimplemented");
 		String id = getSelectedRuneID(stack);

@@ -47,6 +47,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber
 public class WizardryRegistry {
@@ -125,6 +127,7 @@ public class WizardryRegistry {
 			 * @see com.zpig333.runesofwizardry.item.dust.DustPlaceholder#addInformation(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, java.util.List, boolean)
 			 */
 			@Override
+			@SideOnly(Side.CLIENT)
 			public void addInformation(ItemStack stack, World world, List<String> tooltip, ITooltipFlag flag){
 				tooltip.add(RunesOfWizardry.proxy.translate(References.Lang.USELESS));
 			}
