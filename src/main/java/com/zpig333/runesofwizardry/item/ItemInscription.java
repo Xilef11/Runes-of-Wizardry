@@ -142,11 +142,13 @@ public class ItemInscription extends ItemArmor implements ISpecialArmor{
 	 */
 	@Override
 	public void getSubItems(CreativeTabs tab,	NonNullList<ItemStack> subItems) {
-		subItems.add(new ItemStack(this));//blank
-		for(String id:DustRegistry.getInscIDs()){
-			ItemStack toAdd = new ItemStack(this,1,1);
-			toAdd.getOrCreateSubCompound(References.modid).setString(Inscription.NBT_ID, id);
-			subItems.add(toAdd);
+		if(this.isInCreativeTab(tab)){
+			subItems.add(new ItemStack(this));//blank
+			for(String id:DustRegistry.getInscIDs()){
+				ItemStack toAdd = new ItemStack(this,1,1);
+				toAdd.getOrCreateSubCompound(References.modid).setString(Inscription.NBT_ID, id);
+				subItems.add(toAdd);
+			}
 		}
 	}
 

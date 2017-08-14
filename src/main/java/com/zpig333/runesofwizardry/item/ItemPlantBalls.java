@@ -28,8 +28,10 @@ public class ItemPlantBalls extends WizardryItem {
 
 	@Override
 	public void getSubItems(CreativeTabs tabs, NonNullList<ItemStack> list){
-		list.add(new ItemStack(this, 1, 0));
-		list.add(new ItemStack(this, 1, 1));
+		if(this.isInCreativeTab(tabs)){
+			list.add(new ItemStack(this, 1, 0));
+			list.add(new ItemStack(this, 1, 1));
+		}
 	}
 
 
