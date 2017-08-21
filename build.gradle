@@ -50,7 +50,7 @@ def bugfix = ".7"
 def devVersion = "-dev"
 def forgeVersion="1.12-14.21.1.2387"
 def mcVersion = forgeVersion.substring(0,forgeVersion.indexOf('-'))
-def baublesversion="1.11-1.4.5"
+def baublesversion="1.12-1.5.1"
 def jeiversion = "1.12:4.7.1.69"
 
 def username = 'ForgeDevName'
@@ -128,7 +128,7 @@ dependencies {
 	deobfCompile "mezz.jei:jei_"+jeiversion+":api"
 	runtime "mezz.jei:jei_"+jeiversion
 	
-	//deobfProvided "baubles:Baubles:"+baublesversion//+":api"
+	deobfProvided "baubles:Baubles:"+baublesversion//+":api"
 	//runtime "baubles:Baubles:"+baublesversion
 	
 	//compile files(

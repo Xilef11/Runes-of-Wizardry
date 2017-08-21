@@ -14,6 +14,7 @@ import com.zpig333.runesofwizardry.block.DustStorageItemBlock;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.ItemInscription;
+import com.zpig333.runesofwizardry.item.ItemInscriptionBauble;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
 import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
@@ -44,6 +45,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -115,7 +117,7 @@ public class WizardryRegistry {
 
 		broom = new ItemBroom();
 		
-		inscription =  new ItemInscription();//TODO re-add Baubles when it's ready.
+		inscription = Loader.isModLoaded("baubles")? new ItemInscriptionBauble() : new ItemInscription();
 		
 		sacrifice_negator = new ItemSacrificeNegator();
 
