@@ -36,7 +36,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory",acceptedMinecraftVersions = "[1.12,1.13)")
+@Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", dependencies = "before:guideapi" ,guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory",acceptedMinecraftVersions = "[1.12,1.13)")
 public class RunesOfWizardry {
 
 	@SidedProxy(clientSide = References.client_proxy, serverSide = References.server_proxy)

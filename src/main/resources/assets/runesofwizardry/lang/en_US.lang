@@ -89,3 +89,9 @@ runesofwizardry.lang.jei.dictionarydesc=Cycle through installed runes with left 
 runesofwizardry.lang.jei.staffdesc=Used to activate Runes. There must be at least 2 blocks between the rune to activate and other dust blocks. Make sure that all dusts are placed, that you have replaced placeholder dusts (if any) and that the appropriate sacrifice is on a dust block.
 runesofwizardry.lang.jei.broomdesc=Clears a full block of dust at once.
 runesofwizardry.lang.jei.pouchdesc=Stores a nearly infinite amount of a single dust type. Craft with dust to set type or add to the pouch, craft on its own to take one stack out. Can also be used to place the dust.
+
+#Guide book
+runesofwizardry.guidebook.title=Runic Dictionnary
+runesofwizardry.guidebook.display=Runic Dictionnary
+runesofwizardry.guidebook.welcomemessage=Runes of Wizardry
+runesofwizardry.guidebook.author=Runes of Wizardry

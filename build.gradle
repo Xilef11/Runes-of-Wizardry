@@ -95,6 +95,9 @@ repositories {
   maven {
     url "http://dvs1.progwml6.com/files/maven"
   }
+  
+  maven { url 'http://tehnut.info/maven/' }
+  
   ivy{
 	url "https://dl.dropboxusercontent.com/u/47135879/"
 	//artifactPattern "https://dl.dropboxusercontent.com/u/47135879/[artifact]-[revision]-[classifier].[ext]"
@@ -128,12 +131,16 @@ dependencies {
 	deobfCompile "mezz.jei:jei_"+jeiversion+":api"
 	runtime "mezz.jei:jei_"+jeiversion
 	
+	//Baubles
 	deobfProvided "baubles:Baubles:"+baublesversion//+":api"
 	//runtime "baubles:Baubles:"+baublesversion
 	
 	//compile files(
 	//	'libs/Baubles-'+baublesversion+'-deobf.jar'
 	//)
+	
+	//Guide-API
+	deobfCompile "info.amerifrance.guideapi:Guide-API:1.12-2.1.4-57"
 }
 
 processResources
