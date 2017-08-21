@@ -1,12 +1,14 @@
 package com.zpig333.runesofwizardry.integration.guideapi;
 
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
+import com.zpig333.runesofwizardry.integration.guideapi.category.CategoryBasic;
 
 import amerifrance.guideapi.api.GuideBook;
 import amerifrance.guideapi.api.IGuideBook;
 import amerifrance.guideapi.api.impl.Book;
+import amerifrance.guideapi.category.CategoryItemStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -14,7 +16,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @GuideBook
 public class WizardryGuide implements IGuideBook{
 	
-	public static final String BASE_LOC = References.modid+".guidebook";
+	public static final String BASE_LOC = References.modid+".guidebook",
+							   CAT_LOC = BASE_LOC+".category.",
+							   ENTRY_LOC = BASE_LOC+".entry.";
 
 	public static final Book BOOK = new Book();
 	@Override
@@ -36,15 +40,9 @@ public class WizardryGuide implements IGuideBook{
 	}
 
 	@Override
-	public IRecipe getRecipe(ItemStack bookStack) {
-		// TODO Auto-generated method stub
-		return IGuideBook.super.getRecipe(bookStack);
-	}
-
-	@Override
 	public void handlePost(ItemStack bookStack) {
-		// TODO Auto-generated method stub
-		IGuideBook.super.handlePost(bookStack);
+		//basic category
+		BOOK.addCategory(CategoryBasic.getCategory());
 	}
 	
 }

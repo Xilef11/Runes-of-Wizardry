@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "runesofwizardry:runic_dictionary"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:book",
+    },
+    {
+      "item": "runesofwizardry:runic_staff"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

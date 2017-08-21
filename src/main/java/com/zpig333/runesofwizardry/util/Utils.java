@@ -9,8 +9,10 @@ import java.util.List;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class Utils {
@@ -100,4 +102,26 @@ public class Utils {
 			return wanted.getCount()==toCheck.getCount() || wanted.getCount()<0;
 		}
 	}
+	
+	/**
+	 * Finds the recipe for a given ItemStack.
+	 * totally "borrowed" from Blood Magic (WayOfTime - CC-BY) https://github.com/WayofTime/BloodMagic/blob/9004bccba1e648ccccafc68644b74ada95e44f6f/src/main/java/WayofTime/bloodmagic/util/helper/RecipeHelper.java
+	 * @param stack
+	 * @return
+	 */
+	public static IRecipe getRecipeForOutput(ItemStack stack) {
+		for (IRecipe recipe : ForgeRegistries.RECIPES.getValues()) {
+			if (recipe != null) {
+				ItemStack resultStack = recipe.getRecipeOutput();
+				if (!resultStack.isEmpty()) {
+					if (resultStack.getItem() == stack.getItem() && resultStack.getItemDamage() == stack.getItemDamage()) {
+						return recipe;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+	
 }
