@@ -1,10 +1,10 @@
 {
   "result": {
-    "item": "runesofwizardry:runic_dictionary"
+    "item": "guideapi:runesofwizardry-guide_book"
   },
   "ingredients": [
     {
-      "item": "minecraft:book",
+      "item": "minecraft:book"
     },
     {
       "item": "runesofwizardry:runic_staff"

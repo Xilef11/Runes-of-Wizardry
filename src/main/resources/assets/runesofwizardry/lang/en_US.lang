@@ -95,3 +95,7 @@ runesofwizardry.guidebook.title=Runic Dictionnary
 runesofwizardry.guidebook.display=Runic Dictionnary
 runesofwizardry.guidebook.welcomemessage=Runes of Wizardry
 runesofwizardry.guidebook.author=Runes of Wizardry
+
+##Basic category
+runesofwizardry.guidebook.category.basic=Basics
+runesofwizardry.guidebook.entry.basic.commands=Commands

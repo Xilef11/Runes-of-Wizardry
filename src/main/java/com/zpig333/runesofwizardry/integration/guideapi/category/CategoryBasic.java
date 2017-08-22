@@ -1,21 +1,20 @@
 package com.zpig333.runesofwizardry.integration.guideapi.category;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.integration.guideapi.WizardryGuide;
 import com.zpig333.runesofwizardry.util.Utils;
 
-import amerifrance.guideapi.api.IPage;
+import amerifrance.guideapi.api.impl.Entry;
 import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
 import amerifrance.guideapi.api.impl.abstraction.EntryAbstract;
 import amerifrance.guideapi.category.CategoryItemStack;
 import amerifrance.guideapi.entry.EntryItemStack;
 import amerifrance.guideapi.page.PageIRecipe;
 import amerifrance.guideapi.page.PageItemStack;
+import amerifrance.guideapi.page.PageText;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -27,16 +26,39 @@ public class CategoryBasic {
 	public static Map<ResourceLocation, EntryAbstract> buildEntries(){
 		Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
 		
-		List<IPage> pestlePages = new LinkedList<>();
-		pestlePages.add(new PageItemStack(ENTRY_KEY+"pestle.description", WizardryRegistry.pestle));
-		pestlePages.add(new PageIRecipe(Utils.getRecipeForOutput(new ItemStack(WizardryRegistry.pestle))));
-		entries.put(new ResourceLocation(ENTRY_KEY+"pestle"), new EntryItemStack(pestlePages,ENTRY_KEY+"pestle",new ItemStack(WizardryRegistry.pestle)));
+		EntryAbstract pestleEntry = new EntryItemStack(WizardryRegistry.pestle.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.pestle));
+		pestleEntry.addPage(new PageItemStack(ENTRY_KEY+"pestle.description", WizardryRegistry.pestle));
+		pestleEntry.addPage(new PageIRecipe(Utils.getRecipeForOutput(new ItemStack(WizardryRegistry.pestle))));
+		entries.put(new ResourceLocation(ENTRY_KEY+"pestle"), pestleEntry);
 		
-//		pestlePages.add(new PageItemStack(ENTRY_KEY+".runic_staff.description", WizardryRegistry.runic_staff));
-//		pestlePages.add(new PageItemStack(ENTRY_KEY+".runic_dictionary.description", WizardryRegistry.runic_dictionary));
-//		pestlePages.add(new PageItemStack(ENTRY_KEY+".broom.description", WizardryRegistry.broom));
-//		pestlePages.add(new PageItemStack(ENTRY_KEY+".dust_pouch.description", WizardryRegistry.dust_pouch));
-//		pestlePages.add(new PageItemStack(ENTRY_KEY+".sacrifice_negator.description", WizardryRegistry.sacrifice_negator));
+		EntryAbstract staffEntry = new EntryItemStack(WizardryRegistry.runic_staff.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.runic_staff));
+		staffEntry.addPage(new PageItemStack(ENTRY_KEY+"runic_staff.description",WizardryRegistry.runic_staff));
+		staffEntry.addPage(new PageIRecipe(Utils.getRecipeForOutput(new ItemStack(WizardryRegistry.runic_staff))));
+		entries.put(new ResourceLocation(ENTRY_KEY+"runic_staff"), staffEntry);
+		
+		EntryAbstract dictionnaryEntry = new EntryItemStack(WizardryRegistry.runic_dictionary.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.runic_dictionary));
+		dictionnaryEntry.addPage(new PageItemStack(ENTRY_KEY+"runic_dictionnary.description",WizardryRegistry.runic_dictionary));
+		dictionnaryEntry.addPage(new PageIRecipe(Utils.getRecipeForOutput(new ItemStack(WizardryRegistry.runic_dictionary))));
+		entries.put(new ResourceLocation(ENTRY_KEY+"runic_dictionnary"), dictionnaryEntry);
+		
+		EntryAbstract broomEntry = new EntryItemStack(WizardryRegistry.broom.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.broom));
+		broomEntry.addPage(new PageItemStack(ENTRY_KEY+"broom.description",WizardryRegistry.broom));
+		broomEntry.addPage(new PageIRecipe(Utils.getRecipeForOutput(new ItemStack(WizardryRegistry.broom))));
+		entries.put(new ResourceLocation(ENTRY_KEY+"broom"), broomEntry);
+		
+		EntryAbstract pouchEntry = new EntryItemStack(WizardryRegistry.dust_pouch.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.dust_pouch));
+		pouchEntry.addPage(new PageItemStack(ENTRY_KEY+"dust_pouch.description",WizardryRegistry.dust_pouch));
+		pouchEntry.addPage(new PageIRecipe(Utils.getRecipeForOutput(new ItemStack(WizardryRegistry.dust_pouch))));
+		entries.put(new ResourceLocation(ENTRY_KEY+"dust_pouch"), pouchEntry);
+
+		EntryAbstract negatorEntry = new EntryItemStack(WizardryRegistry.sacrifice_negator.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.sacrifice_negator));
+		negatorEntry.addPage(new PageItemStack(ENTRY_KEY+"sacrifice_negator.description",WizardryRegistry.sacrifice_negator));
+		entries.put(new ResourceLocation(ENTRY_KEY+"sacrifice_negator"), negatorEntry);
+
+		EntryAbstract commandEntry = new Entry(ENTRY_KEY+"commands");
+		commandEntry.addPage(new PageText(ENTRY_KEY+"commands.export"));
+		commandEntry.addPage(new PageText(ENTRY_KEY+"commands.import"));
+		entries.put(new ResourceLocation(ENTRY_KEY+"commands"), commandEntry);
 		
 		return entries;
 	}
