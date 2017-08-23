@@ -3,6 +3,8 @@ package com.zpig333.runesofwizardry.integration.guideapi.category;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.integration.guideapi.WizardryGuide;
 import com.zpig333.runesofwizardry.util.Utils;
@@ -15,6 +17,7 @@ import amerifrance.guideapi.category.CategoryItemStack;
 import amerifrance.guideapi.entry.EntryItemStack;
 import amerifrance.guideapi.page.PageIRecipe;
 import amerifrance.guideapi.page.PageItemStack;
+import amerifrance.guideapi.page.PageJsonRecipe;
 import amerifrance.guideapi.page.PageText;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -29,7 +32,9 @@ public class CategoryBasic {
 		Map<ResourceLocation, EntryAbstract> entries = new LinkedHashMap<>();
 		
 		EntryAbstract basicEntry = new Entry(ENTRY_KEY+"general");
-		basicEntry.addPageList(PageHelper.pagesForLongText(ENTRY_KEY+"general.text"));
+		basicEntry.addPageList(PageHelper.pagesForLongText(RunesOfWizardry.proxy.translate(ENTRY_KEY+"general.text"),308));
+		basicEntry.addPageList(PageHelper.pagesForLongText(RunesOfWizardry.proxy.translate(ENTRY_KEY+"general.text.1"),308));
+		basicEntry.addPageList(PageHelper.pagesForLongText(RunesOfWizardry.proxy.translate(ENTRY_KEY+"general.text.2"),308));
 		entries.put(new ResourceLocation(ENTRY_KEY+"general"), basicEntry);
 		
 		EntryAbstract pestleEntry = new EntryItemStack(WizardryRegistry.pestle.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.pestle));
@@ -54,7 +59,9 @@ public class CategoryBasic {
 		
 		EntryAbstract pouchEntry = new EntryItemStack(WizardryRegistry.dust_pouch.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.dust_pouch));
 		pouchEntry.addPage(new PageItemStack(ENTRY_KEY+"dust_pouch.description",WizardryRegistry.dust_pouch));
-		for(IRecipe recipe : Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.dust_pouch))) pouchEntry.addPage(new PageIRecipe(recipe));
+		pouchEntry.addPage(new PageText(ENTRY_KEY+"dust_pouch.description.1"));
+		pouchEntry.addPage(new PageJsonRecipe(new ResourceLocation(References.modid,"dust_pouch")));
+		//for(IRecipe recipe : Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.dust_pouch))) pouchEntry.addPage(new PageIRecipe(recipe));
 		entries.put(new ResourceLocation(ENTRY_KEY+"dust_pouch"), pouchEntry);
 
 		EntryAbstract negatorEntry = new EntryItemStack(WizardryRegistry.sacrifice_negator.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.sacrifice_negator));
@@ -62,8 +69,8 @@ public class CategoryBasic {
 		entries.put(new ResourceLocation(ENTRY_KEY+"sacrifice_negator"), negatorEntry);
 
 		EntryAbstract commandEntry = new Entry(ENTRY_KEY+"commands");
-		commandEntry.addPage(new PageText(ENTRY_KEY+"commands.export"));
-		commandEntry.addPage(new PageText(ENTRY_KEY+"commands.import"));
+		commandEntry.addPageList(PageHelper.pagesForLongText(RunesOfWizardry.proxy.translate(ENTRY_KEY+"commands.export"),308));
+		commandEntry.addPageList(PageHelper.pagesForLongText(RunesOfWizardry.proxy.translate(ENTRY_KEY+"commands.import"),205));
 		entries.put(new ResourceLocation(ENTRY_KEY+"commands"), commandEntry);
 		
 		return entries;
