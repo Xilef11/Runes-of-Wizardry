@@ -104,24 +104,25 @@ public class Utils {
 	}
 	
 	/**
-	 * Finds the recipe for a given ItemStack.
+	 * Finds the possible recipes for a given ItemStack (Ignores NBT).
 	 * totally "borrowed" from Blood Magic (WayOfTime - CC-BY) https://github.com/WayofTime/BloodMagic/blob/9004bccba1e648ccccafc68644b74ada95e44f6f/src/main/java/WayofTime/bloodmagic/util/helper/RecipeHelper.java
 	 * @param stack
 	 * @return
 	 */
-	public static IRecipe getRecipeForOutput(ItemStack stack) {
+	public static List<IRecipe> getRecipesForOutput(ItemStack stack) {
+		List<IRecipe> recipes = new LinkedList<>();
 		for (IRecipe recipe : ForgeRegistries.RECIPES.getValues()) {
 			if (recipe != null) {
 				ItemStack resultStack = recipe.getRecipeOutput();
 				if (!resultStack.isEmpty()) {
 					if (resultStack.getItem() == stack.getItem() && resultStack.getItemDamage() == stack.getItemDamage()) {
-						return recipe;
+						recipes.add(recipe);
 					}
 				}
 			}
 		}
 
-		return null;
+		return recipes;
 	}
 	
 }

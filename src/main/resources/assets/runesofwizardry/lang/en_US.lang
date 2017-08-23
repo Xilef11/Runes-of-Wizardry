@@ -98,4 +98,14 @@ runesofwizardry.guidebook.author=Runes of Wizardry
 
 ##Basic category
 runesofwizardry.guidebook.category.basic=Basics
+runesofwizardry.guidebook.entry.basic.general=Dusts, Runes and Inscriptions
+runesofwizardry.guidebook.entry.basic.general.text=Greetings, aspiring wizard. There are three basic things that you should know:\nFirst and foremost, dusts. Dusts can be placed in a 4x4 pattern on each block, and identical dust spots will connect together, creating interesting patterns that can be used for decorative purposes.\n\nNot much Wizardry in that, is there? This is what brings us to the next element, Runes. Runes are special patterns of dust that can be activated to have an effect on the world, although most of them will also require a sacrifice of some sort, and some may even require to be fueled.\n\nInscriptions are small drawings that can be worn in the chestplate slot or as an amulet (if you have Baubles). They are crafted with special "Inscribing Runes", which are able to transfer their pattern to a piece of parchment. They will then need to be charged (once again with a sacrifice) by the Rune of Inscription Enchanting before they can have any effect. 
 runesofwizardry.guidebook.entry.basic.commands=Commands
+runesofwizardry.guidebook.entry.basic.commands.export=/rw_export <name> : \nSaves the pattern you are looking at as a JSON file in [minecraft folder]/runesofwizardry_patterns
+runesofwizardry.guidebook.entry.basic.commands.import=/rw_import [runeID|filename] [natural|centered|topleft]: Imports the pattern described by the rune's ID (modid:runeid) or a JSON file in runesofwizardry_patterns and places it in the world. If not specified otherwise, the block looked at will be the "natural" alignment of the pattern, (centered or the rune's entity position)
+runesofwizardry.guidebook.entry.basic.pestle.description=To work with dusts, one must first make dust. A pestle of bone and stone should be able to handle that...
+runesofwizardry.guidebook.entry.basic.runic_staff.description=The Runic Staff allows you to activate Runes (right-click the rune with the staff).
+runesofwizardry.guidebook.entry.basic.runic_dictionnary.description=The Enhanced Edition isn't readable, but it allows you to place runes in-world with a simple shift+right-click. The tooltip also has the Rune's details.
+runesofwizardry.guidebook.entry.basic.broom.description=A simple broom will allow you to quickly clear placed dust
+runesofwizardry.guidebook.entry.basic.dust_pouch.description=This pouch can store a nearly infinite amount of a single dust type, automatically collects picked-up dust and can be used to place dust in the world.
+runesofwizardry.guidebook.entry.basic.sacrifice_negator.description=(creative only) Use this instead of the sacrifice required to activate any Rune.
