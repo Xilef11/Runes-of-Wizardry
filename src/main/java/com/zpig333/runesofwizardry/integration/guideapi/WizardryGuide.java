@@ -1,7 +1,9 @@
 package com.zpig333.runesofwizardry.integration.guideapi;
 
+import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.integration.guideapi.category.CategoryBasic;
+import com.zpig333.runesofwizardry.integration.guideapi.category.CategoryDusts;
 
 import amerifrance.guideapi.api.GuideBook;
 import amerifrance.guideapi.api.IGuideBook;
@@ -39,8 +41,10 @@ public class WizardryGuide implements IGuideBook{
 
 	@Override
 	public void handlePost(ItemStack bookStack) {
-		//basic category
+		RunesOfWizardry.log().info("Building guide book: basic category");
 		BOOK.addCategory(CategoryBasic.getCategory());
+		RunesOfWizardry.log().info("Building guide book: dusts category");
+		BOOK.addCategory(CategoryDusts.getCategory());
 	}
 	
 }

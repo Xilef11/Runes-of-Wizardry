@@ -112,3 +112,10 @@ runesofwizardry.guidebook.entry.basic.broom.description=A simple broom will allo
 runesofwizardry.guidebook.entry.basic.dust_pouch.description=This pouch can store a nearly infinite amount of a single dust type, automatically collects picked-up dust and can be used to place dust in the world.
 runesofwizardry.guidebook.entry.basic.dust_pouch.description.1=Craft with dust to set type or add to the pouch, craft on its own to take one stack out.
 runesofwizardry.guidebook.entry.basic.sacrifice_negator.description=(creative only) Use this instead of the sacrifice required to activate any Rune.
+
+runesofwizardry.guidebook.category.dusts=Dusts
+runesofwizardry.guidebook.entry.dusts.placeholders=Placeholder dusts
+runesofwizardry.guidebook.entry.dusts.placeholders.general=These dusts are not obtainable through normal means, but instead serve as placeholders for runes that can accept more than one type of dust.
+runesofwizardry.guidebook.entry.dusts.placeholders.any=This dust can be replaced by any dust.
+runesofwizardry.guidebook.entry.dusts.placeholders.magic=This dust can be replaced by "magic" dusts (chalk dust and other "decorative" dusts are excluded)
+
