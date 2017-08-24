@@ -121,3 +121,6 @@ runesofwizardry.guidebook.entry.dusts.placeholders.magic=This dust can be replac
 
 runesofwizardry.guidebook.category.runes=Runes
 
+runesofwizardry.guidebook.category.inscriptions=Inscriptions
+runesofwizardry.guidebook.entry.inscriptions.see_rune=See Inscribing Rune of %s for pattern and dust requirements
+runesofwizardry.guidebook.entry.inscriptions.blank.description=Blank inscriptions need to be inscribed by the various Inscribing Runes, then activated with the Rune of Inscription Enchanting. Inscriptions are rechargeable
