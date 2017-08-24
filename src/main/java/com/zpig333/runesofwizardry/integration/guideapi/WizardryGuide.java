@@ -3,6 +3,7 @@ package com.zpig333.runesofwizardry.integration.guideapi;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.integration.guideapi.category.CategoryBasic;
+import com.zpig333.runesofwizardry.integration.guideapi.category.CategoryDecoration;
 import com.zpig333.runesofwizardry.integration.guideapi.category.CategoryDusts;
 import com.zpig333.runesofwizardry.integration.guideapi.category.CategoryInscriptions;
 import com.zpig333.runesofwizardry.integration.guideapi.category.CategoryRunes;
@@ -51,6 +52,8 @@ public class WizardryGuide implements IGuideBook{
 		BOOK.addCategory(CategoryRunes.getCategory());
 		RunesOfWizardry.log().info("Building guide book: inscriptions category");
 		BOOK.addCategory(CategoryInscriptions.getCategory());
+		RunesOfWizardry.log().info("Building guide book: decoration category");
+		BOOK.addCategory(CategoryDecoration.getCategory());
 	}
 	
 }

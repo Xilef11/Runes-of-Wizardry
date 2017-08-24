@@ -17,6 +17,7 @@ import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
 import amerifrance.guideapi.api.impl.abstraction.EntryAbstract;
 import amerifrance.guideapi.category.CategoryItemStack;
 import amerifrance.guideapi.entry.EntryItemStack;
+import amerifrance.guideapi.page.PageFurnaceRecipe;
 import amerifrance.guideapi.page.PageIRecipe;
 import amerifrance.guideapi.page.PageItemStack;
 import amerifrance.guideapi.page.PageText;
@@ -52,12 +53,32 @@ public class CategoryDusts {
 							entry.addPage(new PageIRecipe(r));
 						}
 					}
-					entries.put(new ResourceLocation(dust.getUnlocalizedName(stack)+".name"),entry);
+					entries.put(new ResourceLocation(dust.getUnlocalizedName(stack)),entry);
 				}
 			}
 		}
-		//no chalk dust in here.
-		entries.remove(new ResourceLocation(WizardryRegistry.dust_dyed.getUnlocalizedName()+".name"));
+		
+		//Tweaks for our dusts
+		
+		entries.remove(new ResourceLocation(WizardryRegistry.dust_dyed.getUnlocalizedName()));
+		
+		EntryAbstract firedust = entries.get(new ResourceLocation(RWDusts.dust_blaze.getUnlocalizedName()));
+		for(IRecipe r: Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.lavastone))){
+			firedust.addPage(new PageIRecipe(r));
+		}
+		firedust.addPage(new PageFurnaceRecipe(WizardryRegistry.nether_paste));
+		for(IRecipe r: Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.nether_paste))){
+			firedust.addPage(new PageIRecipe(r));
+		}
+		
+		EntryAbstract plantdust = entries.get(new ResourceLocation(RWDusts.dust_plant.getUnlocalizedName()));
+		for(IRecipe r: Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.plantballs,1,0))){
+			plantdust.addPage(new PageIRecipe(r));
+		}
+		for(IRecipe r: Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.plantballs,1,1))){
+			plantdust.addPage(new PageIRecipe(r));
+		}
+		
 		return entries;
 	}
 	

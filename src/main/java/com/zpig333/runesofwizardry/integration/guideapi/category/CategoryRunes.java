@@ -7,6 +7,7 @@ import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IRune;
 import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.RuneStats;
 import com.zpig333.runesofwizardry.integration.guideapi.WizardryGuide;
 
@@ -14,7 +15,7 @@ import amerifrance.guideapi.api.impl.Entry;
 import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
 import amerifrance.guideapi.api.impl.abstraction.EntryAbstract;
 import amerifrance.guideapi.api.util.PageHelper;
-import amerifrance.guideapi.category.CategoryResourceLocation;
+import amerifrance.guideapi.category.CategoryItemStack;
 import amerifrance.guideapi.page.PageText;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -74,7 +75,7 @@ public class CategoryRunes {
 	}
 	
 	public static CategoryAbstract getCategory(){
-		return new CategoryResourceLocation(buildEntries(),WizardryGuide.CAT_LOC+NAME, new ResourceLocation(References.modid,"guidebook/runes_icon.png"));
+		return new CategoryItemStack(buildEntries(),WizardryGuide.CAT_LOC+NAME, new ItemStack(WizardryRegistry.runic_staff));
 	}
 	
 }
