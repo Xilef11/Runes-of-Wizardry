@@ -1,4 +1,7 @@
 import java.util.regex.Pattern
+
+//TODO run ./gradlew wrapper --gradle-version=4.1 2x to upgrade
+  
 //--- build aliases : define a synonym here if you want a shortcut to run multiple targets
  //https://caffeineinduced.wordpress.com/2015/01/25/run-a-list-of-gradle-tasks-in-specific-order/
 def buildAliases = [

@@ -10,6 +10,7 @@ import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil.RuneStats;
 import com.zpig333.runesofwizardry.integration.guideapi.WizardryGuide;
+import com.zpig333.runesofwizardry.integration.guideapi.page.PageDustPattern;
 
 import amerifrance.guideapi.api.impl.Entry;
 import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
@@ -67,6 +68,8 @@ public class CategoryRunes {
 			runeEntry.addPageList(PageHelper.pagesForLongText(text.toString(),100));
 			
 			//TODO pattern
+			runeEntry.addPage(new PageDustPattern(rune.getPattern()));
+			
 			
 			entries.put(new ResourceLocation(rune.getName()),runeEntry);
 		}
