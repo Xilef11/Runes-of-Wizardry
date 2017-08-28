@@ -5,7 +5,6 @@ import java.util.Set;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.core.rune.PatternUtils;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
 import com.zpig333.runesofwizardry.util.ArrayUtils;
 
@@ -93,16 +92,15 @@ public class PageDustPattern extends Page {
 	}
 
 	
+	private static final int left_margin=40;
+	private static final int top_margin=15;
+	private static final int right_margin=35;
+	private static final int bottom_margin=35;
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void draw(Book book, CategoryAbstract category, EntryAbstract entry, int guiLeft, int guiTop, int mouseX,
 			int mouseY, GuiBase guiBase, FontRenderer fontRendererObj) {
-		
-		int left_margin=40;
-		int top_margin=15;
-		int right_margin=35;
-		int bottom_margin=35;
-		
 		
 		int maxHeight = (guiBase.ySize-top_margin-bottom_margin)/(pattern_rows*2),
 			maxWidth = (guiBase.xSize-left_margin-right_margin)/(pattern_cols*2);
@@ -169,11 +167,15 @@ public class PageDustPattern extends Page {
 			}
 			
 		}
-		//TODO tooltip with itemstack name
-		
-		
+		//tooltip with itemstack name
+		int cursorRow=(mouseY-guiTop-top_margin)/(size*2);
+		int cursorCol=(mouseX-guiLeft-left_margin)/(size*2);
+		if(cursorRow>=0 && cursorRow<pattern_rows && cursorCol>=0 && cursorCol<pattern_cols){
+			//guiBase.drawHoveringText(cursorRow+", "+cursorCol, mouseX, mouseY);
+			if(!pattern[cursorRow][cursorCol].isEmpty()){
+				guiBase.drawHoveringText(pattern[cursorRow][cursorCol].getDisplayName(), mouseX, mouseY);
+			}
+		}
 	}
-	
-	
 	
 }
