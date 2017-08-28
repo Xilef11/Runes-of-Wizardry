@@ -1,24 +1,22 @@
 package com.zpig333.runesofwizardry.integration.guideapi.page;
 
-import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.zpig333.runesofwizardry.api.DustRegistry;
 import com.zpig333.runesofwizardry.api.IDust;
-import com.zpig333.runesofwizardry.core.References;
+import com.zpig333.runesofwizardry.core.rune.PatternUtils;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustPlaced;
+import com.zpig333.runesofwizardry.util.ArrayUtils;
 
 import amerifrance.guideapi.api.impl.Book;
 import amerifrance.guideapi.api.impl.Page;
 import amerifrance.guideapi.api.impl.abstraction.CategoryAbstract;
 import amerifrance.guideapi.api.impl.abstraction.EntryAbstract;
 import amerifrance.guideapi.gui.GuiBase;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -29,8 +27,25 @@ public class PageDustPattern extends Page {
 	private final int[][] centerColors;
 	private final Set<int[]> connectors;
 	
+	/**
+	 * Creates a page for displaying a dust pattern, automatically rotating it for the best fit.
+	 * @param pattern the pattern to display
+	 */
 	public PageDustPattern(ItemStack[][] pattern){
+		this(pattern, true);
+	}
+	/**
+	 * Creates a page for displaying a dust pattern.
+	 * @param pattern the pattern to display
+	 * @param rotate should the pattern be rotated for a better fit?
+	 */
+	public PageDustPattern(ItemStack[][] pattern, boolean rotate){
 		super();
+		if(rotate){
+			int rows = pattern.length;
+			int cols = pattern[0].length;
+			if(cols>rows)pattern=ArrayUtils.rotateCW(pattern);
+		}
 		this.pattern=pattern;
 		pattern_rows=pattern.length;
 		pattern_cols=pattern[0].length;
@@ -91,6 +106,7 @@ public class PageDustPattern extends Page {
 		
 		int maxHeight = (guiBase.ySize-top_margin-bottom_margin)/(pattern_rows*2),
 			maxWidth = (guiBase.xSize-left_margin-right_margin)/(pattern_cols*2);
+		
 		int size = Math.min(maxHeight, maxWidth);
 		
 		
