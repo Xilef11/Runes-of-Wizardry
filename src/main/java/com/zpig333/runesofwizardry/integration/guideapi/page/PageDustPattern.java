@@ -77,25 +77,46 @@ public class PageDustPattern extends Page {
 		return false;//if not at least one is a non-null IDust, should not connect.
 	}
 
-	private static final ResourceLocation dustTexture = new ResourceLocation(References.texture_path + "textures/blocks/dust_top.png");
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void draw(Book book, CategoryAbstract category, EntryAbstract entry, int guiLeft, int guiTop, int mouseX,
 			int mouseY, GuiBase guiBase, FontRenderer fontRendererObj) {
 		
-		int maxHeight = (guiBase.ySize-20)/(pattern_rows*2),
-			maxWidth = (guiBase.xSize-65)/(pattern_cols*2);
+		int left_margin=40;
+		int top_margin=15;
+		int right_margin=35;
+		int bottom_margin=35;
+		
+		
+		int maxHeight = (guiBase.ySize-top_margin-bottom_margin)/(pattern_rows*2),
+			maxWidth = (guiBase.xSize-left_margin-right_margin)/(pattern_cols*2);
 		int size = Math.min(maxHeight, maxWidth);
 		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(dustTexture);
+		
+		//grid lines
+		int lines_top=guiTop+top_margin-4;
+		int lines_left = guiLeft+left_margin-4; 
+		//vertical lines
+		for(int i=0;i<=pattern_cols/TileEntityDustPlaced.COLS;i++){
+			int bottom=lines_top+pattern_rows*size*2;
+			int hor = (lines_left)+(i*size*2*TileEntityDustPlaced.COLS);
+			Gui.drawRect(hor, lines_top, hor+1, bottom, 0x77777777);
+		}
+		//horizontal lines
+		for(int i=0;i<=pattern_rows/TileEntityDustPlaced.ROWS;i++){
+			int right= lines_left+pattern_cols*size*2;
+			int vert = (lines_top)+(i*size*2*TileEntityDustPlaced.ROWS);
+			Gui.drawRect(lines_left, vert, right+1, vert+1, 0x77777777);
+		}
+		
 		//draw center points
 		for(int i=0;i<centerColors.length;i++){
 			for(int j=0;j<centerColors[i].length;j++){
 				if(centerColors[i][j]>=0){//negative colors indicate no rendering
-					int left = guiLeft+j*size*2+40;
+					int left = guiLeft+left_margin+j*size*2;
 					int right = left+size;
-					int top = guiTop+i*size*2+15;
+					int top = guiTop+top_margin+i*size*2;
 					int bottom = top+size;
 					//guiBase.drawTexturedModalRectWithColor(left, top, 16, 16, size, size, new Color(centerColors[i][j]));
 					Gui.drawRect(left, top, right, bottom, 0xff000000+centerColors[i][j]);
@@ -103,7 +124,7 @@ public class PageDustPattern extends Page {
 			}
 		}
 		
-		int thin=2;
+		int thin=size/3;
 		//draw connectors
 		for(int[] connector:connectors){
 			//[row1, col1, row2, col2, color1, color2]
@@ -114,17 +135,17 @@ public class PageDustPattern extends Page {
 				color1=connector[4],
 				color2=connector[5];
 			if(row1==row2){//horizontal
-				int left = (guiLeft+col1*size*2+40+size);
+				int left = (guiLeft+left_margin+col1*size*2+size);
 				int center = left+size/2;
 				int right = left+size;
-				int top = guiTop+row1*size*2+15+thin;
+				int top = guiTop+top_margin+row1*size*2+thin;
 				int bottom = top+size-2*thin;
 				Gui.drawRect(left, top, center, bottom, 0xff000000+color1);
 				Gui.drawRect(left, top, right, bottom, 0xff000000+color2);
 			}else if(col1==col2){
-				int left = (guiLeft+col1*size*2+40+thin);
+				int left = (guiLeft+left_margin+col1*size*2+thin);
 				int right = left+size-2*thin;
-				int top = guiTop+row1*size*2+15+size;
+				int top = guiTop+top_margin+row1*size*2+size;
 				int center = top+size/2;
 				int bottom = top+size;
 				Gui.drawRect(left, top, right, center, 0xff000000+color1);
@@ -134,19 +155,6 @@ public class PageDustPattern extends Page {
 		}
 		//TODO tooltip with itemstack name
 		
-		//TODO grid lines
-		for(int i=0;i<=pattern_cols/TileEntityDustPlaced.COLS;i++){
-			int top = guiTop+10;
-			int bottom=guiTop+pattern_rows*size*2+13;
-			int hor = guiLeft+i*size*pattern_cols-size/2+40-1;
-			Gui.drawRect(hor, top, hor+1, bottom, 0xff777777);
-		}
-		for(int i=0;i<=pattern_rows/TileEntityDustPlaced.ROWS;i++){
-			int left = guiLeft+35;
-			int right=guiLeft+pattern_cols*size*2+37;
-			int vert = guiTop+i*size*pattern_cols-size/2+15-1;
-			Gui.drawRect(left, vert, right+1, vert+1, 0xff777777);
-		}
 		
 	}
 	
