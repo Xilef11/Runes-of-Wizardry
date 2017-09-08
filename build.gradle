@@ -135,12 +135,12 @@ dependencies {
 	runtime "mezz.jei:jei_"+jeiversion
 	
 	//Baubles
-	deobfProvided "baubles:Baubles:"+baublesversion//+":api"
+	//deobfProvided "baubles:Baubles:"+baublesversion//+":api"
 	//runtime "baubles:Baubles:"+baublesversion
 	
-	//compile files(
-	//	'libs/Baubles-'+baublesversion+'-deobf.jar'
-	//)
+	compile files(
+		'libs/Baubles-'+baublesversion+'-deobf.jar'
+	)
 	
 	//Guide-API
 	deobfCompile "info.amerifrance.guideapi:Guide-API:1.12-2.1.4-57"
