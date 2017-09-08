@@ -27,6 +27,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -39,6 +40,8 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = References.modid, name = References.name, version = "@MOD_VERSION@", dependencies = "before:guideapi" ,guiFactory="com.zpig333.runesofwizardry.client.gui.GuiFactory",acceptedMinecraftVersions = "[1.12,1.13)")
 public class RunesOfWizardry {
 
+	public static boolean guideApiLoaded;
+	
 	@SidedProxy(clientSide = References.client_proxy, serverSide = References.server_proxy)
 	public static CommonProxy proxy;
 
@@ -55,6 +58,7 @@ public class RunesOfWizardry {
 
 	@Mod.EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
+		guideApiLoaded = Loader.isModLoaded("guideapi");
 		log = event.getModLog();
 		//config
 		ConfigHandler.init(event.getSuggestedConfigurationFile());

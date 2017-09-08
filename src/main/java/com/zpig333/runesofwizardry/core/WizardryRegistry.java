@@ -13,6 +13,7 @@ import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
 import com.zpig333.runesofwizardry.block.DustStorageItemBlock;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
+import com.zpig333.runesofwizardry.item.ItemDummyGuide;
 import com.zpig333.runesofwizardry.item.ItemInscription;
 import com.zpig333.runesofwizardry.item.ItemInscriptionBauble;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
@@ -63,6 +64,7 @@ public class WizardryRegistry {
 	public static Item plantballs;
 	public static Item nether_paste, lavastone;
 	public static Item runic_dictionary;
+	public static Item dummy_guide;
 	public static Item runic_staff;
 	public static Item dust_pouch;
 	public static Item broom;
@@ -112,6 +114,8 @@ public class WizardryRegistry {
 		lavastone=new ItemLavastone();
 
 		runic_dictionary = new ItemRunicDictionary();
+		
+		dummy_guide = new ItemDummyGuide();
 
 		runic_staff = new ItemRunicStaff();
 
@@ -148,7 +152,7 @@ public class WizardryRegistry {
 	@SubscribeEvent
 	public static void onItemRegister(RegistryEvent.Register<Item> event){
 		//register all items
-		event.getRegistry().registerAll(pestle, plantballs, nether_paste, lavastone, runic_dictionary, runic_staff, dust_pouch, broom, sacrifice_negator, inscription);
+		event.getRegistry().registerAll(pestle, plantballs, nether_paste, lavastone, runic_dictionary, dummy_guide, runic_staff, dust_pouch, broom, sacrifice_negator, inscription);
 
 		//register ItemBlocks
 		event.getRegistry().register(new ItemBlock(lavastone_bricks).setRegistryName(lavastone_bricks.getRegistryName()));
@@ -232,6 +236,13 @@ public class WizardryRegistry {
 						.getName(), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(
 				WizardryRegistry.runic_dictionary,
+				0,
+				new ModelResourceLocation(
+						References.texture_path
+						+ ((ItemRunicDictionary) WizardryRegistry.runic_dictionary)
+						.getName(), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(
+				WizardryRegistry.dummy_guide,
 				0,
 				new ModelResourceLocation(
 						References.texture_path

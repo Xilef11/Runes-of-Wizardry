@@ -97,6 +97,14 @@ public class ItemRunicDictionary extends WizardryItem {
 			}
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see net.minecraft.item.Item#hasEffect(net.minecraft.item.ItemStack)
+	 */
+	@Override
+	public boolean hasEffect(ItemStack stack) {
+		return true;
+	}
 	/* (non-Javadoc)
 	 * @see net.minecraft.item.Item#onItemUse(net.minecraft.item.ItemStack, net.minecraft.entity.player.EntityPlayer, net.minecraft.world.World, net.minecraft.util.BlockPos, net.minecraft.util.EnumFacing, float, float, float)
 	 */

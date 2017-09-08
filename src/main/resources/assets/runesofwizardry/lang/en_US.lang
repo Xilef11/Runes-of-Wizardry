@@ -21,11 +21,12 @@ item.runesofwizardry_dust_magic.name=Placeholder Magic Dust
 item.runesofwizardry_dust_any.name=Placeholder Any Dust
 
 #Items
-item.runesofwizardry_runic_dictionary.name=Runic Dictionary
+item.runesofwizardry_runic_dictionary.name=Runic Dictionary (Enhanced Edition)
 item.runesofwizardry_runic_staff.name=Runic Staff
 item.runesofwizardry_broom.name=Dust Broom
 item.runesofwizardry_sacrifice_negator.name=Sacrifice Negator
 item.runesofwizardry_dust_pouch.name=Dust Pouch
+item.runesofwizardry_dummyguide.name=Runic Dictionnary
 
 #inscription stuff
 item.runesofwizardry_inscription.name=Blank Inscription
@@ -91,6 +92,8 @@ runesofwizardry.lang.jei.broomdesc=Clears a full block of dust at once.
 runesofwizardry.lang.jei.pouchdesc=Stores a nearly infinite amount of a single dust type. Craft with dust to set type or add to the pouch, craft on its own to take one stack out. Can also be used to place the dust.
 
 #Guide book
+runesofwizardry.lang.dummyguide.tooltip=Install Guide-API to activate
+
 runesofwizardry.guidebook.title=Runic Dictionnary
 runesofwizardry.guidebook.display=Runic Dictionnary
 runesofwizardry.guidebook.welcomemessage=Runes of Wizardry
