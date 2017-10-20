@@ -13,7 +13,7 @@ public class DustItemColor implements IItemColor {
 		return instance;
 	}
 	@Override
-	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+	public int colorMultiplier(ItemStack stack, int tintIndex) {
 		if(stack.getItem() instanceof IDust){
 			IDust dust = (IDust)stack.getItem();
 			//otherwise, return the colors of the dust

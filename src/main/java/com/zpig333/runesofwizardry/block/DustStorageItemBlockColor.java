@@ -15,11 +15,11 @@ public class DustStorageItemBlockColor implements IItemColor {
 		return instance;
 	}
 	@Override
-	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+	public int colorMultiplier(ItemStack stack, int tintIndex) {
 		Block block = Block.getBlockFromItem(stack.getItem());
 		if(block instanceof ADustStorageBlock){
 			IDust dust = ((ADustStorageBlock)block).getIDust();
-			return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(new ItemStack(dust, 1,stack.getMetadata()),tintIndex);
+			return Minecraft.getMinecraft().getItemColors().colorMultiplier(new ItemStack(dust, 1,stack.getMetadata()),tintIndex);
 		}
 		return 0xFFFFFF;
 	}
