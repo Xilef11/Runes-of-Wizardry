@@ -121,7 +121,7 @@ public class RunesOfWizardry {
 	public static CreativeTabs wizardry_tab = new CreativeTabs(References.modid+"_main") {
 		@Override
 		public ItemStack getTabIconItem() {
-			return new ItemStack(WizardryRegistry.runic_dictionary);
+			return new ItemStack(WizardryRegistry.dummy_guide);
 		}
 		
 	};

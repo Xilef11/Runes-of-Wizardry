@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
-import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.integration.guideapi.WizardryGuide;
 import com.zpig333.runesofwizardry.util.Utils;
@@ -17,7 +16,6 @@ import amerifrance.guideapi.category.CategoryItemStack;
 import amerifrance.guideapi.entry.EntryItemStack;
 import amerifrance.guideapi.page.PageIRecipe;
 import amerifrance.guideapi.page.PageItemStack;
-import amerifrance.guideapi.page.PageJsonRecipe;
 import amerifrance.guideapi.page.PageText;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -49,8 +47,9 @@ public class CategoryBasic {
 		
 		EntryAbstract dictionnaryEntry = new EntryItemStack(WizardryRegistry.runic_dictionary.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.runic_dictionary));
 		dictionnaryEntry.addPage(new PageItemStack(ENTRY_KEY+"runic_dictionnary.description",WizardryRegistry.runic_dictionary));
-		for(IRecipe recipe : Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.runic_dictionary))) dictionnaryEntry.addPage(new PageIRecipe(recipe));
-		entries.put(new ResourceLocation(ENTRY_KEY+"runic_dictionnary"), dictionnaryEntry);
+		//FIXME until Guide-API updates...
+//		for(IRecipe recipe : Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.runic_dictionary))) dictionnaryEntry.addPage(new PageIRecipe(recipe));
+//		entries.put(new ResourceLocation(ENTRY_KEY+"runic_dictionnary"), dictionnaryEntry);
 		
 		EntryAbstract broomEntry = new EntryItemStack(WizardryRegistry.broom.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.broom));
 		broomEntry.addPage(new PageItemStack(ENTRY_KEY+"broom.description",WizardryRegistry.broom));
@@ -60,8 +59,8 @@ public class CategoryBasic {
 		EntryAbstract pouchEntry = new EntryItemStack(WizardryRegistry.dust_pouch.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.dust_pouch));
 		pouchEntry.addPage(new PageItemStack(ENTRY_KEY+"dust_pouch.description",WizardryRegistry.dust_pouch));
 		pouchEntry.addPage(new PageText(ENTRY_KEY+"dust_pouch.description.1"));
-		pouchEntry.addPage(new PageJsonRecipe(new ResourceLocation(References.modid,"dust_pouch")));
-		//for(IRecipe recipe : Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.dust_pouch))) pouchEntry.addPage(new PageIRecipe(recipe));
+		// only add the first recipe (craft the pouch from wool)
+		pouchEntry.addPage(new PageIRecipe(Utils.getRecipesForOutput(WizardryRegistry.dust_pouch.getDefaultInstance()).get(0)));
 		entries.put(new ResourceLocation(ENTRY_KEY+"dust_pouch"), pouchEntry);
 
 		EntryAbstract negatorEntry = new EntryItemStack(WizardryRegistry.sacrifice_negator.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.sacrifice_negator));
