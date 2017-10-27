@@ -60,7 +60,7 @@ public class CategoryBasic {
 		pouchEntry.addPage(new PageItemStack(ENTRY_KEY+"dust_pouch.description",WizardryRegistry.dust_pouch));
 		pouchEntry.addPage(new PageText(ENTRY_KEY+"dust_pouch.description.1"));
 		// only add the first recipe (craft the pouch from wool)
-		pouchEntry.addPage(new PageIRecipe(Utils.getRecipesForOutput(WizardryRegistry.dust_pouch.getDefaultInstance()).get(0)));
+		pouchEntry.addPage(new PageIRecipe(Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.dust_pouch)).get(0)));
 		entries.put(new ResourceLocation(ENTRY_KEY+"dust_pouch"), pouchEntry);
 
 		EntryAbstract negatorEntry = new EntryItemStack(WizardryRegistry.sacrifice_negator.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.sacrifice_negator));

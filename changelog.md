@@ -1,0 +1,1 @@
+- Fix server crash with Guide-API
