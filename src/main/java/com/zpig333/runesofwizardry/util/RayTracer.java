@@ -27,7 +27,7 @@ public class RayTracer {
 	}
 
 	private static double getBlockReachDistance_server(EntityPlayerMP player) {
-		return player.interactionManager.getBlockReachDistance();
+		return player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
 	}
 
 	@SideOnly(Side.CLIENT)

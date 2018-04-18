@@ -47,7 +47,7 @@ public class ItemDummyGuide extends WizardryItem {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if(RunesOfWizardry.guideApiLoaded){
 			//trade this for the Guide-API version, and open it.
-			ItemStack guideBook = GuideAPI.getStackFromBook(WizardryGuide.BOOK);
+			ItemStack guideBook = GuideAPI.getStackFromBook(GuideAPI.getBooks().get(WizardryGuide.LOCATION));
 			playerIn.setHeldItem(hand, guideBook);
 			return guideBook.getItem().onItemRightClick(worldIn,playerIn,hand);
 		}

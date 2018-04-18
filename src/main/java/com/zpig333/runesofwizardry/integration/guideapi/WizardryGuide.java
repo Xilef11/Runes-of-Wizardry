@@ -15,6 +15,7 @@ import com.zpig333.runesofwizardry.item.ItemRunicDictionary;
 import amerifrance.guideapi.api.GuideBook;
 import amerifrance.guideapi.api.IGuideBook;
 import amerifrance.guideapi.api.impl.Book;
+import amerifrance.guideapi.api.impl.BookBinder;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -28,19 +29,20 @@ public class WizardryGuide implements IGuideBook{
 	public static final String BASE_LOC = References.modid+".guidebook",
 							   CAT_LOC = BASE_LOC+".category.",
 							   ENTRY_LOC = BASE_LOC+".entry.";
+	public static final ResourceLocation LOCATION = new ResourceLocation(References.modid, "guide_book");
 
-	public static final Book BOOK = new Book();
+	private static final BookBinder BOOK = new BookBinder(LOCATION);
 	@Override
 	public Book buildBook() {
-		BOOK.setCustomModel(true);
+		BOOK.setHasCustomModel();
 		BOOK.setColor(Color.WHITE);
-		BOOK.setTitle(BASE_LOC+".title");
-		BOOK.setDisplayName(BASE_LOC+".display");
-		BOOK.setWelcomeMessage(BASE_LOC+".welcomemessage");
+		BOOK.setGuideTitle(BASE_LOC+".title");
+		BOOK.setItemName(BASE_LOC+".title");
+		//BOOK.setDisplayName(BASE_LOC+".display");
+		BOOK.setHeader(BASE_LOC+".welcomemessage");
 		BOOK.setAuthor(BASE_LOC+".author");
-		BOOK.setRegistryName(new ResourceLocation(References.modid,"guide_book"));
 		
-		return BOOK;
+		return BOOK.build();
 	}
 
 	@Override

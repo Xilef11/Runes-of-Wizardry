@@ -111,7 +111,7 @@ public class Utils {
 	 */
 	public static List<IRecipe> getRecipesForOutput(ItemStack stack) {
 		List<IRecipe> recipes = new LinkedList<>();
-		for (IRecipe recipe : ForgeRegistries.RECIPES.getValues()) {
+		for (IRecipe recipe : ForgeRegistries.RECIPES.getValuesCollection()) {
 			if (recipe != null) {
 				ItemStack resultStack = recipe.getRecipeOutput();
 				if (!resultStack.isEmpty()) {
