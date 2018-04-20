@@ -67,9 +67,7 @@ public class CategoryRunes {
 			}
 			runeEntry.addPageList(PageHelper.pagesForLongText(text.toString(),100));
 			
-			//TODO pattern
 			runeEntry.addPage(new PageDustPattern(rune.getPattern()));
-			
 			
 			entries.put(new ResourceLocation(rune.getName()),runeEntry);
 		}

@@ -47,9 +47,9 @@ public class CategoryBasic {
 		
 		EntryAbstract dictionnaryEntry = new EntryItemStack(WizardryRegistry.runic_dictionary.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.runic_dictionary));
 		dictionnaryEntry.addPage(new PageItemStack(ENTRY_KEY+"runic_dictionnary.description",WizardryRegistry.runic_dictionary));
-		//FIXME until Guide-API updates...
-//		for(IRecipe recipe : Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.runic_dictionary))) dictionnaryEntry.addPage(new PageIRecipe(recipe));
-//		entries.put(new ResourceLocation(ENTRY_KEY+"runic_dictionnary"), dictionnaryEntry);
+
+		for(IRecipe recipe : Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.runic_dictionary))) dictionnaryEntry.addPage(new PageIRecipe(recipe));
+		entries.put(new ResourceLocation(ENTRY_KEY+"runic_dictionnary"), dictionnaryEntry);
 		
 		EntryAbstract broomEntry = new EntryItemStack(WizardryRegistry.broom.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.broom));
 		broomEntry.addPage(new PageItemStack(ENTRY_KEY+"broom.description",WizardryRegistry.broom));

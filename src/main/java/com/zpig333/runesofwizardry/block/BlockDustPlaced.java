@@ -110,7 +110,7 @@ public class BlockDustPlaced extends Block{
 			}else{
 				//double dist = p.getDistanceToEntity(ei);
 				//RunesOfWizardry.log().info("Distance: "+dist);
-				Integer pickupDelay = ReflectionHelper.getPrivateValue(EntityItem.class, ei, "delayBeforeCanPickup","field_145804_b");
+				Integer pickupDelay = ReflectionHelper.getPrivateValue(EntityItem.class, ei, "pickupDelay","field_145804_b");
 				if (pickupDelay > 10) {
 					ei.setPickupDelay(10);//10 is the default, but there's no getDefaultPickupDelay, so its better to hardcode it in both uses
 					//ei.setDefaultPickupDelay();
@@ -124,7 +124,7 @@ public class BlockDustPlaced extends Block{
 	@Deprecated
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state){
-		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;//render type 2 is TESR
+		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
 	}
 
 	@Deprecated

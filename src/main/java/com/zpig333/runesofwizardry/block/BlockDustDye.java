@@ -94,7 +94,6 @@ public class BlockDustDye extends BlockContainer{
 				}
 			}
 			//world.func_147453_f is updateNeighborsOnBlockChange(x, y, z, block)
-			//XXX not sure of this one (1.11)
 			world.notifyNeighborsOfStateChange(pos, state.getBlock(),true);
 		}
 		super.breakBlock(world, pos, state);

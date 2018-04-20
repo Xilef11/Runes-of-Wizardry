@@ -83,7 +83,7 @@ public class ItemDustPouch extends WizardryItem {
 		int amount = tag.getInteger(DUST_AMOUNT_TAG);
 		if(!type.isEmpty()){
 			int toGive =Math.min(Math.min(dustAmount, amount),type.getMaxStackSize());
-			type = type.copy();//FIXME dafuq is this line doing?
+			type = type.copy();//avoid overwriting the type stack
 			//looks like size 0 ItemStacks are automatically converted to Empty...
 			type.setCount(toGive==0? 1 : toGive);
 			amount-=toGive;

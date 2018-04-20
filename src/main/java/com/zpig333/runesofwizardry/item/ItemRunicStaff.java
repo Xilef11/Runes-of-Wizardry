@@ -45,8 +45,6 @@ public class ItemRunicStaff extends WizardryItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand)
 	{
-		//XXX UPDATE
-		//playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
 		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(hand));
 	}
 	/**
