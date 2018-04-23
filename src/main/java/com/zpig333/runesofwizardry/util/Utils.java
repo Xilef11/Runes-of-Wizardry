@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.api.IRune;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -71,7 +72,8 @@ public class Utils {
 		return prefix;
 	}
 	/**
-	 * Checks if a "found" stack matches a "wanted" stack. a stack size <0 in the wanted stack will match any stack size in the found stack
+	 * Checks if a "found" stack matches a "wanted" stack. 
+	 * If the wanted stack is tagged by {@link IRune#makeWildcardStack}, any multiple of the wanted stack will be accepted.
 	 * @param wanted the ItemStack we want
 	 * @param found the ItemStack to check if it matches
 	 * @param oredict check for OreDictionnary match?
@@ -84,7 +86,8 @@ public class Utils {
 				for(int checkID:OreDictionary.getOreIDs(toCheck)){
 					haveIDs=true;//both items have IDs, so we can check them using oreDict
 					if(wantedID==checkID){
-						if(wanted.getCount()==toCheck.getCount()||wanted.getCount()<0){
+						if(wanted.getCount()==toCheck.getCount() || 
+								(IRune.isWildcardStack(wanted) && (toCheck.getCount()%wanted.getCount()==0))){
 							return true;
 						}
 					}
@@ -98,8 +101,10 @@ public class Utils {
 			}
 		}else{
 			if(!OreDictionary.itemMatches(wanted, toCheck, false))return false;
+			if(IRune.isWildcardStack(wanted))toCheck = IRune.makeWildcardStack(toCheck);
 			if(!ItemStack.areItemStackTagsEqual(wanted, toCheck))return false;
-			return wanted.getCount()==toCheck.getCount() || wanted.getCount()<0;
+			return wanted.getCount()==toCheck.getCount() || 
+					(IRune.isWildcardStack(wanted) && (toCheck.getCount()%wanted.getCount()==0));
 		}
 	}
 	

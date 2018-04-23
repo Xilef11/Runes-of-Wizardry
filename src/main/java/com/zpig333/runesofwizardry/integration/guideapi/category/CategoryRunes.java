@@ -51,7 +51,15 @@ public class CategoryRunes {
 					if(i>0)text.append(" "+RunesOfWizardry.proxy.translate(References.Lang.OR)+"\n");
 					if(sac!=null){
 						for(ItemStack s:sac){
-							text.append("-"+(s.getCount()>=0? (s.getCount()<10?" ":"")+s.getCount()+"x " : RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName()+"\n");
+							if(IRune.isWildcardStack(s)){
+								if(s.getCount()>1){
+									text.append("- "+RunesOfWizardry.proxy.translate(References.Lang.MULTIPLES)+" "+s.getCount()+"x "+s.getDisplayName()+"\n");
+								}else{
+									text.append("- "+RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" "+s.getDisplayName()+"\n");
+								}
+							}else{
+								text.append("- "+s.getCount()+"x "+s.getDisplayName()+"\n");
+							}
 						}
 					}else{
 						text.append("  "+RunesOfWizardry.proxy.translate(References.Lang.NOTHING)+"\n");

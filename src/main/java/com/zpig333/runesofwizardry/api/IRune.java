@@ -10,11 +10,13 @@ import java.util.List;
 import java.util.Set;
 
 import com.zpig333.runesofwizardry.RunesOfWizardry;
+import com.zpig333.runesofwizardry.core.References;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.util.Utils;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
@@ -148,5 +150,21 @@ public abstract class IRune {
 	 */
 	public boolean canBeActivatedByPlayer(EntityPlayer player, World world, BlockPos activationPos){
 		return true;
+	}
+	private static final String WILDCARD_KEY="wildcard_sacrifice"; 
+	/**
+	 * Tags an ItemStack to support a wildcard amount of items. The sacrifice amount must be a multiple of the input stack size
+	 * @param stack
+	 * @return the same stack
+	 */
+	public static ItemStack makeWildcardStack(ItemStack stack){
+		NBTTagCompound compound = stack.getOrCreateSubCompound(References.modid);
+		compound.setBoolean(WILDCARD_KEY, true);
+		return stack;
+	}
+	/** checks if an itemstack is a wildcard sacrifice**/
+	public static boolean isWildcardStack(ItemStack stack){
+		NBTTagCompound tag = stack.getSubCompound(References.modid);
+		return tag!=null && tag.getBoolean(WILDCARD_KEY);
 	}
 }

@@ -22,6 +22,7 @@ public final class References {
 		public static final String NOTHING = misc+"nothing";
 		public static final String ANY_AMOUNT = misc+"anysize";
 		public static final String HOLD_SHIFT = misc+"hold_shift";
+		public static final String MULTIPLES = misc+"multiples";
 		/** holds localization keys for JEI integration related Strings**/
 		public static final class Jei{
 			public static final String JEI = misc+"jei";

@@ -75,7 +75,15 @@ public class ItemRunicDictionary extends WizardryItem {
 						if(i>0)tooltip.add(" "+RunesOfWizardry.proxy.translate(References.Lang.OR));
 						if(sac!=null){
 							for(ItemStack s:sac){
-								tooltip.add(" - "+(s.getCount()>=0? (s.getCount()<10?" ":"")+s.getCount()+"x " : RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" ")+s.getDisplayName());
+								if(IRune.isWildcardStack(s)){
+									if(s.getCount()>1){
+										tooltip.add("- "+RunesOfWizardry.proxy.translate(References.Lang.MULTIPLES)+" "+s.getCount()+"x "+s.getDisplayName());
+									}else{
+										tooltip.add("- "+RunesOfWizardry.proxy.translate(References.Lang.ANY_AMOUNT)+" "+s.getDisplayName());
+									}
+								}else{
+									tooltip.add("- "+s.getCount()+"x "+s.getDisplayName());
+								}
 							}
 						}else{
 							tooltip.add("   "+RunesOfWizardry.proxy.translate(References.Lang.NOTHING));
