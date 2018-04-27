@@ -2,12 +2,12 @@ package com.zpig333.runesofwizardry.block;
 
 import com.zpig333.runesofwizardry.api.IDust;
 import com.zpig333.runesofwizardry.api.IDustStorageBlock;
+import com.zpig333.runesofwizardry.util.PropertyMultiInt;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -51,7 +51,8 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 		return getIDust().getName() + "_storage";
 	}
 	//this block has 1 property: the meta value
-	public static final PropertyInteger PROPERTYMETA = PropertyInteger.create("meta",0,15);
+	protected PropertyMultiInt PROPERTYMETA;
+	
 	@Deprecated
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
@@ -64,6 +65,11 @@ public abstract class ADustStorageBlock extends BlockFalling implements IDustSto
 	}
 	@Override
 	protected BlockStateContainer createBlockState() {
+		//this gets called by the super constructor (in Block), so we have to initialize PROPERTYMETA here
+		if(PROPERTYMETA==null){
+			int[] metas = getIDust().getMetaValues();
+			PROPERTYMETA = PropertyMultiInt.create("meta",metas);
+		}
 		return new BlockStateContainer(this, PROPERTYMETA);
 	}
 	// create a list of the subBlocks available for this block, i.e. one for each colour

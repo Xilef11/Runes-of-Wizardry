@@ -208,12 +208,10 @@ public class DustRegistry {
 		IDustStorageBlock dustBlock;
 		if(!dustclass.hasCustomBlock()){
 			dustBlock = new ADustStorageBlock(Material.SAND,modID) {
-
 				@Override
 				public IDust getIDust() {
 					return dustclass;
 				}
-
 			};
 			dustBlock.getInstance().setCreativeTab(dustclass.creativeTab());
 			//RunesOfWizardry.proxy.registerDustBlockRender((ADustStorageBlock)dustBlock);
