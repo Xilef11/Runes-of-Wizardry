@@ -1,0 +1,1 @@
+- fix Baubles load order crash (Animus incompatibility)

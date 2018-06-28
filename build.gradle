@@ -49,10 +49,10 @@ def majorVersion = "0"
 def minorVersion = "8"
 def bugfix = ".10"
 def devVersion = "-dev"
-def forgeVersion="1.12.2-14.23.3.2661"
+def forgeVersion="1.12.2-14.23.4.2725"
 def mcVersion = forgeVersion.substring(0,forgeVersion.indexOf('-'))
 def baublesversion="1.12-1.5.2"
-def jeiversion = "1.12.2:4.8.6.162"
+def jeiversion = "1.12.2:4.10.0.200"
 def guideAPIversion="1.12-2.1.5-60"
 
 def username = 'ForgeDevName'
