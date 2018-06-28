@@ -7,8 +7,9 @@
       "item": "minecraft:book"
     },
     {
-      "item": "runesofwizardry:runic_staff"
+      "type":"forge:ore_dict",
+      "ore":"runicDustAny"
     }
   ],
-  "type": "minecraft:crafting_shapeless"
+  "type": "forge:ore_shapeless"
 }

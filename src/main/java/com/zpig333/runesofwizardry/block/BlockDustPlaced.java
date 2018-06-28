@@ -10,7 +10,6 @@ import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.core.rune.RunesUtil;
 import com.zpig333.runesofwizardry.item.ItemBroom;
 import com.zpig333.runesofwizardry.item.ItemDustPouch;
-import com.zpig333.runesofwizardry.item.ItemRunicStaff;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustActive;
 import com.zpig333.runesofwizardry.tileentity.TileEntityDustDead;
@@ -264,7 +263,7 @@ public class BlockDustPlaced extends Block{
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand,EnumFacing side, float hitX, float hitY, float hitZ) {
 		TileEntity tile = worldIn.getTileEntity(pos);
-		if(playerIn.isSneaking() || tile==null){
+		if(tile==null){
 			return false;
 		}
 
@@ -300,6 +299,11 @@ public class BlockDustPlaced extends Block{
 		ItemStack dustStack = tileDust.getStackInSlot(slotID);
 		ItemStack heldItem = playerIn.getHeldItem(hand);
 		if(heldItem.isEmpty()){
+			//activate the rune with empty hand shift-activate
+			if(!tileDust.isInRune() && playerIn.isSneaking()){
+				RunesUtil.activateRune(worldIn, pos, playerIn);
+				return true;
+			}
 			if (!dustStack.isEmpty()){
 				//drop the dust piece
 				if(tileDust.isInRune()){
@@ -362,11 +366,6 @@ public class BlockDustPlaced extends Block{
 			}
 			tileDust.clear();
 			TileEntityDustPlaced.updateNeighborConnectors(worldIn, pos);
-		}
-		//activate the rune with the staff
-		if(!tileDust.isInRune() && heldItem.getItem() instanceof ItemRunicStaff){
-			RunesUtil.activateRune(worldIn, pos, playerIn);
-			return true;
 		}
 
 		return false;

@@ -74,6 +74,7 @@ public class RunesOfWizardry {
 
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
+		WizardryRegistry.registerODNames();
 		WizardryRegistry.initCrafting();
 		WizardryRegistry.registerDustInfusion();
 		proxy.registerTESRs();

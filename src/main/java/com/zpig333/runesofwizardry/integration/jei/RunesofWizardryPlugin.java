@@ -46,7 +46,6 @@ public class RunesofWizardryPlugin implements IModPlugin {
 		}
 		//registry.addIngredientInfo(ingredient, ingredientClass, descriptionKeys);
 		registry.addIngredientInfo(new ItemStack(WizardryRegistry.runic_dictionary),ItemStack.class, References.Lang.Jei.DICT);
-		registry.addIngredientInfo(new ItemStack(WizardryRegistry.runic_staff),ItemStack.class, References.Lang.Jei.STAFF);
 		registry.addIngredientInfo(new ItemStack(WizardryRegistry.broom),ItemStack.class, References.Lang.Jei.BROOM);
 		registry.addIngredientInfo(new ItemStack(WizardryRegistry.dust_pouch),ItemStack.class, References.Lang.Jei.POUCH);
 	}

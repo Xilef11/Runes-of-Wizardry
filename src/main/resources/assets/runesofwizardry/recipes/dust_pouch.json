@@ -7,7 +7,7 @@
     "YZY",
     " Y "
   ],
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "key": {
     "X": {
       "item": "minecraft:string"
@@ -17,7 +17,8 @@
       "data": 0
     },
     "Z": {
-      "item": "runesofwizardry:runic_staff"
+      "type": "forge:ore_dict",
+	  "ore" : "runicDustAny"
     }
   }
 }

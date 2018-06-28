@@ -84,7 +84,7 @@ public class CategoryRunes {
 	}
 	
 	public static CategoryAbstract getCategory(){
-		return new CategoryItemStack(buildEntries(),WizardryGuide.CAT_LOC+NAME, new ItemStack(WizardryRegistry.runic_staff));
+		return new CategoryItemStack(buildEntries(),WizardryGuide.CAT_LOC+NAME, new ItemStack(WizardryRegistry.runic_dictionary));
 	}
 	
 }

@@ -12,8 +12,8 @@ import com.zpig333.runesofwizardry.block.BlockDustPlaced;
 import com.zpig333.runesofwizardry.block.BlockLavastone_bricks;
 import com.zpig333.runesofwizardry.block.DustStorageItemBlock;
 import com.zpig333.runesofwizardry.item.ItemBroom;
-import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.ItemDummyGuide;
+import com.zpig333.runesofwizardry.item.ItemDustPouch;
 import com.zpig333.runesofwizardry.item.ItemInscription;
 import com.zpig333.runesofwizardry.item.ItemInscriptionBauble;
 import com.zpig333.runesofwizardry.item.ItemLavastone;
@@ -21,7 +21,6 @@ import com.zpig333.runesofwizardry.item.ItemNetherPaste;
 import com.zpig333.runesofwizardry.item.ItemPestle;
 import com.zpig333.runesofwizardry.item.ItemPlantBalls;
 import com.zpig333.runesofwizardry.item.ItemRunicDictionary;
-import com.zpig333.runesofwizardry.item.ItemRunicStaff;
 import com.zpig333.runesofwizardry.item.ItemSacrificeNegator;
 import com.zpig333.runesofwizardry.item.dust.DustDyed;
 import com.zpig333.runesofwizardry.item.dust.DustPlaceholder;
@@ -52,6 +51,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
 @Mod.EventBusSubscriber
 public class WizardryRegistry {
@@ -65,7 +65,6 @@ public class WizardryRegistry {
 	public static Item nether_paste, lavastone;
 	public static Item runic_dictionary;
 	public static Item dummy_guide;
-	public static Item runic_staff;
 	public static Item dust_pouch;
 	public static Item broom;
 	public static Item sacrifice_negator;
@@ -117,8 +116,6 @@ public class WizardryRegistry {
 		
 		dummy_guide = new ItemDummyGuide();
 
-		runic_staff = new ItemRunicStaff();
-
 		broom = new ItemBroom();
 		
 		inscription = Loader.isModLoaded("baubles")? new ItemInscriptionBauble() : new ItemInscription();
@@ -152,7 +149,7 @@ public class WizardryRegistry {
 	@SubscribeEvent
 	public static void onItemRegister(RegistryEvent.Register<Item> event){
 		//register all items
-		event.getRegistry().registerAll(pestle, plantballs, nether_paste, lavastone, runic_dictionary, dummy_guide, runic_staff, dust_pouch, broom, sacrifice_negator, inscription);
+		event.getRegistry().registerAll(pestle, plantballs, nether_paste, lavastone, runic_dictionary, dummy_guide, dust_pouch, broom, sacrifice_negator, inscription);
 
 		//register ItemBlocks
 		event.getRegistry().register(new ItemBlock(lavastone_bricks).setRegistryName(lavastone_bricks.getRegistryName()));
@@ -247,12 +244,6 @@ public class WizardryRegistry {
 				new ModelResourceLocation(
 						References.texture_path
 						+ ((ItemRunicDictionary) WizardryRegistry.runic_dictionary)
-						.getName(), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(
-				WizardryRegistry.runic_staff,
-				0,
-				new ModelResourceLocation(References.texture_path
-						+ ((ItemRunicStaff) WizardryRegistry.runic_staff)
 						.getName(), "inventory"));
 		ModelLoader.setCustomModelResourceLocation(
 				WizardryRegistry.broom,
@@ -352,6 +343,14 @@ public class WizardryRegistry {
 					DustRegistry.registerBlockInfusion(recipe,input, output);
 				}
 			}
+		}
+	}
+	
+	/**register oredictionary names for our items**/
+	public static void registerODNames() {
+		//dusts
+		for(IDust dust:DustRegistry.getAllDusts()) {
+			OreDictionary.registerOre(References.OD.anyDust, new ItemStack(dust,1,OreDictionary.WILDCARD_VALUE));
 		}
 	}
 

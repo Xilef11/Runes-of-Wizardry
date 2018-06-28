@@ -35,15 +35,15 @@ public class CategoryBasic {
 		basicEntry.addPageList(PageHelper.pagesForLongText(RunesOfWizardry.proxy.translate(ENTRY_KEY+"general.text.2"),308));
 		entries.put(new ResourceLocation(ENTRY_KEY+"general"), basicEntry);
 		
+		EntryAbstract activateEntry = new Entry(ENTRY_KEY+"rune_activation");
+		activateEntry.addPageList(PageHelper.pagesForLongText(RunesOfWizardry.proxy.translate(ENTRY_KEY+"rune_activation.text"),280));
+		entries.put(new ResourceLocation(ENTRY_KEY+"rune_activation"), activateEntry);
+		
 		EntryAbstract pestleEntry = new EntryItemStack(WizardryRegistry.pestle.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.pestle));
 		pestleEntry.addPage(new PageItemStack(ENTRY_KEY+"pestle.description", WizardryRegistry.pestle));
 		for(IRecipe recipe : Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.pestle))) pestleEntry.addPage(new PageIRecipe(recipe));
 		entries.put(new ResourceLocation(ENTRY_KEY+"pestle"), pestleEntry);
-		
-		EntryAbstract staffEntry = new EntryItemStack(WizardryRegistry.runic_staff.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.runic_staff));
-		staffEntry.addPage(new PageItemStack(ENTRY_KEY+"runic_staff.description",WizardryRegistry.runic_staff));
-		for(IRecipe recipe : Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.runic_staff))) staffEntry.addPage(new PageIRecipe(recipe));
-		entries.put(new ResourceLocation(ENTRY_KEY+"runic_staff"), staffEntry);
+
 		
 		EntryAbstract dictionnaryEntry = new EntryItemStack(WizardryRegistry.runic_dictionary.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.runic_dictionary));
 		dictionnaryEntry.addPage(new PageItemStack(ENTRY_KEY+"runic_dictionnary.description",WizardryRegistry.runic_dictionary));
