@@ -80,13 +80,13 @@ public class WizardryRegistry {
 		lavastone_bricks = new BlockLavastone_bricks(Material.ROCK);
 		//Bust Dye + its TileEntity
 		dust_dye = new BlockDustDye(Material.ROCK);
-		GameRegistry.registerTileEntity(TileEntityDustDye.class, "te_Dust_Dye");
+		GameRegistry.registerTileEntity(TileEntityDustDye.class, References.modid+":te_Dust_Dye");
 
 		//placed dust
 		dust_placed=new BlockDustPlaced();
-		GameRegistry.registerTileEntity(TileEntityDustPlaced.class, "te_dust_placed");
-		GameRegistry.registerTileEntity(TileEntityDustActive.class, "te_dust_active");
-		GameRegistry.registerTileEntity(TileEntityDustDead.class, "te_dust_dead");
+		GameRegistry.registerTileEntity(TileEntityDustPlaced.class, References.modid+":te_dust_placed");
+		GameRegistry.registerTileEntity(TileEntityDustActive.class, References.modid+":te_dust_active");
+		GameRegistry.registerTileEntity(TileEntityDustDead.class, References.modid+":te_dust_dead");
 		
 	}
 	@SubscribeEvent

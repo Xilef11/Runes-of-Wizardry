@@ -1,0 +1,2 @@
+- Fix forge warning about improper TE id prefix.
+	- This WILL corrupt existing placed dust blocks (patterns, runes, etc.) and Arcane Dye blocks.
