@@ -42,6 +42,8 @@ apply plugin: "com.matthewprenger.cursegradle"
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
+    options.compilerArgs << '-Xlint:unchecked'
+    options.deprecation = true
 }
 
 //MC stuff
@@ -49,11 +51,11 @@ def majorVersion = "0"
 def minorVersion = "9"
 def bugfix = ".1"
 def devVersion = "-dev"
-def forgeVersion="1.12.2-14.23.4.2725"
+def forgeVersion="1.12.2-14.23.4.2757"
 def mcVersion = forgeVersion.substring(0,forgeVersion.indexOf('-'))
 def baublesversion="1.12-1.5.2"
-def jeiversion = "1.12.2:4.10.0.200"
-def guideAPIversion="1.12-2.1.5-60"
+def jeiversion = "1.12.2:4.12.0.215"
+def guideAPIversion="1.12-2.1.7-62"
 
 def username = 'ForgeDevName'
 //set from command line with -Pdev_username=name

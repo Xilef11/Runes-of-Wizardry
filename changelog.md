@@ -1,0 +1,1 @@
+- Fix crash when all recipes are removed (e.g. CraftTweaker)
