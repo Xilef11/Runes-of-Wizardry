@@ -6,6 +6,7 @@ import java.util.Map;
 import com.zpig333.runesofwizardry.RunesOfWizardry;
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 import com.zpig333.runesofwizardry.integration.guideapi.WizardryGuide;
+import com.zpig333.runesofwizardry.recipe.RecipeDustPouch;
 import com.zpig333.runesofwizardry.util.Utils;
 
 import amerifrance.guideapi.api.impl.Entry;
@@ -59,8 +60,9 @@ public class CategoryBasic {
 		EntryAbstract pouchEntry = new EntryItemStack(WizardryRegistry.dust_pouch.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.dust_pouch));
 		pouchEntry.addPage(new PageItemStack(ENTRY_KEY+"dust_pouch.description",WizardryRegistry.dust_pouch));
 		pouchEntry.addPage(new PageText(ENTRY_KEY+"dust_pouch.description.1"));
-		// only add the first recipe (craft the pouch from wool)
-		pouchEntry.addPage(new PageIRecipe(Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.dust_pouch)).get(0)));
+		// Add recipes, but not the "special" filling/emptying one
+		for(IRecipe recipe: Utils.getRecipesForOutput(new ItemStack(WizardryRegistry.dust_pouch)))
+			if(!(recipe instanceof RecipeDustPouch))pouchEntry.addPage(new PageIRecipe(recipe));
 		entries.put(new ResourceLocation(ENTRY_KEY+"dust_pouch"), pouchEntry);
 
 		EntryAbstract negatorEntry = new EntryItemStack(WizardryRegistry.sacrifice_negator.getUnlocalizedName()+".name",new ItemStack(WizardryRegistry.sacrifice_negator));
