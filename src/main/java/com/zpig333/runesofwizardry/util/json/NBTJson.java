@@ -27,7 +27,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 /**
  * Converts a NBTTagCompound to and from a JsonObject
  * @author Xilef11
@@ -38,8 +38,8 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
 	public JsonElement serialize(NBTTagCompound src, Type typeOfSrc,JsonSerializationContext context) {
 		JsonObject object = new JsonObject();
 		JsonObject tagMap = new JsonObject();
-		//XXX recheck the names when updating Forge version
-		Map<?, ?> map = ReflectionHelper.getPrivateValue(NBTTagCompound.class,src,"tagMap","field_74784_a");
+		//"tagMap"
+		Map<?, ?> map = ObfuscationReflectionHelper.getPrivateValue(NBTTagCompound.class,src,"field_74784_a");
 		for(Map.Entry<?,?> e: map.entrySet()){
 			//if(o instanceof Map.Entry){
 			//Map.Entry e = (Map.Entry)o;
@@ -124,7 +124,8 @@ public class NBTJson implements JsonDeserializer<NBTTagCompound>, JsonSerializer
 	}
 	private NBTBase deserializewithReflection(byte type, JsonElement tag, JsonDeserializationContext context) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		//Method create = ReflectionHelper.findMethod(NBTBase.class, null, new String[]{"createNewByType","func_150284_a"}, NBTBase.class);
-		Method create = ReflectionHelper.findMethod(NBTBase.class, "createNewByType","func_150284_a", NBTBase.class);
+		//"createNewByType"
+		Method create = ObfuscationReflectionHelper.findMethod(NBTBase.class, "func_150284_a", NBTBase.class);
 		Class<?> nbtClass = null;
 		nbtClass = create.invoke(null, type).getClass();
 		return context.deserialize(tag, nbtClass);

@@ -116,6 +116,7 @@ public class GuiDustDye extends GuiContainer {
 	/** updates the color to the text
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private void updateColor(){
 		colorString = textColor.getText();
 		PARENT.setColor(colorString);
@@ -124,7 +125,8 @@ public class GuiDustDye extends GuiContainer {
 			//parsing in hexadecimal allows for a more natural, html-style color input
 			//that is, 2 (hex) digits per color (RGB)
 			colorInt=Integer.parseInt(colorString,16);
-			new Color(colorInt);
+			//check if it's valid. will throw an exception if not.
+			new Color(colorInt);//reason for @SuppressWarnings("unused")
 			validColor=true;
 		}catch(NumberFormatException e){
 			//this might spam a bit...

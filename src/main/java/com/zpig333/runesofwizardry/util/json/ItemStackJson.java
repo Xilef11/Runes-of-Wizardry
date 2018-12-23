@@ -18,7 +18,6 @@ import com.google.gson.JsonSerializer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 
 /** Converts an ItemStack to and from a JsonObject
  * @author Xilef11
@@ -30,7 +29,7 @@ public class ItemStackJson implements JsonDeserializer<ItemStack>,JsonSerializer
 	public JsonElement serialize(ItemStack src, Type typeOfSrc,	JsonSerializationContext context) {
 		JsonObject object = new JsonObject();
 		int stackSize = src.getCount();
-		String item = ((ResourceLocation)Item.REGISTRY.getNameForObject(src.getItem())).toString();
+		String item = (Item.REGISTRY.getNameForObject(src.getItem())).toString();
 		JsonElement nbt = context.serialize(src.getTagCompound());
 		int meta = src.getItemDamage();
 		//not dealing with ItemFrames

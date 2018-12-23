@@ -14,7 +14,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -88,7 +87,7 @@ public class BlockDustDye extends BlockContainer{
 						entityitem.motionZ = (float) this.random.nextGaussian() * f3;
 
 						if (itemstack.hasTagCompound()) {
-							entityitem.getItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+							entityitem.getItem().setTagCompound( itemstack.getTagCompound().copy());
 						}
 					}
 				}

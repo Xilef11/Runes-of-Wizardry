@@ -18,6 +18,7 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.ISubtypeRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IModIngredientRegistration;
+import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -45,9 +46,9 @@ public class RunesofWizardryPlugin implements IModPlugin {
 			}
 		}
 		//registry.addIngredientInfo(ingredient, ingredientClass, descriptionKeys);
-		registry.addIngredientInfo(new ItemStack(WizardryRegistry.runic_dictionary),ItemStack.class, References.Lang.Jei.DICT);
-		registry.addIngredientInfo(new ItemStack(WizardryRegistry.broom),ItemStack.class, References.Lang.Jei.BROOM);
-		registry.addIngredientInfo(new ItemStack(WizardryRegistry.dust_pouch),ItemStack.class, References.Lang.Jei.POUCH);
+		registry.addIngredientInfo(new ItemStack(WizardryRegistry.runic_dictionary),VanillaTypes.ITEM, References.Lang.Jei.DICT);
+		registry.addIngredientInfo(new ItemStack(WizardryRegistry.broom),VanillaTypes.ITEM, References.Lang.Jei.BROOM);
+		registry.addIngredientInfo(new ItemStack(WizardryRegistry.dust_pouch),VanillaTypes.ITEM, References.Lang.Jei.POUCH);
 	}
 
 	@Override

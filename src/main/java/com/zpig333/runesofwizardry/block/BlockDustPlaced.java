@@ -30,7 +30,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -43,7 +42,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 /**
  * This class creates the block that holds placed dust
  * 
@@ -109,7 +108,8 @@ public class BlockDustPlaced extends Block{
 			}else{
 				//double dist = p.getDistanceToEntity(ei);
 				//RunesOfWizardry.log().info("Distance: "+dist);
-				Integer pickupDelay = ReflectionHelper.getPrivateValue(EntityItem.class, ei, "pickupDelay","field_145804_b");
+				//"pickupDelay"
+				Integer pickupDelay = ObfuscationReflectionHelper.getPrivateValue(EntityItem.class, ei, "field_145804_b");
 				if (pickupDelay > 10) {
 					ei.setPickupDelay(10);//10 is the default, but there's no getDefaultPickupDelay, so its better to hardcode it in both uses
 					//ei.setDefaultPickupDelay();
@@ -224,7 +224,7 @@ public class BlockDustPlaced extends Block{
 						entityitem.motionZ = (float) random.nextGaussian() * f3;
 
 						if (itemstack.hasTagCompound()) {
-							entityitem.getItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+							entityitem.getItem().setTagCompound(itemstack.getTagCompound().copy());
 						}
 						itemstack.setCount(itemstack.getCount() - j1);
 					}
