@@ -1,5 +1,9 @@
 package com.zpig333.runesofwizardry.tileentity;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.zpig333.runesofwizardry.core.WizardryRegistry;
 
 import net.minecraft.block.state.IBlockState;
@@ -14,6 +18,13 @@ ITickable {
 	private int nextTick=-1;
 	private static final int MAX_DELAY=5*20,
 			BASE_DELAY=2*20;
+	
+	private List<Integer> searchorder = new ArrayList<Integer>(getSizeInventory());
+	public TileEntityDustDead() {
+		super();
+		for(int i=0;i<getSizeInventory();i++) searchorder.add(i);
+		Collections.shuffle(searchorder);
+	}
 	@Override
 	public void update() {
 		if(nextTick<0&&!world.isRemote){
@@ -28,17 +39,20 @@ ITickable {
 					world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, pos.getX()+Math.random(), pos.getY()+Math.random()/2D, pos.getZ()+Math.random(), 0.07, 0.01D, 0.07D);
 				}
 			}else{
-				int i;
-				do{
-					i = world.rand.nextInt(getSizeInventory());
-				}while(getStackInSlot(i).isEmpty() || getStackInSlot(i).getItem()!=WizardryRegistry.dust_dead);
-				setInventorySlotContents(i, ItemStack.EMPTY);
-				nextTick = BASE_DELAY + world.rand.nextInt(MAX_DELAY);
-				if(isEmpty()){//if there is no more dust, break the block
-					world.setBlockToAir(pos);
+				// remove a dead dust stack
+				for(int i:searchorder) {
+					ItemStack stack = getStackInSlot(i);
+					if(!stack.isEmpty() && stack.getItem()==WizardryRegistry.dust_dead) {
+						setInventorySlotContents(i, ItemStack.EMPTY);
+						nextTick = BASE_DELAY + world.rand.nextInt(MAX_DELAY);
+						if(isEmpty()){//if there is no more dust, break the block
+							world.setBlockToAir(pos);
+						}
+						IBlockState state = world.getBlockState(pos);
+						world.notifyBlockUpdate(pos, state, state, 3);
+						break;
+					}
 				}
-				IBlockState state = world.getBlockState(pos);
-				world.notifyBlockUpdate(pos, state, state, 3);
 			}
 		}
 	}
