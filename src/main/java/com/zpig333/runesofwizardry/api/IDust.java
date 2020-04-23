@@ -147,16 +147,20 @@ public abstract class IDust extends Item {
 		else {
 			//can't place dust on certain blocks...
 			Block block = world.getBlockState(pos).getBlock();
-			if (block == Blocks.VINE || block == Blocks.TALLGRASS || block == Blocks.DEADBUSH || block == WizardryRegistry.dust_placed || block == Blocks.SNOW_LAYER) {
+			if (facing!=EnumFacing.UP || (block == Blocks.VINE || block == Blocks.TALLGRASS || block == Blocks.DEADBUSH || block == WizardryRegistry.dust_placed || block == Blocks.SNOW_LAYER)) {
 				return EnumActionResult.PASS;
-			}if(block == WizardryRegistry.dust_placed){
+			}
+			if(block == WizardryRegistry.dust_placed){
 				return EnumActionResult.SUCCESS;
-			}else{
+			}
+			if(world.isAirBlock(pos.up())){
 				world.setBlockState(pos.up(), WizardryRegistry.dust_placed.getDefaultState());
 				IBlockState state =  world.getBlockState(pos.up());
 				return state.getBlock().onBlockActivated(world, pos.up(), state, player, hand, facing, hitX, hitY, hitZ)? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
 				//return true;
 			}
+			return EnumActionResult.PASS;
+			
 		}
 	}
 

@@ -1,0 +1,1 @@
+- Fix deleting block above when placing dust
