@@ -1,2 +1,0 @@
-- Fix deleting block above when placing dust
-- Remove potential infinite loop in TIleEntityDustDead
