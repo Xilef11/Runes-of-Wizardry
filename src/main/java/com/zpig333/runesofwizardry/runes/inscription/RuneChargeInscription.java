@@ -101,7 +101,7 @@ public class RuneChargeInscription extends IRune {
 				ItemStack insc = null;
 				Inscription inscription=null;
 				for(ItemStack s:sacrifice){
-					if(!s.isEmpty() && s.getItem()==WizardryRegistry.inscription && s.getMetadata()==1){
+					if(!s.isEmpty() && s.getItem()==WizardryRegistry.inscription && s.getMetadata()==1 && s.getItemDamage()>0){
 						insc=s;
 						break;
 					}
@@ -159,7 +159,7 @@ public class RuneChargeInscription extends IRune {
 		for(ItemStack stack:droppedItems){
 			if(!stack.isEmpty()){
 				Item item = stack.getItem();
-				if(item==WizardryRegistry.inscription && stack.getMetadata()==1){
+				if(item==WizardryRegistry.inscription && stack.getMetadata()==1 && stack.getItemDamage()>0){
 					inscription=stack;
 				}
 				if(item==WizardryRegistry.sacrifice_negator)negated=true;
